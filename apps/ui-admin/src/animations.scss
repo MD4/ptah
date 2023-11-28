@@ -1,0 +1,11 @@
+@keyframes animationEnterLeftToRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

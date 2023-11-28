@@ -1,0 +1,13 @@
+{
+    "eslint.workingDirectories": [
+        { "pattern": "apps/*/" },
+        { "pattern": "packages/*/" }
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.prettier": true
+    },
+    "svg.preview.background": "dark-transparent",
+    "files.watcherInclude": [
+        "**/node_modules/@ptah/**"
+    ]
+}

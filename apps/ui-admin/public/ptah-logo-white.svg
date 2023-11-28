@@ -1,0 +1,18 @@
+<svg version="1.1" baseProfile="full" width="378" height="85" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(5,5)">
+        <path d="M 3 3 l 48 0 C 77 3, 77 38, 50 37 l -47 0 l 0 36" stroke="#FFFFFF" stroke-width="6"
+            stroke-linecap="round" fill="transparent" />
+    </g>
+    <g transform="translate(100,5)">
+        <path d="M 3 3 l 67 0 M 36.5 34.5 l 0 38.5" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"
+            fill="transparent" />
+    </g>
+    <g transform="translate(200,5)">
+        <path d="M 3 73 l 33.5 -66 l 33.5 66" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"
+            fill="transparent" />
+    </g>
+    <g transform="translate(300,5)">
+        <path d="M 3 3 l 0 70 M 5 37 l 34 0 M 70 3 l 0 70" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"
+            fill="transparent" />
+    </g>
+</svg>

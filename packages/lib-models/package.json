@@ -1,0 +1,34 @@
+{
+  "name": "@ptah/lib-models",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "dev": "tsup --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/node"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@ptah/eslint-config": "workspace:*",
+    "@ptah/config-jest": "workspace:*",
+    "@ptah/config-ts": "workspace:*",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@ptah/lib-logger": "workspace:*",
+    "zod": "^3.22.4"
+  }
+}

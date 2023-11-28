@@ -1,0 +1,36 @@
+{
+  "name": "@ptah/service-bus",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon dist/index.js",
+    "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "jest --detectOpenHandles"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/node"
+  },
+  "dependencies": {
+    "@kalm/ipc": "^7.0.0",
+    "@types/midi": "^2.0.3",
+    "dotenv": "^16.3.1",
+    "kalm": "^7.0.0",
+    "@ptah/lib-logger": "workspace:*",
+    "midi": "^2.0.0",
+    "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "@types/supertest": "^2.0.12",
+    "@ptah/eslint-config": "workspace:*",
+    "@ptah/config-jest": "workspace:*",
+    "supertest": "^6.3.3",
+    "@ptah/config-ts": "workspace:*",
+    "tsup": "^6.2.3",
+    "typescript": "^5.2.2"
+  }
+}
