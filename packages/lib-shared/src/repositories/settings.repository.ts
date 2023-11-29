@@ -13,7 +13,7 @@ export const saveSettingsToPath = async (
   show: models.Settings,
   path: string
 ): Promise<void> => {
-  const json = JSON.stringify(show);
+  const json = JSON.stringify(show, undefined, 2);
 
   await fs.writeFile(path, json);
 };

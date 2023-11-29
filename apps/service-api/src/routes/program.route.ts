@@ -2,15 +2,17 @@ import type { Express } from "express";
 import { validateRequest } from "zod-express-middleware";
 import * as models from "@ptah/lib-models";
 import { logError } from "@ptah/lib-logger";
+import { z } from "zod";
 import {
   handleProgramCreate,
   handleProgramGet,
   handleProgramList,
+  handleProgramSave,
 } from "../services/program.service";
 
 export const configureRoutesProgram = (server: Express): Express =>
   server
-    .get("/program", (req, res) => {
+    .get("/program", (_, res) => {
       handleProgramList()
         .then((programs) => {
           res.statusCode = 200;
@@ -23,7 +25,7 @@ export const configureRoutesProgram = (server: Express): Express =>
         });
     })
     .post(
-      "/program/create",
+      "/program",
       validateRequest({
         body: models.programCreate,
       }),
@@ -40,15 +42,44 @@ export const configureRoutesProgram = (server: Express): Express =>
           });
       }
     )
-    .get("/program/:name", (req, res) => {
-      handleProgramGet(req.params.name)
-        .then((program) => {
-          res.statusCode = 200;
-          res.json(program);
-        })
-        .catch((error) => {
-          logError(process.env.SERVICE_NAME, error);
-          res.statusCode = 500;
-          res.json(error);
-        });
-    });
+    .get(
+      "/program/:name",
+      validateRequest({
+        params: z.object({
+          name: models.programName,
+        }),
+      }),
+      (req, res) => {
+        handleProgramGet(req.params.name)
+          .then((program) => {
+            res.statusCode = 200;
+            res.json(program);
+          })
+          .catch((error) => {
+            logError(process.env.SERVICE_NAME, error);
+            res.statusCode = 500;
+            res.json(error);
+          });
+      }
+    )
+    .put(
+      "/program/:name",
+      validateRequest({
+        body: models.program,
+        params: z.object({
+          name: models.programName,
+        }),
+      }),
+      (req, res) => {
+        handleProgramSave(req.params.name, req.body)
+          .then((program) => {
+            res.statusCode = 201;
+            res.json(program);
+          })
+          .catch((error) => {
+            logError(process.env.SERVICE_NAME, error);
+            res.statusCode = 500;
+            res.json(error);
+          });
+      }
+    );

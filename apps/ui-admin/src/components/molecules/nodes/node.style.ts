@@ -3,8 +3,10 @@ import * as React from "react";
 
 const { useToken } = theme;
 
+export type NodeStyleType = "default" | "input" | "output";
+
 export const useDefaultNodeStyle = (
-  type: "default" | "input" | "output" = "default"
+  type: NodeStyleType = "default"
 ): Record<string, React.CSSProperties> => {
   const { token } = useToken();
 
@@ -27,13 +29,10 @@ export const useDefaultNodeStyle = (
         width: "160px",
       },
       handle: {
-        borderRadius: 12,
-        width: 12,
-        height: 12,
-        background: "transparent",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: token.colorTextDescription,
+        borderRadius: 16,
+        width: 8,
+        height: 8,
+        background: token.colorTextDescription,
       },
       label: {
         width: "100%",

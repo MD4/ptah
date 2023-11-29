@@ -29,6 +29,7 @@ export default function NodeInputConstant({
       <div style={styles.label}>CONSTANT</div>
 
       <InputNumber
+        className="nodrag nopan"
         defaultValue={data.value}
         onChange={onValueChange}
         size="small"

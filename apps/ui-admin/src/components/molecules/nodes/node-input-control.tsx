@@ -4,6 +4,7 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import type * as models from "@ptah/lib-models";
 import type { DefaultOptionType } from "antd/es/select";
+import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useDefaultNodeStyle } from "./node.style";
 
 const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
@@ -12,9 +13,20 @@ const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
 }));
 
 export default function NodeInputControl({
-  data: { controlId },
+  data,
 }: NodeProps<models.NodeInputControl>): JSX.Element {
   const styles = useDefaultNodeStyle("input");
+  const dispatch = useProgramEditDispatch();
+
+  const onValueChange = React.useCallback<(controlId: number) => void>(
+    (controlId) => {
+      dispatch({
+        type: "update-node",
+        payload: { node: { ...data, controlId } },
+      });
+    },
+    [data, dispatch]
+  );
 
   return (
     <Flex gap="small" style={styles.container} vertical>
@@ -22,7 +34,8 @@ export default function NodeInputControl({
 
       <Select
         className="nodrag nopan"
-        defaultValue={controlId}
+        defaultValue={data.controlId}
+        onChange={onValueChange}
         options={controls}
         size="small"
       />

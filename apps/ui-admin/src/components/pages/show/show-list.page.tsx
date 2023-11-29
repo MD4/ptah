@@ -5,6 +5,7 @@ import {
   CaretLeftOutlined,
   CaretRightOutlined,
   PlusOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import FullCenteredLayout from "../../layouts/full-centered.layout";
@@ -20,12 +21,16 @@ export default function ShowListPage(): JSX.Element {
 
   const [shows, setShows] = React.useState<string[]>([]);
 
-  const onSearch = React.useCallback(
-    (value: string) => {
+  const onSearch = React.useCallback<
+    React.ChangeEventHandler<HTMLInputElement>
+  >(
+    (event) => {
       if (data) {
         setShows(
           data.filter((showName) =>
-            showName.toLowerCase().includes(value.trim().toLowerCase())
+            showName
+              .toLowerCase()
+              .includes(event.target.value.trim().toLowerCase())
           )
         );
       }
@@ -53,6 +58,7 @@ export default function ShowListPage(): JSX.Element {
       },
       listContent: {
         overflowY: "auto",
+        minHeight: 200,
         maxHeight: 300,
       },
       listItem: {
@@ -89,10 +95,12 @@ export default function ShowListPage(): JSX.Element {
         </Flex>
 
         <Flex flex="1" gap="middle" vertical>
-          <Input.Search
+          <Input
             allowClear
-            onSearch={onSearch}
+            bordered={false}
+            onChange={onSearch}
             placeholder="Search show"
+            suffix={<SearchOutlined />}
           />
 
           <List

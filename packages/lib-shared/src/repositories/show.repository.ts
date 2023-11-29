@@ -12,7 +12,7 @@ export const saveShowToPath = async (
   show: models.Show,
   path: string
 ): Promise<void> => {
-  const json = JSON.stringify(show);
+  const json = JSON.stringify(show, undefined, 2);
 
   return fs.writeFile(path, json);
 };

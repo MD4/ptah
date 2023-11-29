@@ -4,16 +4,14 @@ import * as domains from "@ptah/lib-domains";
 
 const PTAH_PROGRAMS_PATH = `${env.vars.PTAH_DIRECTORY}/programs`;
 
-export const handleProgramList = async (): Promise<
-  models.Program["name"][]
-> => {
+export const handleProgramList = async (): Promise<models.ProgramName[]> => {
   await repositories.file.checkPathAndInitialize(PTAH_PROGRAMS_PATH);
 
   return repositories.program.listProgramFromPath(PTAH_PROGRAMS_PATH);
 };
 
 export const handleProgramCreate = async (
-  name: string
+  name: models.ProgramName
 ): Promise<models.Program> => {
   await repositories.file.checkPathAndInitialize(PTAH_PROGRAMS_PATH);
 
@@ -27,8 +25,22 @@ export const handleProgramCreate = async (
   return program;
 };
 
+export const handleProgramSave = async (
+  name: models.ProgramName,
+  program: models.Program
+): Promise<models.Program> => {
+  await repositories.file.checkPathAndInitialize(PTAH_PROGRAMS_PATH);
+
+  await repositories.program.saveProgramToPath(
+    program,
+    `${PTAH_PROGRAMS_PATH}/${name}.json`
+  );
+
+  return program;
+};
+
 export const handleProgramGet = async (
-  name: string
+  name: models.ProgramName
 ): Promise<models.Program> => {
   await repositories.file.checkPathAndInitialize(PTAH_PROGRAMS_PATH);
 

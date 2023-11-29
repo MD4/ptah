@@ -23,7 +23,7 @@ export const configureRoutesShow = (server: Express): Express =>
         });
     })
     .post(
-      "/show/create",
+      "/show",
       validateRequest({
         body: models.showCreate,
       }),

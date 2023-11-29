@@ -5,6 +5,7 @@ import {
   CaretLeftOutlined,
   CaretRightOutlined,
   PlusOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import FullCenteredLayout from "../../layouts/full-centered.layout";
@@ -20,12 +21,14 @@ export default function ProgramListPage(): JSX.Element {
 
   const [programs, setPrograms] = React.useState<string[]>([]);
 
-  const onSearch = React.useCallback(
-    (value: string) => {
+  const onSearch = React.useCallback<
+    React.ChangeEventHandler<HTMLInputElement>
+  >(
+    (event) => {
       if (data) {
         setPrograms(
           data.filter((programName) =>
-            programName.toLowerCase().includes(value.trim().toLowerCase())
+            programName.toLowerCase().includes(event.target.value.trim().toLowerCase())
           )
         );
       }
@@ -53,6 +56,7 @@ export default function ProgramListPage(): JSX.Element {
       },
       listContent: {
         overflowY: "auto",
+        minHeight: 200,
         maxHeight: 300,
       },
       listItem: {
@@ -89,10 +93,12 @@ export default function ProgramListPage(): JSX.Element {
         </Flex>
 
         <Flex flex="1" gap="middle" vertical>
-          <Input.Search
+          <Input
             allowClear
-            onSearch={onSearch}
+            bordered={false}
+            onChange={onSearch}
             placeholder="Search program"
+            suffix={<SearchOutlined />}
           />
 
           <List

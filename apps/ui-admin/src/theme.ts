@@ -23,5 +23,14 @@ export const ptahTheme: ThemeConfig = {
     Typography: {
       fontWeightStrong: 300,
     },
+    Input: {
+      colorBorder: "transparent",
+    },
+    InputNumber: {
+      colorBorder: "transparent",
+    },
+    Select: {
+      colorBorder: "transparent",
+    },
   },
 };

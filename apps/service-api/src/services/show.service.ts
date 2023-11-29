@@ -4,7 +4,7 @@ import * as domains from "@ptah/lib-domains";
 
 const PTAH_SHOWS_PATH = `${env.vars.PTAH_DIRECTORY}/shows`;
 
-export const handleShowList = async (): Promise<models.Show["name"][]> => {
+export const handleShowList = async (): Promise<models.ShowName[]> => {
   await repositories.file.checkPathAndInitialize(PTAH_SHOWS_PATH);
 
   return repositories.show.listShowFromPath(PTAH_SHOWS_PATH);

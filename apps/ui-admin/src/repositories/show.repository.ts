@@ -9,7 +9,7 @@ export const BASE_URL_API = "http://localhost:5001";
 
 const showCreate = (show: models.ShowCreate): Promise<models.Show> =>
   axios
-    .post(`${BASE_URL_API}/show/create`, show)
+    .post(`${BASE_URL_API}/show`, show)
     .then(({ data }) => models.show.parseAsync(data));
 
 export const useShowCreate = (
@@ -34,19 +34,19 @@ const showList = (): Promise<string[]> =>
     .get(`${BASE_URL_API}/show`)
     .then(({ data }) => z.array(z.string()).parseAsync(data));
 
-export const useShowList = (): UseQueryResult<models.Show["name"][]> =>
+export const useShowList = (): UseQueryResult<models.ShowName[]> =>
   useQuery({
     queryKey: ["show"],
     queryFn: showList,
   });
 
-const showGet = (name: models.Show["name"]): Promise<models.Show> =>
+const showGet = (name: models.ShowName): Promise<models.Show> =>
   axios
     .get(`${BASE_URL_API}/show/${name}`)
     .then(({ data }) => models.show.parseAsync(data));
 
 export const useShowGet = (
-  name?: models.Show["name"]
+  name?: models.ShowName
 ): UseQueryResult<models.Show | undefined> => {
   const navigate = useNavigate();
 

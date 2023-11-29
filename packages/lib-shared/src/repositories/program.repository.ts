@@ -14,7 +14,7 @@ export const saveProgramToPath = async (
   program: models.Program,
   path: string
 ): Promise<void> => {
-  const json = JSON.stringify(program);
+  const json = JSON.stringify(program, undefined, 2);
 
   return fs.writeFile(path, json);
 };

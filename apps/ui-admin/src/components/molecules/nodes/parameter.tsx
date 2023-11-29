@@ -7,6 +7,7 @@ import HandleWithLimit from "./handle-with-limit";
 export default function Parameter({
   id,
   label,
+  onChange = () => undefined,
   defaultValue = 0,
   min,
   max,
@@ -14,6 +15,7 @@ export default function Parameter({
 }: {
   id: number;
   label: string;
+  onChange?: (value: number) => void;
   defaultValue?: number;
   min?: number;
   max?: number;
@@ -36,7 +38,7 @@ export default function Parameter({
         flex: 1,
       },
       input: {
-        minWidth: 64,
+        minWidth: 58,
         width: "min-content",
       },
     }),
@@ -51,8 +53,17 @@ export default function Parameter({
     setIsConnected(false);
   }, []);
 
+  const onValueChange = React.useCallback<(value: number | null) => void>(
+    (value) => {
+      if (value !== null) {
+        onChange(value);
+      }
+    },
+    [onChange]
+  );
+
   return (
-    <Flex align="center" gap="small" style={styles.container}>
+    <Flex align="center" gap="middle" style={styles.container}>
       <HandleWithLimit
         id={String(id)}
         isConnectable={1}
@@ -64,11 +75,14 @@ export default function Parameter({
       />
 
       <div style={styles.label}>{label}</div>
+
       {isConnected ? (
         <InputNumber
+          className="nodrag nopan"
           defaultValue={defaultValue}
           max={max}
           min={min}
+          onChange={onValueChange}
           size="small"
           step={step}
           style={styles.input}

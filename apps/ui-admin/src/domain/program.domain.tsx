@@ -1,6 +1,7 @@
 import type * as models from "@ptah/lib-models";
 import * as domains from "@ptah/lib-domains";
 import * as React from "react";
+import { deepEqual } from "fast-equals";
 
 interface ProgramEditActionUpdateName {
   type: "update-name";
@@ -16,9 +17,25 @@ interface ProgramEditActionUpdateNode {
   };
 }
 
+interface ProgramEditActionUpdateEdges {
+  type: "update-edges";
+  payload: {
+    edges: models.Edge[];
+  };
+}
+
+interface ProgramEditActionUpdateNodes {
+  type: "update-nodes";
+  payload: {
+    nodes: models.Node[];
+  };
+}
+
 type ProgramEditAction =
   | ProgramEditActionUpdateName
-  | ProgramEditActionUpdateNode;
+  | ProgramEditActionUpdateNode
+  | ProgramEditActionUpdateEdges
+  | ProgramEditActionUpdateNodes;
 
 const programEditReducer = (
   state: models.Program,
@@ -34,14 +51,33 @@ const programEditReducer = (
           node.id === payload.node.id ? payload.node : node
         ),
       };
+    case "update-edges":
+      return {
+        ...state,
+        edges: payload.edges,
+      };
+    case "update-nodes":
+      return {
+        ...state,
+        nodes: payload.nodes,
+      };
     default:
       return state;
   }
 };
 
-const ProgramEditContext = React.createContext<models.Program>(
-  domains.program.createProgram("new-program")
-);
+interface ProgramEditContextType {
+  initialProgram: models.Program;
+  program: models.Program;
+  hasChanged: boolean;
+}
+
+const ProgramEditContext = React.createContext<ProgramEditContextType>({
+  initialProgram: domains.program.createProgram("new-program"),
+  program: domains.program.createProgram("new-program"),
+  hasChanged: false,
+});
+
 const ProgramEditDispatchContext = React.createContext<
   React.Dispatch<ProgramEditAction>
 >(() => undefined);
@@ -53,9 +89,23 @@ export function ProgramEditProvider({
   children: React.ReactNode;
   initialProgram: models.Program;
 }): JSX.Element {
-  const [state, dispatch] = React.useReducer(
+  const [program, dispatch] = React.useReducer(
     programEditReducer,
     initialProgram
+  );
+
+  const hasChanged = React.useMemo(
+    () => !deepEqual(initialProgram, program),
+    [initialProgram, program]
+  );
+
+  const state = React.useMemo(
+    () => ({
+      initialProgram,
+      program,
+      hasChanged,
+    }),
+    [hasChanged, initialProgram, program]
   );
 
   return (
@@ -67,7 +117,7 @@ export function ProgramEditProvider({
   );
 }
 
-export function useProgramEdit(): models.Program {
+export function useProgramEdit(): ProgramEditContextType {
   return React.useContext(ProgramEditContext);
 }
 

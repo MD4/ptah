@@ -18,7 +18,7 @@ function ProgramTitle(): JSX.Element {
   const { programName } = useParams();
 
   return (
-    <Title level={3} style={{ margin: 0 }}>
+    <Title level={4} style={{ margin: 0 }}>
       {programName?.toUpperCase()}
     </Title>
   );

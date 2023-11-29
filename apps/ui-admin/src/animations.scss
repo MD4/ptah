@@ -9,3 +9,13 @@
     opacity: 1;
   }
 }
+
+@keyframes animationEnterRightToLeft {
+  from {
+    transform: translateX(-400px);
+  }
+
+  to {
+    transform: none;
+  }
+}

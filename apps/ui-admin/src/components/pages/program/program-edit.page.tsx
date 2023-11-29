@@ -4,6 +4,7 @@ import { useProgramGet } from "../../../repositories/program.repository";
 import Splashscreen from "../../atoms/splashscreen";
 import PtahError from "../../molecules/ptah-error";
 import ProgramEdit from "../../organisms/program/program-edit";
+import { ProgramEditProvider } from "../../../domain/program.domain";
 
 export default function ProgramCreatePage(): JSX.Element {
   const { programName } = useParams();
@@ -13,7 +14,11 @@ export default function ProgramCreatePage(): JSX.Element {
   return (
     <>
       {error ? <PtahError error={error} /> : null}
-      {data ? <ProgramEdit program={data} /> : null}
+      {data ? (
+        <ProgramEditProvider initialProgram={data}>
+          <ProgramEdit />
+        </ProgramEditProvider>
+      ) : null}
       <Splashscreen in={isPending} />
     </>
   );
