@@ -23,6 +23,21 @@ export const handleShowCreate = async (name: string): Promise<models.Show> => {
   return show;
 };
 
+export const handleShowSave = async (
+  name: models.ShowName,
+  show: models.Show
+): Promise<models.Show> => {
+  await repositories.file.checkPathAndInitialize(PTAH_SHOWS_PATH);
+
+  await repositories.show.saveShowToPath(
+    show,
+    `${PTAH_SHOWS_PATH}/${name}.json`
+  );
+
+  return show;
+};
+
+
 export const handleShowGet = async (name: string): Promise<models.Show> => {
   await repositories.file.checkPathAndInitialize(PTAH_SHOWS_PATH);
 

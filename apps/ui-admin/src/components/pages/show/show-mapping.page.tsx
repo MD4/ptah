@@ -4,6 +4,7 @@ import { useShowGet } from "../../../repositories/show.repository";
 import Splashscreen from "../../atoms/splashscreen";
 import PtahError from "../../molecules/ptah-error";
 import ShowMapping from "../../organisms/show/show-mapping";
+import { ShowEditProvider } from "../../../domain/show.domain";
 
 export default function ShowCreatePage(): JSX.Element {
   const { showName } = useParams();
@@ -13,7 +14,11 @@ export default function ShowCreatePage(): JSX.Element {
   return (
     <>
       {error ? <PtahError error={error} /> : null}
-      {data ? <ShowMapping show={data} /> : null}
+      {data ? (
+        <ShowEditProvider initialShow={data}>
+          <ShowMapping />
+        </ShowEditProvider>
+      ) : null}
       <Splashscreen in={isPending} />
     </>
   );

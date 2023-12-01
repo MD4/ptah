@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { node } from "./node.model";
 import { edge } from "./edge.model";
+import { uuid } from "./uuid.model";
 
 export const programName = z
   .string()
@@ -10,7 +11,7 @@ export const programName = z
 export type ProgramName = z.infer<typeof programName>;
 
 export const program = z.object({
-  id: z.string().uuid(),
+  id: uuid,
   name: programName,
   nodes: z.array(node),
   edges: z.array(edge),

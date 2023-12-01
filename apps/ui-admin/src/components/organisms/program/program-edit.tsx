@@ -14,7 +14,6 @@ import {
   applyEdgeChanges,
   applyNodeChanges,
   addEdge,
-  getOutgoers,
   updateEdge,
 } from "reactflow";
 import { Button, Flex, notification } from "antd";
@@ -30,13 +29,14 @@ import {
 import {
   adaptModelEdgesToReactFlowEdges,
   adaptReactFlowEdgesToModelEdges,
-} from "../../../domain/adapters/edge.adapter";
+} from "../../../adapters/edge.adapter";
 import {
   adaptModelNodesToReactFlowNodes,
   adaptReactFlowNodesToModelNodes,
-} from "../../../domain/adapters/node.adapter";
+} from "../../../adapters/node.adapter";
 import { useProgramPut } from "../../../repositories/program.repository";
 import { createNode } from "../../../domain/node.domain";
+import { hasNoCircularDependencies } from "../../../utils/connection";
 import ProgramAddNode from "./program-add-node";
 
 const styles: Record<string, React.CSSProperties> = {
@@ -52,13 +52,12 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
+const proOptions = { hideAttribution: true };
 const fitViewOptions: FitViewOptions = {
   padding: 1,
   minZoom: 1,
   maxZoom: 1,
 };
-
-const proOptions = { hideAttribution: true };
 
 export default function ProgramDashboard(): JSX.Element {
   const [{ error, success }, contextHolder] = notification.useNotification({
@@ -88,39 +87,42 @@ export default function ProgramDashboard(): JSX.Element {
   const isValidConnection = React.useCallback<
     (connection: Connection) => boolean
   >(
-    (connection) => {
-      // we are using getNodes and getEdges helpers here
-      // to make sure we create isValidConnection function only once
-      const target = nodes.find((node) => node.id === connection.target);
-
-      if (!target) {
-        return false;
-      }
-
-      const hasCycle = (node: Node, visited = new Set()): boolean => {
-        if (visited.has(node.id)) return false;
-
-        visited.add(node.id);
-
-        for (const outgoer of getOutgoers(node, nodes, edges)) {
-          if (outgoer.id === connection.source) return true;
-          if (hasCycle(outgoer, visited)) return true;
-        }
-
-        return false;
-      };
-
-      if (target.id === connection.source) return false;
-      return !hasCycle(target);
-    },
+    (connection) => hasNoCircularDependencies(connection, nodes, edges),
     [nodes, edges]
   );
 
   const debouncedNodes = useDebounce(nodes, 200);
 
-  const onNodesChange = React.useCallback<OnNodesChange>((changes) => {
-    setNodes((value) => applyNodeChanges(changes, value));
-  }, []);
+  const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
+    let outputId = 0;
+
+    return _nodes.map((node) =>
+      node.data.type === "output-result"
+        ? {
+            ...node,
+            data: { ...node.data, outputId: outputId++ },
+          }
+        : node
+    );
+  };
+
+  const onNodesChange = React.useCallback<OnNodesChange>(
+    (changes) => {
+      const shouldRewireOutputs = changes.some(
+        (change) =>
+          change.type === "remove" &&
+          nodes.find((node) => node.id === change.id)?.data.type ===
+            "output-result"
+      );
+
+      setNodes((value) => {
+        const newNodes = applyNodeChanges(changes, value);
+
+        return shouldRewireOutputs ? rewireOutputs(newNodes) : newNodes;
+      });
+    },
+    [nodes]
+  );
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
     setEdges((value) => applyEdgeChanges(changes, value));
@@ -133,7 +135,11 @@ export default function ProgramDashboard(): JSX.Element {
   const onEdgeUpdate = React.useCallback(
     (oldEdge: Edge, newConnection: Connection) => {
       edgeUpdateSuccessful.current = true;
-      setEdges((els) => updateEdge(oldEdge, newConnection, els));
+      setEdges((_edges) =>
+        updateEdge(oldEdge, newConnection, _edges).map((edge) =>
+          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge
+        )
+      );
     },
     []
   );
@@ -220,10 +226,13 @@ export default function ProgramDashboard(): JSX.Element {
 
       const newNode = createNode(nodeType);
 
-      setNodes((_nodes) => [
-        ..._nodes,
-        { ...newNode, position, data: newNode },
-      ]);
+      setNodes((_nodes) => {
+        const newNodes = [..._nodes, { ...newNode, position, data: newNode }];
+
+        return nodeType === "output-result"
+          ? rewireOutputs(newNodes)
+          : newNodes;
+      });
     },
     [reactFlowInstance]
   );

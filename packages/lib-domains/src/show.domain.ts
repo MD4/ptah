@@ -5,5 +5,6 @@ export const createShow = (name: string): models.Show => ({
   name,
   id: uuidv4(),
   mapping: {},
-  patch: [],
+  patch: {},
+  programs: {},
 });

@@ -1,7 +1,8 @@
 import * as z from "zod";
+import { uuid } from "./uuid.model";
 
 const nodeGeneric = z.object({
-  id: z.string().uuid(),
+  id: uuid,
   position: z.object({
     x: z.number(),
     y: z.number(),

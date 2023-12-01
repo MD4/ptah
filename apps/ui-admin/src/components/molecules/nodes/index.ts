@@ -10,11 +10,13 @@ import NodeInputConstant from "./node-input-constant";
 import NodeOutputResult from "./node-output-result";
 import NodeFxMath from "./node-fx-math";
 import NodeFxADSR from "./node-fx-adsr";
+import NodeAddProgram from "./node-add-program";
 
 export const showNodeTypes: Record<string, ComponentType<NodeProps>> = {
-  key: NodeKey,
-  program: NodeProgram,
-  channel: NodeChannel,
+  "node-key": NodeKey,
+  "node-program": NodeProgram,
+  "node-channel": NodeChannel,
+  "node-add-program": NodeAddProgram,
 };
 
 export const programNodeTypes: Record<

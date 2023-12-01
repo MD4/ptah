@@ -70,7 +70,7 @@ export default function ShowCreatePage(): JSX.Element {
 
           <Form.Item>
             <Flex gap="large" justify="space-around">
-              <Link to="/">
+              <Link to="/show">
                 <Button type="text">
                   <CaretLeftOutlined />
                   <span>Back</span>

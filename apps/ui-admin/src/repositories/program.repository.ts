@@ -1,7 +1,6 @@
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import * as models from "@ptah/lib-models";
 import * as z from "zod";
 
@@ -61,20 +60,12 @@ const programGet = (name: models.ProgramName): Promise<models.Program> =>
 
 export const useProgramGet = (
   name?: models.ProgramName
-): UseQueryResult<models.Program | undefined> => {
-  const navigate = useNavigate();
-
-  return useQuery({
+): UseQueryResult<models.Program | undefined> =>
+  useQuery({
     queryKey: ["program", name],
-    queryFn: () => {
-      if (name) {
-        return programGet(name);
-      }
-
-      navigate("/");
-    },
+    enabled: Boolean(name),
+    queryFn: () => (name ? programGet(name) : undefined),
   });
-};
 
 /**
  * PUT

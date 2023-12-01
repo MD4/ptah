@@ -7,6 +7,10 @@ import * as z from "zod";
 
 export const BASE_URL_API = "http://localhost:5001";
 
+/**
+ * CREATE
+ */
+
 const showCreate = (show: models.ShowCreate): Promise<models.Show> =>
   axios
     .post(`${BASE_URL_API}/show`, show)
@@ -29,6 +33,10 @@ export const useShowCreate = (
   });
 };
 
+/**
+ * LIST
+ */
+
 const showList = (): Promise<string[]> =>
   axios
     .get(`${BASE_URL_API}/show`)
@@ -39,6 +47,10 @@ export const useShowList = (): UseQueryResult<models.ShowName[]> =>
     queryKey: ["show"],
     queryFn: showList,
   });
+
+/**
+ * GET
+ */
 
 const showGet = (name: models.ShowName): Promise<models.Show> =>
   axios
@@ -59,5 +71,31 @@ export const useShowGet = (
 
       navigate("/");
     },
+  });
+};
+
+/**
+ * PUT
+ */
+
+const showPut = (show: models.Show): Promise<models.Show> =>
+  axios
+    .put(`${BASE_URL_API}/show/${show.name}`, show)
+    .then(({ data }) => models.show.parseAsync(data));
+
+export const useShowPut = (
+  onSuccess: (show: models.Show) => void,
+  onError: (error: Error) => void
+): UseMutationResult<models.Show, Error, models.Show> => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: showPut,
+    onSuccess,
+    onError,
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["show"],
+      }),
   });
 };

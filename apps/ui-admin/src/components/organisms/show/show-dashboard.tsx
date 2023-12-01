@@ -1,20 +1,12 @@
 import * as React from "react";
 import type * as models from "@ptah/lib-models";
-import type {
-  OnEdgesChange,
-  OnConnect,
-  Edge,
-  Node,
-  FitViewOptions,
-} from "reactflow";
+import type { OnEdgesChange, OnConnect, Node, FitViewOptions } from "reactflow";
 import { ReactFlow, applyEdgeChanges, addEdge } from "reactflow";
-import { theme } from "antd";
 import type { NodeKeyData } from "../../molecules/nodes/node-key";
 import { getKeyFromIndex, isSharpKey } from "../../../domain/key.domain";
-import type { NodeProgramData } from "../../molecules/nodes/node-program";
-import { deduplicate } from "../../../utils/array.utils";
-import type { NodeChannelData } from "../../molecules/nodes/node-channel";
 import { showNodeTypes } from "../../molecules/nodes";
+import { adaptModelMappingToReactFlowEdges } from "../../../adapters/mapping.adapter";
+import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
@@ -30,40 +22,37 @@ const fitViewOptions: FitViewOptions = {
   maxZoom: 1,
 };
 
-const nodeTypes = showNodeTypes;
-
 const getKeyNodes = (mapping: models.ShowMapping): Node<NodeKeyData>[] => {
   let y = 0;
+  let lastWasSharp = false;
 
   return Object.keys(mapping)
     .map(Number)
-    .sort((a, b) => b - a)
-    .flatMap((key) => {
+    .sort((a, b) => a - b)
+    .flatMap((key, index) => {
       const sharp = isSharpKey(key);
+
+      if (lastWasSharp && sharp) {
+        y += 36;
+      }
+
+      y += sharp && index ? -36 / 2 : 0;
 
       const result = {
         id: `key-${key}`,
-        data: { label: `[${key}] ${getKeyFromIndex(key)}`, sharp },
+        data: { key, label: getKeyFromIndex(key), sharp },
         position: { x: 0, y },
         type: "node-key",
+        zIndex: sharp ? 1 : 0,
       };
 
-      y += sharp ? 36 : 68;
+      y += sharp ? 36 / 2 : 68;
+
+      lastWasSharp = sharp;
 
       return result;
     });
-};
-
-const getProgramNodes = (
-  mapping: models.ShowMapping
-): Node<NodeProgramData>[] =>
-  deduplicate(Object.values(mapping)).map((programId, index) => ({
-    id: `program-${programId}`,
-    data: { label: programId },
-    position: { x: 400, y: index * 68 },
-    type: "node-program",
-  }));
-
+}; /*
 const getChannelNodes = (patch: models.ShowPatch): Node<NodeChannelData>[] =>
   patch
     .sort((a, b) => a.channel - b.channel)
@@ -74,55 +63,38 @@ const getChannelNodes = (patch: models.ShowPatch): Node<NodeChannelData>[] =>
       type: "node-channel",
     }));
 
-const getKeyToProgramEdges = (
-  mapping: models.ShowMapping,
-  color: string
-): Edge[] =>
-  Object.entries(mapping).map(([key, programId]) => ({
-    id: `${key}-${programId}`,
-    source: `key-${key}`,
-    target: `program-${programId}`,
-    style: {
-      stroke: color,
-      strokeWidth: 2,
-    },
-  }));
-
 const getProgramToChannelsEdges = (
   patch: models.ShowPatch,
   color: string
 ): Edge[] =>
-  patch.map(({ programId, outputIndex, channel }) => ({
+  patch.map(({ programId, programOutput, channel }) => ({
     id: `${programId}-${channel}`,
     source: `program-${programId}`,
     target: `channel-${channel}`,
-    sourceHandle: String(outputIndex),
+    sourceHandle: String(programOutput),
     style: {
       stroke: color,
       strokeWidth: 2,
     },
   }));
+*/
 
 const proOptions = { hideAttribution: true };
-
-const { useToken } = theme;
 
 export default function ShowDashboard({
   show,
 }: {
   show: models.Show;
 }): JSX.Element {
-  const { token } = useToken();
-
   const initialNodes = [
     ...getKeyNodes(show.mapping),
-    ...getProgramNodes(show.mapping),
-    ...getChannelNodes(show.patch),
+    ...adaptModelShowProgramsToReactFlowNodes(show.programs, 400),
+    //...getChannelNodes(show.patch),
   ];
 
   const initialEdges = [
-    ...getKeyToProgramEdges(show.mapping, token.colorTextDescription),
-    ...getProgramToChannelsEdges(show.patch, token.colorTextDescription),
+    ...adaptModelMappingToReactFlowEdges(show.mapping),
+    // ...getProgramToChannelsEdges(show.patch, token.colorTextDescription),
   ];
 
   const [nodes] = React.useState(initialNodes);
@@ -142,7 +114,7 @@ export default function ShowDashboard({
         edges={edges}
         fitView
         fitViewOptions={fitViewOptions}
-        nodeTypes={nodeTypes}
+        nodeTypes={showNodeTypes}
         nodes={nodes}
         onConnect={onConnect}
         onEdgesChange={onEdgesChange}

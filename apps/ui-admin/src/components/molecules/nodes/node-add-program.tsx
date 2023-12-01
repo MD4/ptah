@@ -1,0 +1,39 @@
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
+import * as React from "react";
+import type { NodeProps } from "reactflow";
+
+const { useToken } = theme;
+
+export interface NodeAddProgramData {
+  onAddProgram: () => void;
+}
+
+export default function NodeAddProgram({
+  data: { onAddProgram = () => undefined },
+}: NodeProps<NodeAddProgramData>): JSX.Element {
+  const { token } = useToken();
+
+  const styles: Record<string, React.CSSProperties> = React.useMemo(
+    () => ({
+      container: {
+        padding: 16,
+        borderRadius: token.borderRadiusLG,
+        borderStyle: "dashed",
+        borderWidth: 3,
+        borderColor: token.colorFillQuaternary,
+        height: 96,
+        width: 240,
+      },
+    }),
+    [token.borderRadiusLG, token.colorFillQuaternary]
+  );
+
+  return (
+    <Flex align="center" gap="small" justify="center" style={styles.container}>
+      <Button icon={<PlusOutlined />} onClick={onAddProgram} type="primary">
+        Add program
+      </Button>
+    </Flex>
+  );
+}

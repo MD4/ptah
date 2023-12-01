@@ -14,8 +14,8 @@ export const adaptModelNodeToReactFlowNode = (
   type: node.type,
 });
 
-export const adaptReactFlowNodesToModelNodes = (Nodes: Node[]): models.Node[] =>
-  Nodes.map(adaptReactFlowNodeToModelNode);
+export const adaptReactFlowNodesToModelNodes = (nodes: Node[]): models.Node[] =>
+  nodes.map(adaptReactFlowNodeToModelNode);
 
 export const adaptReactFlowNodeToModelNode = ({
   data,

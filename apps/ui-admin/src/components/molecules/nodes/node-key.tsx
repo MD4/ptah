@@ -1,57 +1,60 @@
-import { Flex, theme } from "antd";
+import { Flex, Typography, theme } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
+import { useDefaultNodeStyle } from "./node.style";
 
 const { useToken } = theme;
 
 export interface NodeKeyData {
+  key: number;
   label: string;
   sharp: boolean;
 }
 
 export default function NodeKey({
-  data: { label, sharp },
+  data: { key, label, sharp },
 }: NodeProps<NodeKeyData>): JSX.Element {
   const { token } = useToken();
+  const defaultStyles = useDefaultNodeStyle();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
+      ...defaultStyles,
       container: {
-        padding: 16,
-        borderRadius: token.borderRadiusLG * 2,
-        borderTopLeftRadius: token.borderRadiusLG,
-        borderBottomLeftRadius: token.borderRadiusLG,
-        background: sharp ? token.colorBorder : token.colorBgElevated,
+        ...defaultStyles.container,
+        borderTopRightRadius: token.borderRadiusLG * 2,
+        borderBottomRightRadius: token.borderRadiusLG * 2,
+        borderTopLeftRadius: token.borderRadiusSM,
+        borderBottomLeftRadius: token.borderRadiusSM,
+        background: sharp ? token.colorBgContainer : token.colorFillQuaternary,
         height: sharp ? "32px" : "64px",
         width: sharp ? "160px" : "240px",
       },
-      handle: {
-        borderRadius: 12,
-        width: 12,
-        height: 12,
-        background: "transparent",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: token.colorTextDescription,
-      },
       label: {
-        fontSize: token.fontSizeLG,
+        ...defaultStyles.label,
+        width: "auto",
       },
     }),
     [
+      defaultStyles,
       sharp,
       token.borderRadiusLG,
-      token.colorBgElevated,
-      token.colorBorder,
-      token.colorTextDescription,
-      token.fontSizeLG,
+      token.borderRadiusSM,
+      token.colorBgContainer,
+      token.colorFillQuaternary,
     ]
   );
 
   return (
-    <Flex align="center" style={styles.container}>
+    <Flex
+      align="center"
+      gap="small"
+      justify="flex-end"
+      style={styles.container}
+    >
       <div style={styles.label}>{label}</div>
+      <Typography.Text code>{key}</Typography.Text>
       <Handle
         id="output"
         isConnectable

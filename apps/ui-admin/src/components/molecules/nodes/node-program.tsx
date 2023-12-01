@@ -1,52 +1,34 @@
-import { Flex, theme } from "antd";
+import { Flex } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-const { useToken } = theme;
+import { useDefaultNodeStyle } from "./node.style";
 
 export interface NodeProgramData {
-  label: string;
+  programId: string;
+  programName: string;
 }
 
 export default function NodeProgram({
-  data: { label },
+  data: { programName },
 }: NodeProps<NodeProgramData>): JSX.Element {
-  const { token } = useToken();
+  const defaultStyles = useDefaultNodeStyle();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
+      ...defaultStyles,
       container: {
-        padding: 16,
-        borderRadius: token.borderRadiusLG,
-        background: token.colorBgElevated,
-        height: "64px",
-        width: "200px",
-      },
-      handle: {
-        borderRadius: 12,
-        width: 12,
-        height: 12,
-        background: "transparent",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: token.colorTextDescription,
-      },
-      label: {
-        fontSize: token.fontSizeLG,
+        ...defaultStyles.container,
+        height: 96,
+        width: 240,
       },
     }),
-    [
-      token.borderRadiusLG,
-      token.colorBgElevated,
-      token.colorTextDescription,
-      token.fontSizeLG,
-    ]
+    [defaultStyles]
   );
 
   return (
     <Flex align="center" style={styles.container}>
-      <div style={styles.label}>{label}</div>
+      <div style={styles.label}>{programName}</div>
       <Handle
         id="input"
         isConnectable

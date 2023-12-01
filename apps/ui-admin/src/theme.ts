@@ -15,7 +15,7 @@ export const ptahTheme: ThemeConfig = {
 
     motionDurationFast: "80ms",
     motionDurationMid: "100ms",
-    motionDurationSlow: "200s",
+    motionDurationSlow: "200ms",
 
     fontFamily: "Jost",
   },
