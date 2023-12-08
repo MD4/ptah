@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Flex, notification } from "antd";
+import { Button, Flex, notification, theme } from "antd";
 import type {
   Connection,
   Edge,
@@ -8,15 +8,16 @@ import type {
   Node,
   OnConnect,
   ReactFlowInstance,
+  Viewport,
 } from "reactflow";
 import { ReactFlow, addEdge, applyEdgeChanges, updateEdge } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
-import { useBoolean } from "usehooks-ts";
+import { useBoolean, useWindowSize } from "usehooks-ts";
 import { SaveFilled } from "@ant-design/icons";
+import type * as models from "@ptah/lib-models";
 import { showNodeTypes } from "../../molecules/nodes";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import { getAllKeysNodes } from "../../../domain/key.domain";
-import type { NodeAddProgramData } from "../../molecules/nodes/node-add-program";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
 import { useShowEdit, useShowEditDispatch } from "../../../domain/show.domain";
 import { useShowPut } from "../../../repositories/show.repository";
@@ -28,45 +29,43 @@ import {
   adaptModelShowProgramsToReactFlowNodes,
   adaptReactFlowNodesToModelShowPrograms,
 } from "../../../adapters/show.adapter";
+import EdgeGradient from "../../atoms/edge-gradient";
+import { repositionProgramNodes } from "../../../adapters/node.adapter";
 import ShowAddProgramModal from "./show-add-program-modal";
 
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    width: "100%",
-    height: "100%",
-    animation: "animationEnterLeftToRight 200ms",
-  },
-  toolbar: {
-    position: "absolute",
-    right: 16,
-    bottom: 16,
-  },
-};
+const { useToken } = theme;
 
 const proOptions = { hideAttribution: true };
 const fitViewOptions: FitViewOptions = {
-  padding: 1,
+  padding: 0,
   minZoom: 1,
   maxZoom: 1,
 };
-
-const repositionProgramNodes = (nodes: Node[]): Node[] => {
-  let y = 0;
-
-  return nodes
-    .map((_node) =>
-      _node.type === "node-program"
-        ? { ..._node, position: { ..._node.position, y: y++ * (96 + 8) } }
-        : _node
-    )
-    .map((_node) =>
-      _node.type === "node-add-program"
-        ? { ..._node, position: { ..._node.position, y: y * (96 + 8) } }
-        : _node
-    );
+const defaultViewport: Viewport = {
+  x: 0,
+  y: 196,
+  zoom: 1,
 };
 
 export default function ShowMapping(): JSX.Element {
+  const { token } = useToken();
+
+  const styles: Record<string, React.CSSProperties> = React.useMemo(
+    () => ({
+      container: {
+        width: "100%",
+        height: "100%",
+        animation: "animationEnterLeftToRight 200ms",
+      },
+      toolbar: {
+        position: "absolute",
+        right: token.sizeMS,
+        bottom: token.sizeMS,
+      },
+    }),
+    [token.sizeMS]
+  );
+
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });
@@ -84,13 +83,13 @@ export default function ShowMapping(): JSX.Element {
     () =>
       repositionProgramNodes([
         ...getAllKeysNodes(),
-        ...adaptModelShowProgramsToReactFlowNodes(initialShow.programs),
-        {
-          id: "add-program",
-          data: { onAddProgram: openProgramModal },
-          position: { x: 700, y: 0 },
-          type: "node-add-program",
-        } satisfies Node<NodeAddProgramData>,
+        ...adaptModelShowProgramsToReactFlowNodes(
+          initialShow.programs,
+          [],
+          700,
+          true,
+          openProgramModal
+        ),
       ]),
     [initialShow.programs, openProgramModal]
   );
@@ -113,12 +112,34 @@ export default function ShowMapping(): JSX.Element {
   );
 
   const onInit = React.useCallback((reactFlowInstance: ReactFlowInstance) => {
+    const { x, zoom } = reactFlowInstance.getViewport();
+
+    setReactFlowInstance(reactFlowInstance);
+
     reactFlowInstance.setViewport({
-      x: reactFlowInstance.getViewport().x,
+      x,
       y: 196,
-      zoom: 1,
+      zoom,
     });
   }, []);
+
+  const [reactFlowInstance, setReactFlowInstance] =
+    React.useState<ReactFlowInstance | null>(null);
+
+  const windowSize = useWindowSize();
+
+  React.useEffect(() => {
+    if (reactFlowInstance) {
+      const y = reactFlowInstance.getViewport().y;
+      reactFlowInstance.fitView(fitViewOptions);
+
+      reactFlowInstance.setViewport({
+        x: reactFlowInstance.getViewport().x,
+        y,
+        zoom: reactFlowInstance.getViewport().zoom,
+      });
+    }
+  }, [reactFlowInstance, windowSize]);
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
     setEdges((value) => applyEdgeChanges(changes, value));
@@ -167,7 +188,7 @@ export default function ShowMapping(): JSX.Element {
   }, []);
 
   const onProgramAdded = React.useCallback(
-    (programName: string) => {
+    (program: models.Program) => {
       closeProgramModal();
 
       setNodes((_nodes) => {
@@ -177,7 +198,11 @@ export default function ShowMapping(): JSX.Element {
           ..._nodes,
           {
             id: programId,
-            data: { programId, programName },
+            data: {
+              programId: program.id,
+              programName: program.name,
+              outputsCount: 0,
+            },
             position: {
               x: 700,
               y: 0,
@@ -233,21 +258,28 @@ export default function ShowMapping(): JSX.Element {
       <Flex style={styles.container}>
         {contextHolder}
         <ReactFlow
+          defaultViewport={defaultViewport}
           edges={edges}
           fitView
           fitViewOptions={fitViewOptions}
           isValidConnection={isValidConnection}
           nodeTypes={showNodeTypes}
           nodes={nodes}
+          nodesDraggable={false}
           onConnect={onConnect}
           onEdgeUpdate={onEdgeUpdate}
           onEdgeUpdateEnd={onEdgeUpdateEnd}
           onEdgeUpdateStart={onEdgeUpdateStart}
           onEdgesChange={onEdgesChange}
           onInit={onInit}
+          onlyRenderVisibleElements
+          panOnScroll
+          panOnScrollMode="vertical"
           proOptions={proOptions}
           snapToGrid
-        />
+        >
+          <EdgeGradient />
+        </ReactFlow>
       </Flex>
       <ShowAddProgramModal
         onCancel={closeProgramModal}

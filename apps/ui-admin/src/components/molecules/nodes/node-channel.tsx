@@ -1,9 +1,8 @@
-import { Flex, theme } from "antd";
+import { Flex, Typography } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-const { useToken } = theme;
+import { useDefaultNodeStyle } from "./node.style";
 
 export interface NodeChannelData {
   label: string;
@@ -11,42 +10,25 @@ export interface NodeChannelData {
 
 export default function NodeChannel({
   data: { label },
+  selected,
 }: NodeProps<NodeChannelData>): JSX.Element {
-  const { token } = useToken();
+  const defaultStyles = useDefaultNodeStyle("output", selected);
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
+      ...defaultStyles,
       container: {
-        padding: 16,
-        borderRadius: token.borderRadiusLG,
-        background: token.colorBgElevated,
-        height: "32px",
-        width: "200px",
-      },
-      handle: {
-        borderRadius: 12,
-        width: 12,
-        height: 12,
-        background: "transparent",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: token.colorTextDescription,
-      },
-      label: {
-        fontSize: token.fontSizeLG,
+        ...defaultStyles.container,
+        height: 36,
+        width: 200,
       },
     }),
-    [
-      token.borderRadiusLG,
-      token.colorBgElevated,
-      token.colorTextDescription,
-      token.fontSizeLG,
-    ]
+    [defaultStyles]
   );
 
   return (
     <Flex align="center" style={styles.container}>
-      <div style={styles.label}>{label}</div>
+      <Typography.Text code>{label}</Typography.Text>
       <Handle
         id="input"
         isConnectable

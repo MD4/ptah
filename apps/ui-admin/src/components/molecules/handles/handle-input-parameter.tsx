@@ -1,10 +1,12 @@
-import { Flex, InputNumber } from "antd";
+import { Flex, InputNumber, theme } from "antd";
 import * as React from "react";
 import { Position } from "reactflow";
-import { useDefaultNodeStyle } from "./node.style";
-import HandleWithLimit from "./handle-with-limit";
+import { useDefaultNodeStyle } from "../nodes/node.style";
+import HandleInputWithLimit from "./handle-input-with-limit";
 
-export default function Parameter({
+const { useToken } = theme;
+
+export default function HandleParameter({
   id,
   label,
   onChange = () => undefined,
@@ -21,12 +23,13 @@ export default function Parameter({
   max?: number;
   step?: number;
 }): JSX.Element {
+  const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
   const [isConnected, setIsConnected] = React.useState(false);
   const styles = React.useMemo(
     (): Record<string, React.CSSProperties> => ({
       container: {
-        minHeight: 24,
+        minHeight: token.sizeLG,
       },
       handle: {
         ...defaultNodeStyle.handle,
@@ -42,7 +45,7 @@ export default function Parameter({
         width: "min-content",
       },
     }),
-    [defaultNodeStyle]
+    [defaultNodeStyle.handle, token.sizeLG]
   );
 
   const onHandleConnect = React.useCallback(() => {
@@ -64,7 +67,7 @@ export default function Parameter({
 
   return (
     <Flex align="center" gap="middle" style={styles.container}>
-      <HandleWithLimit
+      <HandleInputWithLimit
         id={String(id)}
         isConnectable={1}
         onConnect={onHandleConnect}

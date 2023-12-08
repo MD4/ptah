@@ -24,10 +24,18 @@ interface ShowEditActionUpdatePrograms {
   };
 }
 
+interface ShowEditActionUpdatePatch {
+  type: "update-patch";
+  payload: {
+    patch: models.ShowPatch;
+  };
+}
+
 type ShowEditAction =
   | ShowEditActionUpdateName
   | ShowEditActionUpdateMapping
-  | ShowEditActionUpdatePrograms;
+  | ShowEditActionUpdatePrograms
+  | ShowEditActionUpdatePatch;
 
 const showEditReducer = (
   state: models.Show,
@@ -45,6 +53,11 @@ const showEditReducer = (
       return {
         ...state,
         programs: payload.programs,
+      };
+    case "update-patch":
+      return {
+        ...state,
+        patch: payload.patch,
       };
     default:
       return state;

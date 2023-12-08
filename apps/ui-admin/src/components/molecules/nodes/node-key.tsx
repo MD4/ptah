@@ -14,9 +14,10 @@ export interface NodeKeyData {
 
 export default function NodeKey({
   data: { key, label, sharp },
+  selected,
 }: NodeProps<NodeKeyData>): JSX.Element {
   const { token } = useToken();
-  const defaultStyles = useDefaultNodeStyle();
+  const defaultStyles = useDefaultNodeStyle("default", selected);
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({

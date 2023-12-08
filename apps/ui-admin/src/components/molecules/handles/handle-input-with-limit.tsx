@@ -20,15 +20,15 @@ const selector = (
   edges: s.edges,
 });
 
-type HandleWithLimitProps = Omit<HandleProps, "isConnectable"> & {
+type HandleInputWithLimitProps = Omit<HandleProps, "isConnectable"> & {
   isConnectable: number;
   style: React.CSSProperties;
   onConnect?: () => void;
   onDisconnect?: () => void;
 };
 
-export default function HandleWithLimit(
-  props: HandleWithLimitProps
+export default function HandleInputWithLimit(
+  props: HandleInputWithLimitProps
 ): JSX.Element {
   const { token } = useToken();
   const { nodeInternals, edges } = useStore(selector);

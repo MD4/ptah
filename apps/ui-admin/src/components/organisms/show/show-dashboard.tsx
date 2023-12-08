@@ -1,12 +1,31 @@
 import * as React from "react";
 import type * as models from "@ptah/lib-models";
-import type { OnEdgesChange, OnConnect, Node, FitViewOptions } from "reactflow";
-import { ReactFlow, applyEdgeChanges, addEdge } from "reactflow";
-import type { NodeKeyData } from "../../molecules/nodes/node-key";
-import { getKeyFromIndex, isSharpKey } from "../../../domain/key.domain";
+import type { FitViewOptions, ReactFlowInstance, Viewport } from "reactflow";
+import { ReactFlow } from "reactflow";
+import { useWindowSize } from "usehooks-ts";
 import { showNodeTypes } from "../../molecules/nodes";
-import { adaptModelMappingToReactFlowEdges } from "../../../adapters/mapping.adapter";
+import {
+  adaptModelMappingToReactFlowEdges,
+  adaptModelMappingToReactFlowEdgesNodes,
+} from "../../../adapters/mapping.adapter";
 import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
+import EdgeGradient from "../../atoms/edge-gradient";
+import {
+  adaptModelShowPatchToReactFlowNodes,
+  adaptModelShowPatchToToReactFlowEdges,
+} from "../../../adapters/patch.adapter";
+
+const proOptions = { hideAttribution: true };
+const fitViewOptions: FitViewOptions = {
+  padding: 0,
+  minZoom: 1,
+  maxZoom: 1,
+};
+const defaultViewport: Viewport = {
+  x: 0,
+  y: 196,
+  zoom: 1,
+};
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
@@ -16,110 +35,83 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-const fitViewOptions: FitViewOptions = {
-  padding: 1,
-  minZoom: 1,
-  maxZoom: 1,
-};
-
-const getKeyNodes = (mapping: models.ShowMapping): Node<NodeKeyData>[] => {
-  let y = 0;
-  let lastWasSharp = false;
-
-  return Object.keys(mapping)
-    .map(Number)
-    .sort((a, b) => a - b)
-    .flatMap((key, index) => {
-      const sharp = isSharpKey(key);
-
-      if (lastWasSharp && sharp) {
-        y += 36;
-      }
-
-      y += sharp && index ? -36 / 2 : 0;
-
-      const result = {
-        id: `key-${key}`,
-        data: { key, label: getKeyFromIndex(key), sharp },
-        position: { x: 0, y },
-        type: "node-key",
-        zIndex: sharp ? 1 : 0,
-      };
-
-      y += sharp ? 36 / 2 : 68;
-
-      lastWasSharp = sharp;
-
-      return result;
-    });
-}; /*
-const getChannelNodes = (patch: models.ShowPatch): Node<NodeChannelData>[] =>
-  patch
-    .sort((a, b) => a.channel - b.channel)
-    .map(({ channel }, index) => ({
-      id: `channel-${channel}`,
-      data: { label: String(channel) },
-      position: { x: 800, y: index * 36 },
-      type: "node-channel",
-    }));
-
-const getProgramToChannelsEdges = (
-  patch: models.ShowPatch,
-  color: string
-): Edge[] =>
-  patch.map(({ programId, programOutput, channel }) => ({
-    id: `${programId}-${channel}`,
-    source: `program-${programId}`,
-    target: `channel-${channel}`,
-    sourceHandle: String(programOutput),
-    style: {
-      stroke: color,
-      strokeWidth: 2,
-    },
-  }));
-*/
-
-const proOptions = { hideAttribution: true };
-
 export default function ShowDashboard({
   show,
+  programs,
 }: {
   show: models.Show;
+  programs: models.Program[];
 }): JSX.Element {
-  const initialNodes = [
-    ...getKeyNodes(show.mapping),
-    ...adaptModelShowProgramsToReactFlowNodes(show.programs, 400),
-    //...getChannelNodes(show.patch),
-  ];
+  const initialNodes = React.useMemo(
+    () => [
+      ...adaptModelMappingToReactFlowEdgesNodes(show.mapping, 0),
+      ...adaptModelShowProgramsToReactFlowNodes(show.programs, programs, 500),
+      ...adaptModelShowPatchToReactFlowNodes(show.patch, 1000),
+    ],
+    [programs, show]
+  );
 
-  const initialEdges = [
-    ...adaptModelMappingToReactFlowEdges(show.mapping),
-    // ...getProgramToChannelsEdges(show.patch, token.colorTextDescription),
-  ];
+  const initialEdges = React.useMemo(
+    () => [
+      ...adaptModelMappingToReactFlowEdges(show.mapping),
+      ...adaptModelShowPatchToToReactFlowEdges(show.patch),
+    ],
+    [show]
+  );
 
-  const [nodes] = React.useState(initialNodes);
-  const [edges, setEdges] = React.useState(initialEdges);
+  const onInit = React.useCallback((instance: ReactFlowInstance) => {
+    const { x, zoom } = instance.getViewport();
 
-  const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
-    setEdges((eds) => applyEdgeChanges(changes, eds));
+    setReactFlowInstance(instance);
+
+    instance.setViewport({
+      x,
+      y: 196,
+      zoom,
+    });
   }, []);
 
-  const onConnect = React.useCallback<OnConnect>((params) => {
-    setEdges((eds) => addEdge(params, eds));
-  }, []);
+  const [reactFlowInstance, setReactFlowInstance] =
+    React.useState<ReactFlowInstance | null>(null);
+
+  const windowSize = useWindowSize();
+
+  React.useEffect(() => {
+    if (reactFlowInstance) {
+      const y = reactFlowInstance.getViewport().y;
+      reactFlowInstance.fitView(fitViewOptions);
+
+      reactFlowInstance.setViewport({
+        x: reactFlowInstance.getViewport().x,
+        y,
+        zoom: reactFlowInstance.getViewport().zoom,
+      });
+    }
+  }, [reactFlowInstance, windowSize]);
 
   return (
     <div style={styles.container}>
       <ReactFlow
-        edges={edges}
+        defaultViewport={defaultViewport}
+        edges={initialEdges}
+        elementsSelectable={false}
         fitView
         fitViewOptions={fitViewOptions}
         nodeTypes={showNodeTypes}
-        nodes={nodes}
-        onConnect={onConnect}
-        onEdgesChange={onEdgesChange}
+        nodes={initialNodes}
+        nodesConnectable={false}
+        nodesDraggable={false}
+        onInit={onInit}
+        onlyRenderVisibleElements
+        panOnDrag={false}
+        panOnScroll
+        panOnScrollMode="vertical"
         proOptions={proOptions}
-      />
+        zoomOnPinch={false}
+        zoomOnScroll={false}
+      >
+        <EdgeGradient />
+      </ReactFlow>
     </div>
   );
 }

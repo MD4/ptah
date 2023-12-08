@@ -4,13 +4,14 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import type * as models from "@ptah/lib-models";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
-import Parameter from "./parameter";
 
 export default function NodeFxADSR({
   data,
+  selected,
 }: NodeProps<models.NodeFxADSR>): JSX.Element {
-  const styles = useDefaultNodeStyle();
+  const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
 
   const onValueAttackChange = React.useCallback<
@@ -73,8 +74,8 @@ export default function NodeFxADSR({
     <Flex gap="small" style={styles.container} vertical>
       <div style={styles.label}>ADSR</div>
 
-      <Parameter id={0} label="Time" />
-      <Parameter
+      <HandleInputParameter id={0} label="Time" />
+      <HandleInputParameter
         defaultValue={data.attackRate}
         id={1}
         label="Attack"
@@ -83,7 +84,7 @@ export default function NodeFxADSR({
         onChange={onValueAttackChange}
         step={0.1}
       />
-      <Parameter
+      <HandleInputParameter
         defaultValue={data.decayRate}
         id={2}
         label="Decay"
@@ -92,7 +93,7 @@ export default function NodeFxADSR({
         onChange={onValueDecayChange}
         step={0.1}
       />
-      <Parameter
+      <HandleInputParameter
         defaultValue={data.sustainLevel}
         id={3}
         label="Sustain"
@@ -101,7 +102,7 @@ export default function NodeFxADSR({
         onChange={onValueSustainChange}
         step={0.1}
       />
-      <Parameter
+      <HandleInputParameter
         defaultValue={data.releaseRate}
         id={4}
         label="Release"

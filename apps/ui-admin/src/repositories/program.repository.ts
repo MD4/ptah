@@ -1,8 +1,15 @@
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import * as models from "@ptah/lib-models";
 import * as z from "zod";
+import * as React from "react";
+import { deduplicate, isDefined } from "../utils/array.utils";
 
 export const BASE_URL_API = "http://localhost:5001";
 
@@ -66,6 +73,55 @@ export const useProgramGet = (
     enabled: Boolean(name),
     queryFn: () => (name ? programGet(name) : undefined),
   });
+
+export const useProgramGetMany = (
+  names: models.ProgramName[]
+): UseQueryResult<models.Program>[] => {
+  const queries = React.useMemo(
+    () =>
+      names.map((name) => ({
+        queryKey: ["program", name],
+        enabled: Boolean(name),
+        queryFn: () => programGet(name),
+      })),
+    [names]
+  );
+
+  return useQueries({
+    queries,
+  });
+};
+
+export const useShowPrograms = (
+  showPrograms: models.ShowPrograms
+): { data: models.Program[]; isError: boolean; isPending: boolean } => {
+  const programsNames = React.useMemo(
+    () => deduplicate(Object.values(showPrograms)),
+    [showPrograms]
+  );
+
+  const programsResponse = useProgramGetMany(programsNames);
+
+  const data: models.Program[] = React.useMemo(
+    () => programsResponse.map((response) => response.data).filter(isDefined),
+    [programsResponse]
+  );
+
+  const isError = React.useMemo(
+    () => programsResponse.some((response) => response.isError),
+    [programsResponse]
+  );
+
+  const isPending = React.useMemo(
+    () => programsResponse.some((response) => response.isPending),
+    [programsResponse]
+  );
+
+  return React.useMemo(
+    () => ({ data, isError, isPending }),
+    [data, isError, isPending]
+  );
+};
 
 /**
  * PUT

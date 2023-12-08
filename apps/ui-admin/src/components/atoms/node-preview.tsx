@@ -1,8 +1,10 @@
-import { Flex } from "antd";
+import { Flex, theme } from "antd";
 import * as React from "react";
 import type * as models from "@ptah/lib-models";
 import type { NodeStyleType } from "../molecules/nodes/node.style";
 import { useDefaultNodeStyle } from "../molecules/nodes/node.style";
+
+const { useToken } = theme;
 
 export default function NodePreview({
   label,
@@ -17,6 +19,7 @@ export default function NodePreview({
   parameters: string[];
   onDrop: () => void;
 }): JSX.Element {
+  const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle(type);
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
@@ -27,10 +30,10 @@ export default function NodePreview({
         cursor: "grab",
       },
       parameter: {
-        minHeight: 24,
+        minHeight: token.sizeLG,
       },
     }),
-    [defaultStyles]
+    [defaultStyles, token.sizeLG]
   );
 
   const onDragStart = React.useCallback(

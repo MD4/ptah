@@ -6,7 +6,8 @@ const { useToken } = theme;
 export type NodeStyleType = "default" | "input" | "output";
 
 export const useDefaultNodeStyle = (
-  type: NodeStyleType = "default"
+  type: NodeStyleType = "default",
+  selected = false
 ): Record<string, React.CSSProperties> => {
   const { token } = useToken();
 
@@ -14,7 +15,7 @@ export const useDefaultNodeStyle = (
     () => ({
       container: {
         border: "none",
-        padding: 16,
+        padding: token.sizeMS,
 
         borderTopLeftRadius:
           type === "output" ? token.borderRadiusLG * 2 : token.borderRadiusLG,
@@ -25,14 +26,21 @@ export const useDefaultNodeStyle = (
         borderBottomRightRadius:
           type === "input" ? token.borderRadiusLG * 2 : token.borderRadiusLG,
 
+        borderStyle: "solid",
+        borderColor: selected ? token.colorPrimary : "transparent",
+        borderWidth: token.lineWidth,
+
         background: token.colorBgElevated,
-        width: "160px",
+        width: 160,
       },
       handle: {
-        borderRadius: 16,
-        width: 8,
-        height: 8,
+        borderRadius: token.sizeXS,
+        width: token.sizeXS,
+        height: token.sizeXS,
         background: token.colorTextDescription,
+        outlineColor: token.colorBgContainer,
+        outlineWidth: token.sizeXXS,
+        outlineStyle: "solid",
       },
       label: {
         width: "100%",
@@ -40,10 +48,17 @@ export const useDefaultNodeStyle = (
       },
     }),
     [
+      selected,
       token.borderRadiusLG,
+      token.colorBgContainer,
       token.colorBgElevated,
+      token.colorPrimary,
       token.colorTextDescription,
       token.colorTextTertiary,
+      token.lineWidth,
+      token.sizeMS,
+      token.sizeXS,
+      token.sizeXXS,
       type,
     ]
   );

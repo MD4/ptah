@@ -36,6 +36,7 @@ export const getAllKeysNodes = (): Node[] => {
       position: { x: 0, y },
       type: "node-key",
       zIndex: sharp ? 1 : 0,
+      selectable: false,
     };
 
     y += sharp ? 36 / 2 : 68;

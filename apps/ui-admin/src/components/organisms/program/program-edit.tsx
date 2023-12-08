@@ -16,7 +16,7 @@ import {
   addEdge,
   updateEdge,
 } from "reactflow";
-import { Button, Flex, notification } from "antd";
+import { Button, Flex, notification, theme } from "antd";
 import { SaveFilled } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { useDebounce } from "usehooks-ts";
@@ -37,20 +37,10 @@ import {
 import { useProgramPut } from "../../../repositories/program.repository";
 import { createNode } from "../../../domain/node.domain";
 import { hasNoCircularDependencies } from "../../../utils/connection";
+import EdgeGradient from "../../atoms/edge-gradient";
 import ProgramAddNode from "./program-add-node";
 
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    width: "100%",
-    height: "100%",
-    animation: "animationEnterLeftToRight 200ms",
-  },
-  toolbar: {
-    position: "absolute",
-    right: 16,
-    bottom: 16,
-  },
-};
+const { useToken } = theme;
 
 const proOptions = { hideAttribution: true };
 const fitViewOptions: FitViewOptions = {
@@ -63,6 +53,23 @@ export default function ProgramDashboard(): JSX.Element {
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });
+
+  const { token } = useToken();
+  const styles: Record<string, React.CSSProperties> = React.useMemo(
+    () => ({
+      container: {
+        width: "100%",
+        height: "100%",
+        animation: "animationEnterLeftToRight 200ms",
+      },
+      toolbar: {
+        position: "absolute",
+        right: token.sizeMS,
+        bottom: token.sizeMS,
+      },
+    }),
+    [token.sizeMS]
+  );
 
   const dispatch = useProgramEditDispatch();
   const { initialProgram, program, hasChanged } = useProgramEdit();
@@ -274,9 +281,12 @@ export default function ProgramDashboard(): JSX.Element {
         onEdgesChange={onEdgesChange}
         onInit={setReactFlowInstance}
         onNodesChange={onNodesChange}
+        panOnScroll
         proOptions={proOptions}
         snapToGrid
-      />
+      >
+        <EdgeGradient />
+      </ReactFlow>
       <ProgramAddNode />
       <div style={styles.toolbar}>
         {hasChanged ? (

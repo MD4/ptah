@@ -28,9 +28,10 @@ export default function ProgramAddNode(): JSX.Element {
         height: "100%",
         zIndex: 3,
         animation: "ease-out animationEnterRightToLeft 100ms",
-        // background: token.colorBgBlur,
         backdropFilter: "blur(8px)",
-        // boxShadow: "0px 0px 0px 3px rgba(0, 0, 0, 0.1)",
+        borderRightColor: token.colorBgContainer,
+        borderRightStyle: "solid",
+        borderRightWidth: 1,
       },
       buttonContainer: {
         position: "absolute",
@@ -43,8 +44,11 @@ export default function ProgramAddNode(): JSX.Element {
         width: "100%",
         padding: token.padding,
       },
+      button: {
+        backdropFilter: "blur(8px)",
+      },
     }),
-    [token.padding]
+    [token.colorBgContainer, token.padding]
   );
 
   const onAddNodeClick = React.useCallback(() => {

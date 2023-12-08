@@ -12,6 +12,7 @@ export const ptahTheme: ThemeConfig = {
     borderRadius: 12,
     wireframe: false,
     boxShadow: "none",
+    lineWidth: 2,
 
     motionDurationFast: "80ms",
     motionDurationMid: "100ms",

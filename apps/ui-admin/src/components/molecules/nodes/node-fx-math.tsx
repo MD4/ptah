@@ -5,8 +5,8 @@ import { Handle, Position } from "reactflow";
 import type * as models from "@ptah/lib-models";
 import type { DefaultOptionType } from "antd/es/select";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
-import Parameter from "./parameter";
 
 const operations: DefaultOptionType[] = [
   "add",
@@ -17,8 +17,9 @@ const operations: DefaultOptionType[] = [
 
 export default function NodeFxMath({
   data,
+  selected,
 }: NodeProps<models.NodeFxMath>): JSX.Element {
-  const styles = useDefaultNodeStyle();
+  const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
 
   const onOperationChange = React.useCallback<
@@ -73,14 +74,14 @@ export default function NodeFxMath({
         size="small"
       />
 
-      <Parameter
+      <HandleInputParameter
         defaultValue={data.valueA}
         id={0}
         label="Value A"
         onChange={onValueValueAChange}
         step={0.5}
       />
-      <Parameter
+      <HandleInputParameter
         defaultValue={data.valueB}
         id={1}
         label="Value B"

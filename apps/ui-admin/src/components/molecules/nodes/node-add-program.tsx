@@ -17,7 +17,7 @@ export default function NodeAddProgram({
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
       container: {
-        padding: 16,
+        padding: token.sizeMS,
         borderRadius: token.borderRadiusLG,
         borderStyle: "dashed",
         borderWidth: 3,
@@ -26,7 +26,7 @@ export default function NodeAddProgram({
         width: 240,
       },
     }),
-    [token.borderRadiusLG, token.colorFillQuaternary]
+    [token.borderRadiusLG, token.colorFillQuaternary, token.sizeMS]
   );
 
   return (

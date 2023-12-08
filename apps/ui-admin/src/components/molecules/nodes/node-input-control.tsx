@@ -14,8 +14,9 @@ const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
 
 export default function NodeInputControl({
   data,
+  selected,
 }: NodeProps<models.NodeInputControl>): JSX.Element {
-  const styles = useDefaultNodeStyle("input");
+  const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
 
   const onValueChange = React.useCallback<(controlId: number) => void>(

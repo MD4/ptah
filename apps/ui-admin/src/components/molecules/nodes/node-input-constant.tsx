@@ -8,8 +8,9 @@ import { useDefaultNodeStyle } from "./node.style";
 
 export default function NodeInputConstant({
   data,
+  selected,
 }: NodeProps<models.NodeInputConstant>): JSX.Element {
-  const styles = useDefaultNodeStyle("input");
+  const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
 
   const onValueChange = React.useCallback<(value: number | null) => void>(

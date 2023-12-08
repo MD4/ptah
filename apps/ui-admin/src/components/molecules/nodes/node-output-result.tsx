@@ -3,13 +3,14 @@ import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Position } from "reactflow";
 import type * as models from "@ptah/lib-models";
+import HandleInputWithLimit from "../handles/handle-input-with-limit";
 import { useDefaultNodeStyle } from "./node.style";
-import HandleWithLimit from "./handle-with-limit";
 
 export default function NodeOutputResult({
   data: { outputId },
+  selected,
 }: NodeProps<models.NodeOutputResult>): JSX.Element {
-  const styles = useDefaultNodeStyle("output");
+  const styles = useDefaultNodeStyle("output", selected);
 
   return (
     <Flex
@@ -18,7 +19,7 @@ export default function NodeOutputResult({
       justify="space-between"
       style={styles.container}
     >
-      <HandleWithLimit
+      <HandleInputWithLimit
         id={String(0)}
         isConnectable={1}
         position={Position.Left}
