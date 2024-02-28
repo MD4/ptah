@@ -2,14 +2,13 @@ name: build-and-test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: macos-13
 
     strategy:
       matrix:
