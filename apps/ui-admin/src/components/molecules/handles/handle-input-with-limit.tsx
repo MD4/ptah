@@ -27,9 +27,10 @@ type HandleInputWithLimitProps = Omit<HandleProps, "isConnectable"> & {
   onDisconnect?: () => void;
 };
 
-export default function HandleInputWithLimit(
-  props: HandleInputWithLimitProps
-): JSX.Element {
+export default function HandleInputWithLimit({
+  onDisconnect,
+  ...props
+}: HandleInputWithLimitProps): JSX.Element {
   const { token } = useToken();
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();
@@ -62,10 +63,10 @@ export default function HandleInputWithLimit(
   React.useEffect(() => {
     if (isHandleConnectable && props.onConnect) {
       props.onConnect();
-    } else if (!isHandleConnectable && props.onDisconnect) {
-      props.onDisconnect();
+    } else if (!isHandleConnectable && onDisconnect) {
+      onDisconnect();
     }
-  }, [isHandleConnectable, props]);
+  }, [isHandleConnectable, onDisconnect, props]);
 
   return (
     <Handle

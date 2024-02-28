@@ -1,7 +1,7 @@
 import { log } from "@ptah/lib-logger";
 import * as kalm from "kalm";
 import ipc from "@kalm/ipc";
-import type { Channel, Message } from "./pubsub.types";
+import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:pusub`;
 
@@ -9,8 +9,9 @@ let client: Client | undefined;
 let reconnecting = false;
 
 export const connect = (
-  channels: Channel[] = [],
-  callback: (channel: Channel, message: Message) => void = () => undefined
+  channels: PubsubChannel[] = [],
+  callback: (channel: PubsubChannel, message: PubsubMessage) => void = () =>
+    undefined
 ): Promise<void> =>
   new Promise((resolve) => {
     if (!reconnecting) {
@@ -28,7 +29,7 @@ export const connect = (
     });
 
     channels.forEach((channel) => {
-      client?.subscribe(channel, (message: Message) => {
+      client?.subscribe(channel, (message: PubsubMessage) => {
         callback(channel, message);
       });
     });
@@ -49,7 +50,7 @@ export const connect = (
     });
   });
 
-export const send = (channel: Channel, message: Message): void => {
+export const send = (channel: PubsubChannel, message: PubsubMessage): void => {
   if (client) {
     client.write(channel, message);
   }

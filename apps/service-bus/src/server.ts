@@ -35,9 +35,12 @@ export const start = (): Promise<void> =>
         log(process.env.SERVICE_NAME, "client disconnected");
       });
 
-      client.subscribe("midi", (body) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- s
-        server?.broadcast("midi", body);
+      const channels = ["midi", "system"];
+
+      channels.forEach((channel) => {
+        client.subscribe(channel, (body: Serializable) => {
+          server?.broadcast(channel, body);
+        });
       });
     });
 

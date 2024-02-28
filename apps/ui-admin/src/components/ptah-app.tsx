@@ -8,7 +8,6 @@ import ShowDashboardPage from "./pages/show/show-dashboard.page";
 import ShowPage from "./pages/show.page";
 import ShowMappingPage from "./pages/show/show-mapping.page";
 import ShowPatchPage from "./pages/show/show-patch.page";
-import ShowProgramsPage from "./pages/show/show-programs.page";
 import ProgramListPage from "./pages/program/program-list.page";
 import ProgramCreatePage from "./pages/program/program-create.page";
 import ShowListPage from "./pages/show/show-list.page";
@@ -30,7 +29,6 @@ function PtahApp(): JSX.Element {
               <Route element={<ShowDashboardPage />} index />
               <Route element={<ShowMappingPage />} path="mapping" />
               <Route element={<ShowPatchPage />} path="patch" />
-              <Route element={<ShowProgramsPage />} path="programs" />
             </Route>
           </Route>
 

@@ -107,6 +107,7 @@ export default function ShowDashboard({
         panOnScroll
         panOnScrollMode="vertical"
         proOptions={proOptions}
+        zoomOnDoubleClick={false}
         zoomOnPinch={false}
         zoomOnScroll={false}
       >

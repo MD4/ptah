@@ -119,3 +119,40 @@ export function useShowEdit(): ShowEditContextType {
 export function useShowEditDispatch(): React.Dispatch<ShowEditAction> {
   return React.useContext(ShowEditDispatchContext);
 }
+
+export const pruneShowPatch = (
+  showPath: models.ShowPatch,
+  showPrograms: models.ShowPrograms
+): models.ShowPatch =>
+  Object.fromEntries(
+    Object.entries(showPath)
+      .map(
+        ([key, mapping]) =>
+          [
+            key,
+            mapping.filter(({ programId }) =>
+              Object.keys(showPrograms).includes(programId)
+            ),
+          ] as const
+      )
+      .filter(([_, mapping]) => Boolean(mapping.length))
+  );
+
+export function pruneShowMapping(
+  showMapping: models.ShowMapping,
+  showPrograms: models.ShowPrograms
+): models.ShowMapping {
+  return Object.fromEntries(
+    Object.entries(showMapping).filter(([_, programId]) =>
+      Object.keys(showPrograms).includes(programId)
+    )
+  );
+}
+
+export function pruneShow(show: models.Show): models.Show {
+  return {
+    ...show,
+    mapping: pruneShowMapping(show.mapping, show.programs),
+    patch: pruneShowPatch(show.patch, show.programs),
+  };
+}

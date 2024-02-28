@@ -19,7 +19,11 @@ import { showNodeTypes } from "../../molecules/nodes";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import { getAllKeysNodes } from "../../../domain/key.domain";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
-import { useShowEdit, useShowEditDispatch } from "../../../domain/show.domain";
+import {
+  pruneShow,
+  useShowEdit,
+  useShowEditDispatch,
+} from "../../../domain/show.domain";
 import { useShowPut } from "../../../repositories/show.repository";
 import {
   adaptModelMappingToReactFlowEdges,
@@ -232,7 +236,7 @@ export default function ShowMapping(): JSX.Element {
   const saveMutation = useShowPut(onSaveMutationSuccess, onSaveMutationError);
 
   const onSaveClick = React.useCallback(() => {
-    saveMutation.mutate(show);
+    saveMutation.mutate(pruneShow(show));
   }, [show, saveMutation]);
 
   React.useEffect(() => {

@@ -49,7 +49,8 @@ body,
   .react-flow__edge-path,
   .react-flow__connection-path {
     stroke-width: 2;
-    stroke: url(#edge-gradient);
+    stroke: #4c2bf0;
+    // stroke: url(#edge-gradient);
     z-index: 1000;
   }
 }

@@ -1,6 +1,6 @@
-import type { Graph, Node } from "./graph.types";
+import type { Node, Program } from "@ptah/lib-models";
 import type {
-  Program,
+  ProgramCompute,
   ProgramDefinition,
   ProgramOutput,
   ProgramState,
@@ -9,6 +9,7 @@ import type { RunnerControlsState } from "./runner.types";
 import { isDefined } from "./utils";
 import { adsr } from "./adsr";
 
+// Defined by MIDI standard
 const TICK = 1 / 24;
 
 export const performTick = (
@@ -55,11 +56,11 @@ const getNodeInputValueFromRegister = (
   return defaultValue;
 };
 
-export const compile = (graph: Graph): Program => {
-  const outputs = graph.nodes.filter(({ type }) => type === "output");
+export const compile = (program: Program): ProgramCompute => {
+  const outputs = program.nodes.filter(({ type }) => type === "output-result");
 
   const getNode = (nodeId: string): Node | undefined =>
-    graph.nodes.find(({ id }) => id === nodeId);
+    program.nodes.find(({ id }) => id === nodeId);
 
   const visitedNodes: string[] = [];
 
@@ -70,7 +71,7 @@ export const compile = (graph: Graph): Program => {
     visitedNodes.push(node.id);
 
     return [
-      ...graph.edges
+      ...program.edges
         .filter((edge) => edge.target === node.id)
         .flatMap((input) => {
           const inputNode = getNode(input.source);
@@ -87,7 +88,7 @@ export const compile = (graph: Graph): Program => {
     .filter(isDefined)
     .map((node) => ({
       node,
-      inputsNodesIds: graph.edges
+      inputsNodesIds: program.edges
         .filter((edge) => edge.target === node.id)
         .map(({ source, sourceOutput }) => ({ id: source, sourceOutput })),
     }));
@@ -108,7 +109,7 @@ export const compile = (graph: Graph): Program => {
         case "input-time":
           register.set(node.id, [time]);
           break;
-        case "modifier-adsr": {
+        case "fx-adsr": {
           register.set(node.id, [
             adsr(
               node.attackRate,
@@ -119,9 +120,17 @@ export const compile = (graph: Graph): Program => {
           ]);
           break;
         }
-        case "modifier-math": {
-          const a = getNodeInputValueFromRegister(register, inputsNodesIds[0]);
-          const b = getNodeInputValueFromRegister(register, inputsNodesIds[1]);
+        case "fx-math": {
+          const a = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[0],
+            node.valueA
+          );
+          const b = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[1],
+            node.valueB
+          );
 
           let value = 0;
 
@@ -144,7 +153,7 @@ export const compile = (graph: Graph): Program => {
           break;
         }
 
-        case "output":
+        case "output-result":
           programOutput[node.outputId] = getNodeInputValueFromRegister(
             register,
             inputsNodesIds[0]

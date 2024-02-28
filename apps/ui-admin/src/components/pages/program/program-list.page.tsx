@@ -66,6 +66,7 @@ export default function ProgramListPage(): JSX.Element {
           }
           isLoading={isPending}
           onItemSelected={onProgramSelected}
+          placeholder="Search program"
         />
       </Flex>
     </FullCenteredLayout>

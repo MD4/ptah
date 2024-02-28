@@ -27,7 +27,7 @@ import {
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
 import { getAllChannelsNodes } from "../../../domain/patch.domain";
-import { useShowEdit, useShowEditDispatch } from "../../../domain/show.domain";
+import { pruneShow, useShowEdit, useShowEditDispatch } from "../../../domain/show.domain";
 import { useShowPut } from "../../../repositories/show.repository";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
 import { repositionProgramNodes } from "../../../adapters/node.adapter";
@@ -89,7 +89,8 @@ export default function ShowPatch({
             programs,
             0,
             true,
-            openProgramModal
+            openProgramModal,
+            true
           ),
           ...getAllChannelsNodes(),
         ],
@@ -200,6 +201,7 @@ export default function ShowPatch({
                 programId: program.id,
                 programName: program.name,
                 outputsCount: getProgramOutputCount(program),
+                noInput: true,
               },
               position: {
                 x: 0,
@@ -213,6 +215,22 @@ export default function ShowPatch({
       });
     },
     [closeProgramModal, programs]
+  );
+
+  const onNodesDelete = React.useCallback(
+    (nodesToDelete: Node[]) => {
+      const programsToDelete = nodesToDelete
+        .filter((_node) => _node.type === "node-program")
+        .map(({ id }) => id);
+
+      setNodes((_nodes) =>
+        repositionProgramNodes(
+          _nodes.filter(({ id }) => !programsToDelete.includes(id)),
+          programs
+        )
+      );
+    },
+    [programs]
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
@@ -232,7 +250,7 @@ export default function ShowPatch({
   const saveMutation = useShowPut(onSaveMutationSuccess, onSaveMutationError);
 
   const onSaveClick = React.useCallback(() => {
-    saveMutation.mutate(show);
+    saveMutation.mutate(pruneShow(show));
   }, [show, saveMutation]);
 
   React.useEffect(() => {
@@ -272,6 +290,7 @@ export default function ShowPatch({
         onEdgeUpdateStart={onEdgeUpdateStart}
         onEdgesChange={onEdgesChange}
         onInit={onInit}
+        onNodesDelete={onNodesDelete}
         onlyRenderVisibleElements
         panOnScroll
         panOnScrollMode="vertical"

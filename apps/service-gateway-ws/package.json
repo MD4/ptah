@@ -1,5 +1,5 @@
 {
-  "name": "@ptah/service-main",
+  "name": "@ptah/gateway-ws",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -18,13 +18,13 @@
     "@kalm/ipc": "^7.0.0",
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:^",
-    "@ptah/lib-shared": "workspace:*",
+    "@ptah/lib-shared": "workspace:^",
     "@types/midi": "^2.0.3",
-    "dmx-ts": "^0.3.0",
     "dotenv": "^16.3.1",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2"
   },
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",

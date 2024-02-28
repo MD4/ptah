@@ -1,14 +1,17 @@
-import type { services } from "@ptah/lib-shared";
-import { handleMidiMessage } from "./midi-handlers";
+import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import { handleMidiMessage } from "./message-midi-handlers";
+import { handleSystemMessage } from "./message-system-handlers";
 
-export const handleMessage = (
-  channel: services.Pubsub.Channel,
-  message: services.Pubsub.Message
-): void => {
+export const handleMessage = async (
+  channel: PubsubChannel,
+  message: PubsubMessage
+): Promise<void> => {
   switch (channel) {
     case "midi":
       handleMidiMessage(message);
-      break;
+      return;
+    case "system":
+      return handleSystemMessage(message);
     default:
   }
 };

@@ -6,6 +6,8 @@ const { useToken } = theme;
 export default function EdgeGradient(): JSX.Element {
   const { token } = useToken();
 
+  return <div />;
+
   return (
     <svg>
       <defs>

@@ -1,5 +1,4 @@
 import {
-  ApartmentOutlined,
   CloseOutlined,
   DashboardOutlined,
   LoginOutlined,
@@ -33,17 +32,12 @@ export default function ShowMenu(): JSX.Element {
       key: "2",
     },
     {
-      label: <Link to={`${showPath}/programs`}>Programs</Link>,
-      icon: <ApartmentOutlined style={{ transform: "rotate(-90deg)" }} />,
-      key: "3",
-    },
-    {
       type: "divider",
     },
     {
       label: <Link to="/">Close</Link>,
       icon: <CloseOutlined />,
-      key: "4",
+      key: "3",
     },
   ];
 

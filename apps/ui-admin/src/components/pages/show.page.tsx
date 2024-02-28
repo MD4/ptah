@@ -3,6 +3,7 @@ import { Outlet, useParams } from "react-router-dom";
 import Title from "antd/es/typography/Title";
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ShowMenu from "../molecules/show/show-menu";
+import { useSystem } from "../../domain/system.domain";
 
 const styles: Record<string, React.CSSProperties> = {
   logo: {
@@ -25,6 +26,15 @@ function ShowTitle(): JSX.Element {
 }
 
 export default function ShowPage(): JSX.Element {
+  const { showName } = useParams();
+  const system = useSystem();
+
+  React.useEffect(() => {
+    if (showName && system.state.connected) {
+      system.api.loadShow(showName);
+    }
+  }, [showName, system.api, system.state.connected]);
+
   return (
     <WithHeaderLayout
       headerCenter={<ShowTitle />}

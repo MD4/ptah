@@ -33,5 +33,8 @@ export const ptahTheme: ThemeConfig = {
     Select: {
       colorBorder: "transparent",
     },
+    List: {
+      colorBorder: "transparent",
+    },
   },
 };

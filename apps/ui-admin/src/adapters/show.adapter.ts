@@ -14,7 +14,8 @@ export const adaptModelShowProgramsToReactFlowNodes = (
   programsDefinitions: models.Program[] = [],
   x = 700,
   addButton = false,
-  openProgramModal: () => void = () => undefined
+  openProgramModal: () => void = () => undefined,
+  noInput = false
 ): Node<NodeProgramData | NodeAddProgramData>[] => {
   let y = 0;
 
@@ -29,6 +30,7 @@ export const adaptModelShowProgramsToReactFlowNodes = (
         programId,
         programName,
         outputsCount,
+        noInput,
       },
       position: { x, y },
       type: "node-program",

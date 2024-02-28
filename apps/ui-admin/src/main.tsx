@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd";
 import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { IoProvider } from "socket.io-react-hook";
 import PtahApp from "./components/ptah-app";
 import { ptahTheme } from "./theme";
 
@@ -27,13 +28,15 @@ if (rootElement) {
 
   root.render(
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider theme={ptahTheme}>
-          <BrowserRouter>
-            <PtahApp />
-          </BrowserRouter>
-        </ConfigProvider>
-      </QueryClientProvider>
+      <IoProvider>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider theme={ptahTheme}>
+            <BrowserRouter>
+              <PtahApp />
+            </BrowserRouter>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </IoProvider>
     </React.StrictMode>
   );
 } else {

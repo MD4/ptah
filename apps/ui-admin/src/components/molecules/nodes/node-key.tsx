@@ -2,6 +2,7 @@ import { Flex, Typography, theme } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
+import { useSystem } from "../../../domain/system.domain";
 import { useDefaultNodeStyle } from "./node.style";
 
 const { useToken } = theme;
@@ -12,15 +13,21 @@ export interface NodeKeyData {
   sharp: boolean;
 }
 
-export default function NodeKey({
+const NodeKeyInternal = React.memo(function NodeKeyInternal({
   data: { key, label, sharp },
   selected,
-}: NodeProps<NodeKeyData>): JSX.Element {
+  pressed,
+}: NodeProps<NodeKeyData> & { pressed: boolean }): JSX.Element {
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle("default", selected);
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
+  const styles: Record<string, React.CSSProperties> = React.useMemo(() => {
+    const background = pressed ? token.colorPrimary : token.colorFillQuaternary;
+    const sharpBackground = pressed
+      ? token.colorPrimaryActive
+      : token.colorBgContainer;
+
+    return {
       ...defaultStyles,
       container: {
         ...defaultStyles.container,
@@ -28,7 +35,7 @@ export default function NodeKey({
         borderBottomRightRadius: token.borderRadiusLG * 2,
         borderTopLeftRadius: token.borderRadiusSM,
         borderBottomLeftRadius: token.borderRadiusSM,
-        background: sharp ? token.colorBgContainer : token.colorFillQuaternary,
+        background: sharp ? sharpBackground : background,
         height: sharp ? "32px" : "64px",
         width: sharp ? "160px" : "240px",
       },
@@ -36,16 +43,18 @@ export default function NodeKey({
         ...defaultStyles.label,
         width: "auto",
       },
-    }),
-    [
-      defaultStyles,
-      sharp,
-      token.borderRadiusLG,
-      token.borderRadiusSM,
-      token.colorBgContainer,
-      token.colorFillQuaternary,
-    ]
-  );
+    };
+  }, [
+    defaultStyles,
+    pressed,
+    sharp,
+    token.borderRadiusLG,
+    token.borderRadiusSM,
+    token.colorBgContainer,
+    token.colorFillQuaternary,
+    token.colorPrimary,
+    token.colorPrimaryActive,
+  ]);
 
   return (
     <Flex
@@ -65,4 +74,15 @@ export default function NodeKey({
       />
     </Flex>
   );
+});
+
+export default function NodeKey(props: NodeProps<NodeKeyData>): JSX.Element {
+  const { state } = useSystem();
+
+  const pressed = React.useMemo(
+    () => state.keysPressed.includes(props.data.key),
+    [props.data.key, state.keysPressed]
+  );
+
+  return <NodeKeyInternal {...props} pressed={pressed} />;
 }

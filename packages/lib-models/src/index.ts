@@ -9,3 +9,5 @@ export * from "./show-programs.model";
 
 export * from "./settings.model";
 export * from "./version.model";
+
+export * from "./pubsub-message.models";

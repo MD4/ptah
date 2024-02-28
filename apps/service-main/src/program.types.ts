@@ -1,12 +1,12 @@
 import type { RunnerControlsState } from "./runner.types";
 
-export type Program = (
+export type ProgramCompute = (
   time: number,
   inputs: RunnerControlsState
 ) => ProgramOutput;
 
 export type ProgramDefinition = {
-  compute: Program;
+  compute: ProgramCompute;
   resetAtEnd: boolean;
 };
 

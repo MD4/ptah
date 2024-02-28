@@ -1,16 +1,9 @@
 import { log } from "@ptah/lib-logger";
-import type { services } from "@ptah/lib-shared";
+import type { PubsubMessage } from "@ptah/lib-models";
 import * as runner from "./runner.api";
-import * as patchApi from "./patch.api";
 import * as dmx from "./dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:midi`;
-
-const initialize = (): void => {
-  patchApi.loadMapping();
-  runner.reset();
-  dmx.reset();
-};
 
 export const handleNoteOn = (keyNumber: number, velocity: number): void => {
   runner.startProgram(keyNumber, velocity);
@@ -23,12 +16,14 @@ export const handleNoteOff = (keyNumber: number, velocity: number): void => {
 };
 
 export const handleSequenceStart = (): void => {
-  initialize();
+  runner.reset();
+  dmx.reset();
   log(LOG_CONTEXT, "sequence:start");
 };
 
 export const handleSequenceContinue = (): void => {
-  initialize();
+  runner.reset();
+  dmx.reset();
   log(LOG_CONTEXT, "sequence:continue");
 };
 
@@ -49,7 +44,7 @@ export const handleControlChange = (controlId: number, value: number): void => {
   runner.setControlValue(controlId, value);
 };
 
-export const handleMidiMessage = (message: services.Pubsub.Message): void => {
+export const handleMidiMessage = (message: PubsubMessage): void => {
   switch (message.type) {
     case "note:on":
       handleNoteOn(message.keyNumber, message.velocity);
@@ -75,5 +70,6 @@ export const handleMidiMessage = (message: services.Pubsub.Message): void => {
     case "control:change":
       handleControlChange(message.controlId, message.value);
       break;
+    default:
   }
 };

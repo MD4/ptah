@@ -8,11 +8,13 @@ export default function SearchableList({
   data,
   isLoading,
   onItemSelected,
+  placeholder = "Search",
   footer = [],
 }: {
   data?: string[];
   isLoading: boolean;
   onItemSelected: (item: string) => void;
+  placeholder: string;
   footer?: React.ReactNode;
 }): JSX.Element {
   const { token } = useToken();
@@ -43,6 +45,10 @@ export default function SearchableList({
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
+      search: {
+        paddingLeft: token.sizeMS,
+        paddingRight: token.sizeMD,
+      },
       list: {
         overflow: "hidden",
       },
@@ -53,10 +59,11 @@ export default function SearchableList({
       },
       listItem: {
         padding: 0,
+        border: "none",
       },
       listItemButton: {
         width: "100%",
-        borderRadius: 0,
+        borderRadius: token.borderRadius,
       },
       listItemLabel: {
         fontWeight: token.fontWeightStrong,
@@ -67,7 +74,13 @@ export default function SearchableList({
         padding: token.paddingXL,
       },
     }),
-    [token.fontWeightStrong, token.paddingXL]
+    [
+      token.borderRadius,
+      token.fontWeightStrong,
+      token.paddingXL,
+      token.sizeMD,
+      token.sizeMS,
+    ]
   );
 
   return (
@@ -76,7 +89,8 @@ export default function SearchableList({
         allowClear
         bordered={false}
         onChange={onSearch}
-        placeholder="Search program"
+        placeholder={placeholder}
+        style={styles.search}
         suffix={<SearchOutlined />}
       />
 
