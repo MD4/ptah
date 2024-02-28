@@ -4,9 +4,9 @@ import fs from "node:fs";
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 import { log } from "@ptah/lib-logger";
-import type { ProgramOutput } from "./program.types";
-import { sleep } from "./utils";
-import type { PatchMapping } from "./patch.types";
+import type { ProgramOutput } from "../domains/program.types";
+import type { PatchMapping } from "../domains/patch.domain.types";
+import { sleep } from "./time";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:dmx`;
 const UNIVERSE_MAIN = "main";

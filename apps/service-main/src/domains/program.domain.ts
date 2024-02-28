@@ -1,13 +1,13 @@
 import type { Node, Program } from "@ptah/lib-models";
+import { isDefined } from "../utils/types";
+import { adsr } from "../utils/adsr";
+import type { RunnerControlsState } from "../services/runner.service.types";
 import type {
   ProgramCompute,
   ProgramDefinition,
   ProgramOutput,
   ProgramState,
 } from "./program.types";
-import type { RunnerControlsState } from "./runner.types";
-import { isDefined } from "./utils";
-import { adsr } from "./adsr";
 
 // Defined by MIDI standard
 const TICK = 1 / 24;

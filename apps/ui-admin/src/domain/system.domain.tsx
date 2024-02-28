@@ -40,6 +40,7 @@ const initialSystemState: SystemState = {
 
 interface SystemApi {
   loadShow: (showName: ShowName) => void;
+  unloadShow: () => void;
 }
 
 interface System {
@@ -104,13 +105,17 @@ export function useSystem(): System {
     [socket]
   );
 
+  const unloadShow = React.useCallback(() => {
+    socket.emit("system", { type: "show:unload" });
+  }, [socket]);
+
   const blackout = React.useCallback(() => {
     socket.emit("system", { type: "blackout" });
   }, [socket]);
 
   const api = React.useMemo(
-    () => ({ loadShow, blackout }),
-    [loadShow, blackout]
+    () => ({ loadShow, unloadShow, blackout }),
+    [loadShow, unloadShow, blackout]
   );
 
   return React.useMemo(() => ({ state, api }), [state, api]);

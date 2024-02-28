@@ -1,5 +1,5 @@
-import type { PatchMapping } from "./patch.types";
-import type { ProgramDefinition, ProgramState } from "./program.types";
+import type { PatchMapping } from "../domains/patch.domain.types";
+import type { ProgramDefinition, ProgramState } from "../domains/program.types";
 
 export type RunnerProgramsState = Map<
   number,

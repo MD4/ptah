@@ -1,9 +1,9 @@
 import { log } from "@ptah/lib-logger";
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
 import { repositories, env } from "@ptah/lib-shared";
-import * as runner from "./runner.api";
-import * as patchApi from "./patch.api";
-import * as dmx from "./dmx";
+import * as runner from "../services/runner.service";
+import * as patchService from "../services/patch.service";
+import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:system`;
 
@@ -23,7 +23,7 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
       )
     );
 
-    patchApi.loadMapping(show, programs);
+    patchService.loadMapping(show, programs);
     runner.reset();
     dmx.reset();
 
@@ -33,8 +33,20 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
   }
 };
 
+export const handleShowUnload = (): void => {
+  log(LOG_CONTEXT, "show:unload");
+
+  patchService.reset();
+  runner.reset();
+  dmx.reset();
+
+  log(LOG_CONTEXT, "show:unload:success");
+};
+
 export const handleBlackout = (): void => {
   log(LOG_CONTEXT, "blackout");
+
+  dmx.reset();
 };
 
 export const handleSystemMessage = async (
@@ -43,6 +55,10 @@ export const handleSystemMessage = async (
   switch (message.type) {
     case "show:load":
       return handleShowLoad(message.showName);
+    case "show:unload": {
+      handleShowUnload();
+      return;
+    }
     case "blackout":
       handleBlackout();
       break;

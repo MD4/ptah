@@ -1,10 +1,13 @@
 import { log } from "@ptah/lib-logger";
-import { getProgramInitialState, performTick } from "./program.api";
-import type { RunnerControlsState, RunnerProgramsState } from "./runner.types";
-import * as patchApi from "./patch.api";
-import type { ProgramOutput } from "./program.types";
-import { applyMapping } from "./utils-patch";
-import * as dmx from "./dmx";
+import * as dmx from "../utils/dmx";
+import { getProgramInitialState, performTick } from "../domains/program.domain";
+import type { ProgramOutput } from "../domains/program.types";
+import { applyMapping } from "../domains/patch.domain";
+import * as patchService from "./patch.service";
+import type {
+  RunnerControlsState,
+  RunnerProgramsState,
+} from "./runner.service.types";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:runner`;
 
@@ -21,7 +24,7 @@ export const setControlValue = (controlId: number, value: number): void => {
 };
 
 export const startProgram = (id: number, parameter: number): void => {
-  const patchItem = patchApi.getFromId(id);
+  const patchItem = patchService.getFromId(id);
 
   if (patchItem) {
     const { program, mapping } = patchItem;

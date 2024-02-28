@@ -1,7 +1,7 @@
 import { log } from "@ptah/lib-logger";
 import type { PubsubMessage } from "@ptah/lib-models";
-import * as runner from "./runner.api";
-import * as dmx from "./dmx";
+import * as runner from "../services/runner.service";
+import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME}:midi`;
 

@@ -60,12 +60,17 @@ export const pubsubMessageLoadShow = z.object({
   showName,
 });
 
+export const pubsubMessageUnloadShow = z.object({
+  type: z.literal("show:unload"),
+});
+
 export const pubsubMessageBlackOut = z.object({
   type: z.literal("blackout"),
 });
 
 export const pubsubMessageSystem = z.union([
   pubsubMessageLoadShow,
+  pubsubMessageUnloadShow,
   pubsubMessageBlackOut,
 ]);
 

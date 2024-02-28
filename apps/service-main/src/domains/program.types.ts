@@ -1,4 +1,4 @@
-import type { RunnerControlsState } from "./runner.types";
+import type { RunnerControlsState } from "../services/runner.service.types";
 
 export type ProgramCompute = (
   time: number,

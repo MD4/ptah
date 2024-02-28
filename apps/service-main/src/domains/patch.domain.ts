@@ -1,5 +1,18 @@
-import type { PatchMapping } from "./patch.types";
+import type { ShowPatch } from "@ptah/lib-models";
 import type { ProgramOutput } from "./program.types";
+import type { PatchMapping } from "./patch.domain.types";
+
+export const extractProgramMappingFromShowPatch = (
+  showPatch: ShowPatch,
+  programId: string
+): number[] =>
+  Object.entries(showPatch)
+    .flatMap(([channel, outputs]) =>
+      outputs.map((output) => ({ ...output, channel }))
+    )
+    .filter((output) => output.programId === programId)
+    .sort((a, b) => a.programOutput - b.programOutput)
+    .map(({ channel }) => Number(channel));
 
 export const unNaNifyValue = (value: number): number =>
   isNaN(value) ? 0 : value;

@@ -4,6 +4,7 @@ import Text from "antd/es/typography/Text";
 import TypographyLink from "antd/es/typography/Link";
 import { Link } from "react-router-dom";
 import FullCenteredLayout from "../layouts/full-centered.layout";
+import { useSystem } from "../../domain/system.domain";
 
 const styles: Record<string, React.CSSProperties> = {
   container: { width: "400px" },
@@ -17,6 +18,14 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 export default function HomePage(): JSX.Element {
+  const system = useSystem();
+
+  React.useEffect(() => {
+    if (system.state.connected) {
+      system.api.unloadShow();
+    }
+  }, [system.api, system.state.connected]);
+
   return (
     <FullCenteredLayout>
       <Flex gap="large" style={styles.container} vertical>

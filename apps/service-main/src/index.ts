@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
-import { handleMessage } from "./message-handlers";
-import * as dmx from "./dmx";
+import { handleMessage } from "./handlers/message-handlers";
+import * as dmx from "./utils/dmx";
 
 const kill = (gracefully = true): void => {
   log(process.env.SERVICE_NAME, "killing...");
