@@ -1,6 +1,7 @@
 import * as React from "react";
-import { useSocket, useSocketEvent } from "socket.io-react-hook";
+import { useSocket } from "socket.io-react-hook";
 import type {
+  PubsubMessage,
   PubsubMessageMidi,
   PubsubMessageSystem,
   ShowName,
@@ -13,7 +14,8 @@ const systemEditReducer = (
 ): SystemState => {
   switch (type) {
     case "update-status":
-      return { ...state, connected: payload.connected };
+    case "update-dmx-status":
+      return { ...state, ...payload };
     case "update-key-state":
       if (payload.pressed) {
         return {
@@ -35,6 +37,7 @@ const systemEditReducer = (
 
 const initialSystemState: SystemState = {
   connected: false,
+  dmxStatus: "disconnected",
   keysPressed: [],
 };
 
@@ -53,7 +56,9 @@ interface SocketMessages {
   system: (message: PubsubMessageSystem) => void;
 }
 
-export function useSystem(): System {
+export function useSystem(
+  onMessage: (message: PubsubMessage) => void = () => undefined
+): System {
   const [state, dispatch] = React.useReducer(
     systemEditReducer,
     initialSystemState
@@ -65,31 +70,54 @@ export function useSystem(): System {
 
   const { socket, connected } = useSocket<SocketMessages>(wsUrl);
 
-  useSocketEvent(socket, "midi", {
-    onMessage: (message) => {
-      switch (message.type) {
-        case "note:on":
-          dispatch({
-            type: "update-key-state",
-            payload: {
-              key: message.keyNumber,
-              pressed: true,
-            },
-          });
-          break;
-        case "note:off":
-          dispatch({
-            type: "update-key-state",
-            payload: {
-              key: message.keyNumber,
-              pressed: false,
-            },
-          });
-          break;
-        default:
-      }
-    },
-  });
+  const _onMessage = React.useCallback((message: PubsubMessage) => {
+    switch (message.type) {
+      case "note:on":
+        dispatch({
+          type: "update-key-state",
+          payload: {
+            key: message.keyNumber,
+            pressed: true,
+          },
+        });
+        break;
+      case "note:off":
+        dispatch({
+          type: "update-key-state",
+          payload: {
+            key: message.keyNumber,
+            pressed: false,
+          },
+        });
+        break;
+
+      case "dmx:connected":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "connected" },
+        });
+        break;
+      case "dmx:connecting":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "connecting" },
+        });
+        break;
+      case "dmx:disconnected":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "disconnected" },
+        });
+        break;
+
+      default:
+    }
+
+    onMessage(message);
+  }, []);
+
+  socket.on("midi", _onMessage);
+  socket.on("system", _onMessage);
 
   React.useEffect(() => {
     dispatch({

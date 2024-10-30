@@ -13,6 +13,21 @@ const operations: DefaultOptionType[] = [
   "substract",
   "divide",
   "multiply",
+  "modulo",
+  "sinus",
+  "cosinus",
+  "tangent",
+  "arcsinus",
+  "arccosinus",
+  "arctangent",
+  "exponential",
+  "logarithm",
+  "square-root",
+  "power",
+  "absolute",
+  "round",
+  "floor",
+  "ceil",
 ].map((operation) => ({ label: operation, value: operation }));
 
 export default function NodeFxMath({

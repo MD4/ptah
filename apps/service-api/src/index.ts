@@ -17,11 +17,7 @@ const main = async (): Promise<void> => {
   process.on("SIGINT", kill);
   process.on("SIGTERM", kill);
 
-  const settings = await services.settings.loadSettingsOrInitialize();
-
-  // eslint-disable-next-line no-console -- aze
-  console.log(settings);
-
+  await services.settings.loadSettingsOrInitialize();
   await createServer();
 
   log(process.env.SERVICE_NAME, "service is running");

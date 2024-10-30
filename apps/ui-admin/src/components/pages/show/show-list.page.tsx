@@ -66,7 +66,7 @@ export default function ShowListPage(): JSX.Element {
           }
           isLoading={isPending}
           onItemSelected={onShowSelected}
-          placeholder="Searc show"
+          placeholder="Search show"
         />
       </Flex>
     </FullCenteredLayout>

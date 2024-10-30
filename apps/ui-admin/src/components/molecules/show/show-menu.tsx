@@ -4,16 +4,31 @@ import {
   LoginOutlined,
   LogoutOutlined,
   MenuOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Dropdown } from "antd";
 import * as React from "react";
 import { Link, useParams } from "react-router-dom";
+import { useSystem } from "../../../domain/system.domain";
+import { useShowGet } from "../../../repositories/show.repository";
+import { useShowPrograms } from "../../../repositories/program.repository";
 
 export default function ShowMenu(): JSX.Element {
   const { showName } = useParams();
+  const system = useSystem();
+  const show = useShowGet(showName);
+  const programs = useShowPrograms(show.data?.programs ?? {});
 
   const showPath = `/show/${showName}`;
+
+  const reload = React.useCallback(() => {
+    if (showName) {
+      system.api.loadShow(showName);
+      programs.refetch();
+      show.refetch();
+    }
+  }, [showName]);
 
   const items: MenuProps["items"] = [
     {
@@ -35,9 +50,18 @@ export default function ShowMenu(): JSX.Element {
       type: "divider",
     },
     {
+      label: (
+        <Link to="#" onClick={reload}>
+          Reload
+        </Link>
+      ),
+      icon: <ReloadOutlined />,
+      key: "3",
+    },
+    {
       label: <Link to="/">Close</Link>,
       icon: <CloseOutlined />,
-      key: "3",
+      key: "4",
     },
   ];
 

@@ -52,11 +52,19 @@ const programEditReducer = (
         ),
       };
     case "update-edges":
+      if (deepEqual(state.edges, payload.edges)) {
+        return state;
+      }
+
       return {
         ...state,
         edges: payload.edges,
       };
     case "update-nodes":
+      if (deepEqual(state.nodes, payload.nodes)) {
+        return state;
+      }
+
       return {
         ...state,
         nodes: payload.nodes,

@@ -94,7 +94,12 @@ export const useProgramGetMany = (
 
 export const useShowPrograms = (
   showPrograms: models.ShowPrograms
-): { data: models.Program[]; isError: boolean; isPending: boolean } => {
+): {
+  data: models.Program[];
+  isError: boolean;
+  isPending: boolean;
+  refetch: () => void;
+} => {
   const programsNames = React.useMemo(
     () => deduplicate(Object.values(showPrograms)),
     [showPrograms]
@@ -117,9 +122,14 @@ export const useShowPrograms = (
     [programsResponse]
   );
 
+  const refetch = React.useCallback(
+    () => programsResponse.forEach((response) => response.refetch()),
+    [programsResponse]
+  );
+
   return React.useMemo(
-    () => ({ data, isError, isPending }),
-    [data, isError, isPending]
+    () => ({ data, isError, isPending, refetch }),
+    [data, isError, isPending, refetch]
   );
 };
 

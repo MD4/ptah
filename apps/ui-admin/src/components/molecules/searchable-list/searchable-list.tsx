@@ -68,6 +68,9 @@ export default function SearchableList({
       listItemLabel: {
         fontWeight: token.fontWeightStrong,
       },
+      listItemLabelContainer: {
+        width: "100%",
+      },
       empty: {
         display: "flex",
         justifyContent: "center",
@@ -115,7 +118,7 @@ export default function SearchableList({
                 style={styles.listItemButton}
                 type="text"
               >
-                <Flex justify="space-between">
+                <Flex style={styles.listItemLabelContainer} justify="space-between">
                   <div style={styles.listItemLabel}>{item}</div>
                   <CaretRightOutlined />
                 </Flex>

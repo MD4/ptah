@@ -147,6 +147,51 @@ export const compile = (program: Program): ProgramCompute => {
             case "substract":
               value = a - b;
               break;
+            case "modulo":
+              value = a % b;
+              break;
+            case "sinus":
+              value = Math.sin(a);
+              break;
+            case "cosinus":
+              value = Math.cos(a);
+              break;
+            case "tangent":
+              value = Math.tan(a);
+              break;
+            case "arcsinus":
+              value = Math.asin(a);
+              break;
+            case "arccosinus":
+              value = Math.acos(a);
+              break;
+            case "arctangent":
+              value = Math.atan(a);
+              break;
+            case "exponential":
+              value = Math.exp(a);
+              break;
+            case "logarithm":
+              value = Math.log(a);
+              break;
+            case "square-root":
+              value = Math.sqrt(a);
+              break;
+            case "power":
+              value = Math.pow(a, b);
+              break;
+            case "absolute":
+              value = Math.abs(a);
+              break;
+            case "round":
+              value = Math.round(a);
+              break;
+            case "floor":
+              value = Math.floor(a);
+              break;
+            case "ceil":
+              value = Math.ceil(a);
+              break;
           }
 
           register.set(node.id, [value]);

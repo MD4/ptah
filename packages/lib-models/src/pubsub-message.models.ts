@@ -60,6 +60,16 @@ export const pubsubMessageLoadShow = z.object({
   showName,
 });
 
+export const pubsubMessageLoadShowSucess = z.object({
+  type: z.literal("show:load:success"),
+  showName,
+});
+
+export const pubsubMessageLoadShowError = z.object({
+  type: z.literal("show:load:error"),
+  showName,
+});
+
 export const pubsubMessageUnloadShow = z.object({
   type: z.literal("show:unload"),
 });
@@ -68,10 +78,27 @@ export const pubsubMessageBlackOut = z.object({
   type: z.literal("blackout"),
 });
 
+export const pubsubMessageDmxConnected = z.object({
+  type: z.literal("dmx:connected"),
+});
+
+export const pubsubMessageDmxDisconnected = z.object({
+  type: z.literal("dmx:disconnected"),
+});
+
+export const pubsubMessageDmxConnecting = z.object({
+  type: z.literal("dmx:connecting"),
+});
+
 export const pubsubMessageSystem = z.union([
   pubsubMessageLoadShow,
+  pubsubMessageLoadShowSucess,
+  pubsubMessageLoadShowError,
   pubsubMessageUnloadShow,
   pubsubMessageBlackOut,
+  pubsubMessageDmxConnected,
+  pubsubMessageDmxDisconnected,
+  pubsubMessageDmxConnecting,
 ]);
 
 export const pubsubMessage = z.union([pubsubMessageMidi, pubsubMessageSystem]);
@@ -99,3 +126,13 @@ export type PubsubMessageControlChange = z.infer<
 
 export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageLoadShow>;
 export type PubsubMessageBlackOut = z.infer<typeof pubsubMessageBlackOut>;
+
+export type PubsubMessageDmxConnected = z.infer<
+  typeof pubsubMessageDmxConnected
+>;
+export type PubsubMessageDmxDisconnected = z.infer<
+  typeof pubsubMessageDmxDisconnected
+>;
+export type PubsubMessageDmxConnecting = z.infer<
+  typeof pubsubMessageDmxConnecting
+>;

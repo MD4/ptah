@@ -1,6 +1,6 @@
 import { log } from "@ptah/lib-logger";
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
-import { repositories, env } from "@ptah/lib-shared";
+import { repositories, env, services } from "@ptah/lib-shared";
 import * as runner from "../services/runner.service";
 import * as patchService from "../services/patch.service";
 import * as dmx from "../utils/dmx";
@@ -27,8 +27,15 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
     runner.reset();
     dmx.reset();
 
+    services.pubsub.send("system", { type: "show:load:success", showName });
+
     log(LOG_CONTEXT, "show:load:success", show.name);
   } catch (error) {
+    services.pubsub.send("system", {
+      type: "show:load:error",
+      showName,
+    });
+
     log(LOG_CONTEXT, "show:load:error", error);
   }
 };

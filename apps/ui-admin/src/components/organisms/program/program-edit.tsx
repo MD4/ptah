@@ -19,7 +19,7 @@ import {
 import { Button, Flex, notification, theme } from "antd";
 import { SaveFilled } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
-import { useDebounce } from "usehooks-ts";
+import { useDebounceValue } from "usehooks-ts";
 import type * as models from "@ptah/lib-models";
 import { programNodeTypes } from "../../molecules/nodes";
 import {
@@ -98,7 +98,7 @@ export default function ProgramDashboard(): JSX.Element {
     [nodes, edges]
   );
 
-  const debouncedNodes = useDebounce(nodes, 200);
+  const [debouncedNodes] = useDebounceValue(nodes, 200);
 
   const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
     let outputId = 0;
@@ -243,6 +243,10 @@ export default function ProgramDashboard(): JSX.Element {
     },
     [reactFlowInstance]
   );
+
+  React.useEffect(() => {
+    setNodes(adaptModelNodesToReactFlowNodes(program.nodes));
+  }, [program.nodes]);
 
   React.useEffect(() => {
     dispatch({

@@ -4,6 +4,7 @@ import fs from "node:fs";
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 import { log } from "@ptah/lib-logger";
+import { services } from "@ptah/lib-shared";
 import type { ProgramOutput } from "../domains/program.types";
 import type { PatchMapping } from "../domains/patch.domain.types";
 import { sleep } from "./time";
@@ -21,7 +22,10 @@ process.on(
   "uncaughtException",
   (error: Error & { code?: string; disconnect?: boolean }) => {
     if (error.code === "ENXIO" && error.disconnect) {
+      services.pubsub.send("system", { type: "dmx:disconnected" });
+
       log(LOG_CONTEXT, "lost connection to DMX USB device!");
+
       void initialize();
     }
   }
@@ -29,6 +33,8 @@ process.on(
 
 export const initialize = async (): Promise<void> => {
   log(LOG_CONTEXT, "connecting to DMX USB device..");
+
+  services.pubsub.send("system", { type: "dmx:connecting" });
 
   let serialPorts = getSerialsPorts();
   let firstCheck = true;
@@ -40,8 +46,11 @@ export const initialize = async (): Promise<void> => {
     }
 
     serialPorts = getSerialsPorts();
-    // eslint-disable-next-line no-await-in-loop -- because
-    await sleep(500);
+
+    if (!serialPorts.length) {
+      // eslint-disable-next-line no-await-in-loop -- because
+      await sleep(200);
+    }
   }
 
   try {
@@ -55,6 +64,8 @@ export const initialize = async (): Promise<void> => {
   }
 
   reset();
+
+  services.pubsub.send("system", { type: "dmx:connected" });
 
   log(LOG_CONTEXT, "DMX connected");
 };
