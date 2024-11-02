@@ -17,7 +17,7 @@ export const octaveKey = [
 ] as const;
 
 export const getKeyFromIndex = (keyIndex: number): string =>
-  `${octaveKey[keyIndex % 12]}${Math.floor(keyIndex / 12) - 1}`;
+  `${octaveKey[keyIndex % 12]}${String(Math.floor(keyIndex / 12) - 1)}`;
 
 export const isSharpKey = (keyIndex: number): boolean =>
   octaveKey[keyIndex % 12].includes("#");
@@ -31,7 +31,7 @@ export const getAllKeysNodes = (): Node[] => {
     y += sharp && index ? -36 / 2 : 0;
 
     const result: Node<NodeKeyData> = {
-      id: `key-${key}`,
+      id: `key-${String(key)}`,
       data: { key, label: getKeyFromIndex(key), sharp },
       position: { x: 0, y },
       type: "node-key",

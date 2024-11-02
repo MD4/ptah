@@ -2,7 +2,7 @@ import { log } from "@ptah/lib-logger";
 import type { MidiCallback } from "midi";
 import { Input } from "midi";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME}:midi`;
+const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:midi`;
 
 const input = new Input();
 

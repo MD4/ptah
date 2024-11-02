@@ -16,21 +16,21 @@
   },
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
-    "@types/midi": "^2.0.3",
-    "dotenv": "^16.3.1",
-    "kalm": "^7.0.0",
     "@ptah/lib-logger": "workspace:*",
+    "@types/midi": "^2.0.3",
+    "dotenv": "^16.4.5",
+    "kalm": "^7.0.0",
     "midi": "^2.0.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.1.7"
   },
   "devDependencies": {
-    "@types/node": "^20.5.9",
-    "@types/supertest": "^2.0.12",
-    "@ptah/eslint-config": "workspace:*",
     "@ptah/config-jest": "workspace:*",
-    "supertest": "^6.3.3",
     "@ptah/config-ts": "workspace:*",
-    "tsup": "^6.2.3",
+    "@ptah/eslint-config": "workspace:*",
+    "@types/node": "^22.8.4",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
+    "tsup": "^8.3.5",
     "typescript": "^5.2.2"
   }
 }

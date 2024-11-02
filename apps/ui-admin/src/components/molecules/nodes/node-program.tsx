@@ -7,7 +7,7 @@ import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
 import { useDefaultNodeStyle } from "./node.style";
 
-export interface NodeProgramData {
+export type NodeProgramData = {
   programId: string;
   programName: string;
   outputsCount: number;

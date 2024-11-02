@@ -41,20 +41,20 @@ const initialSystemState: SystemState = {
   keysPressed: [],
 };
 
-interface SystemApi {
+type SystemApi = {
   loadShow: (showName: ShowName) => void;
   unloadShow: () => void;
-}
+};
 
-interface System {
+type System = {
   state: SystemState;
   api: SystemApi;
-}
+};
 
-interface SocketMessages {
+type SocketMessages = {
   midi: (message: PubsubMessageMidi) => void;
   system: (message: PubsubMessageSystem) => void;
-}
+};
 
 export function useSystem(
   onMessage: (message: PubsubMessage) => void = () => undefined
@@ -66,7 +66,7 @@ export function useSystem(
 
   const wsUrl = `ws://${String(
     import.meta.env.VITE_SERVICE_GATEWAY_WS_HOST
-  )}:${Number(import.meta.env.VITE_SERVICE_GATEWAY_WS_PORT)}`;
+  )}:${String(Number(import.meta.env.VITE_SERVICE_GATEWAY_WS_PORT))}`;
 
   const { socket, connected } = useSocket<SocketMessages>(wsUrl);
 
@@ -114,8 +114,8 @@ export function useSystem(
     }
 
     onMessage(message);
-  }, []);
-
+  }, [onMessage]);
+  
   socket.on("midi", _onMessage);
   socket.on("system", _onMessage);
 

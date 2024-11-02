@@ -6,5 +6,5 @@
   },
   "exclude": ["node_modules"],
   "extends": "@ptah/config-ts/base.json",
-  "include": ["."]
+  "include": [".", ".eslintrc.js"]
 }

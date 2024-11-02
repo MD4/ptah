@@ -5,7 +5,7 @@ import * as runner from "../services/runner.service";
 import * as patchService from "../services/patch.service";
 import * as dmx from "../utils/dmx";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME}:system`;
+const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:system`;
 
 export const handleShowLoad = async (showName: ShowName): Promise<void> => {
   log(LOG_CONTEXT, "show:load", showName);
@@ -29,14 +29,14 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
 
     services.pubsub.send("system", { type: "show:load:success", showName });
 
-    log(LOG_CONTEXT, "show:load:success", show.name);
+    log(LOG_CONTEXT, "show:load:success", showName);
   } catch (error) {
     services.pubsub.send("system", {
       type: "show:load:error",
       showName,
     });
 
-    log(LOG_CONTEXT, "show:load:error", error);
+    log(LOG_CONTEXT, "show:load:error", showName, error);
   }
 };
 

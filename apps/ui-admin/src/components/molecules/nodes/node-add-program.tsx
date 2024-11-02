@@ -5,7 +5,7 @@ import type { NodeProps } from "reactflow";
 
 const { useToken } = theme;
 
-export interface NodeAddProgramData {
+export type NodeAddProgramData = {
   onAddProgram: () => void;
 }
 

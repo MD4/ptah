@@ -1,9 +1,9 @@
 import { Badge, notification, theme } from "antd";
 import * as React from "react";
-import { useSystem } from "../../../domain/system.domain";
-import { SystemState } from "../../../domain/system.domain.types";
-import { PubsubMessage } from "@ptah/lib-models";
+import { type PubsubMessage } from "@ptah/lib-models";
 import { useDebounceCallback } from "usehooks-ts";
+import { useSystem } from "../../../domain/system.domain";
+import { type SystemState } from "../../../domain/system.domain.types";
 
 const { useToken } = theme;
 
@@ -17,6 +17,8 @@ const getDmxStatusColor = (
       return "error";
     case "connecting":
       return "warning";
+    default:
+      return "default";
   }
 };
 
@@ -39,8 +41,9 @@ export default function SystemStatus(): JSX.Element {
           description: "Something went wrong",
         });
         break;
+      default:
     }
-  }, []);
+  }, [error, success]);
 
   const onMessageDebounced = useDebounceCallback(onMessage, 100);
 
@@ -58,7 +61,7 @@ export default function SystemStatus(): JSX.Element {
         gap: token.sizeXS,
       },
     }),
-    [token.sizeMD]
+    [token.sizeMD, token.sizeXS]
   );
 
   return (

@@ -23,15 +23,15 @@
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
     "@ptah/eslint-config": "workspace:*",
-    "@types/node": "^18.11.9",
-    "@types/uuid": "^9.0.7",
-    "tsup": "^7.2.0",
+    "@types/node": "^22.8.4",
+    "@types/uuid": "^10.0.0",
+    "tsup": "^8.3.5",
     "typescript": "^5.2.2"
   },
   "dependencies": {
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:*",
-    "uuid": "^9.0.1",
+    "uuid": "^11.0.2",
     "zod": "^3.22.4"
   }
 }

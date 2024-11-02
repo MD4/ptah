@@ -6,8 +6,17 @@ import { log } from "@ptah/lib-logger";
 let server: Server | undefined;
 
 export const start = (): Promise<void> =>
-  new Promise((resolve) => {
-    const socketPath = `/tmp/${process.env.SERVICE_NAME}.socket${process.env.SERVICE_PORT}`;
+  new Promise((resolve, reject) => {
+    const { SERVICE_NAME, SERVICE_PORT } = process.env;
+
+    if (!SERVICE_NAME) {
+      reject(Error("Missing env var SERVICE_NAME"));
+    }
+    if (!SERVICE_PORT) {
+      reject(Error("Missing env var SERVICE_PORT"));
+    }
+
+    const socketPath = `/tmp/${SERVICE_NAME ?? ""}.socket${SERVICE_PORT ?? ""}`;
 
     if (fs.existsSync(socketPath)) {
       log(
@@ -20,9 +29,9 @@ export const start = (): Promise<void> =>
 
     server = kalm.listen({
       host: "0.0.0.0",
-      port: Number(process.env.SERVICE_PORT),
+      port: Number(SERVICE_PORT),
       transport: ipc({
-        path: `/tmp/${process.env.SERVICE_NAME}.socket`,
+        path: `/tmp/${SERVICE_NAME ?? ""}.socket`,
         socketTimeout: 1000,
       }),
       routine: kalm.routines.tick({ hz: 1000 }),

@@ -9,7 +9,7 @@ import { useDefaultNodeStyle } from "./node.style";
 
 const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
   value,
-  label: `Control ${value}`,
+  label: `Control ${String(value)}`,
 }));
 
 export default function NodeInputControl({

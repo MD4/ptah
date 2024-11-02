@@ -1,5 +1,5 @@
-@import "./animations.scss";
-@import "reactflow/dist/base.css";
+@use "./animations.scss";
+@use "reactflow/dist/base.css";
 
 html {
   background: none rgb(20, 20, 20);

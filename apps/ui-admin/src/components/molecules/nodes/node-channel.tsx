@@ -4,7 +4,7 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import { useDefaultNodeStyle } from "./node.style";
 
-export interface NodeChannelData {
+export type NodeChannelData = {
   label: string;
 }
 

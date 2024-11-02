@@ -18,7 +18,7 @@ export const configureRoutesShow = (server: Express): Express =>
           res.statusCode = 200;
           res.json(shows);
         })
-        .catch((error) => {
+        .catch((error: unknown) => {
           logError(process.env.SERVICE_NAME, error);
           res.statusCode = 500;
           res.json(error);
@@ -35,7 +35,7 @@ export const configureRoutesShow = (server: Express): Express =>
             res.statusCode = 201;
             res.json(show);
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
             res.statusCode = 500;
             res.json(error);
@@ -48,7 +48,7 @@ export const configureRoutesShow = (server: Express): Express =>
           res.statusCode = 201;
           res.json(show);
         })
-        .catch((error) => {
+        .catch((error: unknown) => {
           logError(process.env.SERVICE_NAME, error);
           res.statusCode = 500;
           res.json(error);
@@ -68,7 +68,7 @@ export const configureRoutesShow = (server: Express): Express =>
             res.statusCode = 201;
             res.json(show);
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
             res.statusCode = 500;
             res.json(error);

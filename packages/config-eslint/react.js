@@ -33,6 +33,8 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js", "**/*.css"],
   // add rules configurations here
   rules: {
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "import/no-default-export": "off",
     "react/no-unknown-property": [
       2,

@@ -7,7 +7,7 @@ import { useDefaultNodeStyle } from "./node.style";
 
 const { useToken } = theme;
 
-export interface NodeKeyData {
+export type NodeKeyData = {
   key: number;
   label: string;
   sharp: boolean;

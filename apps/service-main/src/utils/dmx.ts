@@ -9,7 +9,7 @@ import type { ProgramOutput } from "../domains/program.types";
 import type { PatchMapping } from "../domains/patch.domain.types";
 import { sleep } from "./time";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME}:dmx`;
+const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:dmx`;
 const UNIVERSE_MAIN = "main";
 
 const dmx = new DMX();
@@ -48,7 +48,6 @@ export const initialize = async (): Promise<void> => {
     serialPorts = getSerialsPorts();
 
     if (!serialPorts.length) {
-      // eslint-disable-next-line no-await-in-loop -- because
       await sleep(200);
     }
   }

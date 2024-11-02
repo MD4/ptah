@@ -18,7 +18,7 @@ export const configureRoutesProgram = (server: Express): Express =>
           res.statusCode = 200;
           res.json(programs);
         })
-        .catch((error) => {
+        .catch((error: unknown) => {
           logError(process.env.SERVICE_NAME, error);
           res.statusCode = 500;
           res.json(error);
@@ -35,7 +35,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 201;
             res.json(program);
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
             res.statusCode = 500;
             res.json(error);
@@ -55,7 +55,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 200;
             res.json(program);
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
             res.statusCode = 500;
             res.json(error);
@@ -76,7 +76,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 201;
             res.json(program);
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
             res.statusCode = 500;
             res.json(error);

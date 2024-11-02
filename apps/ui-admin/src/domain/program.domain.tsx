@@ -3,28 +3,28 @@ import * as domains from "@ptah/lib-domains";
 import * as React from "react";
 import { deepEqual } from "fast-equals";
 
-interface ProgramEditActionUpdateName {
+type ProgramEditActionUpdateName = {
   type: "update-name";
   payload: {
     name: string;
   };
 }
 
-interface ProgramEditActionUpdateNode {
+type ProgramEditActionUpdateNode = {
   type: "update-node";
   payload: {
     node: models.Node;
   };
 }
 
-interface ProgramEditActionUpdateEdges {
+type ProgramEditActionUpdateEdges = {
   type: "update-edges";
   payload: {
     edges: models.Edge[];
   };
 }
 
-interface ProgramEditActionUpdateNodes {
+type ProgramEditActionUpdateNodes = {
   type: "update-nodes";
   payload: {
     nodes: models.Node[];
@@ -74,7 +74,7 @@ const programEditReducer = (
   }
 };
 
-interface ProgramEditContextType {
+type ProgramEditContextType = {
   initialProgram: models.Program;
   program: models.Program;
   hasChanged: boolean;

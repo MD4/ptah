@@ -20,15 +20,15 @@ export default function ShowMenu(): JSX.Element {
   const show = useShowGet(showName);
   const programs = useShowPrograms(show.data?.programs ?? {});
 
-  const showPath = `/show/${showName}`;
+  const showPath = `/show/${showName ?? ""}`;
 
   const reload = React.useCallback(() => {
     if (showName) {
       system.api.loadShow(showName);
       programs.refetch();
-      show.refetch();
+      void show.refetch();
     }
-  }, [showName]);
+  }, [programs, show, showName, system.api]);
 
   const items: MenuProps["items"] = [
     {

@@ -2,7 +2,7 @@ import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
 import * as server from "./server";
 
-const kill = (gracefully = true): void => {
+const kill = (gracefully: boolean): void => {
   log(process.env.SERVICE_NAME, "killing...");
   server.stop();
   log(process.env.SERVICE_NAME, "killed.");
@@ -10,18 +10,23 @@ const kill = (gracefully = true): void => {
   process.exit();
 };
 
+const killVoid = (gracefully: boolean) => (): void => {
+  kill(gracefully);
+};
+
 const main = async (): Promise<void> => {
   log(process.env.SERVICE_NAME, "starting..");
 
-  process.on("SIGINT", kill);
-  process.on("SIGTERM", kill);
+  process.on("SIGINT", killVoid(true));
+  process.on("SIGTERM", killVoid(true));
+  process.on("SIGKILL", killVoid(false));
 
   await server.start();
 
   log(process.env.SERVICE_NAME, "service is running");
 };
 
-main().catch((err) => {
-  logError(process.env.SERVICE_NAME, err);
+main().catch((error: unknown) => {
+  logError(process.env.SERVICE_NAME, error);
   kill(false);
 });

@@ -10,7 +10,7 @@ export const adaptModelShowPatchToReactFlowNodes = (
     .map(Number)
     .sort((a, b) => a - b)
     .map((channel, index) => ({
-      id: `channel-${channel}`,
+      id: `channel-${String(channel)}`,
       data: { label: String(channel) },
       position: { x, y: index * (36 + 4) },
       type: "node-channel",
@@ -39,7 +39,6 @@ export const adaptReactFlowEdgesAndToModelPatch = (
     return {
       ...patch,
       [channel]: [
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Object access should be typed as optionnal
         ...(patch[channel] ?? []),
         { programId, programOutput: Number(edge.sourceHandle) },
       ],

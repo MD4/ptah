@@ -12,7 +12,7 @@ import {
 } from "../repositories/file.repository";
 import { PTAH_DIRECTORY, PTAH_SETTINGS_PATH } from "../env/vars.env";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME}:settings`;
+const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:settings`;
 
 export const loadSettingsOrInitialize = async (): Promise<models.Settings> => {
   log(LOG_CONTEXT, `loading settings..`);

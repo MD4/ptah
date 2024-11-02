@@ -12,7 +12,7 @@ export const adaptModelMappingToReactFlowEdges = (
         id: `${key}-${programId}`,
         source: `key-${key}`,
         target: `program-${programId}`,
-      } satisfies Edge)
+      }) satisfies Edge
   );
 
 export const adaptReactFlowEdgesAndToModelMapping = (
@@ -46,7 +46,7 @@ export const adaptModelMappingToReactFlowEdgesNodes = (
       y += sharp && index ? -36 / 2 : 0;
 
       const result: Node<NodeKeyData> = {
-        id: `key-${key}`,
+        id: `key-${String(key)}`,
         data: { key, label: getKeyFromIndex(key), sharp },
         position: { x, y },
         type: "node-key",

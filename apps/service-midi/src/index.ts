@@ -4,7 +4,7 @@ import { services } from "@ptah/lib-shared";
 import * as midiServer from "./midi-server";
 import { handleMidiCallback } from "./midi-handlers";
 
-const kill = (gracefully = true): void => {
+const kill = (gracefully: boolean): void => {
   log(process.env.SERVICE_NAME, "killing...");
   midiServer.stop();
   services.pubsub.disconnect();
@@ -13,11 +13,16 @@ const kill = (gracefully = true): void => {
   process.exit();
 };
 
+const killVoid = (gracefully: boolean) => (): void => {
+  kill(gracefully);
+};
+
 const main = async (): Promise<void> => {
   log(process.env.SERVICE_NAME, "starting..");
 
-  process.on("SIGINT", kill);
-  process.on("SIGTERM", kill);
+  process.on("SIGINT", killVoid(true));
+  process.on("SIGTERM", killVoid(true));
+  process.on("SIGKILL", killVoid(false));
 
   await services.pubsub.connect();
 
@@ -26,7 +31,7 @@ const main = async (): Promise<void> => {
   log(process.env.SERVICE_NAME, "service is running");
 };
 
-main().catch((err) => {
+main().catch((err: unknown) => {
   logError(process.env.SERVICE_NAME, err);
   kill(false);
 });

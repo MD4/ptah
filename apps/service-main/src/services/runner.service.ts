@@ -9,7 +9,7 @@ import type {
   RunnerProgramsState,
 } from "./runner.service.types";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME}:runner`;
+const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:runner`;
 
 const programsState: RunnerProgramsState = new Map();
 const controlsState: RunnerControlsState = new Map();

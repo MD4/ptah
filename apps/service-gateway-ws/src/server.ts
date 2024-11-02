@@ -31,9 +31,9 @@ export const start = (
     resolve();
   });
 
-export const stop = (): void => {
+export const stop = async (): Promise<void> => {
   log(process.env.SERVICE_NAME, "stopping ipc");
-  server?.close();
+  await server?.close();
   log(process.env.SERVICE_NAME, "ipc stopped");
 };
 

@@ -41,7 +41,7 @@ export default function ShowLayout({
         flex: 1,
       },
     }),
-    [token.paddingLG]
+    [token.paddingLG, token.colorBgContainer]
   );
 
   return (

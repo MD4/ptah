@@ -3,28 +3,28 @@ import * as domains from "@ptah/lib-domains";
 import * as React from "react";
 import { deepEqual } from "fast-equals";
 
-interface ShowEditActionUpdateName {
+type ShowEditActionUpdateName = {
   type: "update-name";
   payload: {
     name: string;
   };
 }
 
-interface ShowEditActionUpdateMapping {
+type ShowEditActionUpdateMapping = {
   type: "update-mapping";
   payload: {
     mapping: models.ShowMapping;
   };
 }
 
-interface ShowEditActionUpdatePrograms {
+type ShowEditActionUpdatePrograms = {
   type: "update-programs";
   payload: {
     programs: models.ShowPrograms;
   };
 }
 
-interface ShowEditActionUpdatePatch {
+type ShowEditActionUpdatePatch = {
   type: "update-patch";
   payload: {
     patch: models.ShowPatch;
@@ -64,7 +64,7 @@ const showEditReducer = (
   }
 };
 
-interface ShowEditContextType {
+type ShowEditContextType = {
   initialShow: models.Show;
   show: models.Show;
   hasChanged: boolean;

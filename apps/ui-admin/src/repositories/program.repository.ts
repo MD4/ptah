@@ -122,10 +122,9 @@ export const useShowPrograms = (
     [programsResponse]
   );
 
-  const refetch = React.useCallback(
-    () => programsResponse.forEach((response) => response.refetch()),
-    [programsResponse]
-  );
+  const refetch = React.useCallback(() => {
+    programsResponse.forEach((response) => void response.refetch());
+  }, [programsResponse]);
 
   return React.useMemo(
     () => ({ data, isError, isPending, refetch }),

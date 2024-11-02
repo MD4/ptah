@@ -25,7 +25,16 @@ export const createServer = (): Promise<void> =>
       .on("error", reject);
   });
 
-export const killServer = (): void => {
-  server?.close();
-  server = undefined;
-};
+export const killServer = (): Promise<void> =>
+  new Promise((resolve, reject) => {
+    if (server) {
+      server.close((error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
+      });
+      server = undefined;
+    }
+  });

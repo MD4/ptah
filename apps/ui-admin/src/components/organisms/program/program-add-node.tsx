@@ -56,7 +56,8 @@ export default function ProgramAddNode(): JSX.Element {
   }, []);
 
   const onClose = React.useCallback(() => {
-    setOpen(false);
+    setOpen(
+        false);
   }, []);
 
   return (
@@ -72,8 +73,7 @@ export default function ProgramAddNode(): JSX.Element {
       </Flex>
       {open ? (
         <>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- fuck */}
-          <div onClick={onClose} style={styles.backdrop} />
+          <div aria-hidden="true" onClick={onClose} style={styles.backdrop} />
           <div style={styles.container}>
             <Flex justify="flex-end" style={styles.header}>
               <Button

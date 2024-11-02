@@ -14,7 +14,7 @@ const transitionStyles: Record<TransitionStatus, React.CSSProperties> = {
 
 const styles: Record<string, React.CSSProperties> = {
   container: {
-    transition: `opacity ${duration}ms ease-in-out`,
+    transition: `opacity ${String(duration)}ms ease-in-out`,
     transitionDelay: "300ms",
     opacity: 0,
     position: "fixed",

@@ -1,24 +1,24 @@
-export interface SystemState {
+export type SystemState = {
   connected: boolean;
   dmxStatus: "connected" | "disconnected" | "connecting";
   keysPressed: number[];
 }
 
-interface SystemActionUpdateStatus {
+type SystemActionUpdateStatus = {
   type: "update-status";
   payload: {
     connected: boolean;
   };
 }
 
-interface SystemActionUpdateDmxStatus {
+type SystemActionUpdateDmxStatus = {
   type: "update-dmx-status";
   payload: {
     dmxStatus: SystemState["dmxStatus"];
   };
 }
 
-interface SystemActionUpdateKeyState {
+type SystemActionUpdateKeyState = {
   type: "update-key-state";
   payload: {
     key: number;
