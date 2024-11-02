@@ -1,8 +1,9 @@
 import { log } from "@ptah/lib-logger";
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
 import { repositories, env, services } from "@ptah/lib-shared";
-import * as runner from "../services/runner.service";
+
 import * as patchService from "../services/patch.service";
+import * as runner from "../services/runner.service";
 import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:system`;
@@ -12,15 +13,15 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
 
   try {
     const show = await repositories.show.loadShowFromPath(
-      `${env.vars.PTAH_SHOWS_PATH}/${showName}.json`
+      `${env.vars.PTAH_SHOWS_PATH}/${showName}.json`,
     );
 
     const programs = await Promise.all(
       Object.values(show.programs).map((programName) =>
         repositories.program.loadProgramFromPath(
-          `${env.vars.PTAH_PROGRAMS_PATH}/${programName}.json`
-        )
-      )
+          `${env.vars.PTAH_PROGRAMS_PATH}/${programName}.json`,
+        ),
+      ),
     );
 
     patchService.loadMapping(show, programs);
@@ -57,7 +58,7 @@ export const handleBlackout = (): void => {
 };
 
 export const handleSystemMessage = async (
-  message: PubsubMessage
+  message: PubsubMessage,
 ): Promise<void> => {
   switch (message.type) {
     case "show:load":

@@ -1,6 +1,8 @@
 import "dotenv/config";
+
 import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
+
 import { createServer, killServer } from "./services/server.service";
 
 const kill = async (gracefully: boolean): Promise<void> => {

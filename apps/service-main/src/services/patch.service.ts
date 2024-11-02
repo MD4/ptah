@@ -1,7 +1,8 @@
 import type { Program, Show } from "@ptah/lib-models";
+
+import type { Patch, PatchItem } from "./patch.service.types";
 import { extractProgramMappingFromShowPatch } from "../domains/patch.domain";
 import { compile } from "../domains/program.domain";
-import type { Patch, PatchItem } from "./patch.service.types";
 
 const patch: Patch = new Map();
 
@@ -18,7 +19,7 @@ export const loadMapping = (show: Show, programs: Program[]): void => {
 
   Object.entries(show.mapping).forEach(([key, programId]) => {
     const programName = Object.entries(show.programs).find(
-      ([id]) => id === programId
+      ([id]) => id === programId,
     )?.[1];
 
     const program = programs.find(({ name }) => name === programName);

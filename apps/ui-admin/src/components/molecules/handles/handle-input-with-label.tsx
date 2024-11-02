@@ -1,8 +1,10 @@
-import { Flex, theme } from "antd";
 import * as React from "react";
 import { Position } from "reactflow";
-import { useDefaultNodeStyle } from "../nodes/node.style";
+
+import { Flex, theme } from "antd";
+
 import HandleInputWithLimit from "./handle-input-with-limit";
+import { useDefaultNodeStyle } from "../nodes/node.style";
 
 const { useToken } = theme;
 
@@ -32,7 +34,7 @@ export default function HandleInputWithLabel({
         flex: 1,
       },
     }),
-    [defaultNodeStyle.handle, token.sizeLG]
+    [defaultNodeStyle.handle, token.sizeLG],
   );
 
   return (

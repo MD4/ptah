@@ -4,7 +4,7 @@ import type { Connection, Node, Edge } from "reactflow";
 export const hasNoCircularDependencies = (
   connection: Connection,
   nodes: Node[],
-  edges: Edge[]
+  edges: Edge[],
 ): boolean => {
   const target = nodes.find((node) => node.id === connection.target);
 

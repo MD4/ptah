@@ -1,13 +1,13 @@
-import type { Socket } from "socket.io";
-import { Server } from "socket.io";
 import { log } from "@ptah/lib-logger";
 import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import type { Socket } from "socket.io";
+import { Server } from "socket.io";
 
 let server: Server | undefined;
 
 export const start = (
   channels: PubsubChannel[],
-  onMessage: (channel: PubsubChannel, message: PubsubMessage) => void
+  onMessage: (channel: PubsubChannel, message: PubsubMessage) => void,
 ): Promise<void> =>
   new Promise((resolve) => {
     server = new Server(Number(process.env.SERVICE_PORT), {
@@ -39,7 +39,7 @@ export const stop = async (): Promise<void> => {
 
 export const broadcast = (
   channel: PubsubChannel,
-  message: PubsubMessage
+  message: PubsubMessage,
 ): void => {
   if (server) {
     server.sockets.emit(channel, message);

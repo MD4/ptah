@@ -1,6 +1,7 @@
+import Title from "antd/es/typography/Title";
 import * as React from "react";
 import { Outlet, useParams } from "react-router-dom";
-import Title from "antd/es/typography/Title";
+
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ProgramMenu from "../molecules/program/program-menu";
 

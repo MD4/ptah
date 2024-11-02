@@ -1,19 +1,20 @@
-import * as React from "react";
 import type * as models from "@ptah/lib-models";
+import * as React from "react";
 import type { FitViewOptions, ReactFlowInstance, Viewport } from "reactflow";
 import { ReactFlow } from "reactflow";
 import { useWindowSize } from "usehooks-ts";
-import { showNodeTypes } from "../../molecules/nodes";
+
 import {
   adaptModelMappingToReactFlowEdges,
   adaptModelMappingToReactFlowEdgesNodes,
 } from "../../../adapters/mapping.adapter";
-import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
-import EdgeGradient from "../../atoms/edge-gradient";
 import {
   adaptModelShowPatchToReactFlowNodes,
   adaptModelShowPatchToToReactFlowEdges,
 } from "../../../adapters/patch.adapter";
+import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
+import EdgeGradient from "../../atoms/edge-gradient";
+import { showNodeTypes } from "../../molecules/nodes";
 
 const proOptions = { hideAttribution: true };
 const fitViewOptions: FitViewOptions = {
@@ -48,7 +49,7 @@ export default function ShowDashboard({
       ...adaptModelShowProgramsToReactFlowNodes(show.programs, programs, 500),
       ...adaptModelShowPatchToReactFlowNodes(show.patch, 1000),
     ],
-    [programs, show]
+    [programs, show],
   );
 
   const initialEdges = React.useMemo(
@@ -56,7 +57,7 @@ export default function ShowDashboard({
       ...adaptModelMappingToReactFlowEdges(show.mapping),
       ...adaptModelShowPatchToToReactFlowEdges(show.patch),
     ],
-    [show]
+    [show],
   );
 
   const onInit = React.useCallback((instance: ReactFlowInstance) => {

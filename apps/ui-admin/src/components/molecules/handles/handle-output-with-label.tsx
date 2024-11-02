@@ -1,6 +1,8 @@
-import { Flex, Space, Typography, theme } from "antd";
 import * as React from "react";
 import { Handle, Position } from "reactflow";
+
+import { Flex, Space, Typography, theme } from "antd";
+
 import { useDefaultNodeStyle } from "../nodes/node.style";
 
 const { useToken } = theme;
@@ -32,7 +34,7 @@ export default function HandleOutputWithLabel({
         textAlign: "right",
       },
     }),
-    [defaultNodeStyle.handle, token.sizeLG]
+    [defaultNodeStyle.handle, token.sizeLG],
   );
 
   return (

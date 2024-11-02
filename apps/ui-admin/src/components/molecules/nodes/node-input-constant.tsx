@@ -1,10 +1,12 @@
-import { Flex, InputNumber } from "antd";
+import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-import type * as models from "@ptah/lib-models";
-import { useProgramEditDispatch } from "../../../domain/program.domain";
+
+import { Flex, InputNumber } from "antd";
+
 import { useDefaultNodeStyle } from "./node.style";
+import { useProgramEditDispatch } from "../../../domain/program.domain";
 
 export default function NodeInputConstant({
   data,
@@ -22,7 +24,7 @@ export default function NodeInputConstant({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   return (

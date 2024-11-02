@@ -1,11 +1,13 @@
-import { Flex, Select } from "antd";
+import type * as models from "@ptah/lib-models";
+import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-import type * as models from "@ptah/lib-models";
-import type { DefaultOptionType } from "antd/es/select";
-import { useProgramEditDispatch } from "../../../domain/program.domain";
+
+import { Flex, Select } from "antd";
+
 import { useDefaultNodeStyle } from "./node.style";
+import { useProgramEditDispatch } from "../../../domain/program.domain";
 
 const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
   value,
@@ -26,7 +28,7 @@ export default function NodeInputControl({
         payload: { node: { ...data, controlId } },
       });
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   return (

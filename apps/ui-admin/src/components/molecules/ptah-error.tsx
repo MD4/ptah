@@ -1,5 +1,7 @@
-import { Button, Result } from "antd";
 import * as React from "react";
+
+import { Button, Result } from "antd";
+
 import FullCenteredLayout from "../layouts/full-centered.layout";
 
 export default function PtahError({ error }: { error: Error }): JSX.Element {

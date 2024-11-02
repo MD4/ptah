@@ -1,4 +1,5 @@
 import type { Node } from "reactflow";
+
 import type { NodeChannelData } from "../components/molecules/nodes/node-channel";
 
 export const getAllChannelsNodes = (): Node<NodeChannelData>[] =>

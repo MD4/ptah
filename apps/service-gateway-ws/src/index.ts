@@ -1,7 +1,8 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
-import { services } from "@ptah/lib-shared";
 import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import { services } from "@ptah/lib-shared";
+
 import * as server from "./server";
 
 const kill = async (gracefully: boolean): Promise<void> => {
@@ -37,7 +38,7 @@ const main = async (): Promise<void> => {
         }
 
         server.broadcast(channel, message);
-      }
+      },
     ),
     server.start(channels, (channel: PubsubChannel, message: PubsubMessage) => {
       services.pubsub.send(channel, message);

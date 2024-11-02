@@ -1,7 +1,7 @@
-import { log } from "@ptah/lib-logger";
-import * as kalm from "kalm";
 import ipc from "@kalm/ipc";
+import { log } from "@ptah/lib-logger";
 import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import * as kalm from "kalm";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:pusub`;
 
@@ -11,7 +11,7 @@ let reconnecting = false;
 export const connect = (
   channels: PubsubChannel[] = [],
   callback: (channel: PubsubChannel, message: PubsubMessage) => void = () =>
-    undefined
+    undefined,
 ): Promise<void> =>
   new Promise((resolve, reject) => {
     const { SERVICE_BUS_NAME, SERVICE_BUS_PORT } = process.env;

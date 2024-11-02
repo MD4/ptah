@@ -1,5 +1,6 @@
-import type { MidiCallback } from "midi";
 import { services } from "@ptah/lib-shared";
+import type { MidiCallback } from "midi";
+
 import {
   MIDI_STATUS_CHANNEL_CONTROL_CHANGE,
   MIDI_STATUS_CHANNEL_NOTE_OFF,
@@ -47,21 +48,21 @@ const handleMidiStatusSystemTimingClock = (deltaTime: number): void => {
 
 const handleMidiStatusChannelNoteOn = (
   keyNumber: number,
-  velocity: number
+  velocity: number,
 ): void => {
   services.pubsub.send("midi", { type: "note:on", keyNumber, velocity });
 };
 
 const handleMidiStatusChannelNoteOff = (
   keyNumber: number,
-  velocity: number
+  velocity: number,
 ): void => {
   services.pubsub.send("midi", { type: "note:off", keyNumber, velocity });
 };
 
 const handleMidiStatusChannelControlChange = (
   controlId: number,
-  value: number
+  value: number,
 ): void => {
   if (controlId <= 13) {
     services.pubsub.send("midi", { type: "control:change", controlId, value });

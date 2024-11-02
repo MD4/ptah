@@ -15,7 +15,7 @@ export const checkIfDirectoryExists = async (path: string): Promise<boolean> =>
     .catch(() => false);
 
 export const createDirectory = async (
-  path: string
+  path: string,
 ): Promise<string | undefined> => fs.mkdir(path, { recursive: true });
 
 export const checkPathAndInitialize = async (path: string): Promise<void> => {
@@ -26,18 +26,18 @@ export const checkPathAndInitialize = async (path: string): Promise<void> => {
 
 export const listFilesFromPath = async (
   path: string,
-  extensions: string[]
+  extensions: string[],
 ): Promise<string[]> => {
   const files = await fs.readdir(path);
 
   return files
     .filter((file) =>
-      extensions.some((extension) => file.endsWith(`.${extension}`))
+      extensions.some((extension) => file.endsWith(`.${extension}`)),
     )
     .map((file) =>
       extensions.reduce(
         (finalFile, extension) => finalFile.replace(`.${extension}`, ""),
-        file
-      )
+        file,
+      ),
     );
 };

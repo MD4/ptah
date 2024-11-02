@@ -1,6 +1,7 @@
 import * as z from "zod";
-import { node } from "./node.model";
+
 import { edge } from "./edge.model";
+import { node } from "./node.model";
 import { uuid } from "./uuid.model";
 
 export const programName = z

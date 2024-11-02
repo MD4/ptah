@@ -1,12 +1,14 @@
-import { Flex, Typography } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
+
+import { Flex, Typography } from "antd";
+
 import { useDefaultNodeStyle } from "./node.style";
 
 export type NodeChannelData = {
   label: string;
-}
+};
 
 export default function NodeChannel({
   data: { label },
@@ -23,7 +25,7 @@ export default function NodeChannel({
         width: 200,
       },
     }),
-    [defaultStyles]
+    [defaultStyles],
   );
 
   return (

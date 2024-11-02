@@ -1,6 +1,8 @@
+import * as React from "react";
+
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Flex, theme } from "antd";
-import * as React from "react";
+
 import ProgramNodeLibrary from "./program-node-library";
 
 const { useToken } = theme;
@@ -48,7 +50,7 @@ export default function ProgramAddNode(): JSX.Element {
         backdropFilter: "blur(8px)",
       },
     }),
-    [token.colorBgContainer, token.padding]
+    [token.colorBgContainer, token.padding],
   );
 
   const onAddNodeClick = React.useCallback(() => {
@@ -56,8 +58,7 @@ export default function ProgramAddNode(): JSX.Element {
   }, []);
 
   const onClose = React.useCallback(() => {
-    setOpen(
-        false);
+    setOpen(false);
   }, []);
 
   return (

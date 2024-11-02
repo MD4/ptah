@@ -1,4 +1,5 @@
 import type { Node } from "reactflow";
+
 import type { NodeKeyData } from "../components/molecules/nodes/node-key";
 
 export const octaveKey = [

@@ -1,5 +1,5 @@
-import * as React from "react";
 import type * as models from "@ptah/lib-models";
+import * as React from "react";
 import { ReactFlow, addEdge, applyEdgeChanges, updateEdge } from "reactflow";
 import type {
   Connection,
@@ -11,10 +11,14 @@ import type {
   Node,
   Viewport,
 } from "reactflow";
-import { v4 as uuidv4 } from "uuid";
-import { Button, notification, theme } from "antd";
-import { SaveFilled } from "@ant-design/icons";
 import { useBoolean, useWindowSize } from "usehooks-ts";
+import { v4 as uuidv4 } from "uuid";
+
+import { SaveFilled } from "@ant-design/icons";
+import { Button, notification, theme } from "antd";
+
+import ShowAddProgramModal from "./show-add-program-modal";
+import { repositionProgramNodes } from "../../../adapters/node.adapter";
 import {
   adaptModelShowPatchToToReactFlowEdges,
   adaptReactFlowEdgesAndToModelPatch,
@@ -24,14 +28,16 @@ import {
   adaptReactFlowNodesToModelShowPrograms,
   getProgramOutputCount,
 } from "../../../adapters/show.adapter";
+import { getAllChannelsNodes } from "../../../domain/patch.domain";
+import {
+  pruneShow,
+  useShowEdit,
+  useShowEditDispatch,
+} from "../../../domain/show.domain";
+import { useShowPut } from "../../../repositories/show.repository";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
-import { getAllChannelsNodes } from "../../../domain/patch.domain";
-import { pruneShow, useShowEdit, useShowEditDispatch } from "../../../domain/show.domain";
-import { useShowPut } from "../../../repositories/show.repository";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
-import { repositionProgramNodes } from "../../../adapters/node.adapter";
-import ShowAddProgramModal from "./show-add-program-modal";
 
 const { useToken } = theme;
 
@@ -90,18 +96,18 @@ export default function ShowPatch({
             0,
             true,
             openProgramModal,
-            true
+            true,
           ),
           ...getAllChannelsNodes(),
         ],
-        programs
+        programs,
       ),
-    [initialShow.programs, programs, openProgramModal]
+    [initialShow.programs, programs, openProgramModal],
   );
 
   const initialEdges = React.useMemo(
     () => [...adaptModelShowPatchToToReactFlowEdges(initialShow.patch)],
-    [initialShow]
+    [initialShow],
   );
 
   const [nodes, setNodes] = React.useState(initialNodes);
@@ -152,11 +158,11 @@ export default function ShowPatch({
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
         updateEdge(oldEdge, newConnection, _edges).map((edge) =>
-          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge
-        )
+          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
+        ),
       );
     },
-    []
+    [],
   );
 
   const onEdgeUpdateEnd = React.useCallback((_: unknown, edge: models.Edge) => {
@@ -210,11 +216,11 @@ export default function ShowPatch({
               type: "node-program",
             } satisfies Node<NodeProgramData>,
           ],
-          programs
+          programs,
         );
       });
     },
-    [closeProgramModal, programs]
+    [closeProgramModal, programs],
   );
 
   const onNodesDelete = React.useCallback(
@@ -226,11 +232,11 @@ export default function ShowPatch({
       setNodes((_nodes) =>
         repositionProgramNodes(
           _nodes.filter(({ id }) => !programsToDelete.includes(id)),
-          programs
-        )
+          programs,
+        ),
       );
     },
-    [programs]
+    [programs],
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
@@ -244,7 +250,7 @@ export default function ShowPatch({
     ({ message }) => {
       error({ message: "Something went wrong", description: message });
     },
-    [error]
+    [error],
   );
 
   const saveMutation = useShowPut(onSaveMutationSuccess, onSaveMutationError);
@@ -267,7 +273,7 @@ export default function ShowPatch({
       type: "update-programs",
       payload: {
         programs: adaptReactFlowNodesToModelShowPrograms(
-          nodes as Node<NodeProgramData>[] // @TODO: fix this
+          nodes as Node<NodeProgramData>[], // @TODO: fix this
         ),
       },
     });

@@ -1,10 +1,12 @@
-import { Button, Flex } from "antd";
-import * as React from "react";
-import Text from "antd/es/typography/Text";
 import TypographyLink from "antd/es/typography/Link";
+import Text from "antd/es/typography/Text";
+import * as React from "react";
 import { Link } from "react-router-dom";
-import FullCenteredLayout from "../layouts/full-centered.layout";
+
+import { Button, Flex } from "antd";
+
 import { useSystem } from "../../domain/system.domain";
+import FullCenteredLayout from "../layouts/full-centered.layout";
 
 const styles: Record<string, React.CSSProperties> = {
   container: { width: "400px" },

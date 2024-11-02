@@ -1,4 +1,3 @@
-import { theme } from "antd";
 import * as React from "react";
 import type {
   Edge,
@@ -8,10 +7,12 @@ import type {
 } from "reactflow";
 import { getConnectedEdges, Handle, useNodeId, useStore } from "reactflow";
 
+import { theme } from "antd";
+
 const { useToken } = theme;
 
 const selector = (
-  s: ReactFlowState
+  s: ReactFlowState,
 ): {
   nodeInternals: NodeInternals;
   edges: Edge[];
@@ -41,7 +42,7 @@ export default function HandleInputWithLimit({
       border: "none",
       background: token.colorTextDescription,
     }),
-    [props.style, token.colorTextDescription]
+    [props.style, token.colorTextDescription],
   );
 
   const isHandleConnectable = React.useMemo(() => {
@@ -51,7 +52,7 @@ export default function HandleInputWithLimit({
       if (!node) return false;
 
       const connectedEdges = getConnectedEdges([node], edges).filter(
-        (edge) => edge.targetHandle === props.id && edge.target === nodeId
+        (edge) => edge.targetHandle === props.id && edge.target === nodeId,
       );
 
       return connectedEdges.length < props.isConnectable;

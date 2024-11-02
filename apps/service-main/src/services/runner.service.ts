@@ -1,13 +1,14 @@
 import { log } from "@ptah/lib-logger";
-import * as dmx from "../utils/dmx";
-import { getProgramInitialState, performTick } from "../domains/program.domain";
-import type { ProgramOutput } from "../domains/program.types";
-import { applyMapping } from "../domains/patch.domain";
+
 import * as patchService from "./patch.service";
 import type {
   RunnerControlsState,
   RunnerProgramsState,
 } from "./runner.service.types";
+import { applyMapping } from "../domains/patch.domain";
+import { getProgramInitialState, performTick } from "../domains/program.domain";
+import type { ProgramOutput } from "../domains/program.types";
+import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:runner`;
 
@@ -62,7 +63,7 @@ export const tick = (): ProgramOutput => {
       const programState = performTick(
         program,
         controlsState,
-        previousProgramState
+        previousProgramState,
       );
 
       programsState.set(id, {
@@ -75,7 +76,7 @@ export const tick = (): ProgramOutput => {
         ...stateToReturn,
         ...applyMapping(programState.output, mapping),
       };
-    }
+    },
   );
 
   return stateToReturn;

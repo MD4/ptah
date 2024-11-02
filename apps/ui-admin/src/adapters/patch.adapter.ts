@@ -1,10 +1,11 @@
 import type * as models from "@ptah/lib-models";
 import type { Edge, Node } from "reactflow";
+
 import type { NodeChannelData } from "../components/molecules/nodes/node-channel";
 
 export const adaptModelShowPatchToReactFlowNodes = (
   patch: models.ShowPatch,
-  x = 800
+  x = 800,
 ): Node<NodeChannelData>[] =>
   Object.keys(patch)
     .map(Number)
@@ -18,7 +19,7 @@ export const adaptModelShowPatchToReactFlowNodes = (
     }));
 
 export const adaptModelShowPatchToToReactFlowEdges = (
-  patch: models.ShowPatch
+  patch: models.ShowPatch,
 ): Edge[] =>
   Object.entries(patch).flatMap(([channel, programs]) =>
     programs.map(({ programId, programOutput }) => ({
@@ -26,11 +27,11 @@ export const adaptModelShowPatchToToReactFlowEdges = (
       source: `program-${programId}`,
       target: `channel-${channel}`,
       sourceHandle: String(programOutput),
-    }))
+    })),
   );
 
 export const adaptReactFlowEdgesAndToModelPatch = (
-  edges: Edge[]
+  edges: Edge[],
 ): models.ShowPatch =>
   edges.reduce<models.ShowPatch>((patch, edge) => {
     const channel = edge.target.replace("channel-", "");

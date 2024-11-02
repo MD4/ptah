@@ -1,13 +1,15 @@
 // @TODO: here connect & update DMX stuff
 
 import fs from "node:fs";
-import type { IUniverseDriver } from "dmx-ts";
-import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
+
 import { log } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
-import type { ProgramOutput } from "../domains/program.types";
-import type { PatchMapping } from "../domains/patch.domain.types";
+import type { IUniverseDriver } from "dmx-ts";
+import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
+
 import { sleep } from "./time";
+import type { PatchMapping } from "../domains/patch.domain.types";
+import type { ProgramOutput } from "../domains/program.types";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:dmx`;
 const UNIVERSE_MAIN = "main";
@@ -28,7 +30,7 @@ process.on(
 
       void initialize();
     }
-  }
+  },
 );
 
 export const initialize = async (): Promise<void> => {
@@ -55,7 +57,7 @@ export const initialize = async (): Promise<void> => {
   try {
     universe = await dmx.addUniverse(
       UNIVERSE_MAIN,
-      new EnttecUSBDMXProDriver(`/dev/${serialPorts[0]}`, { dmxSpeed: 40 })
+      new EnttecUSBDMXProDriver(`/dev/${serialPorts[0]}`, { dmxSpeed: 40 }),
     );
   } catch (error) {
     await initialize();
@@ -84,7 +86,7 @@ export const resetProgram = (mapping: PatchMapping): void => {
       channels[channel] = 0;
 
       return channels;
-    }, {})
+    }, {}),
   );
 };
 

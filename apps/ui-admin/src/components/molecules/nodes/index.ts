@@ -1,16 +1,17 @@
 import type * as models from "@ptah/lib-models";
-import type { NodeProps } from "reactflow";
 import type { ComponentType } from "react";
-import NodeKey from "./node-key";
-import NodeProgram from "./node-program";
-import NodeChannel from "./node-channel";
-import NodeInputTime from "./node-input-time";
-import NodeInputControl from "./node-input-control";
-import NodeInputConstant from "./node-input-constant";
-import NodeOutputResult from "./node-output-result";
-import NodeFxMath from "./node-fx-math";
-import NodeFxADSR from "./node-fx-adsr";
+import type { NodeProps } from "reactflow";
+
 import NodeAddProgram from "./node-add-program";
+import NodeChannel from "./node-channel";
+import NodeFxADSR from "./node-fx-adsr";
+import NodeFxMath from "./node-fx-math";
+import NodeInputConstant from "./node-input-constant";
+import NodeInputControl from "./node-input-control";
+import NodeInputTime from "./node-input-time";
+import NodeKey from "./node-key";
+import NodeOutputResult from "./node-output-result";
+import NodeProgram from "./node-program";
 
 export const showNodeTypes: Record<string, ComponentType<NodeProps>> = {
   "node-key": NodeKey,

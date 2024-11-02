@@ -1,8 +1,10 @@
-import { Col, Row, theme } from "antd";
-import * as React from "react";
 import type * as models from "@ptah/lib-models";
-import { programNodeTypes } from "../../molecules/nodes";
+import * as React from "react";
+
+import { Col, Row, theme } from "antd";
+
 import NodePreview from "../../atoms/node-preview";
+import { programNodeTypes } from "../../molecules/nodes";
 import type { NodeStyleType } from "../../molecules/nodes/node.style";
 
 export const nodesDefinitions: Record<
@@ -51,7 +53,7 @@ export default function ProgramNodeLibrary({
         transform: "translate(0, 0)",
       },
     }),
-    [token.paddingLG]
+    [token.paddingLG],
   );
 
   return (
@@ -66,7 +68,7 @@ export default function ProgramNodeLibrary({
                 nodeType={nodeType}
               />
             </Col>
-          )
+          ),
         )}
       </Row>
     </div>

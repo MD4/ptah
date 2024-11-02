@@ -5,7 +5,7 @@ export const adsr =
     attackRate: number,
     decayRate: number,
     sustainLevel: number,
-    releaseRate: number
+    releaseRate: number,
   ) =>
   (t: number): number => {
     if (t < attackRate) {

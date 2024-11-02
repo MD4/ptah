@@ -1,11 +1,13 @@
-import { Flex } from "antd";
+import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-import type * as models from "@ptah/lib-models";
+
+import { Flex } from "antd";
+
+import { useDefaultNodeStyle } from "./node.style";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import HandleInputParameter from "../handles/handle-input-parameter";
-import { useDefaultNodeStyle } from "./node.style";
 
 export default function NodeFxADSR({
   data,
@@ -25,7 +27,7 @@ export default function NodeFxADSR({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   const onValueDecayChange = React.useCallback<
@@ -39,7 +41,7 @@ export default function NodeFxADSR({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   const onValueSustainChange = React.useCallback<
@@ -53,7 +55,7 @@ export default function NodeFxADSR({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   const onValueReleaseChange = React.useCallback<
@@ -67,7 +69,7 @@ export default function NodeFxADSR({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   return (

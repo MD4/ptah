@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
+
 import * as server from "./server";
 
 const kill = (gracefully: boolean): void => {

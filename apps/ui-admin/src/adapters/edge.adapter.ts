@@ -1,5 +1,5 @@
-import type { Edge } from "reactflow";
 import type * as models from "@ptah/lib-models";
+import type { Edge } from "reactflow";
 
 export const adaptModelEdgesToReactFlowEdges = (edges: models.Edge[]): Edge[] =>
   edges.map(adaptModelEdgeToReactFlowEdge);

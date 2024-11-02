@@ -1,6 +1,8 @@
-import { Flex, theme } from "antd";
-import * as React from "react";
 import type * as models from "@ptah/lib-models";
+import * as React from "react";
+
+import { Flex, theme } from "antd";
+
 import type { NodeStyleType } from "../molecules/nodes/node.style";
 import { useDefaultNodeStyle } from "../molecules/nodes/node.style";
 
@@ -33,7 +35,7 @@ export default function NodePreview({
         minHeight: token.sizeLG,
       },
     }),
-    [defaultStyles, token.sizeLG]
+    [defaultStyles, token.sizeLG],
   );
 
   const onDragStart = React.useCallback(
@@ -50,11 +52,11 @@ export default function NodePreview({
           nodeType,
           offsetX: event.clientX - elementRect.x,
           offsetY: event.clientY - elementRect.y,
-        })
+        }),
       );
       event.dataTransfer.effectAllowed = "move";
     },
-    [nodeType]
+    [nodeType],
   );
 
   return (

@@ -1,3 +1,4 @@
+import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type {
   OnEdgesChange,
@@ -16,16 +17,13 @@ import {
   addEdge,
   updateEdge,
 } from "reactflow";
-import { Button, Flex, notification, theme } from "antd";
-import { SaveFilled } from "@ant-design/icons";
-import { v4 as uuidv4 } from "uuid";
 import { useDebounceValue } from "usehooks-ts";
-import type * as models from "@ptah/lib-models";
-import { programNodeTypes } from "../../molecules/nodes";
-import {
-  useProgramEdit,
-  useProgramEditDispatch,
-} from "../../../domain/program.domain";
+import { v4 as uuidv4 } from "uuid";
+
+import { SaveFilled } from "@ant-design/icons";
+import { Button, Flex, notification, theme } from "antd";
+
+import ProgramAddNode from "./program-add-node";
 import {
   adaptModelEdgesToReactFlowEdges,
   adaptReactFlowEdgesToModelEdges,
@@ -34,11 +32,15 @@ import {
   adaptModelNodesToReactFlowNodes,
   adaptReactFlowNodesToModelNodes,
 } from "../../../adapters/node.adapter";
-import { useProgramPut } from "../../../repositories/program.repository";
 import { createNode } from "../../../domain/node.domain";
+import {
+  useProgramEdit,
+  useProgramEditDispatch,
+} from "../../../domain/program.domain";
+import { useProgramPut } from "../../../repositories/program.repository";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
-import ProgramAddNode from "./program-add-node";
+import { programNodeTypes } from "../../molecules/nodes";
 
 const { useToken } = theme;
 
@@ -68,7 +70,7 @@ export default function ProgramDashboard(): JSX.Element {
         bottom: token.sizeMS,
       },
     }),
-    [token.sizeMS]
+    [token.sizeMS],
   );
 
   const dispatch = useProgramEditDispatch();
@@ -76,11 +78,11 @@ export default function ProgramDashboard(): JSX.Element {
 
   const initialNodes = React.useMemo(
     () => adaptModelNodesToReactFlowNodes(initialProgram.nodes),
-    [initialProgram.nodes]
+    [initialProgram.nodes],
   );
   const initialEdges = React.useMemo(
     () => adaptModelEdgesToReactFlowEdges(initialProgram.edges),
-    [initialProgram.edges]
+    [initialProgram.edges],
   );
 
   const [nodes, setNodes] = React.useState(initialNodes);
@@ -95,7 +97,7 @@ export default function ProgramDashboard(): JSX.Element {
     (connection: Connection) => boolean
   >(
     (connection) => hasNoCircularDependencies(connection, nodes, edges),
-    [nodes, edges]
+    [nodes, edges],
   );
 
   const [debouncedNodes] = useDebounceValue(nodes, 200);
@@ -109,7 +111,7 @@ export default function ProgramDashboard(): JSX.Element {
             ...node,
             data: { ...node.data, outputId: outputId++ },
           }
-        : node
+        : node,
     );
   };
 
@@ -119,7 +121,7 @@ export default function ProgramDashboard(): JSX.Element {
         (change) =>
           change.type === "remove" &&
           nodes.find((node) => node.id === change.id)?.data.type ===
-            "output-result"
+            "output-result",
       );
 
       setNodes((value) => {
@@ -128,7 +130,7 @@ export default function ProgramDashboard(): JSX.Element {
         return shouldRewireOutputs ? rewireOutputs(newNodes) : newNodes;
       });
     },
-    [nodes]
+    [nodes],
   );
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
@@ -144,11 +146,11 @@ export default function ProgramDashboard(): JSX.Element {
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
         updateEdge(oldEdge, newConnection, _edges).map((edge) =>
-          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge
-        )
+          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
+        ),
       );
     },
-    []
+    [],
   );
 
   const onEdgeUpdateEnd = React.useCallback((_: unknown, edge: Edge) => {
@@ -185,12 +187,12 @@ export default function ProgramDashboard(): JSX.Element {
     ({ message }) => {
       error({ message: "Something went wrong", description: message });
     },
-    [error]
+    [error],
   );
 
   const saveMutation = useProgramPut(
     onSaveMutationSuccess,
-    onSaveMutationError
+    onSaveMutationError,
   );
 
   const onSaveClick = React.useCallback(() => {
@@ -216,7 +218,7 @@ export default function ProgramDashboard(): JSX.Element {
       }
 
       const { nodeType, offsetX, offsetY } = JSON.parse(
-        event.dataTransfer.getData("application/reactflow")
+        event.dataTransfer.getData("application/reactflow"),
       ) as {
         nodeType: models.Node["type"];
         offsetX: number;
@@ -241,7 +243,7 @@ export default function ProgramDashboard(): JSX.Element {
           : newNodes;
       });
     },
-    [reactFlowInstance]
+    [reactFlowInstance],
   );
 
   React.useEffect(() => {

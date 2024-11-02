@@ -1,18 +1,20 @@
 import * as React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import { App } from "antd";
-import HomePage from "./pages/home.page";
+
 import AppLayout from "./layouts/app.layout";
+import HomePage from "./pages/home.page";
+import ProgramCreatePage from "./pages/program/program-create.page";
+import ProgramEditPage from "./pages/program/program-edit.page";
+import ProgramListPage from "./pages/program/program-list.page";
+import ProgramPage from "./pages/program.page";
 import ShowCreatePage from "./pages/show/show-create.page";
 import ShowDashboardPage from "./pages/show/show-dashboard.page";
-import ShowPage from "./pages/show.page";
+import ShowListPage from "./pages/show/show-list.page";
 import ShowMappingPage from "./pages/show/show-mapping.page";
 import ShowPatchPage from "./pages/show/show-patch.page";
-import ProgramListPage from "./pages/program/program-list.page";
-import ProgramCreatePage from "./pages/program/program-create.page";
-import ShowListPage from "./pages/show/show-list.page";
-import ProgramEditPage from "./pages/program/program-edit.page";
-import ProgramPage from "./pages/program.page";
+import ShowPage from "./pages/show.page";
 
 function PtahApp(): JSX.Element {
   return (

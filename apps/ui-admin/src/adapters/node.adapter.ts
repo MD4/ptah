@@ -1,14 +1,15 @@
-import type { Node } from "reactflow";
 import type * as models from "@ptah/lib-models";
-import type { NodeProgramData } from "../components/molecules/nodes/node-program";
+import type { Node } from "reactflow";
+
 import { getProgramHeight, getProgramOutputCount } from "./show.adapter";
+import type { NodeProgramData } from "../components/molecules/nodes/node-program";
 
 export const adaptModelNodesToReactFlowNodes = (
-  nodes: models.Node[]
+  nodes: models.Node[],
 ): Node<models.Node>[] => nodes.map(adaptModelNodeToReactFlowNode);
 
 export const adaptModelNodeToReactFlowNode = (
-  node: models.Node
+  node: models.Node,
 ): Node<models.Node> => ({
   id: node.id,
   data: node,
@@ -26,7 +27,7 @@ export const adaptReactFlowNodeToModelNode = ({
 
 export const repositionProgramNodes = (
   nodes: Node[],
-  programsDefinitions: models.Program[] = []
+  programsDefinitions: models.Program[] = [],
 ): Node[] => {
   let y = 0;
 
@@ -39,8 +40,8 @@ export const repositionProgramNodes = (
       const outputsCount = getProgramOutputCount(
         programsDefinitions.find(
           (program) =>
-            program.name === (_node.data as NodeProgramData).programName
-        )
+            program.name === (_node.data as NodeProgramData).programName,
+        ),
       );
 
       const newNode = {
@@ -55,6 +56,6 @@ export const repositionProgramNodes = (
     .map((_node) =>
       _node.type === "node-add-program"
         ? { ..._node, position: { ..._node.position, y } }
-        : _node
+        : _node,
     );
 };

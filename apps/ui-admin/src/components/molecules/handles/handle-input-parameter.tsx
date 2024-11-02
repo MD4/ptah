@@ -1,8 +1,10 @@
-import { Flex, InputNumber, theme } from "antd";
 import * as React from "react";
 import { Position } from "reactflow";
-import { useDefaultNodeStyle } from "../nodes/node.style";
+
+import { Flex, InputNumber, theme } from "antd";
+
 import HandleInputWithLimit from "./handle-input-with-limit";
+import { useDefaultNodeStyle } from "../nodes/node.style";
 
 const { useToken } = theme;
 
@@ -45,7 +47,7 @@ export default function HandleParameter({
         width: "min-content",
       },
     }),
-    [defaultNodeStyle.handle, token.sizeLG]
+    [defaultNodeStyle.handle, token.sizeLG],
   );
 
   const onHandleConnect = React.useCallback(() => {
@@ -62,7 +64,7 @@ export default function HandleParameter({
         onChange(value);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   return (

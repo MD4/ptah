@@ -1,5 +1,6 @@
-import { Flex } from "antd";
 import * as React from "react";
+
+import { Flex } from "antd";
 
 const styles: Record<string, React.CSSProperties> = {
   fullCenteredLayout: {

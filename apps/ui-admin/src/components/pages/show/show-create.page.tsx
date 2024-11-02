@@ -1,13 +1,15 @@
-import * as React from "react";
-import type { InputRef } from "antd";
-import { Form, Input, Button, Flex, theme, notification } from "antd";
-import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import * as models from "@ptah/lib-models";
 import Title from "antd/es/typography/Title";
 import { createSchemaFieldRule } from "antd-zod";
-import * as models from "@ptah/lib-models";
-import FullCenteredLayout from "../../layouts/full-centered.layout";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
+import type { InputRef } from "antd";
+import { Form, Input, Button, Flex, theme, notification } from "antd";
+
 import { useShowCreate } from "../../../repositories/show.repository";
+import FullCenteredLayout from "../../layouts/full-centered.layout";
 
 const { useToken } = theme;
 
@@ -27,7 +29,7 @@ export default function ShowCreatePage(): JSX.Element {
     },
     (err) => {
       error({ message: "Something went wrong", description: err.message });
-    }
+    },
   );
 
   const inputName = React.useRef<InputRef>(null);
@@ -35,7 +37,7 @@ export default function ShowCreatePage(): JSX.Element {
     (values: models.ShowCreate) => {
       mutation.mutate(values);
     },
-    [mutation]
+    [mutation],
   );
 
   const rule = createSchemaFieldRule(models.showCreate);

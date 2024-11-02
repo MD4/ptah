@@ -1,12 +1,14 @@
-import { Flex, Select } from "antd";
+import type * as models from "@ptah/lib-models";
+import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-import type * as models from "@ptah/lib-models";
-import type { DefaultOptionType } from "antd/es/select";
+
+import { Flex, Select } from "antd";
+
+import { useDefaultNodeStyle } from "./node.style";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import HandleInputParameter from "../handles/handle-input-parameter";
-import { useDefaultNodeStyle } from "./node.style";
 
 const operations: DefaultOptionType[] = [
   "add",
@@ -46,7 +48,7 @@ export default function NodeFxMath({
         payload: { node: { ...data, operation } },
       });
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   const onValueValueAChange = React.useCallback<
@@ -60,7 +62,7 @@ export default function NodeFxMath({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   const onValueValueBChange = React.useCallback<
@@ -74,7 +76,7 @@ export default function NodeFxMath({
         });
       }
     },
-    [data, dispatch]
+    [data, dispatch],
   );
 
   return (

@@ -1,4 +1,5 @@
 import * as z from "zod";
+
 import { uuid } from "./uuid.model";
 
 const nodeGeneric = z.object({

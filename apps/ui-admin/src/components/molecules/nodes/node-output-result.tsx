@@ -1,10 +1,12 @@
-import { Flex, Typography } from "antd";
+import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Position } from "reactflow";
-import type * as models from "@ptah/lib-models";
-import HandleInputWithLimit from "../handles/handle-input-with-limit";
+
+import { Flex, Typography } from "antd";
+
 import { useDefaultNodeStyle } from "./node.style";
+import HandleInputWithLimit from "../handles/handle-input-with-limit";
 
 export default function NodeOutputResult({
   data: { outputId },

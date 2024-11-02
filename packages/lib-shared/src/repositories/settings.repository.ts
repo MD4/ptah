@@ -1,8 +1,9 @@
 import fs from "node:fs/promises";
+
 import * as models from "@ptah/lib-models";
 
 export const loadSettingsFromPath = async (
-  path: string
+  path: string,
 ): Promise<models.Settings> => {
   const buffer = await fs.readFile(path, "utf8");
 
@@ -11,7 +12,7 @@ export const loadSettingsFromPath = async (
 
 export const saveSettingsToPath = async (
   show: models.Settings,
-  path: string
+  path: string,
 ): Promise<void> => {
   const json = JSON.stringify(show, undefined, 2);
 

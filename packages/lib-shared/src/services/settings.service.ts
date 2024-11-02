@@ -1,16 +1,17 @@
+import * as domains from "@ptah/lib-domains";
 import { log } from "@ptah/lib-logger";
 import type * as models from "@ptah/lib-models";
-import * as domains from "@ptah/lib-domains";
-import {
-  loadSettingsFromPath,
-  saveSettingsToPath,
-} from "../repositories/settings.repository";
+
+import { PTAH_DIRECTORY, PTAH_SETTINGS_PATH } from "../env/vars.env";
 import {
   checkIfDirectoryExists,
   createDirectory,
   checkIfFileExists,
 } from "../repositories/file.repository";
-import { PTAH_DIRECTORY, PTAH_SETTINGS_PATH } from "../env/vars.env";
+import {
+  loadSettingsFromPath,
+  saveSettingsToPath,
+} from "../repositories/settings.repository";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:settings`;
 

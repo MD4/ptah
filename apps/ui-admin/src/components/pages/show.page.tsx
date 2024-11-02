@@ -1,9 +1,10 @@
+import Title from "antd/es/typography/Title";
 import * as React from "react";
 import { Outlet, useParams } from "react-router-dom";
-import Title from "antd/es/typography/Title";
+
+import { useSystem } from "../../domain/system.domain";
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ShowMenu from "../molecules/show/show-menu";
-import { useSystem } from "../../domain/system.domain";
 
 const styles: Record<string, React.CSSProperties> = {
   logo: {

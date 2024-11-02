@@ -1,14 +1,16 @@
-import { Badge, notification, theme } from "antd";
-import * as React from "react";
 import { type PubsubMessage } from "@ptah/lib-models";
+import * as React from "react";
 import { useDebounceCallback } from "usehooks-ts";
+
+import { Badge, notification, theme } from "antd";
+
 import { useSystem } from "../../../domain/system.domain";
 import { type SystemState } from "../../../domain/system.domain.types";
 
 const { useToken } = theme;
 
 const getDmxStatusColor = (
-  status: SystemState["dmxStatus"]
+  status: SystemState["dmxStatus"],
 ): "processing" | "warning" | "error" | "success" | "default" => {
   switch (status) {
     case "connected":
@@ -27,23 +29,26 @@ export default function SystemStatus(): JSX.Element {
     placement: "bottomRight",
   });
 
-  const onMessage = React.useCallback((message: PubsubMessage) => {
-    switch (message.type) {
-      case "show:load:success":
-        success({
-          message: message.showName,
-          description: "Show successfully loaded",
-        });
-        break;
-      case "show:load:error":
-        error({
-          message: message.showName,
-          description: "Something went wrong",
-        });
-        break;
-      default:
-    }
-  }, [error, success]);
+  const onMessage = React.useCallback(
+    (message: PubsubMessage) => {
+      switch (message.type) {
+        case "show:load:success":
+          success({
+            message: message.showName,
+            description: "Show successfully loaded",
+          });
+          break;
+        case "show:load:error":
+          error({
+            message: message.showName,
+            description: "Something went wrong",
+          });
+          break;
+        default:
+      }
+    },
+    [error, success],
+  );
 
   const onMessageDebounced = useDebounceCallback(onMessage, 100);
 
@@ -61,7 +66,7 @@ export default function SystemStatus(): JSX.Element {
         gap: token.sizeXS,
       },
     }),
-    [token.sizeMD, token.sizeXS]
+    [token.sizeMD, token.sizeXS],
   );
 
   return (

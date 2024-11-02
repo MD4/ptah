@@ -1,5 +1,5 @@
+import type * as models from "@ptah/lib-models";
 import * as React from "react";
-import { Button, Flex, notification, theme } from "antd";
 import type {
   Connection,
   Edge,
@@ -11,31 +11,33 @@ import type {
   Viewport,
 } from "reactflow";
 import { ReactFlow, addEdge, applyEdgeChanges, updateEdge } from "reactflow";
-import { v4 as uuidv4 } from "uuid";
 import { useBoolean, useWindowSize } from "usehooks-ts";
+import { v4 as uuidv4 } from "uuid";
+
 import { SaveFilled } from "@ant-design/icons";
-import type * as models from "@ptah/lib-models";
-import { showNodeTypes } from "../../molecules/nodes";
-import { hasNoCircularDependencies } from "../../../utils/connection";
+import { Button, Flex, notification, theme } from "antd";
+
+import ShowAddProgramModal from "./show-add-program-modal";
+import {
+  adaptModelMappingToReactFlowEdges,
+  adaptReactFlowEdgesAndToModelMapping,
+} from "../../../adapters/mapping.adapter";
+import { repositionProgramNodes } from "../../../adapters/node.adapter";
+import {
+  adaptModelShowProgramsToReactFlowNodes,
+  adaptReactFlowNodesToModelShowPrograms,
+} from "../../../adapters/show.adapter";
 import { getAllKeysNodes } from "../../../domain/key.domain";
-import type { NodeProgramData } from "../../molecules/nodes/node-program";
 import {
   pruneShow,
   useShowEdit,
   useShowEditDispatch,
 } from "../../../domain/show.domain";
 import { useShowPut } from "../../../repositories/show.repository";
-import {
-  adaptModelMappingToReactFlowEdges,
-  adaptReactFlowEdgesAndToModelMapping,
-} from "../../../adapters/mapping.adapter";
-import {
-  adaptModelShowProgramsToReactFlowNodes,
-  adaptReactFlowNodesToModelShowPrograms,
-} from "../../../adapters/show.adapter";
+import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
-import { repositionProgramNodes } from "../../../adapters/node.adapter";
-import ShowAddProgramModal from "./show-add-program-modal";
+import { showNodeTypes } from "../../molecules/nodes";
+import type { NodeProgramData } from "../../molecules/nodes/node-program";
 
 const { useToken } = theme;
 
@@ -67,7 +69,7 @@ export default function ShowMapping(): JSX.Element {
         bottom: token.sizeMS,
       },
     }),
-    [token.sizeMS]
+    [token.sizeMS],
   );
 
   const [{ error, success }, contextHolder] = notification.useNotification({
@@ -92,15 +94,15 @@ export default function ShowMapping(): JSX.Element {
           [],
           700,
           true,
-          openProgramModal
+          openProgramModal,
         ),
       ]),
-    [initialShow.programs, openProgramModal]
+    [initialShow.programs, openProgramModal],
   );
 
   const initialEdges: Edge[] = React.useMemo(
     () => adaptModelMappingToReactFlowEdges(initialShow.mapping),
-    [initialShow.mapping]
+    [initialShow.mapping],
   );
 
   const [nodes, setNodes] = React.useState(initialNodes);
@@ -112,7 +114,7 @@ export default function ShowMapping(): JSX.Element {
     (connection: Connection) => boolean
   >(
     (connection) => hasNoCircularDependencies(connection, nodes, edges),
-    [nodes, edges]
+    [nodes, edges],
   );
 
   const onInit = React.useCallback((reactFlowInstance: ReactFlowInstance) => {
@@ -158,11 +160,11 @@ export default function ShowMapping(): JSX.Element {
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
         updateEdge(oldEdge, newConnection, _edges).map((edge) =>
-          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge
-        )
+          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
+        ),
       );
     },
-    []
+    [],
   );
 
   const onEdgeUpdateEnd = React.useCallback((_: unknown, edge: Edge) => {
@@ -216,7 +218,7 @@ export default function ShowMapping(): JSX.Element {
         ]);
       });
     },
-    [closeProgramModal]
+    [closeProgramModal],
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
@@ -230,7 +232,7 @@ export default function ShowMapping(): JSX.Element {
     ({ message }) => {
       error({ message: "Something went wrong", description: message });
     },
-    [error]
+    [error],
   );
 
   const saveMutation = useShowPut(onSaveMutationSuccess, onSaveMutationError);

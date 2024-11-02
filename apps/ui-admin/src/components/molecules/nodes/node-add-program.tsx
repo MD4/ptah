@@ -1,13 +1,14 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Flex, theme } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
+
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
 
 const { useToken } = theme;
 
 export type NodeAddProgramData = {
   onAddProgram: () => void;
-}
+};
 
 export default function NodeAddProgram({
   data: { onAddProgram = () => undefined },
@@ -26,7 +27,7 @@ export default function NodeAddProgram({
         width: 240,
       },
     }),
-    [token.borderRadiusLG, token.colorFillQuaternary, token.sizeMS]
+    [token.borderRadiusLG, token.colorFillQuaternary, token.sizeMS],
   );
 
   return (

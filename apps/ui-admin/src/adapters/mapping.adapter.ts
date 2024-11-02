@@ -1,10 +1,11 @@
-import type { Edge, Node } from "reactflow";
 import type * as models from "@ptah/lib-models";
+import type { Edge, Node } from "reactflow";
+
 import type { NodeKeyData } from "../components/molecules/nodes/node-key";
 import { isSharpKey, getKeyFromIndex } from "../domain/key.domain";
 
 export const adaptModelMappingToReactFlowEdges = (
-  mapping: models.ShowMapping
+  mapping: models.ShowMapping,
 ): Edge[] =>
   Object.entries(mapping).map(
     ([key, programId]) =>
@@ -12,23 +13,23 @@ export const adaptModelMappingToReactFlowEdges = (
         id: `${key}-${programId}`,
         source: `key-${key}`,
         target: `program-${programId}`,
-      }) satisfies Edge
+      }) satisfies Edge,
   );
 
 export const adaptReactFlowEdgesAndToModelMapping = (
-  edges: Edge[]
+  edges: Edge[],
 ): models.ShowMapping =>
   edges.reduce<models.ShowMapping>(
     (mapping, edge) => ({
       ...mapping,
       [edge.source.replace("key-", "")]: edge.target.replace("program-", ""),
     }),
-    {}
+    {},
   );
 
 export const adaptModelMappingToReactFlowEdgesNodes = (
   mapping: models.ShowMapping,
-  x = 0
+  x = 0,
 ): Node<NodeKeyData>[] => {
   let y = 0;
   let lastWasSharp = false;

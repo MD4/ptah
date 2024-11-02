@@ -1,18 +1,20 @@
-import { Button, Flex, theme } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { EditFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import type { NodeProps } from "reactflow";
+
+import { EditFilled } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
+
+import { useDefaultNodeStyle } from "./node.style";
 import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
-import { useDefaultNodeStyle } from "./node.style";
 
 export type NodeProgramData = {
   programId: string;
   programName: string;
   outputsCount: number;
   noInput?: boolean;
-}
+};
 
 const { useToken } = theme;
 
@@ -42,7 +44,7 @@ export default function NodeProgram({
         top: token.sizeMS,
       },
     }),
-    [defaultStyles, token.sizeMS]
+    [defaultStyles, token.sizeMS],
   );
 
   const outputHandles = React.useMemo(
@@ -50,7 +52,7 @@ export default function NodeProgram({
       Array(outputsCount)
         .fill(0)
         .map((_, index) => index),
-    [outputsCount]
+    [outputsCount],
   );
 
   return (

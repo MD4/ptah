@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Input, Button, Flex, List, theme } from "antd";
+
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
+import { Input, Button, Flex, List, theme } from "antd";
 
 const { useToken } = theme;
 
@@ -29,12 +30,12 @@ export default function SearchableList({
           data.filter((programName) =>
             programName
               .toLowerCase()
-              .includes(event.target.value.trim().toLowerCase())
-          )
+              .includes(event.target.value.trim().toLowerCase()),
+          ),
         );
       }
     },
-    [data]
+    [data],
   );
 
   React.useEffect(() => {
@@ -83,7 +84,7 @@ export default function SearchableList({
       token.paddingXL,
       token.sizeMD,
       token.sizeMS,
-    ]
+    ],
   );
 
   return (
@@ -118,7 +119,10 @@ export default function SearchableList({
                 style={styles.listItemButton}
                 type="text"
               >
-                <Flex style={styles.listItemLabelContainer} justify="space-between">
+                <Flex
+                  style={styles.listItemLabelContainer}
+                  justify="space-between"
+                >
                   <div style={styles.listItemLabel}>{item}</div>
                   <CaretRightOutlined />
                 </Flex>

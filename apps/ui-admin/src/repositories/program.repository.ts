@@ -1,3 +1,4 @@
+import * as models from "@ptah/lib-models";
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import {
   useMutation,
@@ -6,9 +7,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import axios from "axios";
-import * as models from "@ptah/lib-models";
-import * as z from "zod";
 import * as React from "react";
+import * as z from "zod";
+
 import { deduplicate, isDefined } from "../utils/array.utils";
 
 export const BASE_URL_API = "http://localhost:5001";
@@ -18,7 +19,7 @@ export const BASE_URL_API = "http://localhost:5001";
  */
 
 const programCreate = (
-  program: models.ProgramCreate
+  program: models.ProgramCreate,
 ): Promise<models.Program> =>
   axios
     .post(`${BASE_URL_API}/program`, program)
@@ -26,7 +27,7 @@ const programCreate = (
 
 export const useProgramCreate = (
   onSuccess: (program: models.Program) => void,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
 ): UseMutationResult<models.Program, Error, models.ProgramCreate> => {
   const queryClient = useQueryClient();
 
@@ -66,7 +67,7 @@ const programGet = (name: models.ProgramName): Promise<models.Program> =>
     .then(({ data }) => models.program.parseAsync(data));
 
 export const useProgramGet = (
-  name?: models.ProgramName
+  name?: models.ProgramName,
 ): UseQueryResult<models.Program | undefined> =>
   useQuery({
     queryKey: ["program", name],
@@ -75,7 +76,7 @@ export const useProgramGet = (
   });
 
 export const useProgramGetMany = (
-  names: models.ProgramName[]
+  names: models.ProgramName[],
 ): UseQueryResult<models.Program>[] => {
   const queries = React.useMemo(
     () =>
@@ -84,7 +85,7 @@ export const useProgramGetMany = (
         enabled: Boolean(name),
         queryFn: () => programGet(name),
       })),
-    [names]
+    [names],
   );
 
   return useQueries({
@@ -93,7 +94,7 @@ export const useProgramGetMany = (
 };
 
 export const useShowPrograms = (
-  showPrograms: models.ShowPrograms
+  showPrograms: models.ShowPrograms,
 ): {
   data: models.Program[];
   isError: boolean;
@@ -102,24 +103,24 @@ export const useShowPrograms = (
 } => {
   const programsNames = React.useMemo(
     () => deduplicate(Object.values(showPrograms)),
-    [showPrograms]
+    [showPrograms],
   );
 
   const programsResponse = useProgramGetMany(programsNames);
 
   const data: models.Program[] = React.useMemo(
     () => programsResponse.map((response) => response.data).filter(isDefined),
-    [programsResponse]
+    [programsResponse],
   );
 
   const isError = React.useMemo(
     () => programsResponse.some((response) => response.isError),
-    [programsResponse]
+    [programsResponse],
   );
 
   const isPending = React.useMemo(
     () => programsResponse.some((response) => response.isPending),
-    [programsResponse]
+    [programsResponse],
   );
 
   const refetch = React.useCallback(() => {
@@ -128,7 +129,7 @@ export const useShowPrograms = (
 
   return React.useMemo(
     () => ({ data, isError, isPending, refetch }),
-    [data, isError, isPending, refetch]
+    [data, isError, isPending, refetch],
   );
 };
 
@@ -143,7 +144,7 @@ const programPut = (program: models.Program): Promise<models.Program> =>
 
 export const useProgramPut = (
   onSuccess: (program: models.Program) => void,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
 ): UseMutationResult<models.Program, Error, models.Program> => {
   const queryClient = useQueryClient();
 

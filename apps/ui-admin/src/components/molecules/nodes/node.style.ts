@@ -1,5 +1,6 @@
-import { theme } from "antd";
 import * as React from "react";
+
+import { theme } from "antd";
 
 const { useToken } = theme;
 
@@ -7,7 +8,7 @@ export type NodeStyleType = "default" | "input" | "output";
 
 export const useDefaultNodeStyle = (
   type: NodeStyleType = "default",
-  selected = false
+  selected = false,
 ): Record<string, React.CSSProperties> => {
   const { token } = useToken();
 
@@ -60,6 +61,6 @@ export const useDefaultNodeStyle = (
       token.sizeXS,
       token.sizeXXS,
       type,
-    ]
+    ],
   );
 };

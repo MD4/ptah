@@ -2,7 +2,7 @@ import type { RunnerControlsState } from "../services/runner.service.types";
 
 export type ProgramCompute = (
   time: number,
-  inputs: RunnerControlsState
+  inputs: RunnerControlsState,
 ) => ProgramOutput;
 
 export type ProgramDefinition = {

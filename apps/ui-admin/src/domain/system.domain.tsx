@@ -1,16 +1,17 @@
-import * as React from "react";
-import { useSocket } from "socket.io-react-hook";
 import type {
   PubsubMessage,
   PubsubMessageMidi,
   PubsubMessageSystem,
   ShowName,
 } from "@ptah/lib-models";
+import * as React from "react";
+import { useSocket } from "socket.io-react-hook";
+
 import type { SystemState, SystemAction } from "./system.domain.types";
 
 const systemEditReducer = (
   state: SystemState,
-  { type, payload }: SystemAction
+  { type, payload }: SystemAction,
 ): SystemState => {
   switch (type) {
     case "update-status":
@@ -57,65 +58,68 @@ type SocketMessages = {
 };
 
 export function useSystem(
-  onMessage: (message: PubsubMessage) => void = () => undefined
+  onMessage: (message: PubsubMessage) => void = () => undefined,
 ): System {
   const [state, dispatch] = React.useReducer(
     systemEditReducer,
-    initialSystemState
+    initialSystemState,
   );
 
   const wsUrl = `ws://${String(
-    import.meta.env.VITE_SERVICE_GATEWAY_WS_HOST
+    import.meta.env.VITE_SERVICE_GATEWAY_WS_HOST,
   )}:${String(Number(import.meta.env.VITE_SERVICE_GATEWAY_WS_PORT))}`;
 
   const { socket, connected } = useSocket<SocketMessages>(wsUrl);
 
-  const _onMessage = React.useCallback((message: PubsubMessage) => {
-    switch (message.type) {
-      case "note:on":
-        dispatch({
-          type: "update-key-state",
-          payload: {
-            key: message.keyNumber,
-            pressed: true,
-          },
-        });
-        break;
-      case "note:off":
-        dispatch({
-          type: "update-key-state",
-          payload: {
-            key: message.keyNumber,
-            pressed: false,
-          },
-        });
-        break;
+  const _onMessage = React.useCallback(
+    (message: PubsubMessage) => {
+      switch (message.type) {
+        case "note:on":
+          dispatch({
+            type: "update-key-state",
+            payload: {
+              key: message.keyNumber,
+              pressed: true,
+            },
+          });
+          break;
+        case "note:off":
+          dispatch({
+            type: "update-key-state",
+            payload: {
+              key: message.keyNumber,
+              pressed: false,
+            },
+          });
+          break;
 
-      case "dmx:connected":
-        dispatch({
-          type: "update-dmx-status",
-          payload: { dmxStatus: "connected" },
-        });
-        break;
-      case "dmx:connecting":
-        dispatch({
-          type: "update-dmx-status",
-          payload: { dmxStatus: "connecting" },
-        });
-        break;
-      case "dmx:disconnected":
-        dispatch({
-          type: "update-dmx-status",
-          payload: { dmxStatus: "disconnected" },
-        });
-        break;
+        case "dmx:connected":
+          dispatch({
+            type: "update-dmx-status",
+            payload: { dmxStatus: "connected" },
+          });
+          break;
+        case "dmx:connecting":
+          dispatch({
+            type: "update-dmx-status",
+            payload: { dmxStatus: "connecting" },
+          });
+          break;
+        case "dmx:disconnected":
+          dispatch({
+            type: "update-dmx-status",
+            payload: { dmxStatus: "disconnected" },
+          });
+          break;
 
-      default:
-    }
+        default:
+      }
 
-    onMessage(message);
-  }, [onMessage]);
-  
+      onMessage(message);
+    },
+    [onMessage],
+  );
+
   socket.on("midi", _onMessage);
   socket.on("system", _onMessage);
 
@@ -130,7 +134,7 @@ export function useSystem(
     (showName: ShowName) => {
       socket.emit("system", { type: "show:load", showName });
     },
-    [socket]
+    [socket],
   );
 
   const unloadShow = React.useCallback(() => {
@@ -143,7 +147,7 @@ export function useSystem(
 
   const api = React.useMemo(
     () => ({ loadShow, unloadShow, blackout }),
-    [loadShow, unloadShow, blackout]
+    [loadShow, unloadShow, blackout],
   );
 
   return React.useMemo(() => ({ state, api }), [state, api]);

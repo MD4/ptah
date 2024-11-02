@@ -1,5 +1,6 @@
-import { Flex, Layout, theme } from "antd";
 import * as React from "react";
+
+import { Flex, Layout, theme } from "antd";
 
 const { useToken } = theme;
 
@@ -41,7 +42,7 @@ export default function ShowLayout({
         flex: 1,
       },
     }),
-    [token.paddingLG, token.colorBgContainer]
+    [token.paddingLG, token.colorBgContainer],
   );
 
   return (

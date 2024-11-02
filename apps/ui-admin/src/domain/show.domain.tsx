@@ -1,35 +1,35 @@
-import type * as models from "@ptah/lib-models";
 import * as domains from "@ptah/lib-domains";
-import * as React from "react";
+import type * as models from "@ptah/lib-models";
 import { deepEqual } from "fast-equals";
+import * as React from "react";
 
 type ShowEditActionUpdateName = {
   type: "update-name";
   payload: {
     name: string;
   };
-}
+};
 
 type ShowEditActionUpdateMapping = {
   type: "update-mapping";
   payload: {
     mapping: models.ShowMapping;
   };
-}
+};
 
 type ShowEditActionUpdatePrograms = {
   type: "update-programs";
   payload: {
     programs: models.ShowPrograms;
   };
-}
+};
 
 type ShowEditActionUpdatePatch = {
   type: "update-patch";
   payload: {
     patch: models.ShowPatch;
   };
-}
+};
 
 type ShowEditAction =
   | ShowEditActionUpdateName
@@ -39,7 +39,7 @@ type ShowEditAction =
 
 const showEditReducer = (
   state: models.Show,
-  { type, payload }: ShowEditAction
+  { type, payload }: ShowEditAction,
 ): models.Show => {
   switch (type) {
     case "update-name":
@@ -68,7 +68,7 @@ type ShowEditContextType = {
   initialShow: models.Show;
   show: models.Show;
   hasChanged: boolean;
-}
+};
 
 const ShowEditContext = React.createContext<ShowEditContextType>({
   initialShow: domains.show.createShow("new-show"),
@@ -91,7 +91,7 @@ export function ShowEditProvider({
 
   const hasChanged = React.useMemo(
     () => !deepEqual(initialShow, show),
-    [initialShow, show]
+    [initialShow, show],
   );
 
   const state = React.useMemo(
@@ -100,7 +100,7 @@ export function ShowEditProvider({
       show,
       hasChanged,
     }),
-    [hasChanged, initialShow, show]
+    [hasChanged, initialShow, show],
   );
 
   return (
@@ -122,7 +122,7 @@ export function useShowEditDispatch(): React.Dispatch<ShowEditAction> {
 
 export const pruneShowPatch = (
   showPath: models.ShowPatch,
-  showPrograms: models.ShowPrograms
+  showPrograms: models.ShowPrograms,
 ): models.ShowPatch =>
   Object.fromEntries(
     Object.entries(showPath)
@@ -131,21 +131,21 @@ export const pruneShowPatch = (
           [
             key,
             mapping.filter(({ programId }) =>
-              Object.keys(showPrograms).includes(programId)
+              Object.keys(showPrograms).includes(programId),
             ),
-          ] as const
+          ] as const,
       )
-      .filter(([_, mapping]) => Boolean(mapping.length))
+      .filter(([_, mapping]) => Boolean(mapping.length)),
   );
 
 export function pruneShowMapping(
   showMapping: models.ShowMapping,
-  showPrograms: models.ShowPrograms
+  showPrograms: models.ShowPrograms,
 ): models.ShowMapping {
   return Object.fromEntries(
     Object.entries(showMapping).filter(([_, programId]) =>
-      Object.keys(showPrograms).includes(programId)
-    )
+      Object.keys(showPrograms).includes(programId),
+    ),
   );
 }
 

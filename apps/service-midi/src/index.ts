@@ -1,8 +1,9 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
-import * as midiServer from "./midi-server";
+
 import { handleMidiCallback } from "./midi-handlers";
+import * as midiServer from "./midi-server";
 
 const kill = (gracefully: boolean): void => {
   log(process.env.SERVICE_NAME, "killing...");

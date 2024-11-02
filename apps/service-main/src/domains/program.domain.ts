@@ -1,13 +1,14 @@
 import type { Node, Program } from "@ptah/lib-models";
-import { isDefined } from "../utils/types";
-import { adsr } from "../utils/adsr";
-import type { RunnerControlsState } from "../services/runner.service.types";
+
 import type {
   ProgramCompute,
   ProgramDefinition,
   ProgramOutput,
   ProgramState,
 } from "./program.types";
+import type { RunnerControlsState } from "../services/runner.service.types";
+import { adsr } from "../utils/adsr";
+import { isDefined } from "../utils/types";
 
 // Defined by MIDI standard
 const TICK = 1 / 24;
@@ -15,7 +16,7 @@ const TICK = 1 / 24;
 export const performTick = (
   program: ProgramDefinition,
   inputs: RunnerControlsState,
-  programState: ProgramState
+  programState: ProgramState,
 ): ProgramState => {
   const time = programState.time + TICK;
 
@@ -27,7 +28,7 @@ export const performTick = (
 
 export const getProgramInitialState = (
   program: ProgramDefinition,
-  inputs: RunnerControlsState
+  inputs: RunnerControlsState,
 ): ProgramState => {
   return {
     time: 0,
@@ -41,7 +42,7 @@ const getNodeInputValueFromRegister = (
     id: string;
     sourceOutput: number;
   },
-  defaultValue = 0
+  defaultValue = 0,
 ): number => {
   if (!input) {
     return defaultValue;
@@ -115,7 +116,7 @@ export const compile = (program: Program): ProgramCompute => {
               node.attackRate,
               node.decayRate,
               node.sustainLevel,
-              node.releaseRate
+              node.releaseRate,
             )(getNodeInputValueFromRegister(register, inputsNodesIds[0])),
           ]);
           break;
@@ -124,12 +125,12 @@ export const compile = (program: Program): ProgramCompute => {
           const a = getNodeInputValueFromRegister(
             register,
             inputsNodesIds[0],
-            node.valueA
+            node.valueA,
           );
           const b = getNodeInputValueFromRegister(
             register,
             inputsNodesIds[1],
-            node.valueB
+            node.valueB,
           );
 
           let value = 0;
@@ -201,7 +202,7 @@ export const compile = (program: Program): ProgramCompute => {
         case "output-result":
           programOutput[node.outputId] = getNodeInputValueFromRegister(
             register,
-            inputsNodesIds[0]
+            inputsNodesIds[0],
           );
           break;
         default:

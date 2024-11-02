@@ -1,8 +1,10 @@
 import type { Server } from "node:http";
+
 import { json, urlencoded } from "body-parser";
-import morgan from "morgan";
 import cors from "cors";
 import express from "express";
+import morgan from "morgan";
+
 import { configureRoutes } from "../routes";
 
 let server: Server | undefined;
@@ -19,7 +21,7 @@ export const createServer = (): Promise<void> =>
         .use(morgan("dev"))
         .use(urlencoded({ extended: true }))
         .use(json())
-        .use(cors())
+        .use(cors()),
     )
       .listen(process.env.SERVICE_PORT ?? 5001, resolve)
       .on("error", reject);

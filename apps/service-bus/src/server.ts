@@ -1,7 +1,8 @@
 import fs from "node:fs";
-import * as kalm from "kalm";
+
 import ipc from "@kalm/ipc";
 import { log } from "@ptah/lib-logger";
+import * as kalm from "kalm";
 
 let server: Server | undefined;
 
@@ -21,7 +22,7 @@ export const start = (): Promise<void> =>
     if (fs.existsSync(socketPath)) {
       log(
         process.env.SERVICE_NAME,
-        "socket file is already existing, removing it.."
+        "socket file is already existing, removing it..",
       );
       fs.unlinkSync(socketPath);
       log(process.env.SERVICE_NAME, "socket file removed");

@@ -1,8 +1,8 @@
+import * as models from "@ptah/lib-models";
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import * as models from "@ptah/lib-models";
 import * as z from "zod";
 
 export const BASE_URL_API = "http://localhost:5001";
@@ -18,7 +18,7 @@ const showCreate = (show: models.ShowCreate): Promise<models.Show> =>
 
 export const useShowCreate = (
   onSuccess: (show: models.Show) => void,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
 ): UseMutationResult<models.Show, Error, models.ShowCreate> => {
   const queryClient = useQueryClient();
 
@@ -58,7 +58,7 @@ const showGet = (name: models.ShowName): Promise<models.Show> =>
     .then(({ data }) => models.show.parseAsync(data));
 
 export const useShowGet = (
-  name?: models.ShowName
+  name?: models.ShowName,
 ): UseQueryResult<models.Show | undefined> => {
   const navigate = useNavigate();
 
@@ -85,7 +85,7 @@ const showPut = (show: models.Show): Promise<models.Show> =>
 
 export const useShowPut = (
   onSuccess: (show: models.Show) => void,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
 ): UseMutationResult<models.Show, Error, models.Show> => {
   const queryClient = useQueryClient();
 

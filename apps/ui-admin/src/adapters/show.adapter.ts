@@ -1,7 +1,8 @@
-import type { Node } from "reactflow";
 import type * as models from "@ptah/lib-models";
-import type { NodeProgramData } from "../components/molecules/nodes/node-program";
+import type { Node } from "reactflow";
+
 import type { NodeAddProgramData } from "../components/molecules/nodes/node-add-program";
+import type { NodeProgramData } from "../components/molecules/nodes/node-program";
 
 export const getProgramOutputCount = (program?: models.Program): number =>
   program?.nodes.filter(({ type }) => type === "output-result").length ?? 0;
@@ -15,13 +16,13 @@ export const adaptModelShowProgramsToReactFlowNodes = (
   x = 700,
   addButton = false,
   openProgramModal: () => void = () => undefined,
-  noInput = false
+  noInput = false,
 ): Node<NodeProgramData | NodeAddProgramData>[] => {
   let y = 0;
 
   const nodes = Object.entries(programs).map(([programId, programName]) => {
     const outputsCount = getProgramOutputCount(
-      programsDefinitions.find((program) => program.name === programName)
+      programsDefinitions.find((program) => program.name === programName),
     );
 
     const newNode: Node<NodeProgramData> = {
@@ -56,12 +57,12 @@ export const adaptModelShowProgramsToReactFlowNodes = (
 };
 
 export const adaptReactFlowNodesToModelShowPrograms = (
-  nodes: Node<NodeProgramData>[]
+  nodes: Node<NodeProgramData>[],
 ): models.ShowPrograms =>
   nodes.reduce<models.ShowPrograms>(
     (memo, node) =>
       node.type === "node-program"
         ? { ...memo, [node.id.replace("program-", "")]: node.data.programName }
         : memo,
-    {}
+    {},
   );

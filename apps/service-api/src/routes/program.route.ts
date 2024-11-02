@@ -1,8 +1,9 @@
-import type { Express } from "express";
-import { validateRequest } from "zod-express-middleware";
-import * as models from "@ptah/lib-models";
 import { logError } from "@ptah/lib-logger";
+import * as models from "@ptah/lib-models";
+import type { Express } from "express";
 import { z } from "zod";
+import { validateRequest } from "zod-express-middleware";
+
 import {
   handleProgramCreate,
   handleProgramGet,
@@ -40,7 +41,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 500;
             res.json(error);
           });
-      }
+      },
     )
     .get(
       "/program/:name",
@@ -60,7 +61,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 500;
             res.json(error);
           });
-      }
+      },
     )
     .put(
       "/program/:name",
@@ -81,5 +82,5 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.statusCode = 500;
             res.json(error);
           });
-      }
+      },
     );

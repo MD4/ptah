@@ -1,14 +1,15 @@
 import type { ShowPatch } from "@ptah/lib-models";
-import type { ProgramOutput } from "./program.types";
+
 import type { PatchMapping } from "./patch.domain.types";
+import type { ProgramOutput } from "./program.types";
 
 export const extractProgramMappingFromShowPatch = (
   showPatch: ShowPatch,
-  programId: string
+  programId: string,
 ): number[] =>
   Object.entries(showPatch)
     .flatMap(([channel, outputs]) =>
-      outputs.map((output) => ({ ...output, channel }))
+      outputs.map((output) => ({ ...output, channel })),
     )
     .filter((output) => output.programId === programId)
     .sort((a, b) => a.programOutput - b.programOutput)
@@ -40,7 +41,7 @@ export const fromChannelValue = (value: number): number =>
 
 export const applyMapping = (
   programOutput: ProgramOutput,
-  mapping: PatchMapping
+  mapping: PatchMapping,
 ): ProgramOutput => {
   return mapping.reduce<ProgramOutput>(
     (mappedOutput, targetIndex, outputIndex) => {
@@ -48,6 +49,6 @@ export const applyMapping = (
 
       return mappedOutput;
     },
-    {}
+    {},
   );
 };

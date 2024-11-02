@@ -1,6 +1,6 @@
+import * as domains from "@ptah/lib-domains";
 import type * as models from "@ptah/lib-models";
 import { repositories, env } from "@ptah/lib-shared";
-import * as domains from "@ptah/lib-domains";
 
 export const handleProgramList = async (): Promise<models.ProgramName[]> => {
   await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
@@ -9,7 +9,7 @@ export const handleProgramList = async (): Promise<models.ProgramName[]> => {
 };
 
 export const handleProgramCreate = async (
-  name: models.ProgramName
+  name: models.ProgramName,
 ): Promise<models.Program> => {
   await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
 
@@ -17,7 +17,7 @@ export const handleProgramCreate = async (
 
   await repositories.program.saveProgramToPath(
     program,
-    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`
+    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`,
   );
 
   return program;
@@ -25,24 +25,24 @@ export const handleProgramCreate = async (
 
 export const handleProgramSave = async (
   name: models.ProgramName,
-  program: models.Program
+  program: models.Program,
 ): Promise<models.Program> => {
   await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
 
   await repositories.program.saveProgramToPath(
     program,
-    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`
+    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`,
   );
 
   return program;
 };
 
 export const handleProgramGet = async (
-  name: models.ProgramName
+  name: models.ProgramName,
 ): Promise<models.Program> => {
   await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
 
   return repositories.program.loadProgramFromPath(
-    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`
+    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`,
   );
 };

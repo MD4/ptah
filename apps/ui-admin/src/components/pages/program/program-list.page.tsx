@@ -1,10 +1,12 @@
-import * as React from "react";
-import { Button, Flex, theme } from "antd";
 import Title from "antd/es/typography/Title";
+import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { CaretLeftOutlined, PlusOutlined } from "@ant-design/icons";
-import FullCenteredLayout from "../../layouts/full-centered.layout";
+import { Button, Flex, theme } from "antd";
+
 import { useProgramList } from "../../../repositories/program.repository";
+import FullCenteredLayout from "../../layouts/full-centered.layout";
 import PtahError from "../../molecules/ptah-error";
 import SearchableList from "../../molecules/searchable-list/searchable-list";
 
@@ -19,7 +21,7 @@ export default function ProgramListPage(): JSX.Element {
     (programName: string) => {
       navigate(`/program/${programName}`);
     },
-    [navigate]
+    [navigate],
   );
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
@@ -32,7 +34,7 @@ export default function ProgramListPage(): JSX.Element {
         maxHeight: 500,
       },
     }),
-    []
+    [],
   );
 
   if (error) {

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
+
 import { handleMessage } from "./handlers/message-handlers";
 import * as dmx from "./utils/dmx";
 
@@ -26,7 +27,7 @@ const main = async (): Promise<void> => {
   await Promise.all([
     services.pubsub.connect(
       ["midi", "system"],
-      (channel, message) => void handleMessage(channel, message)
+      (channel, message) => void handleMessage(channel, message),
     ),
     dmx.initialize(),
   ]);

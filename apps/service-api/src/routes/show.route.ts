@@ -1,8 +1,9 @@
-import type { Express } from "express";
-import { validateRequest } from "zod-express-middleware";
-import * as models from "@ptah/lib-models";
 import { logError } from "@ptah/lib-logger";
+import * as models from "@ptah/lib-models";
+import type { Express } from "express";
 import { z } from "zod";
+import { validateRequest } from "zod-express-middleware";
+
 import {
   handleShowCreate,
   handleShowGet,
@@ -40,7 +41,7 @@ export const configureRoutesShow = (server: Express): Express =>
             res.statusCode = 500;
             res.json(error);
           });
-      }
+      },
     )
     .get("/show/:name", (req, res) => {
       handleShowGet(req.params.name)
@@ -73,5 +74,5 @@ export const configureRoutesShow = (server: Express): Express =>
             res.statusCode = 500;
             res.json(error);
           });
-      }
+      },
     );

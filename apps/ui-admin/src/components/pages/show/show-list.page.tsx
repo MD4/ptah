@@ -1,11 +1,13 @@
-import * as React from "react";
-import { Button, Flex, theme } from "antd";
 import Title from "antd/es/typography/Title";
+import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { CaretLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
+
+import { useShowList } from "../../../repositories/show.repository";
 import FullCenteredLayout from "../../layouts/full-centered.layout";
 import PtahError from "../../molecules/ptah-error";
-import { useShowList } from "../../../repositories/show.repository";
 import SearchableList from "../../molecules/searchable-list/searchable-list";
 
 const { useToken } = theme;
@@ -19,7 +21,7 @@ export default function ShowListPage(): JSX.Element {
     (showName: string) => {
       navigate(`/show/${showName}`);
     },
-    [navigate]
+    [navigate],
   );
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
@@ -32,7 +34,7 @@ export default function ShowListPage(): JSX.Element {
         maxHeight: 500,
       },
     }),
-    []
+    [],
   );
 
   if (error) {

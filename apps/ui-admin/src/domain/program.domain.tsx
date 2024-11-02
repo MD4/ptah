@@ -1,35 +1,35 @@
-import type * as models from "@ptah/lib-models";
 import * as domains from "@ptah/lib-domains";
-import * as React from "react";
+import type * as models from "@ptah/lib-models";
 import { deepEqual } from "fast-equals";
+import * as React from "react";
 
 type ProgramEditActionUpdateName = {
   type: "update-name";
   payload: {
     name: string;
   };
-}
+};
 
 type ProgramEditActionUpdateNode = {
   type: "update-node";
   payload: {
     node: models.Node;
   };
-}
+};
 
 type ProgramEditActionUpdateEdges = {
   type: "update-edges";
   payload: {
     edges: models.Edge[];
   };
-}
+};
 
 type ProgramEditActionUpdateNodes = {
   type: "update-nodes";
   payload: {
     nodes: models.Node[];
   };
-}
+};
 
 type ProgramEditAction =
   | ProgramEditActionUpdateName
@@ -39,7 +39,7 @@ type ProgramEditAction =
 
 const programEditReducer = (
   state: models.Program,
-  { type, payload }: ProgramEditAction
+  { type, payload }: ProgramEditAction,
 ): models.Program => {
   switch (type) {
     case "update-name":
@@ -48,7 +48,7 @@ const programEditReducer = (
       return {
         ...state,
         nodes: state.nodes.map((node) =>
-          node.id === payload.node.id ? payload.node : node
+          node.id === payload.node.id ? payload.node : node,
         ),
       };
     case "update-edges":
@@ -78,7 +78,7 @@ type ProgramEditContextType = {
   initialProgram: models.Program;
   program: models.Program;
   hasChanged: boolean;
-}
+};
 
 const ProgramEditContext = React.createContext<ProgramEditContextType>({
   initialProgram: domains.program.createProgram("new-program"),
@@ -99,12 +99,12 @@ export function ProgramEditProvider({
 }): JSX.Element {
   const [program, dispatch] = React.useReducer(
     programEditReducer,
-    initialProgram
+    initialProgram,
   );
 
   const hasChanged = React.useMemo(
     () => !deepEqual(initialProgram, program),
-    [initialProgram, program]
+    [initialProgram, program],
   );
 
   const state = React.useMemo(
@@ -113,7 +113,7 @@ export function ProgramEditProvider({
       program,
       hasChanged,
     }),
-    [hasChanged, initialProgram, program]
+    [hasChanged, initialProgram, program],
   );
 
   return (

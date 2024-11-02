@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
+
 import * as models from "@ptah/lib-models";
+
 import { listFilesFromPath } from "./file.repository";
 
 export const loadShowFromPath = async (path: string): Promise<models.Show> => {
@@ -10,7 +12,7 @@ export const loadShowFromPath = async (path: string): Promise<models.Show> => {
 
 export const saveShowToPath = async (
   show: models.Show,
-  path: string
+  path: string,
 ): Promise<void> => {
   const json = JSON.stringify(show, undefined, 2);
 
