@@ -93,9 +93,9 @@ export const useShowPut = (
     mutationFn: showPut,
     onSuccess,
     onError,
-    onSettled: () =>
+    onSettled: (show) =>
       queryClient.invalidateQueries({
-        queryKey: ["show"],
+        queryKey: ["show", show?.name],
       }),
   });
 };

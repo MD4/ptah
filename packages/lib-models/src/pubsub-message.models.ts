@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { programName } from "./program.model";
 import { showName } from "./show.model";
 
 export const pubsubChannel = z.union([z.literal("system"), z.literal("midi")]);
@@ -56,23 +57,38 @@ export const pubsubMessageMidi = z.union([
   pubsubMessageControlChange,
 ]);
 
-export const pubsubMessageLoadShow = z.object({
+export const pubsubMessageShowLoad = z.object({
   type: z.literal("show:load"),
   showName,
 });
 
-export const pubsubMessageLoadShowSucess = z.object({
+export const pubsubMessageShowReload = z.object({
+  type: z.literal("show:reload"),
+  showName,
+});
+
+export const pubsubMessageShowLoadSucess = z.object({
   type: z.literal("show:load:success"),
   showName,
 });
 
-export const pubsubMessageLoadShowError = z.object({
+export const pubsubMessageShowLoadError = z.object({
   type: z.literal("show:load:error"),
   showName,
 });
 
-export const pubsubMessageUnloadShow = z.object({
+export const pubsubMessageShowUnload = z.object({
   type: z.literal("show:unload"),
+});
+
+export const pubsubMessageProgramSaveSucess = z.object({
+  type: z.literal("program:save:success"),
+  programName,
+});
+
+export const pubsubMessageProgramSaveError = z.object({
+  type: z.literal("program:save:error"),
+  programName,
 });
 
 export const pubsubMessageBlackOut = z.object({
@@ -92,10 +108,13 @@ export const pubsubMessageDmxConnecting = z.object({
 });
 
 export const pubsubMessageSystem = z.union([
-  pubsubMessageLoadShow,
-  pubsubMessageLoadShowSucess,
-  pubsubMessageLoadShowError,
-  pubsubMessageUnloadShow,
+  pubsubMessageShowLoad,
+  pubsubMessageShowReload,
+  pubsubMessageShowLoadSucess,
+  pubsubMessageShowLoadError,
+  pubsubMessageShowUnload,
+  pubsubMessageProgramSaveSucess,
+  pubsubMessageProgramSaveError,
   pubsubMessageBlackOut,
   pubsubMessageDmxConnected,
   pubsubMessageDmxDisconnected,
@@ -125,7 +144,7 @@ export type PubsubMessageControlChange = z.infer<
   typeof pubsubMessageControlChange
 >;
 
-export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageLoadShow>;
+export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageShowLoad>;
 export type PubsubMessageBlackOut = z.infer<typeof pubsubMessageBlackOut>;
 
 export type PubsubMessageDmxConnected = z.infer<

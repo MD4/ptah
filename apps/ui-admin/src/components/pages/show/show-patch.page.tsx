@@ -8,7 +8,7 @@ import Splashscreen from "../../atoms/splashscreen";
 import PtahError from "../../molecules/ptah-error";
 import ShowPatch from "../../organisms/show/show-patch";
 
-export default function ShowCreatePage(): JSX.Element {
+export default function ShowPatchPage(): JSX.Element {
   const { showName } = useParams();
 
   const show = useShowGet(showName);

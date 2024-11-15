@@ -1,5 +1,6 @@
 import { logError } from "@ptah/lib-logger";
 import * as models from "@ptah/lib-models";
+import { services } from "@ptah/lib-shared";
 import type { Express } from "express";
 import { z } from "zod";
 import { validateRequest } from "zod-express-middleware";
@@ -74,11 +75,19 @@ export const configureRoutesProgram = (server: Express): Express =>
       (req, res) => {
         handleProgramSave(req.params.name, req.body)
           .then((program) => {
+            services.pubsub.send("system", {
+              type: "program:save:success",
+              programName: program.name,
+            });
             res.statusCode = 201;
             res.json(program);
           })
           .catch((error: unknown) => {
             logError(process.env.SERVICE_NAME, error);
+            services.pubsub.send("system", {
+              type: "program:save:error",
+              programName: req.params.name,
+            });
             res.statusCode = 500;
             res.json(error);
           });

@@ -72,6 +72,9 @@ const handleMidiStatusChannelControlChange = (
 export const handleMidiCallback: MidiCallback = (deltaTime, message) => {
   const [status, data1, data2] = message;
 
+  // @TODO try to check this to handle midi status
+  // if (status === 242) console.log("MIDI STATUS", status, data1, data2);
+
   switch (status) {
     case MIDI_STATUS_SYSTEM_START_SEQUENCE:
       handleMidiStatusSystemStartSequence();

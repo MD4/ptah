@@ -1,9 +1,8 @@
 import { log } from "@ptah/lib-logger";
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
-import { repositories, env, services } from "@ptah/lib-shared";
+import { services } from "@ptah/lib-shared";
 
-import * as patchService from "../services/patch.service";
-import * as runner from "../services/runner.service";
+import * as showService from "../services/show.service";
 import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:system`;
@@ -12,21 +11,7 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
   log(LOG_CONTEXT, "show:load", showName);
 
   try {
-    const show = await repositories.show.loadShowFromPath(
-      `${env.vars.PTAH_SHOWS_PATH}/${showName}.json`,
-    );
-
-    const programs = await Promise.all(
-      Object.values(show.programs).map((programName) =>
-        repositories.program.loadProgramFromPath(
-          `${env.vars.PTAH_PROGRAMS_PATH}/${programName}.json`,
-        ),
-      ),
-    );
-
-    patchService.loadMapping(show, programs);
-    runner.reset();
-    dmx.reset();
+    await showService.loadShow(showName);
 
     services.pubsub.send("system", { type: "show:load:success", showName });
 
@@ -44,11 +29,24 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
 export const handleShowUnload = (): void => {
   log(LOG_CONTEXT, "show:unload");
 
-  patchService.reset();
-  runner.reset();
-  dmx.reset();
+  showService.unloadShow();
 
   log(LOG_CONTEXT, "show:unload:success");
+};
+
+export const handleProgramSaveSuccess = async (
+  programName: string,
+): Promise<void> => {
+  if (showService.containsProgram(programName)) {
+    const show = await showService.reloadShow();
+
+    if (show) {
+      services.pubsub.send("system", {
+        type: "show:reload",
+        showName: show.name,
+      });
+    }
+  }
 };
 
 export const handleBlackout = (): void => {
@@ -63,10 +61,11 @@ export const handleSystemMessage = async (
   switch (message.type) {
     case "show:load":
       return handleShowLoad(message.showName);
-    case "show:unload": {
+    case "show:unload":
       handleShowUnload();
       return;
-    }
+    case "program:save:success":
+      return handleProgramSaveSuccess(message.programName);
     case "blackout":
       handleBlackout();
       break;

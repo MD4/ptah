@@ -152,9 +152,21 @@ export const useProgramPut = (
     mutationFn: programPut,
     onSuccess,
     onError,
-    onSettled: () =>
+    onSettled: (program) =>
       queryClient.invalidateQueries({
-        queryKey: ["program"],
+        queryKey: ["program", program?.name],
       }),
   });
+};
+
+export const useProgramInvalidate = (): ((programName: string) => void) => {
+  const queryClient = useQueryClient();
+
+  return React.useCallback(
+    (programName: string) =>
+      void queryClient.invalidateQueries({
+        queryKey: ["program", programName],
+      }),
+    [queryClient],
+  );
 };

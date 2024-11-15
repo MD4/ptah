@@ -5,9 +5,10 @@ import type {
   ShowName,
 } from "@ptah/lib-models";
 import * as React from "react";
-import { useSocket } from "socket.io-react-hook";
+import { useSocket, useSocketEvent } from "socket.io-react-hook";
 
 import type { SystemState, SystemAction } from "./system.domain.types";
+import { useProgramInvalidate } from "../repositories/program.repository";
 
 const systemEditReducer = (
   state: SystemState,
@@ -70,58 +71,78 @@ export function useSystem(
   )}:${String(Number(import.meta.env.VITE_SERVICE_GATEWAY_WS_PORT))}`;
 
   const { socket, connected } = useSocket<SocketMessages>(wsUrl);
+  const { lastMessage: systemMessage } = useSocketEvent(socket, "system");
+  const { lastMessage: midiMessage } = useSocketEvent(socket, "midi");
 
-  const _onMessage = React.useCallback(
-    (message: PubsubMessage) => {
-      switch (message.type) {
-        case "note:on":
-          dispatch({
-            type: "update-key-state",
-            payload: {
-              key: message.keyNumber,
-              pressed: true,
-            },
-          });
-          break;
-        case "note:off":
-          dispatch({
-            type: "update-key-state",
-            payload: {
-              key: message.keyNumber,
-              pressed: false,
-            },
-          });
-          break;
+  const invalidateProgram = useProgramInvalidate();
 
-        case "dmx:connected":
-          dispatch({
-            type: "update-dmx-status",
-            payload: { dmxStatus: "connected" },
-          });
-          break;
-        case "dmx:connecting":
-          dispatch({
-            type: "update-dmx-status",
-            payload: { dmxStatus: "connecting" },
-          });
-          break;
-        case "dmx:disconnected":
-          dispatch({
-            type: "update-dmx-status",
-            payload: { dmxStatus: "disconnected" },
-          });
-          break;
+  React.useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- false positive
+    if (!midiMessage) {
+      return;
+    }
 
-        default:
-      }
+    switch (midiMessage.type) {
+      case "note:on":
+        dispatch({
+          type: "update-key-state",
+          payload: {
+            key: midiMessage.keyNumber,
+            pressed: true,
+          },
+        });
+        break;
+      case "note:off":
+        dispatch({
+          type: "update-key-state",
+          payload: {
+            key: midiMessage.keyNumber,
+            pressed: false,
+          },
+        });
+        break;
 
-      onMessage(message);
-    },
-    [onMessage],
-  );
+      default:
+    }
 
-  socket.on("midi", _onMessage);
-  socket.on("system", _onMessage);
+    onMessage(midiMessage);
+  }, [invalidateProgram, midiMessage, onMessage]);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- false positive
+    if (!systemMessage) {
+      return;
+    }
+
+    switch (systemMessage.type) {
+      case "dmx:connected":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "connected" },
+        });
+        break;
+      case "dmx:connecting":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "connecting" },
+        });
+        break;
+      case "dmx:disconnected":
+        dispatch({
+          type: "update-dmx-status",
+          payload: { dmxStatus: "disconnected" },
+        });
+        break;
+
+      case "program:save:success":
+        invalidateProgram(systemMessage.programName);
+        break;
+
+      default:
+    }
+
+    onMessage(systemMessage);
+  }, [invalidateProgram, systemMessage, onMessage]);
 
   React.useEffect(() => {
     dispatch({
