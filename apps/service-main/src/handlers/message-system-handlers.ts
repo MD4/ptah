@@ -49,10 +49,14 @@ export const handleProgramSaveSuccess = async (
   }
 };
 
-export const handleBlackout = (): void => {
+export const handleDmxBlackout = (): void => {
   log(LOG_CONTEXT, "blackout");
 
   dmx.reset();
+};
+
+export const handleDmxStatusGet = (): void => {
+  dmx.notifyStatus();
 };
 
 export const handleSystemMessage = async (
@@ -66,8 +70,11 @@ export const handleSystemMessage = async (
       return;
     case "program:save:success":
       return handleProgramSaveSuccess(message.programName);
-    case "blackout":
-      handleBlackout();
+    case "dmx:blackout":
+      handleDmxBlackout();
+      break;
+    case "dmx:status:get":
+      handleDmxStatusGet();
       break;
     default:
   }

@@ -1,70 +1,39 @@
-import type {
-  PubsubMessage,
-  PubsubMessageMidi,
-  PubsubMessageSystem,
-  ShowName,
-} from "@ptah/lib-models";
+import type { PubsubMessage, ShowName } from "@ptah/lib-models";
 import * as React from "react";
 import { useSocket, useSocketEvent } from "socket.io-react-hook";
 
-import type { SystemState, SystemAction } from "./system.domain.types";
+import { systemReducer } from "./system.domain.reducer";
+import type {
+  SystemState,
+  SocketMessages,
+  SystemApi,
+} from "./system.domain.types";
 import { useProgramInvalidate } from "../repositories/program.repository";
-
-const systemEditReducer = (
-  state: SystemState,
-  { type, payload }: SystemAction,
-): SystemState => {
-  switch (type) {
-    case "update-status":
-    case "update-dmx-status":
-      return { ...state, ...payload };
-    case "update-key-state":
-      if (payload.pressed) {
-        return {
-          ...state,
-          keysPressed: state.keysPressed.includes(payload.key)
-            ? state.keysPressed
-            : [...state.keysPressed, payload.key],
-        };
-      }
-
-      return {
-        ...state,
-        keysPressed: state.keysPressed.filter((key) => key !== payload.key),
-      };
-    default:
-      return state;
-  }
-};
 
 const initialSystemState: SystemState = {
   connected: false,
   dmxStatus: "disconnected",
+  midiStatus: "inactive",
   keysPressed: [],
 };
 
-type SystemApi = {
-  loadShow: (showName: ShowName) => void;
-  unloadShow: () => void;
-};
+const SystemStateContext = React.createContext<SystemState>(initialSystemState);
+const SystemApiContext = React.createContext<SystemApi>({
+  loadShow: () => undefined,
+  unloadShow: () => undefined,
+  dmxBlackout: () => undefined,
+  dmxGetStatus: () => undefined,
+  midiGetStatus: () => undefined,
+});
 
-type System = {
-  state: SystemState;
-  api: SystemApi;
-};
-
-type SocketMessages = {
-  midi: (message: PubsubMessageMidi) => void;
-  system: (message: PubsubMessageSystem) => void;
-};
-
-export function useSystem(
-  onMessage: (message: PubsubMessage) => void = () => undefined,
-): System {
-  const [state, dispatch] = React.useReducer(
-    systemEditReducer,
-    initialSystemState,
-  );
+export function SystemProvider({
+  children,
+  onMessage = () => undefined,
+}: {
+  onMessage: (message: PubsubMessage) => void;
+  children: React.ReactNode;
+}): JSX.Element {
+  const [state, dispatch] = React.useReducer(systemReducer, initialSystemState);
 
   const wsUrl = `ws://${String(
     import.meta.env.VITE_SERVICE_GATEWAY_WS_HOST,
@@ -115,22 +84,41 @@ export function useSystem(
     }
 
     switch (systemMessage.type) {
-      case "dmx:connected":
+      case "dmx:status:connected":
         dispatch({
           type: "update-dmx-status",
           payload: { dmxStatus: "connected" },
         });
         break;
-      case "dmx:connecting":
+      case "dmx:status:connecting":
         dispatch({
           type: "update-dmx-status",
           payload: { dmxStatus: "connecting" },
         });
         break;
-      case "dmx:disconnected":
+      case "dmx:status:disconnected":
         dispatch({
           type: "update-dmx-status",
           payload: { dmxStatus: "disconnected" },
+        });
+        break;
+
+      case "midi:status:inactive":
+        dispatch({
+          type: "update-midi-status",
+          payload: { midiStatus: "inactive" },
+        });
+        break;
+      case "midi:status:active":
+        dispatch({
+          type: "update-midi-status",
+          payload: { midiStatus: "active" },
+        });
+        break;
+      case "midi:status:idle":
+        dispatch({
+          type: "update-midi-status",
+          payload: { midiStatus: "idle" },
         });
         break;
 
@@ -144,32 +132,66 @@ export function useSystem(
     onMessage(systemMessage);
   }, [invalidateProgram, systemMessage, onMessage]);
 
+  const loadShow = React.useCallback(
+    (showName: ShowName) =>
+      socket.emit("system", { type: "show:load", showName }),
+    [socket],
+  );
+
+  const unloadShow = React.useCallback(
+    () => socket.emit("system", { type: "show:unload" }),
+    [socket],
+  );
+
+  const dmxBlackout = React.useCallback(
+    () => socket.emit("system", { type: "dmx:blackout" }),
+    [socket],
+  );
+
+  const dmxGetStatus = React.useCallback(
+    () => socket.emit("system", { type: "dmx:status:get" }),
+    [socket],
+  );
+
+  const midiGetStatus = React.useCallback(
+    () => socket.emit("system", { type: "midi:status:get" }),
+    [socket],
+  );
+
+  const api = React.useMemo(
+    () => ({
+      loadShow,
+      unloadShow,
+      dmxBlackout,
+      dmxGetStatus,
+      midiGetStatus,
+    }),
+    [loadShow, unloadShow, dmxBlackout, dmxGetStatus, midiGetStatus],
+  );
+
   React.useEffect(() => {
     dispatch({
       type: "update-status",
       payload: { connected },
     });
-  }, [connected]);
 
-  const loadShow = React.useCallback(
-    (showName: ShowName) => {
-      socket.emit("system", { type: "show:load", showName });
-    },
-    [socket],
+    setTimeout(dmxGetStatus, 100);
+    setTimeout(midiGetStatus, 100);
+  }, [connected, dmxGetStatus, midiGetStatus]);
+
+  return (
+    <SystemStateContext.Provider value={state}>
+      <SystemApiContext.Provider value={api}>
+        {children}
+      </SystemApiContext.Provider>
+    </SystemStateContext.Provider>
   );
+}
 
-  const unloadShow = React.useCallback(() => {
-    socket.emit("system", { type: "show:unload" });
-  }, [socket]);
+export function useSystemState(): SystemState {
+  return React.useContext(SystemStateContext);
+}
 
-  const blackout = React.useCallback(() => {
-    socket.emit("system", { type: "blackout" });
-  }, [socket]);
-
-  const api = React.useMemo(
-    () => ({ loadShow, unloadShow, blackout }),
-    [loadShow, unloadShow, blackout],
-  );
-
-  return React.useMemo(() => ({ state, api }), [state, api]);
+export function useSystemApi(): SystemApi {
+  return React.useContext(SystemApiContext);
 }

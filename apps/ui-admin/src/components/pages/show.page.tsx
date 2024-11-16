@@ -2,7 +2,7 @@ import Title from "antd/es/typography/Title";
 import * as React from "react";
 import { Outlet, useParams } from "react-router-dom";
 
-import { useSystem } from "../../domain/system.domain";
+import { useSystemApi, useSystemState } from "../../domain/system.domain";
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ShowMenu from "../molecules/show/show-menu";
 
@@ -28,13 +28,14 @@ function ShowTitle(): JSX.Element {
 
 export default function ShowPage(): JSX.Element {
   const { showName } = useParams();
-  const system = useSystem();
+  const { connected } = useSystemState();
+  const { loadShow } = useSystemApi();
 
   React.useEffect(() => {
-    if (showName && system.state.connected) {
-      system.api.loadShow(showName);
+    if (showName && connected) {
+      loadShow(showName);
     }
-  }, [showName, system.api, system.state.connected]);
+  }, [connected, showName, loadShow]);
 
   return (
     <WithHeaderLayout

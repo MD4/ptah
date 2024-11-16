@@ -91,20 +91,40 @@ export const pubsubMessageProgramSaveError = z.object({
   programName,
 });
 
-export const pubsubMessageBlackOut = z.object({
-  type: z.literal("blackout"),
+export const pubsubMessageDmxBlackOut = z.object({
+  type: z.literal("dmx:blackout"),
 });
 
-export const pubsubMessageDmxConnected = z.object({
-  type: z.literal("dmx:connected"),
+export const pubsubMessageDmxStatusGet = z.object({
+  type: z.literal("dmx:status:get"),
 });
 
-export const pubsubMessageDmxDisconnected = z.object({
-  type: z.literal("dmx:disconnected"),
+export const pubsubMessageDmxStatusConnected = z.object({
+  type: z.literal("dmx:status:connected"),
 });
 
-export const pubsubMessageDmxConnecting = z.object({
-  type: z.literal("dmx:connecting"),
+export const pubsubMessageDmxStatusDisconnected = z.object({
+  type: z.literal("dmx:status:disconnected"),
+});
+
+export const pubsubMessageDmxStatusConnecting = z.object({
+  type: z.literal("dmx:status:connecting"),
+});
+
+export const pubsubMessageMidiStatusGet = z.object({
+  type: z.literal("midi:status:get"),
+});
+
+export const pubsubMessageMidiStatusInactive = z.object({
+  type: z.literal("midi:status:inactive"),
+});
+
+export const pubsubMessageMidiStatusActive = z.object({
+  type: z.literal("midi:status:active"),
+});
+
+export const pubsubMessageMidiStatusIdle = z.object({
+  type: z.literal("midi:status:idle"),
 });
 
 export const pubsubMessageSystem = z.union([
@@ -115,10 +135,15 @@ export const pubsubMessageSystem = z.union([
   pubsubMessageShowUnload,
   pubsubMessageProgramSaveSucess,
   pubsubMessageProgramSaveError,
-  pubsubMessageBlackOut,
-  pubsubMessageDmxConnected,
-  pubsubMessageDmxDisconnected,
-  pubsubMessageDmxConnecting,
+  pubsubMessageDmxBlackOut,
+  pubsubMessageDmxStatusGet,
+  pubsubMessageDmxStatusConnected,
+  pubsubMessageDmxStatusDisconnected,
+  pubsubMessageDmxStatusConnecting,
+  pubsubMessageMidiStatusGet,
+  pubsubMessageMidiStatusInactive,
+  pubsubMessageMidiStatusActive,
+  pubsubMessageMidiStatusIdle,
 ]);
 
 export const pubsubMessage = z.union([pubsubMessageMidi, pubsubMessageSystem]);
@@ -145,14 +170,17 @@ export type PubsubMessageControlChange = z.infer<
 >;
 
 export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageShowLoad>;
-export type PubsubMessageBlackOut = z.infer<typeof pubsubMessageBlackOut>;
+export type PubsubMessageDmxBlackOut = z.infer<typeof pubsubMessageDmxBlackOut>;
 
-export type PubsubMessageDmxConnected = z.infer<
-  typeof pubsubMessageDmxConnected
+export type PubsubMessageDmxStatusGet = z.infer<
+  typeof pubsubMessageDmxStatusGet
 >;
-export type PubsubMessageDmxDisconnected = z.infer<
-  typeof pubsubMessageDmxDisconnected
+export type PubsubMessageDmxStatusConnected = z.infer<
+  typeof pubsubMessageDmxStatusConnected
 >;
-export type PubsubMessageDmxConnecting = z.infer<
-  typeof pubsubMessageDmxConnecting
+export type PubsubMessageDmxStatusDisconnected = z.infer<
+  typeof pubsubMessageDmxStatusDisconnected
+>;
+export type PubsubMessageDmxStatusConnecting = z.infer<
+  typeof pubsubMessageDmxStatusConnecting
 >;

@@ -9,5 +9,6 @@
     "svg.preview.background": "dark-transparent",
     "files.watcherInclude": [
         "**/node_modules/@ptah/**"
-    ]
+    ],
+    "prettier.configPath": ".prettier.config.js"
 }

@@ -273,6 +273,9 @@ importers:
       '@ptah/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
+      '@ptah/lib-models':
+        specifier: workspace:*
+        version: link:../../packages/lib-models
       '@ptah/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared

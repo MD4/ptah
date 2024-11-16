@@ -3,6 +3,7 @@
 import fs from "node:fs";
 
 import { log } from "@ptah/lib-logger";
+import { type DmxStatus } from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
@@ -15,7 +16,14 @@ const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:dmx`;
 const UNIVERSE_MAIN = "main";
 
 const dmx = new DMX();
+
 let universe: IUniverseDriver | undefined;
+let status: DmxStatus = "disconnected";
+
+const changeStatus = (newStatus: DmxStatus): void => {
+  status = newStatus;
+  notifyStatus();
+};
 
 const getSerialsPorts = (): string[] =>
   fs.readdirSync("/dev").filter((fn) => fn.startsWith("cu.usbserial"));
@@ -24,7 +32,7 @@ process.on(
   "uncaughtException",
   (error: Error & { code?: string; disconnect?: boolean }) => {
     if (error.code === "ENXIO" && error.disconnect) {
-      services.pubsub.send("system", { type: "dmx:disconnected" });
+      changeStatus("disconnected");
 
       log(LOG_CONTEXT, "lost connection to DMX USB device!");
 
@@ -33,10 +41,14 @@ process.on(
   },
 );
 
+export const notifyStatus = (): void => {
+  services.pubsub.send("system", { type: `dmx:status:${status}` });
+};
+
 export const initialize = async (): Promise<void> => {
   log(LOG_CONTEXT, "connecting to DMX USB device..");
 
-  services.pubsub.send("system", { type: "dmx:connecting" });
+  changeStatus("connecting");
 
   let serialPorts = getSerialsPorts();
   let firstCheck = true;
@@ -65,8 +77,7 @@ export const initialize = async (): Promise<void> => {
   }
 
   reset();
-
-  services.pubsub.send("system", { type: "dmx:connected" });
+  changeStatus("connected");
 
   log(LOG_CONTEXT, "DMX connected");
 };

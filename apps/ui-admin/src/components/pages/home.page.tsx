@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Flex } from "antd";
 
-import { useSystem } from "../../domain/system.domain";
+import { useSystemApi, useSystemState } from "../../domain/system.domain";
 import FullCenteredLayout from "../layouts/full-centered.layout";
 
 const styles: Record<string, React.CSSProperties> = {
@@ -20,13 +20,14 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 export default function HomePage(): JSX.Element {
-  const system = useSystem();
+  const { connected } = useSystemState();
+  const { unloadShow } = useSystemApi();
 
   React.useEffect(() => {
-    if (system.state.connected) {
-      system.api.unloadShow();
+    if (connected) {
+      unloadShow();
     }
-  }, [system.api, system.state.connected]);
+  }, [connected, unloadShow]);
 
   return (
     <FullCenteredLayout>

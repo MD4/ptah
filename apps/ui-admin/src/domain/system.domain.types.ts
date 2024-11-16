@@ -1,7 +1,29 @@
+import {
+  type PubsubMessageSystem,
+  type PubsubMessageMidi,
+  type ShowName,
+  type MidiStatus,
+  type DmxStatus,
+} from "@ptah/lib-models";
+
 export type SystemState = {
   connected: boolean;
-  dmxStatus: "connected" | "disconnected" | "connecting";
+  dmxStatus: DmxStatus;
+  midiStatus: MidiStatus;
   keysPressed: number[];
+};
+
+export type SystemApi = {
+  loadShow: (showName: ShowName) => void;
+  unloadShow: () => void;
+  dmxBlackout: () => void;
+  dmxGetStatus: () => void;
+  midiGetStatus: () => void;
+};
+
+export type SocketMessages = {
+  midi: (message: PubsubMessageMidi) => void;
+  system: (message: PubsubMessageSystem) => void;
 };
 
 type SystemActionUpdateStatus = {
@@ -14,7 +36,14 @@ type SystemActionUpdateStatus = {
 type SystemActionUpdateDmxStatus = {
   type: "update-dmx-status";
   payload: {
-    dmxStatus: SystemState["dmxStatus"];
+    dmxStatus: DmxStatus;
+  };
+};
+
+type SystemActionUpdateMidiStatus = {
+  type: "update-midi-status";
+  payload: {
+    midiStatus: MidiStatus;
   };
 };
 
@@ -29,4 +58,5 @@ type SystemActionUpdateKeyState = {
 export type SystemAction =
   | SystemActionUpdateStatus
   | SystemActionUpdateDmxStatus
+  | SystemActionUpdateMidiStatus
   | SystemActionUpdateKeyState;

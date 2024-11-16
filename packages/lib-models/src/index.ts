@@ -11,3 +11,6 @@ export * from "./settings.model";
 export * from "./version.model";
 
 export * from "./pubsub-message.models";
+
+export * from "./dmx.model";
+export * from "./midi.model";

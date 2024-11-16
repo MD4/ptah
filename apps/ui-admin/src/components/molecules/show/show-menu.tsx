@@ -12,13 +12,13 @@ import {
 import type { MenuProps } from "antd";
 import { Button, Dropdown } from "antd";
 
-import { useSystem } from "../../../domain/system.domain";
+import { useSystemApi } from "../../../domain/system.domain";
 import { useShowPrograms } from "../../../repositories/program.repository";
 import { useShowGet } from "../../../repositories/show.repository";
 
 export default function ShowMenu(): JSX.Element {
   const { showName } = useParams();
-  const system = useSystem();
+  const system = useSystemApi();
   const show = useShowGet(showName);
   const programs = useShowPrograms(show.data?.programs ?? {});
 
@@ -26,11 +26,11 @@ export default function ShowMenu(): JSX.Element {
 
   const reload = React.useCallback(() => {
     if (showName) {
-      system.api.loadShow(showName);
+      system.loadShow(showName);
       programs.refetch();
       void show.refetch();
     }
-  }, [programs, show, showName, system.api]);
+  }, [programs, show, showName, system]);
 
   const items: MenuProps["items"] = [
     {

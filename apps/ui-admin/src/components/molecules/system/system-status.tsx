@@ -1,16 +1,14 @@
-import { type PubsubMessage } from "@ptah/lib-models";
+import { type DmxStatus, type MidiStatus } from "@ptah/lib-models";
 import * as React from "react";
-import { useDebounceCallback } from "usehooks-ts";
 
-import { Badge, notification, theme } from "antd";
+import { Badge, theme } from "antd";
 
-import { useSystem } from "../../../domain/system.domain";
-import { type SystemState } from "../../../domain/system.domain.types";
+import { useSystemState } from "../../../domain/system.domain";
 
 const { useToken } = theme;
 
 const getDmxStatusColor = (
-  status: SystemState["dmxStatus"],
+  status: DmxStatus,
 ): "processing" | "warning" | "error" | "success" | "default" => {
   switch (status) {
     case "connected":
@@ -24,36 +22,24 @@ const getDmxStatusColor = (
   }
 };
 
+const getMidiStatusColor = (
+  status: MidiStatus,
+): "processing" | "warning" | "error" | "success" | "default" => {
+  switch (status) {
+    case "active":
+      return "processing";
+    case "inactive":
+      return "error";
+    case "idle":
+      return "warning";
+    default:
+      return "default";
+  }
+};
+
 export default function SystemStatus(): JSX.Element {
-  const [{ error, success }, contextHolder] = notification.useNotification({
-    placement: "bottomRight",
-  });
-
-  const onMessage = React.useCallback(
-    (message: PubsubMessage) => {
-      switch (message.type) {
-        case "show:load:success":
-          success({
-            message: message.showName,
-            description: "Show successfully loaded",
-          });
-          break;
-        case "show:load:error":
-          error({
-            message: message.showName,
-            description: "Something went wrong",
-          });
-          break;
-        default:
-      }
-    },
-    [error, success],
-  );
-
-  const onMessageDebounced = useDebounceCallback(onMessage, 100);
-
   const { token } = useToken();
-  const system = useSystem(onMessageDebounced);
+  const { connected, dmxStatus, midiStatus } = useSystemState();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
@@ -71,14 +57,14 @@ export default function SystemStatus(): JSX.Element {
 
   return (
     <div style={styles.systemStatus}>
-      {contextHolder}
       <Badge
-        status={system.state.connected ? "processing" : "warning"}
-        text={`UI: ${system.state.connected ? "linked" : "linking.."}`}
+        status={connected ? "processing" : "warning"}
+        text={`UI: ${connected ? "linked" : "linking.."}`}
       />
+      <Badge status={getDmxStatusColor(dmxStatus)} text={`DMX: ${dmxStatus}`} />
       <Badge
-        status={getDmxStatusColor(system.state.dmxStatus)}
-        text={`DMX: ${system.state.dmxStatus}`}
+        status={getMidiStatusColor(midiStatus)}
+        text={`MIDI: ${midiStatus}`}
       />
     </div>
   );

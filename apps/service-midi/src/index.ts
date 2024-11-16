@@ -2,6 +2,7 @@ import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
 
+import { handleMessage } from "./handlers/message-handlers";
 import { handleMidiCallback } from "./midi-handlers";
 import * as midiServer from "./midi-server";
 
@@ -25,7 +26,10 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
-  await services.pubsub.connect();
+  await services.pubsub.connect(
+    ["system"],
+    (channel, message) => void handleMessage(channel, message),
+  );
 
   midiServer.start(handleMidiCallback);
 

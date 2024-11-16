@@ -17,6 +17,7 @@
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
     "@ptah/lib-logger": "workspace:*",
+    "@ptah/lib-models": "workspace:*",
     "@ptah/lib-shared": "workspace:*",
     "@types/midi": "^2.0.3",
     "dotenv": "^16.4.5",

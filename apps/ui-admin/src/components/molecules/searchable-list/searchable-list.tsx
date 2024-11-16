@@ -91,7 +91,7 @@ export default function SearchableList({
     <Flex flex="1" gap="middle" vertical>
       <Input
         allowClear
-        bordered={false}
+        variant="borderless"
         onChange={onSearch}
         placeholder={placeholder}
         style={styles.search}
@@ -99,7 +99,6 @@ export default function SearchableList({
       />
 
       <List
-        bordered
         footer={footer}
         loading={isLoading}
         size="large"
