@@ -11,6 +11,7 @@ export type SystemState = {
   dmxStatus: DmxStatus;
   midiStatus: MidiStatus;
   keysPressed: number[];
+  tempo: number;
 };
 
 export type SystemApi = {

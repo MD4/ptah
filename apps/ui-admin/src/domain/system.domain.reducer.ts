@@ -2,30 +2,48 @@ import { type SystemState, type SystemAction } from "./system.domain.types";
 
 export const systemReducer = (
   state: SystemState,
-  { type, payload }: SystemAction,
+  action: SystemAction,
 ): SystemState => {
-  switch (type) {
-    case "update-status":
-    case "update-dmx-status":
-      return { ...state, ...payload };
-    case "update-midi-status":
-      return { ...state, ...payload };
-    case "update-midi-tempo":
-      return { ...state, ...payload };
-    case "update-key-state":
-      if (payload.pressed) {
+  switch (action.type) {
+    case "update-status": {
+      const { connected } = action.payload;
+
+      return { ...state, connected };
+    }
+    case "update-dmx-status": {
+      const { dmxStatus } = action.payload;
+
+      return { ...state, dmxStatus };
+    }
+    case "update-midi-status": {
+      const { midiStatus } = action.payload;
+
+      return { ...state, midiStatus };
+    }
+    case "update-midi-tempo": {
+      const { tempo } = action.payload;
+
+      return { ...state, tempo };
+    }
+    case "update-key-state": {
+      const { key, pressed } = action.payload;
+
+      if (pressed) {
         return {
           ...state,
-          keysPressed: state.keysPressed.includes(payload.key)
+          keysPressed: state.keysPressed.includes(key)
             ? state.keysPressed
-            : [...state.keysPressed, payload.key],
+            : [...state.keysPressed, key],
         };
       }
 
       return {
         ...state,
-        keysPressed: state.keysPressed.filter((key) => key !== payload.key),
+        keysPressed: state.keysPressed.filter(
+          (keyPressed) => keyPressed !== key,
+        ),
       };
+    }
     default:
       return state;
   }

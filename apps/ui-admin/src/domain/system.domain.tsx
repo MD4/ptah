@@ -16,6 +16,7 @@ const initialSystemState: SystemState = {
   dmxStatus: "disconnected",
   midiStatus: "inactive",
   keysPressed: [],
+  tempo: 0,
 };
 
 const SystemStateContext = React.createContext<SystemState>(initialSystemState);

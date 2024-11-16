@@ -39,7 +39,7 @@ const getMidiStatusColor = (
 
 export default function SystemStatus(): JSX.Element {
   const { token } = useToken();
-  const { connected, dmxStatus, midiStatus } = useSystemState();
+  const { connected, dmxStatus, midiStatus, tempo } = useSystemState();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
@@ -54,6 +54,9 @@ export default function SystemStatus(): JSX.Element {
     }),
     [token.sizeMD, token.sizeXS],
   );
+
+  const tempoString =
+    tempo && midiStatus === "active" ? ` (${String(tempo)} BPM)` : "";
 
   return (
     <div style={styles.systemStatus}>
@@ -70,7 +73,7 @@ export default function SystemStatus(): JSX.Element {
       <Badge
         className={midiStatus === "idle" ? "animation-pulse" : ""}
         status={getMidiStatusColor(midiStatus)}
-        text={`MIDI: ${midiStatus}`}
+        text={`MIDI: ${midiStatus} ${tempoString}`}
       />
     </div>
   );
