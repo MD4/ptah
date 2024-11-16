@@ -12,11 +12,11 @@ const getDmxStatusColor = (
 ): "processing" | "warning" | "error" | "success" | "default" => {
   switch (status) {
     case "connected":
-      return "processing";
+      return "success";
     case "disconnected":
       return "error";
     case "connecting":
-      return "warning";
+      return "processing";
     default:
       return "default";
   }
@@ -27,11 +27,11 @@ const getMidiStatusColor = (
 ): "processing" | "warning" | "error" | "success" | "default" => {
   switch (status) {
     case "active":
-      return "processing";
+      return "success";
     case "inactive":
       return "error";
     case "idle":
-      return "warning";
+      return "processing";
     default:
       return "default";
   }
@@ -58,11 +58,17 @@ export default function SystemStatus(): JSX.Element {
   return (
     <div style={styles.systemStatus}>
       <Badge
-        status={connected ? "processing" : "warning"}
-        text={`UI: ${connected ? "linked" : "linking.."}`}
+        className={connected ? "" : "animation-pulse"}
+        status={connected ? "success" : "processing"}
+        text={`UI: ${connected ? "linked" : "linking"}`}
       />
-      <Badge status={getDmxStatusColor(dmxStatus)} text={`DMX: ${dmxStatus}`} />
       <Badge
+        className={dmxStatus === "connecting" ? "animation-pulse" : ""}
+        status={getDmxStatusColor(dmxStatus)}
+        text={`DMX: ${dmxStatus}`}
+      />
+      <Badge
+        className={midiStatus === "idle" ? "animation-pulse" : ""}
         status={getMidiStatusColor(midiStatus)}
         text={`MIDI: ${midiStatus}`}
       />

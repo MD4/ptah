@@ -3,7 +3,7 @@ import { log, logError } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
 
 import { handleMessage } from "./handlers/message-handlers";
-import * as dmx from "./utils/dmx";
+import * as dmx from "./services/dmx.service";
 
 const kill = (gracefully: boolean): void => {
   log(process.env.SERVICE_NAME, "killing...");

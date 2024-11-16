@@ -19,3 +19,21 @@
     transform: none;
   }
 }
+
+@keyframes animationPulse {
+  0% {
+    opacity: 0.66;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.66;
+  }
+}
+
+.animation-pulse {
+  animation: animationPulse 1.5s infinite ease-in-out;
+}

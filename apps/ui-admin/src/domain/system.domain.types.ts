@@ -47,6 +47,13 @@ type SystemActionUpdateMidiStatus = {
   };
 };
 
+type SystemActionUpdateMidiTempo = {
+  type: "update-midi-tempo";
+  payload: {
+    tempo: number;
+  };
+};
+
 type SystemActionUpdateKeyState = {
   type: "update-key-state";
   payload: {
@@ -59,4 +66,5 @@ export type SystemAction =
   | SystemActionUpdateStatus
   | SystemActionUpdateDmxStatus
   | SystemActionUpdateMidiStatus
+  | SystemActionUpdateMidiTempo
   | SystemActionUpdateKeyState;

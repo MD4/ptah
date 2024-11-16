@@ -5,10 +5,10 @@ import fs from "node:fs";
 import { log } from "@ptah/lib-logger";
 import { type DmxStatus } from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
+import { sleep } from "@ptah/lib-utils";
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 
-import { sleep } from "./time";
 import type { PatchMapping } from "../domains/patch.domain.types";
 import type { ProgramOutput } from "../domains/program.types";
 

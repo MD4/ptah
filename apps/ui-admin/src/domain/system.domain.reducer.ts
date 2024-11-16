@@ -10,6 +10,8 @@ export const systemReducer = (
       return { ...state, ...payload };
     case "update-midi-status":
       return { ...state, ...payload };
+    case "update-midi-tempo":
+      return { ...state, ...payload };
     case "update-key-state":
       if (payload.pressed) {
         return {

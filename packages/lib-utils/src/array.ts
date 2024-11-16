@@ -7,7 +7,3 @@ export const deduplicate = <T>(
       memo.some((_item) => predicate(item, _item)) ? memo : [...memo, item],
     [],
   );
-
-export const isDefined = <T>(item: T | undefined | null): item is T => {
-  return Boolean(item);
-};

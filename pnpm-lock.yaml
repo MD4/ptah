@@ -221,6 +221,9 @@ importers:
       '@ptah/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
+      '@ptah/lib-utils':
+        specifier: workspace:*
+        version: link:../../packages/lib-utils
       '@types/midi':
         specifier: ^2.0.3
         version: 2.0.3
@@ -334,9 +337,9 @@ importers:
       '@ptah/lib-models':
         specifier: workspace:*
         version: link:../../packages/lib-models
-      '@ptah/lib-shared':
+      '@ptah/lib-utils':
         specifier: workspace:*
-        version: link:../../packages/lib-shared
+        version: link:../../packages/lib-utils
       '@simbathesailor/use-what-changed':
         specifier: ^2.0.0
         version: 2.0.0(react@18.3.1)
@@ -553,6 +556,34 @@ importers:
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.23.8
+    devDependencies:
+      '@ptah/config-jest':
+        specifier: workspace:*
+        version: link:../config-jest
+      '@ptah/config-ts':
+        specifier: workspace:*
+        version: link:../config-ts
+      '@ptah/eslint-config':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@types/node':
+        specifier: ^22.8.4
+        version: 22.8.6
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(postcss@8.4.47)(typescript@5.6.3)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.6.3
+
+  packages/lib-utils:
+    dependencies:
+      '@ptah/lib-logger':
+        specifier: workspace:*
+        version: link:../lib-logger
       zod:
         specifier: ^3.22.4
         version: 3.23.8
@@ -7141,7 +7172,7 @@ snapshots:
 
   '@types/jsdom@20.0.1':
     dependencies:
-      '@types/node': 22.8.4
+      '@types/node': 22.8.6
       '@types/tough-cookie': 4.0.5
       parse5: 7.2.1
 

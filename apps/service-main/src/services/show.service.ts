@@ -1,9 +1,9 @@
 import { type Show, type ShowName } from "@ptah/lib-models";
 import { env, repositories } from "@ptah/lib-shared";
 
+import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import * as runner from "./runner.service";
-import * as dmx from "../utils/dmx";
 
 let show: Show | undefined;
 

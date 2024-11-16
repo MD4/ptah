@@ -2,8 +2,8 @@ import { log } from "@ptah/lib-logger";
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
 
+import * as dmx from "../services/dmx.service";
 import * as showService from "../services/show.service";
-import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:system`;
 

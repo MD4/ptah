@@ -71,6 +71,13 @@ export function SystemProvider({
         });
         break;
 
+      case "tempo:change":
+        dispatch({
+          type: "update-midi-tempo",
+          payload: { tempo: midiMessage.tempo },
+        });
+        break;
+
       default:
     }
 

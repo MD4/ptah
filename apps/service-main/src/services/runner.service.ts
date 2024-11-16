@@ -1,5 +1,6 @@
 import { log } from "@ptah/lib-logger";
 
+import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import type {
   RunnerControlsState,
@@ -8,7 +9,6 @@ import type {
 import { applyMapping } from "../domains/patch.domain";
 import { getProgramInitialState, performTick } from "../domains/program.domain";
 import type { ProgramOutput } from "../domains/program.types";
-import * as dmx from "../utils/dmx";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:runner`;
 
