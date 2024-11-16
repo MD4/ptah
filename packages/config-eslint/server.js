@@ -41,6 +41,7 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/"],
   // add rules configurations here
   rules: {
+    "semi": ["error", "always"],
     "import/order": [
       "warn",
       {
