@@ -1,4 +1,5 @@
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
+import { sleep } from "@ptah/lib-utils";
 import * as React from "react";
 import { useSocket, useSocketEvent } from "socket.io-react-hook";
 
@@ -176,15 +177,19 @@ export function SystemProvider({
     [loadShow, unloadShow, dmxBlackout, dmxGetStatus, midiGetStatus],
   );
 
-  React.useEffect(() => {
+  const onConnected = React.useCallback(async () => {
     dispatch({
       type: "update-status",
       payload: { connected },
     });
 
-    setTimeout(dmxGetStatus, 100);
-    setTimeout(midiGetStatus, 100);
+    await sleep(100);
+
+    dmxGetStatus();
+    midiGetStatus();
   }, [connected, dmxGetStatus, midiGetStatus]);
+
+  React.useEffect(() => void onConnected(), [onConnected]);
 
   return (
     <SystemStateContext.Provider value={state}>

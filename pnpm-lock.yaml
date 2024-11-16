@@ -282,6 +282,9 @@ importers:
       '@ptah/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
+      '@ptah/lib-utils':
+        specifier: workspace:*
+        version: link:../../packages/lib-utils
       '@types/midi':
         specifier: ^2.0.3
         version: 2.0.3

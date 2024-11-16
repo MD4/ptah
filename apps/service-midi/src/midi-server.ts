@@ -1,10 +1,9 @@
 import { log } from "@ptah/lib-logger";
 import { type MidiStatus } from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
+import { debounce } from "@ptah/lib-utils";
 import type { MidiCallback } from "midi";
 import { Input } from "midi";
-
-import { debounce } from "./utils/debounce";
 
 const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:midi`;
 
