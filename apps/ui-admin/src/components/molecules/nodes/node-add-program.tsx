@@ -1,3 +1,4 @@
+import { noop } from "@ptah/lib-utils";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 
@@ -11,7 +12,7 @@ export type NodeAddProgramData = {
 };
 
 export default function NodeAddProgram({
-  data: { onAddProgram = () => undefined },
+  data: { onAddProgram = noop },
 }: NodeProps<NodeAddProgramData>): JSX.Element {
   const { token } = useToken();
 

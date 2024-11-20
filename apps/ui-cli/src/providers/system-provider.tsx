@@ -1,11 +1,19 @@
 import {
-	DmxStatus,
-	MidiStatus,
-	PubsubMessage,
-	ShowName,
+	type DmxStatus,
+	type MidiStatus,
+	type PubsubMessage,
+	type ShowName,
 } from "@ptah/lib-models";
-import React from "react";
-import { io, Socket } from "socket.io-client";
+import { noop } from "@ptah/lib-utils";
+import React, {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useContext,
+	useMemo,
+	useState,
+} from "react";
+import { io, type Socket } from "socket.io-client";
 
 export type SystemState = {
 	connected: boolean;
@@ -21,7 +29,7 @@ export type SystemApi = {
 	unloadShow: () => void;
 };
 
-let _socket: Socket;
+let _socket: Socket | undefined;
 
 const getSocket = (
 	onConnect: () => void,
@@ -30,10 +38,12 @@ const getSocket = (
 ): Socket => {
 	if (!_socket) {
 		_socket = io("ws://0.0.0.0:5002")
-			.on("connect", async () => {
-				_socket
-					.emit("system", { type: "dmx:status:get" })
-					.emit("system", { type: "midi:status:get" });
+			.on("connect", () => {
+				if (_socket) {
+					_socket
+						.emit("system", { type: "dmx:status:get" })
+						.emit("system", { type: "midi:status:get" });
+				}
 			})
 			.on("connect", onConnect)
 			.on("disconnect", onDisconnect)
@@ -44,8 +54,12 @@ const getSocket = (
 };
 
 export const kill = (): void => {
-	_socket.emit("system", { type: "show:unload" });
-	_socket.disconnect();
+	if (_socket) {
+		_socket.emit("system", { type: "show:unload" });
+		_socket.disconnect();
+	}
+
+	// eslint-disable-next-line no-console -- This is a CLI
 	console.clear();
 	process.exit();
 };
@@ -59,10 +73,10 @@ const initialSystemState: SystemState = {
 	showStatus: "stopped",
 };
 
-const SystemStateContext = React.createContext<SystemState>(initialSystemState);
-const SystemApiContext = React.createContext<SystemApi>({
-	loadShow: () => {},
-	unloadShow: () => {},
+const SystemStateContext = createContext<SystemState>(initialSystemState);
+const SystemApiContext = createContext<SystemApi>({
+	loadShow: noop,
+	unloadShow: noop,
 });
 
 process.on("SIGINT", kill);
@@ -71,40 +85,36 @@ process.on("SIGTERM", kill);
 export function SystemProvider({
 	children,
 }: {
-	children: React.ReactNode;
+	children: ReactNode;
 }): JSX.Element {
-	const [state, setState] = React.useState(initialSystemState);
+	const [state, setState] = useState(initialSystemState);
 
-	const handleConnect = React.useCallback(
-		() =>
-			setState((state) => ({
-				...state,
-				connected: true,
-			})),
-		[setState],
-	);
+	const handleConnect = useCallback(() => {
+		setState((_state) => ({
+			..._state,
+			connected: true,
+		}));
+	}, [setState]);
 
-	const handleDisconnect = React.useCallback(
-		() =>
-			setState((state) => ({
-				...state,
-				connected: false,
-			})),
-		[setState],
-	);
+	const handleDisconnect = useCallback(() => {
+		setState((_state) => ({
+			..._state,
+			connected: false,
+		}));
+	}, [setState]);
 
-	const handleMessage = React.useCallback(
+	const handleMessage = useCallback(
 		(_: string, message: PubsubMessage) => {
 			switch (message.type) {
 				case "program:started":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						activeProgramsIds: [...state.activeProgramsIds, message.id],
 					}));
 					break;
 				case "program:stopped":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						activeProgramsIds: state.activeProgramsIds.filter(
 							(id) => id !== message.id,
 						),
@@ -113,8 +123,8 @@ export function SystemProvider({
 				case "sequence:continue":
 				case "sequence:start":
 				case "sequence:stop":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						tempo: 0,
 						activeProgramsIds: [],
 						showStatus:
@@ -122,74 +132,76 @@ export function SystemProvider({
 					}));
 					break;
 				case "tempo:change":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						tempo: message.tempo,
 					}));
 					break;
 				case "dmx:status:connected":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						dmxStatus: "connected",
 					}));
 					break;
 				case "dmx:status:connecting":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						dmxStatus: "connecting",
 					}));
 					break;
 				case "dmx:status:disconnected":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						dmxStatus: "disconnected",
 					}));
 					break;
 				case "midi:status:active":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						midiStatus: "active",
 						showStatus: "running",
 					}));
 					break;
 				case "midi:status:inactive":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						tempo: 0,
 						midiStatus: "inactive",
 						showStatus: "stopped",
 					}));
 					break;
 				case "midi:status:idle":
-					setState((state) => ({
-						...state,
+					setState((_state) => ({
+						..._state,
 						tempo: 0,
 						midiStatus: "idle",
 						showStatus: "stopped",
 					}));
+					break;
+				default:
 					break;
 			}
 		},
 		[setState],
 	);
 
-	const socket = React.useMemo(
+	const socket = useMemo(
 		() => getSocket(handleConnect, handleDisconnect, handleMessage),
 		[getSocket, handleConnect, handleDisconnect, handleMessage],
 	);
 
-	const loadShow = React.useCallback(
+	const loadShow = useCallback(
 		(showName: ShowName) =>
 			socket.emit("system", { type: "show:load", showName }),
 		[socket],
 	);
 
-	const unloadShow = React.useCallback(
+	const unloadShow = useCallback(
 		() => socket.emit("system", { type: "show:unload" }),
 		[socket],
 	);
 
-	const api: SystemApi = React.useMemo(
+	const api: SystemApi = useMemo(
 		() => ({ loadShow, unloadShow }),
 		[loadShow, unloadShow],
 	);
@@ -203,7 +215,6 @@ export function SystemProvider({
 	);
 }
 
-export const useSystemState = (): SystemState =>
-	React.useContext(SystemStateContext);
+export const useSystemState = (): SystemState => useContext(SystemStateContext);
 
-export const useSystemApi = (): SystemApi => React.useContext(SystemApiContext);
+export const useSystemApi = (): SystemApi => useContext(SystemApiContext);

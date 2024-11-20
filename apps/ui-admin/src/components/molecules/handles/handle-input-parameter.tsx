@@ -1,3 +1,4 @@
+import { noop } from "antd/es/_util/warning";
 import * as React from "react";
 import { Position } from "reactflow";
 
@@ -11,7 +12,7 @@ const { useToken } = theme;
 export default function HandleParameter({
   id,
   label,
-  onChange = () => undefined,
+  onChange = noop,
   defaultValue = 0,
   min,
   max,

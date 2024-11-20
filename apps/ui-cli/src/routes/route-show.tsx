@@ -1,12 +1,13 @@
-import { Show, ShowName } from "@ptah/lib-models";
+import { type Show, type ShowName } from "@ptah/lib-models";
 import { deduplicate, isDefined } from "@ptah/lib-utils";
 import { useInput, Box, Text } from "ink";
 import Spinner from "ink-spinner";
-import React, { useEffect } from "react";
-import { useSystemApi, useSystemState } from "../providers/SystemProvider.js";
+import React, { useEffect, useMemo, useState } from "react";
+
+import { useSystemApi, useSystemState } from "../providers/system-provider.js";
 import { theme } from "../theme.js";
-import { Route } from "./route.types.js";
-import Confirm from "../components/Confim.js";
+import { type Route } from "./route.types.js";
+import Confirm from "../components/confim.js";
 
 export default function RouteShow({
 	showName,
@@ -14,18 +15,20 @@ export default function RouteShow({
 }: {
 	showName: ShowName;
 	navigate: (route: Route) => void;
-}) {
+}): JSX.Element {
 	const { loadShow, unloadShow } = useSystemApi();
 	const { activeProgramsIds, tempo, showStatus } = useSystemState();
-	const [show, setState] = React.useState<Show | undefined>();
-	const [unloadingShow, setUnloadingShow] = React.useState(false);
+	const [show, setState] = useState<Show | undefined>();
+	const [unloadingShow, setUnloadingShow] = useState(false);
 
 	useEffect(() => {
-		fetch(`http://localhost:5001/show/${showName}`)
+		void fetch(`http://localhost:5001/show/${showName}`)
 			.then((res) => res.json())
-			.then((show) => show as Show)
+			.then((json) => json as Show)
 			.then(setState)
-			.then(() => loadShow(showName));
+			.then(() => {
+				loadShow(showName);
+			});
 	}, []);
 
 	useInput((_, key) => {
@@ -39,12 +42,12 @@ export default function RouteShow({
 		}
 	});
 
-	const programs = React.useMemo(
+	const programs = useMemo(
 		() => (show ? deduplicate(Object.values(show.programs)) : []),
 		[show],
 	);
 
-	const activePrograms = React.useMemo(
+	const activePrograms = useMemo(
 		() =>
 			show
 				? activeProgramsIds
@@ -77,7 +80,7 @@ export default function RouteShow({
 					{show.name.toUpperCase()}
 				</Text>
 				<Text bold color={theme.colorPrimary}>
-					{showStatus === "running" && tempo ? `${tempo} bpm` : ""}
+					{showStatus === "running" && tempo ? `${String(tempo)} bpm` : ""}
 				</Text>
 				<Text
 					bold

@@ -1,8 +1,9 @@
+import { type DmxStatus, type MidiStatus } from "@ptah/lib-models";
 import { Box, Text } from "ink";
 import Spinner from "ink-spinner";
 import React from "react";
+
 import { theme, dmxStatusColor, midiStatusColor } from "../theme.js";
-import { DmxStatus, MidiStatus } from "@ptah/lib-models";
 
 export default function Statuses({
 	connected,
@@ -12,7 +13,7 @@ export default function Statuses({
 	connected: boolean;
 	dmxStatus: DmxStatus;
 	midiStatus: MidiStatus;
-}) {
+}): JSX.Element {
 	return (
 		<Box justifyContent="space-around" width="100%">
 			<div />

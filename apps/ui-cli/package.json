@@ -1,7 +1,7 @@
 {
 	"name": "@ptah/ui-cli",
 	"version": "0.0.1",
-	"license": "MIT",
+	"private": true,
 	"bin": "dist/cli.js",
 	"type": "module",
 	"engines": {
@@ -9,13 +9,17 @@
 	},
 	"scripts": {
 		"build": "tsc",
+		"clean": "rm -rf dist",
 		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava"
+		"typecheck": "tsc --noEmit",
+		"lint": "eslint src/"
 	},
 	"files": [
 		"dist"
 	],
 	"dependencies": {
+		"@ptah/lib-models": "workspace:*",
+		"@ptah/lib-utils": "workspace:*",
 		"ink": "^4.1.0",
 		"ink-confirm-input": "^2.0.0",
 		"ink-image": "^2.0.0",
@@ -27,12 +31,10 @@
 		"socket.io-client": "^4.8.1"
 	},
 	"devDependencies": {
-		"@ptah/lib-models": "workspace:*",
-		"@ptah/lib-utils": "workspace:*",
+		"@ptah/eslint-config": "workspace:*",
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/react": "^18.0.32",
 		"@vdemedes/prettier-config": "^2.0.1",
-		"ava": "^5.2.0",
 		"chalk": "^5.2.0",
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.32.2",
@@ -40,24 +42,6 @@
 		"ink-testing-library": "^3.0.0",
 		"prettier": "^2.8.7",
 		"ts-node": "^10.9.1",
-		"typescript": "^5.0.3",
-		"xo": "^0.53.1"
-	},
-	"ava": {
-		"extensions": {
-			"ts": "module",
-			"tsx": "module"
-		},
-		"nodeArguments": [
-			"--loader=ts-node/esm"
-		]
-	},
-	"xo": {
-		"extends": "xo-react",
-		"prettier": true,
-		"rules": {
-			"react/prop-types": "off"
-		}
-	},
-	"prettier": "@vdemedes/prettier-config"
+		"typescript": "^5.0.3"
+	}
 }

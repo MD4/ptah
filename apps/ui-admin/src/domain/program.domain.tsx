@@ -1,5 +1,6 @@
 import * as domains from "@ptah/lib-domains";
 import type * as models from "@ptah/lib-models";
+import { noop } from "@ptah/lib-utils";
 import { deepEqual } from "fast-equals";
 import * as React from "react";
 
@@ -86,9 +87,8 @@ const ProgramEditContext = React.createContext<ProgramEditContextType>({
   hasChanged: false,
 });
 
-const ProgramEditDispatchContext = React.createContext<
-  React.Dispatch<ProgramEditAction>
->(() => undefined);
+const ProgramEditDispatchContext =
+  React.createContext<React.Dispatch<ProgramEditAction>>(noop);
 
 export function ProgramEditProvider({
   children,

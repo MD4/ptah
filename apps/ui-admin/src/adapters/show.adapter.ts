@@ -1,4 +1,5 @@
 import type * as models from "@ptah/lib-models";
+import { noop } from "@ptah/lib-utils";
 import type { Node } from "reactflow";
 
 import type { NodeAddProgramData } from "../components/molecules/nodes/node-add-program";
@@ -15,7 +16,7 @@ export const adaptModelShowProgramsToReactFlowNodes = (
   programsDefinitions: models.Program[] = [],
   x = 700,
   addButton = false,
-  openProgramModal: () => void = () => undefined,
+  openProgramModal = noop,
   noInput = false,
 ): Node<NodeProgramData | NodeAddProgramData>[] => {
   let y = 0;

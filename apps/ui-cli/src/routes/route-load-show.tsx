@@ -1,25 +1,26 @@
 import { useInput, Box, Text } from "ink";
 import SelectInput from "ink-select-input";
 import Spinner from "ink-spinner";
-import React, { useEffect } from "react";
-import { Route } from "./route.types.js";
-import { Item } from "./item.types.js";
+import React, { useCallback, useEffect, useState } from "react";
+
+import { type Item } from "./item.types.js";
+import { type Route } from "./route.types.js";
 import { theme } from "../theme.js";
 
 export default function RouteLoadShow({
 	navigate,
 }: {
 	navigate: (route: Route) => void;
-}) {
-	const [shows, setState] = React.useState<Item<string>[]>([]);
+}): JSX.Element {
+	const [shows, setState] = useState<Item<string>[]>([]);
 
 	useEffect(() => {
 		fetch("http://localhost:5001/show")
 			.then((res) => res.json())
-			.then((shows) => shows as string[])
-			.then((shows) =>
-				setState(shows.map((show) => ({ label: show, value: show }))),
-			)
+			.then((json) => json as string[])
+			.then((_shows) => {
+				setState(_shows.map((show) => ({ label: show, value: show })));
+			})
 			.catch(() => []);
 	}, []);
 
@@ -29,10 +30,9 @@ export default function RouteLoadShow({
 		}
 	});
 
-	const onSelect = React.useCallback(
-		(item: Item<string>) => navigate({ path: "show", showName: item.value }),
-		[],
-	);
+	const onSelect = useCallback((item: Item<string>) => {
+		navigate({ path: "show", showName: item.value });
+	}, []);
 
 	return !shows.length ? (
 		<Text>

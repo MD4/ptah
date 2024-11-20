@@ -1,8 +1,9 @@
 import { Box, Text } from "ink";
 import React from "react";
+
 import { theme } from "../theme.js";
 
-export default function Confirm() {
+export default function Confirm(): JSX.Element {
 	return (
 		<Box
 			flexGrow={1}

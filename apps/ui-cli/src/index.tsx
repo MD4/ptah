@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import meow from "meow";
 import { render } from "ink";
+import meow from "meow";
 import React from "react";
 
-import App from "./App.js";
-import { kill, SystemProvider } from "./providers/SystemProvider.js";
+import App from "./app.js";
+import { kill, SystemProvider } from "./providers/system-provider.js";
 
 const cli = meow(
 	`

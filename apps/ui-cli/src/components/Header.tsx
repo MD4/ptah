@@ -1,5 +1,6 @@
 import { Box, Text } from "ink";
 import React from "react";
+
 import { theme } from "../theme.js";
 
 export default function Header({
@@ -8,7 +9,7 @@ export default function Header({
 }: {
 	packageName: string;
 	packageVersion: string;
-}) {
+}): JSX.Element {
 	return (
 		<Box alignItems="center" justifyContent="space-between" width="100%">
 			<Box

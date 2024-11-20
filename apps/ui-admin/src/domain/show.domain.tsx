@@ -1,5 +1,6 @@
 import * as domains from "@ptah/lib-domains";
 import type * as models from "@ptah/lib-models";
+import { noop } from "@ptah/lib-utils";
 import { deepEqual } from "fast-equals";
 import * as React from "react";
 
@@ -76,9 +77,8 @@ const ShowEditContext = React.createContext<ShowEditContextType>({
   hasChanged: false,
 });
 
-const ShowEditDispatchContext = React.createContext<
-  React.Dispatch<ShowEditAction>
->(() => undefined);
+const ShowEditDispatchContext =
+  React.createContext<React.Dispatch<ShowEditAction>>(noop);
 
 export function ShowEditProvider({
   children,

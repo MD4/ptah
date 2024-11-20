@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
 import { Box } from "ink";
-import { useSystemState } from "./providers/SystemProvider.js";
-import { RouteHome } from "./routes/RouteHome.js";
-import { Route } from "./routes/route.types.js";
+import React, { useEffect, useState } from "react";
+
+import Header from "./components/header.js";
+import Statuses from "./components/statuses.js";
+import { useSystemState } from "./providers/system-provider.js";
+import { RouteHome } from "./routes/route-home.js";
+import RouteLoadShow from "./routes/route-load-show.js";
+import RouteShow from "./routes/route-show.js";
+import { type Route } from "./routes/route.types.js";
 import { theme } from "./theme.js";
-import RouteLoadShow from "./routes/RouteLoadShow.js";
-import RouteShow from "./routes/RouteShow.js";
-import Statuses from "./components/Statuses.js";
-import Header from "./components/Header.js";
 
 export default function App({
 	packageName,
@@ -15,10 +16,10 @@ export default function App({
 }: {
 	packageName: string;
 	packageVersion: string;
-}) {
-	const [width, setWidth] = React.useState(process.stdout.columns);
-	const [height, setHeight] = React.useState(process.stdout.rows);
-	const [route, setRoute] = React.useState<Route>({ path: "home" });
+}): JSX.Element {
+	const [width, setWidth] = useState(process.stdout.columns);
+	const [height, setHeight] = useState(process.stdout.rows);
+	const [route, setRoute] = useState<Route>({ path: "home" });
 
 	const state = useSystemState();
 

@@ -1,5 +1,5 @@
 import type { PubsubMessage, ShowName } from "@ptah/lib-models";
-import { sleep } from "@ptah/lib-utils";
+import { noop, sleep } from "@ptah/lib-utils";
 import * as React from "react";
 import { useSocket, useSocketEvent } from "socket.io-react-hook";
 
@@ -21,16 +21,16 @@ const initialSystemState: SystemState = {
 
 const SystemStateContext = React.createContext<SystemState>(initialSystemState);
 const SystemApiContext = React.createContext<SystemApi>({
-  loadShow: () => undefined,
-  unloadShow: () => undefined,
-  dmxBlackout: () => undefined,
-  dmxGetStatus: () => undefined,
-  midiGetStatus: () => undefined,
+  loadShow: noop,
+  unloadShow: noop,
+  dmxBlackout: noop,
+  dmxGetStatus: noop,
+  midiGetStatus: noop,
 });
 
 export function SystemProvider({
   children,
-  onMessage = () => undefined,
+  onMessage = noop,
 }: {
   onMessage: (message: PubsubMessage) => void;
   children: React.ReactNode;
