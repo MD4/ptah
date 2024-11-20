@@ -13,7 +13,7 @@ import {
 
 export const configureRoutesShow = (server: Express): Express =>
   server
-    .get("/show", (req, res) => {
+    .get("/show", (_, res) => {
       handleShowList()
         .then((shows) => {
           res.statusCode = 200;

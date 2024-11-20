@@ -87,18 +87,22 @@ export const reset = (): void => {
     return;
   }
 
-  dmx.updateAll(UNIVERSE_MAIN, 0);
+  setImmediate(() => {
+    dmx.updateAll(UNIVERSE_MAIN, 0);
+  });
 };
 
 export const resetProgram = (mapping: PatchMapping): void => {
-  dmx.update(
-    UNIVERSE_MAIN,
-    mapping.reduce<ProgramOutput>((channels, channel) => {
-      channels[channel] = 0;
+  setImmediate(() => {
+    dmx.update(
+      UNIVERSE_MAIN,
+      mapping.reduce<ProgramOutput>((channels, channel) => {
+        channels[channel] = 0;
 
-      return channels;
-    }, {}),
-  );
+        return channels;
+      }, {}),
+    );
+  });
 };
 
 export const update = (programOutput: ProgramOutput): void => {
@@ -106,5 +110,7 @@ export const update = (programOutput: ProgramOutput): void => {
     return;
   }
 
-  dmx.update(UNIVERSE_MAIN, programOutput);
+  setImmediate(() => {
+    dmx.update(UNIVERSE_MAIN, programOutput);
+  });
 };

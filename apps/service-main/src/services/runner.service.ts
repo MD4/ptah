@@ -1,4 +1,5 @@
 import { log } from "@ptah/lib-logger";
+import { services } from "@ptah/lib-shared";
 
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
@@ -26,15 +27,20 @@ export const setControlValue = (controlId: number, value: number): void => {
 
 export const startProgram = (id: number, parameter: number): void => {
   const patchItem = patchService.getFromId(id);
-
   if (patchItem) {
     const { program, mapping } = patchItem;
+
     programsState.set(id, {
       program,
       mapping,
       programState: getProgramInitialState(program, controlsState),
     });
   }
+
+  services.pubsub.send("system", {
+    type: "program:started",
+    id,
+  });
 
   log(LOG_CONTEXT, "program:start", id, parameter);
 };
@@ -51,6 +57,11 @@ export const stopProgram = (id: number): void => {
   }
 
   programsState.delete(id);
+
+  services.pubsub.send("system", {
+    type: "program:stopped",
+    id,
+  });
 
   log(LOG_CONTEXT, "program:stop", id);
 };

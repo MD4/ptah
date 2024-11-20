@@ -81,6 +81,16 @@ export const pubsubMessageShowUnload = z.object({
   type: z.literal("show:unload"),
 });
 
+export const pubsubMessageProgramStarted = z.object({
+  type: z.literal("program:started"),
+  id: z.number(),
+});
+
+export const pubsubMessageProgramStopped = z.object({
+  type: z.literal("program:stopped"),
+  id: z.number(),
+});
+
 export const pubsubMessageProgramSaveSucess = z.object({
   type: z.literal("program:save:success"),
   programName,
@@ -133,6 +143,8 @@ export const pubsubMessageSystem = z.union([
   pubsubMessageShowLoadSucess,
   pubsubMessageShowLoadError,
   pubsubMessageShowUnload,
+  pubsubMessageProgramStarted,
+  pubsubMessageProgramStopped,
   pubsubMessageProgramSaveSucess,
   pubsubMessageProgramSaveError,
   pubsubMessageDmxBlackOut,
