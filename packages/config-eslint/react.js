@@ -36,23 +36,23 @@ module.exports = {
     "import/order": [
       "warn",
       {
-        "groups": [
+        groups: [
           "builtin",
           "external",
           "internal",
-          ["parent", "sibling", "index"]
+          ["parent", "sibling", "index"],
         ],
-        "pathGroups": [
+        pathGroups: [
           {
-            "pattern": "{antd,@ant-design/icons}",
-            "group": "external",
-            "position": "after"
-          }
+            pattern: "{antd,@ant-design/icons}",
+            group: "external",
+            position: "after",
+          },
         ],
-        "pathGroupsExcludedImportTypes": ["builtin"],
-        "alphabetize": {"order": "asc"},
-        "newlines-between": "always"
-      }
+        pathGroupsExcludedImportTypes: ["builtin"],
+        alphabetize: { order: "asc" },
+        "newlines-between": "always",
+      },
     ],
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "@typescript-eslint/no-unsafe-assignment": "off",
@@ -60,10 +60,8 @@ module.exports = {
     "react/no-unknown-property": [
       2,
       {
-        "ignore": [
-          "jsx"
-        ]
-      }
-    ]
+        ignore: ["jsx"],
+      },
+    ],
   },
 };

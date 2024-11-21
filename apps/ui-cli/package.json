@@ -2,13 +2,15 @@
 	"name": "@ptah/ui-cli",
 	"version": "0.0.1",
 	"private": true,
-	"bin": "dist/cli.js",
+	"bin": {
+		"ptah": "./dist/index.js"
+	},
 	"type": "module",
 	"engines": {
 		"node": ">=16"
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc; chmod u+x dist/index.js; npm link",
 		"clean": "rm -rf dist",
 		"dev": "tsc --watch",
 		"typecheck": "tsc --noEmit",

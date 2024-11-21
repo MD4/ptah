@@ -41,30 +41,29 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/"],
   // add rules configurations here
   rules: {
-    "semi": ["error", "always"],
+    semi: ["error", "always"],
     "import/order": [
       "warn",
       {
-        "groups": [
+        groups: [
           "builtin",
           "external",
           "internal",
-          ["parent", "sibling", "index"]
+          ["parent", "sibling", "index"],
         ],
-        "pathGroups": [
+        pathGroups: [
           {
-            "pattern": "{antd,@ant-design/icons}",
-            "group": "external",
-            "position": "after"
-          }
+            pattern: "{antd,@ant-design/icons}",
+            group: "external",
+            position: "after",
+          },
         ],
-        "pathGroupsExcludedImportTypes": ["builtin"],
-        "alphabetize": {"order": "asc"},
-        "newlines-between": "always"
-      }
+        pathGroupsExcludedImportTypes: ["builtin"],
+        alphabetize: { order: "asc" },
+        "newlines-between": "always",
+      },
     ],
     "import/no-default-export": "off",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-    
   },
 };
