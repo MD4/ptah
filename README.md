@@ -23,6 +23,7 @@ Then, please run:
 
 ```bash
 pnpm i
+pnpm build
 pnpm start
 ```
 

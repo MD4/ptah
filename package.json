@@ -2,8 +2,8 @@
   "name": "ptah",
   "private": true,
   "scripts": {
-    "start": "turbo start",
-    "build": "turbo build --force --no-cache; npm link .",
+    "start": "cd apps/app && pnpm start",
+    "build": "turbo build --force --no-cache",
     "clean": "turbo clean",
     "dev": "turbo dev --no-cache  --continue --concurrency 20",
     "format": "prettier --write \"**/*.{js,ts,tsx,md}\" --config .prettier.config.js",
