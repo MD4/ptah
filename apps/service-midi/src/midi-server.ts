@@ -5,7 +5,7 @@ import { debounce } from "@ptah/lib-utils";
 import type { MidiCallback } from "midi";
 import { Input } from "midi";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:midi`;
+const LOG_CONTEXT = `${process.env.SERVICE_MIDI_NAME ?? ""}:midi`;
 
 const input = new Input();
 

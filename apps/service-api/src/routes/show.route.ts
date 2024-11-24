@@ -20,7 +20,7 @@ export const configureRoutesShow = (server: Express): Express =>
           res.json(shows);
         })
         .catch((error: unknown) => {
-          logError(process.env.SERVICE_NAME, error);
+          logError(process.env.SERVICE_API_NAME, error);
           res.statusCode = 500;
           res.json(error);
         });
@@ -37,7 +37,7 @@ export const configureRoutesShow = (server: Express): Express =>
             res.json(show);
           })
           .catch((error: unknown) => {
-            logError(process.env.SERVICE_NAME, error);
+            logError(process.env.SERVICE_API_NAME, error);
             res.statusCode = 500;
             res.json(error);
           });
@@ -50,7 +50,7 @@ export const configureRoutesShow = (server: Express): Express =>
           res.json(show);
         })
         .catch((error: unknown) => {
-          logError(process.env.SERVICE_NAME, error);
+          logError(process.env.SERVICE_API_NAME, error);
           res.statusCode = 500;
           res.json(error);
         });
@@ -70,7 +70,7 @@ export const configureRoutesShow = (server: Express): Express =>
             res.json(show);
           })
           .catch((error: unknown) => {
-            logError(process.env.SERVICE_NAME, error);
+            logError(process.env.SERVICE_API_NAME, error);
             res.statusCode = 500;
             res.json(error);
           });

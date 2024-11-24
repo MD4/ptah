@@ -1,7 +1,9 @@
 {
-  "name": "@ptah/gateway-ws",
+  "name": "@ptah/service-gateway-ws",
   "version": "0.0.0",
   "private": true,
+  "type": "commonjs",
+  "main": "dist/index.js",
   "scripts": {
     "start": "nodemon dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",

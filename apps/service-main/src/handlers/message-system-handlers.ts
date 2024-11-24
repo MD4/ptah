@@ -5,7 +5,7 @@ import { services } from "@ptah/lib-shared";
 import * as dmx from "../services/dmx.service";
 import * as showService from "../services/show.service";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:system`;
+const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:system`;
 
 export const handleShowLoad = async (showName: ShowName): Promise<void> => {
   log(LOG_CONTEXT, "show:load", showName);

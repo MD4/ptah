@@ -3,7 +3,7 @@ import { log } from "@ptah/lib-logger";
 import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
 import * as kalm from "kalm";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:pusub`;
+const LOG_CONTEXT = `${process.env.UI_ADMIN_NAME ?? ""}:pusub`;
 
 let client: Client | undefined;
 let reconnecting = false;

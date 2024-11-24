@@ -1,0 +1,25 @@
+{
+  "name": "@ptah/app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r dotenv/config .",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@ptah/service-api": "workspace:*",
+    "@ptah/service-bus": "workspace:*",
+    "@ptah/service-gateway-ws": "workspace:*",
+    "@ptah/service-main": "workspace:*",
+    "@ptah/service-midi": "workspace:*",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7",
+    "pm2": "^5.4.3"
+  },
+  "devDependencies": {
+    "@ptah/eslint-config": "workspace:*",
+    "@types/node": "^22.8.4"
+  }
+}

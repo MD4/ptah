@@ -10,15 +10,19 @@ export const start = (
   onMessage: (channel: PubsubChannel, message: PubsubMessage) => void,
 ): Promise<void> =>
   new Promise((resolve) => {
-    server = new Server(Number(process.env.SERVICE_PORT), {
+    server = new Server(Number(process.env.SERVICE_GATEWAY_WS_PORT), {
       cors: { origin: "*" },
     });
 
     server.on("connection", (client: Socket) => {
-      log(process.env.SERVICE_NAME, "client connected");
+      log(process.env.SERVICE_GATEWAY_WS_NAME, "client connected");
 
       client.on("disconnect", (reason) => {
-        log(process.env.SERVICE_NAME, "client disconnected, reason:", reason);
+        log(
+          process.env.SERVICE_GATEWAY_WS_NAME,
+          "client disconnected, reason:",
+          reason,
+        );
       });
 
       for (const channel of channels) {
@@ -32,9 +36,9 @@ export const start = (
   });
 
 export const stop = async (): Promise<void> => {
-  log(process.env.SERVICE_NAME, "stopping ipc");
+  log(process.env.SERVICE_GATEWAY_WS_NAME, "stopping ipc");
   await server?.close();
-  log(process.env.SERVICE_NAME, "ipc stopped");
+  log(process.env.SERVICE_GATEWAY_WS_NAME, "ipc stopped");
 };
 
 export const broadcast = (

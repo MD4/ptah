@@ -7,10 +7,10 @@ import { handleMidiCallback } from "./midi-handlers";
 import * as midiServer from "./midi-server";
 
 const kill = (gracefully: boolean): void => {
-  log(process.env.SERVICE_NAME, "killing...");
+  log(process.env.SERVICE_MIDI_NAME, "killing...");
   midiServer.stop();
   services.pubsub.disconnect();
-  log(process.env.SERVICE_NAME, "killed.");
+  log(process.env.SERVICE_MIDI_NAME, "killed.");
   process.exitCode = gracefully ? 0 : 1;
   process.exit();
 };
@@ -20,7 +20,7 @@ const killVoid = (gracefully: boolean) => (): void => {
 };
 
 const main = async (): Promise<void> => {
-  log(process.env.SERVICE_NAME, "starting..");
+  log(process.env.SERVICE_MIDI_NAME, "starting..");
 
   process.on("SIGINT", killVoid(true));
   process.on("SIGTERM", killVoid(true));
@@ -32,10 +32,10 @@ const main = async (): Promise<void> => {
 
   midiServer.start(handleMidiCallback);
 
-  log(process.env.SERVICE_NAME, "service is running");
+  log(process.env.SERVICE_MIDI_NAME, "service is running");
 };
 
 main().catch((err: unknown) => {
-  logError(process.env.SERVICE_NAME, err);
+  logError(process.env.SERVICE_MIDI_NAME, err);
   kill(false);
 });

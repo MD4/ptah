@@ -12,7 +12,7 @@ import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 import type { PatchMapping } from "../domains/patch.domain.types";
 import type { ProgramOutput } from "../domains/program.types";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:dmx`;
+const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:dmx`;
 const UNIVERSE_MAIN = "main";
 
 const dmx = new DMX();

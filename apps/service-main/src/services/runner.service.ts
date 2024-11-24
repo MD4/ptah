@@ -11,7 +11,7 @@ import { applyMapping } from "../domains/patch.domain";
 import { getProgramInitialState, performTick } from "../domains/program.domain";
 import type { ProgramOutput } from "../domains/program.types";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:runner`;
+const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:runner`;
 
 const programsState: RunnerProgramsState = new Map();
 const controlsState: RunnerControlsState = new Map();

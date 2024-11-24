@@ -6,9 +6,9 @@ import { handleMessage } from "./handlers/message-handlers";
 import * as dmx from "./services/dmx.service";
 
 const kill = (gracefully: boolean): void => {
-  log(process.env.SERVICE_NAME, "killing...");
+  log(process.env.SERVICE_MAIN_NAME, "killing...");
   services.pubsub.disconnect();
-  log(process.env.SERVICE_NAME, "killed.");
+  log(process.env.SERVICE_MAIN_NAME, "killed.");
   process.exitCode = gracefully ? 0 : 1;
   process.exit();
 };
@@ -18,7 +18,7 @@ const killVoid = (gracefully: boolean) => (): void => {
 };
 
 const main = async (): Promise<void> => {
-  log(process.env.SERVICE_NAME, "starting..");
+  log(process.env.SERVICE_MAIN_NAME, "starting..");
   process.on("SIGINT", killVoid(true));
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
@@ -31,10 +31,10 @@ const main = async (): Promise<void> => {
     dmx.initialize(),
   ]);
 
-  log(process.env.SERVICE_NAME, "service is running");
+  log(process.env.SERVICE_MAIN_NAME, "service is running");
 };
 
 main().catch((error: unknown) => {
-  logError(process.env.SERVICE_NAME, error);
+  logError(process.env.SERVICE_MAIN_NAME, error);
   kill(false);
 });

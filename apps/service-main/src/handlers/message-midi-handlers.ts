@@ -4,7 +4,7 @@ import type { PubsubMessage } from "@ptah/lib-models";
 import * as dmx from "../services/dmx.service";
 import * as runner from "../services/runner.service";
 
-const LOG_CONTEXT = `${process.env.SERVICE_NAME ?? ""}:midi`;
+const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:midi`;
 
 export const handleNoteOn = (keyNumber: number, velocity: number): void => {
   runner.startProgram(keyNumber, velocity);

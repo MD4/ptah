@@ -2,7 +2,8 @@
   "name": "@ptah/service-bus",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
+  "type": "commonjs",
+  "main": "dist/index.js",  "scripts": {
     "start": "nodemon dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup",

@@ -21,7 +21,7 @@ export const configureRoutesProgram = (server: Express): Express =>
           res.json(programs);
         })
         .catch((error: unknown) => {
-          logError(process.env.SERVICE_NAME, error);
+          logError(process.env.SERVICE_API_NAME, error);
           res.statusCode = 500;
           res.json(error);
         });
@@ -38,7 +38,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.json(program);
           })
           .catch((error: unknown) => {
-            logError(process.env.SERVICE_NAME, error);
+            logError(process.env.SERVICE_API_NAME, error);
             res.statusCode = 500;
             res.json(error);
           });
@@ -58,7 +58,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.json(program);
           })
           .catch((error: unknown) => {
-            logError(process.env.SERVICE_NAME, error);
+            logError(process.env.SERVICE_API_NAME, error);
             res.statusCode = 500;
             res.json(error);
           });
@@ -83,7 +83,7 @@ export const configureRoutesProgram = (server: Express): Express =>
             res.json(program);
           })
           .catch((error: unknown) => {
-            logError(process.env.SERVICE_NAME, error);
+            logError(process.env.SERVICE_API_NAME, error);
             services.pubsub.send("system", {
               type: "program:save:error",
               programName: req.params.name,

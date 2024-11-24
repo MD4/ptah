@@ -6,14 +6,14 @@ import { services } from "@ptah/lib-shared";
 import { createServer, killServer } from "./services/server.service";
 
 const kill = async (gracefully: boolean): Promise<void> => {
-  log(process.env.SERVICE_NAME, "killing...");
+  log(process.env.SERVICE_API_NAME, "killing...");
   services.pubsub.disconnect();
   if (gracefully) {
     await killServer();
   } else {
     void killServer();
   }
-  log(process.env.SERVICE_NAME, "killed.");
+  log(process.env.SERVICE_API_NAME, "killed.");
   process.exitCode = gracefully ? 0 : 1;
   process.exit();
 };
@@ -21,7 +21,7 @@ const kill = async (gracefully: boolean): Promise<void> => {
 const killVoid = (gracefully: boolean) => (): void => void kill(gracefully);
 
 const main = async (): Promise<void> => {
-  log(process.env.SERVICE_NAME, "starting..");
+  log(process.env.SERVICE_API_NAME, "starting..");
 
   process.on("SIGINT", killVoid(true));
   process.on("SIGTERM", killVoid(true));
@@ -30,10 +30,10 @@ const main = async (): Promise<void> => {
   await services.settings.loadSettingsOrInitialize();
   await Promise.all([services.pubsub.connect(), createServer()]);
 
-  log(process.env.SERVICE_NAME, "service is running");
+  log(process.env.SERVICE_API_NAME, "service is running");
 };
 
 main().catch((error: unknown) => {
-  logError(process.env.SERVICE_NAME, error);
+  logError(process.env.SERVICE_API_NAME, error);
   return kill(false);
 });

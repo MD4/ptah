@@ -23,7 +23,7 @@ export const createServer = (): Promise<void> =>
         .use(json())
         .use(cors()),
     )
-      .listen(process.env.SERVICE_PORT ?? 5001, resolve)
+      .listen(process.env.SERVICE_API_PORT ?? 5001, resolve)
       .on("error", reject);
   });
 
