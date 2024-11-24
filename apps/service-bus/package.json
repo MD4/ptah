@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "type": "commonjs",
-  "main": "dist/index.js",  "scripts": {
+  "main": "dist/index.js",
+  "scripts": {
     "start": "nodemon dist/index.js",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup",
@@ -28,10 +29,10 @@
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
     "@ptah/eslint-config": "workspace:*",
-    "@types/node": "^22.8.4",
+    "@types/node": "^22.9.3",
     "@types/supertest": "^6.0.2",
     "supertest": "^7.0.0",
     "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.2"
   }
 }
