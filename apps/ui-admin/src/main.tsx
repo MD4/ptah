@@ -8,8 +8,10 @@ import { ConfigProvider } from "antd";
 
 import "./index.scss";
 
-import PtahApp from "./components/ptah-app";
+import PageLoader from "./components/atoms/page-loader";
 import { ptahTheme } from "./theme";
+
+const PtahApp = React.lazy(() => import("./components/ptah-app"));
 
 const rootElement = document.getElementById("root");
 
@@ -35,7 +37,9 @@ if (rootElement) {
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={ptahTheme}>
             <BrowserRouter>
-              <PtahApp />
+              <React.Suspense fallback={<PageLoader />}>
+                <PtahApp />
+              </React.Suspense>
             </BrowserRouter>
           </ConfigProvider>
         </QueryClientProvider>

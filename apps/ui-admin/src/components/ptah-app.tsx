@@ -5,19 +5,12 @@ import { useDebounceCallback } from "usehooks-ts";
 
 import { App, notification } from "antd";
 
+import PageLoader from "./atoms/page-loader";
 import AppLayout from "./layouts/app.layout";
 import HomePage from "./pages/home.page";
-import ProgramCreatePage from "./pages/program/program-create.page";
-import ProgramEditPage from "./pages/program/program-edit.page";
-import ProgramListPage from "./pages/program/program-list.page";
-import ProgramPage from "./pages/program.page";
-import ShowCreatePage from "./pages/show/show-create.page";
-import ShowDashboardPage from "./pages/show/show-dashboard.page";
-import ShowListPage from "./pages/show/show-list.page";
-import ShowMappingPage from "./pages/show/show-mapping.page";
-import ShowPatchPage from "./pages/show/show-patch.page";
 import ShowPage from "./pages/show.page";
 import { SystemProvider } from "../domain/system.domain";
+import ProgramPage from "./pages/program.page";
 
 function PtahApp(): JSX.Element {
   const [{ error, success }, contextHolder] = notification.useNotification({
@@ -47,30 +40,116 @@ function PtahApp(): JSX.Element {
 
   const onMessageDebounced = useDebounceCallback(onMessage, 100);
 
+  const ShowListPage = React.lazy(() => import("./pages/show/show-list.page"));
+  const ShowCreatePage = React.lazy(
+    () => import("./pages/show/show-create.page"),
+  );
+  const ShowDashboardPage = React.lazy(
+    () => import("./pages/show/show-dashboard.page"),
+  );
+  const ShowMappingPage = React.lazy(
+    () => import("./pages/show/show-mapping.page"),
+  );
+  const ShowPatchPage = React.lazy(
+    () => import("./pages/show/show-patch.page"),
+  );
+  const ProgramListPage = React.lazy(
+    () => import("./pages/program/program-list.page"),
+  );
+  const ProgramCreatePage = React.lazy(
+    () => import("./pages/program/program-create.page"),
+  );
+  const ProgramEditPage = React.lazy(
+    () => import("./pages/program/program-edit.page"),
+  );
+
   return (
     <SystemProvider onMessage={onMessageDebounced}>
       <App>
         <Routes>
           <Route element={<AppLayout />} path="/">
-            <Route element={<HomePage />} index />
+            <Route
+              element={
+                <React.Suspense fallback={<PageLoader />}>
+                  <HomePage />
+                </React.Suspense>
+              }
+              index
+            />
 
             <Route path="show">
-              <Route element={<ShowListPage />} index />
-              <Route element={<ShowCreatePage />} path="create" />
+              <Route
+                element={
+                  <React.Suspense fallback={<PageLoader />}>
+                    <ShowListPage />
+                  </React.Suspense>
+                }
+                index
+              />
+              <Route
+                element={
+                  <React.Suspense fallback={<PageLoader />}>
+                    <ShowCreatePage />
+                  </React.Suspense>
+                }
+                path="create"
+              />
 
               <Route element={<ShowPage />} path=":showName">
-                <Route element={<ShowDashboardPage />} index />
-                <Route element={<ShowMappingPage />} path="mapping" />
-                <Route element={<ShowPatchPage />} path="patch" />
+                <Route
+                  element={
+                    <React.Suspense fallback={<PageLoader />}>
+                      <ShowDashboardPage />
+                    </React.Suspense>
+                  }
+                  index
+                />
+                <Route
+                  element={
+                    <React.Suspense fallback={<PageLoader />}>
+                      <ShowMappingPage />
+                    </React.Suspense>
+                  }
+                  path="mapping"
+                />
+                <Route
+                  element={
+                    <React.Suspense fallback={<PageLoader />}>
+                      <ShowPatchPage />
+                    </React.Suspense>
+                  }
+                  path="patch"
+                />
               </Route>
             </Route>
 
             <Route path="program">
-              <Route element={<ProgramListPage />} index />
-              <Route element={<ProgramCreatePage />} path="create" />
+              <Route
+                element={
+                  <React.Suspense fallback={<PageLoader />}>
+                    <ProgramListPage />
+                  </React.Suspense>
+                }
+                index
+              />
+              <Route
+                element={
+                  <React.Suspense fallback={<PageLoader />}>
+                    <ProgramCreatePage />
+                  </React.Suspense>
+                }
+                path="create"
+              />
 
               <Route element={<ProgramPage />} path=":programName">
-                <Route element={<ProgramEditPage />} index />
+                <Route
+                  element={
+                    <React.Suspense fallback={<PageLoader />}>
+                      <ProgramEditPage />
+                    </React.Suspense>
+                  }
+                  index
+                />
               </Route>
             </Route>
 
