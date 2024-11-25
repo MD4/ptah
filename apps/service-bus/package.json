@@ -29,7 +29,7 @@
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
     "@ptah/eslint-config": "workspace:*",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.9.4",
     "@types/supertest": "^6.0.2",
     "supertest": "^7.0.0",
     "tsup": "^7.2.0",

@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "@ptah/eslint-config": "workspace:*",
-    "@types/node": "^22.9.3"
+    "@types/node": "^22.9.4"
   }
 }
