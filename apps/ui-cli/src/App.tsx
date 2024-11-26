@@ -17,8 +17,8 @@ export default function App({
 	packageName: string;
 	packageVersion: string;
 }): JSX.Element {
-	const [width, setWidth] = useState(process.stdout.columns);
-	const [height, setHeight] = useState(process.stdout.rows);
+	const [width, setWidth] = useState(process.stdout.columns - 2);
+	const [height, setHeight] = useState(process.stdout.rows - 1);
 	const [route, setRoute] = useState<Route>({ path: "home" });
 
 	const state = useSystemState();
@@ -28,10 +28,10 @@ export default function App({
 			const { columns, rows } = process.stdout;
 
 			if (columns !== width) {
-				setWidth(columns);
+				setWidth(columns - 2);
 			}
 			if (rows !== height) {
-				setHeight(rows);
+				setHeight(rows - 1);
 			}
 		});
 	}, []);

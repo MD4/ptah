@@ -1,6 +1,5 @@
 import { type DmxStatus, type MidiStatus } from "@ptah/lib-models";
 import { Box, Text } from "ink";
-import Spinner from "ink-spinner";
 import React from "react";
 
 import { theme, dmxStatusColor, midiStatusColor } from "../theme.js";
@@ -21,34 +20,28 @@ export default function Statuses({
 				{connected ? (
 					<Text>
 						<Text color={theme.colorSuccess}>•</Text>
-						{" UI: Connected"}
+						{" UI: connected"}
 					</Text>
 				) : (
 					<Text>
-						<Text color={theme.colorWarning}>
-							<Spinner type="dots" />
-						</Text>
-						{" UI: Linking"}
+						<Text color={theme.colorWarning}>•</Text>
+						{" UI: linking.."}
 					</Text>
 				)}
 			</Text>
 			<Text color={theme.colorPrimary}>|</Text>
 			<Text>
 				{dmxStatus === "connecting" ? (
-					<Text color={theme.colorWarning}>
-						<Spinner type="dots" />
-					</Text>
+					<Text color={theme.colorWarning}>•</Text>
 				) : (
 					<Text color={dmxStatusColor[dmxStatus]}>•</Text>
 				)}
-				{` DMX: ${dmxStatus}`}
+				{` DMX: ${dmxStatus}${dmxStatus === "connecting" ? ".." : ""}`}
 			</Text>
 			<Text color={theme.colorPrimary}>|</Text>
 			<Text>
 				{midiStatus === "inactive" ? (
-					<Text color={theme.colorWarning}>
-						<Spinner type="dots" />
-					</Text>
+					<Text color={theme.colorWarning}>•</Text>
 				) : (
 					<Text color={midiStatusColor[midiStatus]}>•</Text>
 				)}

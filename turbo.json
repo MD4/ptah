@@ -4,7 +4,15 @@
     "**/.env.*local"
   ],
   "globalEnv": [
-    "PORT"
+    "SERVICE_BUS_NAME",
+    "SERVICE_BUS_PORT",
+    "SERVICE_API_NAME",
+    "SERVICE_API_PORT",
+    "SERVICE_GATEWAY_WS_NAME",
+    "SERVICE_GATEWAY_WS_PORT",
+    "SERVICE_MAIN_NAME",
+    "SERVICE_MIDI_NAME",
+    "VITE_UI_ADMIN_NAME"
   ],
   "tasks": {
     "build": {
