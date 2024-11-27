@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { ShowEditProvider } from "../../../domain/show.domain";
 import { useShowPrograms } from "../../../repositories/program.repository";
 import { useShowGet } from "../../../repositories/show.repository";
-import Splashscreen from "../../atoms/splashscreen";
 import PtahError from "../../molecules/ptah-error";
 import ShowPatch from "../../organisms/show/show-patch";
 
@@ -22,7 +21,6 @@ export default function ShowPatchPage(): JSX.Element {
           <ShowPatch programs={programs.data} />
         </ShowEditProvider>
       ) : null}
-      <Splashscreen in={show.isPending || programs.isPending} />
     </>
   );
 }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 
-export const BASE_URL_API = "http://localhost:5001";
+import { BASE_URL_API } from "../utils/env";
 
 /**
  * CREATE

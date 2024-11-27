@@ -299,6 +299,7 @@ export default function ShowMapping(): JSX.Element {
             loading={saveMutation.isPending}
             onClick={onSaveClick}
             size="large"
+            type="primary"
           >
             Save
           </Button>

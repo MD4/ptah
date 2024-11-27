@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Flex, Layout, theme } from "antd";
 
@@ -16,6 +17,7 @@ export default function ShowLayout({
   headerRight: JSX.Element;
 }): JSX.Element {
   const { token } = useToken();
+  const mobile = useMediaQuery("(max-width: 768px)");
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
@@ -36,19 +38,27 @@ export default function ShowLayout({
         borderBottomWidth: 1,
       },
       headerLeft: { flex: 1, display: "flex", justifyContent: "flex-start" },
-      headerRight: { flex: 1, display: "flex", justifyContent: "center" },
-      headerCenter: { flex: 1, display: "flex", justifyContent: "flex-end" },
+      headerCenter: {
+        flex: 1,
+        display: "flex",
+        justifyContent: "flex-end",
+      },
+      headerRight: {
+        flex: mobile ? "auto" : 1,
+        display: "flex",
+        justifyContent: mobile ? "left" : "center",
+      },
       content: {
         flex: 1,
       },
     }),
-    [token.paddingLG, token.colorBgContainer],
+    [token.paddingLG, token.colorBgContainer, mobile],
   );
 
   return (
     <Layout style={styles.showLayout}>
       <Flex align="center" style={styles.header}>
-        <div style={styles.headerLeft}>{headerLeft}</div>
+        {mobile ? null : <div style={styles.headerLeft}>{headerLeft}</div>}
         <div style={styles.headerRight}>{headerCenter}</div>
         <div style={styles.headerCenter}>{headerRight}</div>
       </Flex>

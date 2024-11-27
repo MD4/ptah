@@ -14,12 +14,14 @@ export default function NodePreview({
   type,
   parameters,
   onDrop,
+  onDragStart,
 }: {
   label: string;
   nodeType: models.Node["type"];
   type: NodeStyleType;
   parameters: string[];
   onDrop: () => void;
+  onDragStart: () => void;
 }): JSX.Element {
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle(type);
@@ -38,7 +40,7 @@ export default function NodePreview({
     [defaultStyles, token.sizeLG],
   );
 
-  const onDragStart = React.useCallback(
+  const _onDragStart = React.useCallback(
     (event: DragEvent) => {
       if (!event.dataTransfer || !event.target) {
         return;
@@ -55,8 +57,10 @@ export default function NodePreview({
         }),
       );
       event.dataTransfer.effectAllowed = "move";
+
+      onDragStart();
     },
-    [nodeType],
+    [nodeType, onDragStart],
   );
 
   return (
@@ -64,7 +68,7 @@ export default function NodePreview({
       draggable
       gap="small"
       onDragEnd={onDrop}
-      onDragStart={onDragStart}
+      onDragStart={_onDragStart}
       style={styles.container}
       vertical
     >

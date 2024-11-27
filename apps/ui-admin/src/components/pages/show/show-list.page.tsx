@@ -27,11 +27,11 @@ export default function ShowListPage(): JSX.Element {
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
       container: {
-        width: "100%",
-        minWidth: 400,
-        maxWidth: 400,
+        width: 400,
+        height: 400,
         minHeight: 500,
         maxHeight: 500,
+        maxWidth: "90vw",
       },
     }),
     [],

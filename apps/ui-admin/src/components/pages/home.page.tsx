@@ -13,6 +13,7 @@ const styles: Record<string, React.CSSProperties> = {
   logo: {
     aspectRatio: 400 / 90,
     width: "380px",
+    maxWidth: "80vw",
   },
   button: {
     width: "100%",

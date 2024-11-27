@@ -1,7 +1,21 @@
 #!/usr/bin/env node
 
+/**
+ * @typedef {import("arg")} arg
+ * @typedef {import("http")} http
+ * @typedef {import("pm2")} pm2
+ * @typedef {http.Server} Server
+ */
+
+/**
+ * @type {string[]}
+ */
 const services = ["bus", "api", "gateway-ws", "main", "midi"];
-const uis = { admin: process.env.VITE_UI_ADMIN_PORT };
+
+/**
+ * @type {{ [key: string]: number }}
+ */
+const uis = { admin: Number(process.env.VITE_UI_ADMIN_PORT) };
 
 import pm2 from "pm2";
 import arg from "arg";
@@ -10,10 +24,14 @@ import http from "http";
 import handler from "serve-handler";
 
 /**
- * @type {import("http").Server[]}
+ * @type {Server[]}
  */
 let startedUi = [];
 
+/**
+ * @param {string} service
+ * @returns {Promise<void>}
+ */
 const startService = (service) =>
   new Promise((resolve, reject) =>
     pm2.start(
@@ -32,6 +50,10 @@ const startService = (service) =>
     ),
   );
 
+/**
+ * @param {string} service
+ * @returns {Promise<void>}
+ */
 const stopService = (service) =>
   new Promise((resolve, reject) =>
     pm2.stop(service, (err) => {
@@ -44,6 +66,10 @@ const stopService = (service) =>
     }),
   );
 
+/**
+ * @param {[string, number]} ui
+ * @returns {Promise<Server>}
+ */
 const serveUi = ([ui, port]) =>
   new Promise((resolve, reject) => {
     const server = http
@@ -61,21 +87,35 @@ const serveUi = ([ui, port]) =>
       .listen(port, (err) => (err ? reject(err) : resolve(server)));
   });
 
+/**
+ * @param {Server} server 
+ * @returns {Promise<void>}
+ */
 const stopUi = (server) =>
   new Promise((resolve, reject) =>
     server.close((err) => (err ? reject(err) : resolve())),
   );
 
+/**
+ * @returns {Promise<void>}
+ */
 const killPm2 = () =>
   new Promise((resolve, reject) =>
     pm2.killDaemon((err) => (err ? reject(err) : resolve())),
   );
 
+/**
+ * @returns {Promise<void>}
+ */
 const flush = () =>
   new Promise((resolve, reject) =>
     pm2.flush("all", (err) => (err ? reject(err) : resolve())),
   );
 
+/**
+ * @param {() => void} resolve
+ * @returns {() => Promise<void>}
+ */
 const kill = (resolve) => async () => {
   console.log("Stopping services...");
   await Promise.all(services.map(stopService));
@@ -95,12 +135,19 @@ const kill = (resolve) => async () => {
   }
 };
 
+/**
+ * @returns {Promise<void>}
+ */
 const watchSigs = () =>
   new Promise((resolve) => {
     process.on("SIGINT", kill(resolve));
     process.on("SIGTERM", kill(resolve));
   });
 
+/**
+ * @param {boolean} noUi
+ * @returns {Promise<void>}
+ */
 const start = (noUi) =>
   new Promise((resolve, reject) => {
     pm2.connect(true, async (err) => {
@@ -118,6 +165,9 @@ const start = (noUi) =>
     });
   });
 
+/**
+ * @returns {arg.Result<{ "--no-ui": BooleanConstructor; }>}
+ */
 const parseArgv = () => {
   try {
     return arg({ "--no-ui": Boolean });
@@ -127,9 +177,12 @@ const parseArgv = () => {
   }
 };
 
+/**
+ * @returns {Promise<void>}
+ */
 const main = async () => {
   const args = parseArgv();
-  const noUi = args["--no-ui"];
+  const noUi = args["--no-ui"] ?? false;
 
   console.log("Flushing logs...");
   await flush();

@@ -212,6 +212,7 @@ export default function ProgramDashboard(): JSX.Element {
   const onDrop = React.useCallback(
     (event: DragEvent) => {
       event.preventDefault();
+      event.stopPropagation();
 
       if (!event.dataTransfer || !reactFlowInstance) {
         return;
@@ -301,6 +302,7 @@ export default function ProgramDashboard(): JSX.Element {
             loading={saveMutation.isPending}
             onClick={onSaveClick}
             size="large"
+            type="primary"
           >
             Save
           </Button>

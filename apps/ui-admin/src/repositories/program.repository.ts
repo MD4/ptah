@@ -11,7 +11,7 @@ import axios from "axios";
 import * as React from "react";
 import * as z from "zod";
 
-export const BASE_URL_API = "http://localhost:5001";
+import { BASE_URL_API } from "../utils/env";
 
 /**
  * CREATE

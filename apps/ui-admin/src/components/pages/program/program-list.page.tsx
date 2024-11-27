@@ -27,10 +27,9 @@ export default function ProgramListPage(): JSX.Element {
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
       container: {
-        width: "100%",
-        minWidth: 400,
-        maxWidth: 400,
-        minHeight: 500,
+        width: 400,
+        height: 500,
+        maxWidth: "90vw",
         maxHeight: 500,
       },
     }),

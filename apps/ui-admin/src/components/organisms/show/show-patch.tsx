@@ -316,6 +316,7 @@ export default function ShowPatch({
             loading={saveMutation.isPending}
             onClick={onSaveClick}
             size="large"
+            type="primary"
           >
             Save
           </Button>

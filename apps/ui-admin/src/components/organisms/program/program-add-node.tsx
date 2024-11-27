@@ -9,12 +9,14 @@ const { useToken } = theme;
 
 export default function ProgramAddNode(): JSX.Element {
   const [open, setOpen] = React.useState(false);
+  const [_, setVisible] = React.useState(true);
 
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
       backdrop: {
+        display: "none",
         position: "absolute",
         left: 0,
         top: 0,
@@ -55,10 +57,15 @@ export default function ProgramAddNode(): JSX.Element {
 
   const onAddNodeClick = React.useCallback(() => {
     setOpen(true);
+    setVisible(true);
   }, []);
 
   const onClose = React.useCallback(() => {
     setOpen(false);
+  }, []);
+
+  const onDragStart = React.useCallback(() => {
+    setVisible(false);
   }, []);
 
   return (
@@ -84,7 +91,10 @@ export default function ProgramAddNode(): JSX.Element {
                 type="text"
               />
             </Flex>
-            <ProgramNodeLibrary onNodeDropped={onClose} />
+            <ProgramNodeLibrary
+              onNodeDropped={onClose}
+              onDragStart={onDragStart}
+            />
           </div>
         </>
       ) : null}

@@ -3,14 +3,13 @@ import { useParams } from "react-router-dom";
 
 import { ProgramEditProvider } from "../../../domain/program.domain";
 import { useProgramGet } from "../../../repositories/program.repository";
-import Splashscreen from "../../atoms/splashscreen";
 import PtahError from "../../molecules/ptah-error";
 import ProgramEdit from "../../organisms/program/program-edit";
 
 export default function ProgramCreatePage(): JSX.Element {
   const { programName } = useParams();
 
-  const { isPending, error, data } = useProgramGet(programName);
+  const { error, data } = useProgramGet(programName);
 
   return (
     <>
@@ -20,7 +19,6 @@ export default function ProgramCreatePage(): JSX.Element {
           <ProgramEdit />
         </ProgramEditProvider>
       ) : null}
-      <Splashscreen in={isPending} />
     </>
   );
 }

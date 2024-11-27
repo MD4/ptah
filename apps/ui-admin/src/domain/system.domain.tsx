@@ -38,7 +38,7 @@ export function SystemProvider({
   const [state, dispatch] = React.useReducer(systemReducer, initialSystemState);
 
   const wsUrl = `ws://${String(
-    import.meta.env.VITE_SERVICE_GATEWAY_WS_HOST,
+    window.location.hostname,
   )}:${String(Number(import.meta.env.VITE_SERVICE_GATEWAY_WS_PORT))}`;
 
   const { socket, connected } = useSocket<SocketMessages>(wsUrl);

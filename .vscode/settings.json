@@ -10,5 +10,6 @@
     "files.watcherInclude": [
         "**/node_modules/@ptah/**"
     ],
-    "prettier.configPath": ".prettier.config.js"
+    "prettier.configPath": ".prettier.config.js",
+    "js/ts.implicitProjectConfig.checkJs": true
 }

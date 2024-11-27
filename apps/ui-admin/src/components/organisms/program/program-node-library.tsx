@@ -37,8 +37,10 @@ const { useToken } = theme;
 
 export default function ProgramNodeLibrary({
   onNodeDropped,
+  onDragStart,
 }: {
   onNodeDropped: () => void;
+  onDragStart: () => void;
 }): JSX.Element {
   const { token } = useToken();
 
@@ -48,6 +50,7 @@ export default function ProgramNodeLibrary({
         height: "100%",
         padding: token.paddingLG,
         width: 400,
+        maxWidth: "100vw",
       },
       col: {
         transform: "translate(0, 0)",
@@ -64,8 +67,9 @@ export default function ProgramNodeLibrary({
             <Col key={nodeType} style={styles.col}>
               <NodePreview
                 onDrop={onNodeDropped}
-                {...nodesDefinitions[nodeType]}
+                onDragStart={onDragStart}
                 nodeType={nodeType}
+                {...nodesDefinitions[nodeType]}
               />
             </Col>
           ),

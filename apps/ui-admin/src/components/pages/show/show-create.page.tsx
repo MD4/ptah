@@ -14,7 +14,7 @@ import FullCenteredLayout from "../../layouts/full-centered.layout";
 const { useToken } = theme;
 
 const styles: Record<string, React.CSSProperties> = {
-  form: { minWidth: 400, maxWidth: 600 },
+  form: { width: 400, maxWidth: "90vw" },
 };
 
 export default function ShowCreatePage(): JSX.Element {
