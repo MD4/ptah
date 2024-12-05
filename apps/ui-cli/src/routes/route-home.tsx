@@ -5,7 +5,7 @@ import React, { useCallback } from "react";
 import { type Item } from "./item.types.js";
 import { type Route } from "./route.types.js";
 
-type MenuItemValue = "load-show" | "quit";
+type MenuItemValue = "load-show" | "debug" | "quit";
 
 export function RouteHome({
 	navigate,
@@ -15,6 +15,7 @@ export function RouteHome({
 	const { exit } = useApp();
 	const items: Item<MenuItemValue>[] = [
 		{ label: "Load show", value: "load-show" },
+		{ label: "Debug", value: "debug" },
 		{ label: "Quit", value: "quit" },
 	];
 
@@ -22,6 +23,9 @@ export function RouteHome({
 		switch (item.value) {
 			case "load-show":
 				navigate({ path: "load-show" });
+				break;
+			case "debug":
+				navigate({ path: "debug" });
 				break;
 			case "quit":
 				exit();

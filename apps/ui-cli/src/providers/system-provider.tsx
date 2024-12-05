@@ -3,6 +3,7 @@ import {
 	type MidiStatus,
 	type PubsubMessage,
 	type ShowName,
+	type SocketPubsubMessage,
 } from "@ptah/lib-models";
 import { noop } from "@ptah/lib-utils";
 import React, {
@@ -19,23 +20,25 @@ export type SystemState = {
 	connected: boolean;
 	dmxStatus: DmxStatus;
 	midiStatus: MidiStatus;
+	showStatus: "running" | "stopped";
 	tempo: number;
 	activeProgramsIds: number[];
-	showStatus: "running" | "stopped";
+	dmxDebugOutputs: number[];
 };
 
 export type SystemApi = {
 	loadShow: (showName: ShowName) => void;
 	unloadShow: () => void;
+	setDmxDebug: (enabled: boolean) => void;
 };
 
-let _socket: Socket | undefined;
+let _socket: Socket<SocketPubsubMessage, SocketPubsubMessage> | undefined;
 
 const getSocket = (
 	onConnect: () => void,
 	onDisconnect: () => void,
 	onMessage: (channelId: string, message: PubsubMessage) => void,
-): Socket => {
+): Socket<SocketPubsubMessage, SocketPubsubMessage> => {
 	if (!_socket) {
 		_socket = io("ws://0.0.0.0:5002")
 			.on("connect", () => {
@@ -68,15 +71,17 @@ const initialSystemState: SystemState = {
 	connected: false,
 	dmxStatus: "disconnected",
 	midiStatus: "inactive",
+	showStatus: "stopped",
 	tempo: 0,
 	activeProgramsIds: [],
-	showStatus: "stopped",
+	dmxDebugOutputs: Array<number>(512).fill(0),
 };
 
 const SystemStateContext = createContext<SystemState>(initialSystemState);
 const SystemApiContext = createContext<SystemApi>({
 	loadShow: noop,
 	unloadShow: noop,
+	setDmxDebug: noop,
 });
 
 process.on("SIGINT", kill);
@@ -178,6 +183,12 @@ export function SystemProvider({
 						showStatus: "stopped",
 					}));
 					break;
+				case "dmx:debug:data":
+					setState((_state) => ({
+						..._state,
+						dmxDebugOutputs: message.data,
+					}));
+					break;
 				default:
 					break;
 			}
@@ -201,9 +212,14 @@ export function SystemProvider({
 		[socket],
 	);
 
+	const setDmxDebug = useCallback(
+		(enabled: boolean) => socket.emit("system", { type: "dmx:debug", enabled }),
+		[socket],
+	);
+
 	const api: SystemApi = useMemo(
-		() => ({ loadShow, unloadShow }),
-		[loadShow, unloadShow],
+		() => ({ loadShow, unloadShow, setDmxDebug }),
+		[loadShow, unloadShow, setDmxDebug],
 	);
 
 	return (

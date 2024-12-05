@@ -11,13 +11,20 @@ import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 
 import type { PatchMapping } from "../domains/patch.domain.types";
 import type { ProgramOutput } from "../domains/program.types";
+import { DebugDriver } from "../drivers/debug.driver";
 
 const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:dmx`;
+
 const UNIVERSE_MAIN = "main";
+const UNIVERSE_DEBUG = "debug";
+
+const UNIVERSE_DMX_SPEED = 40;
 
 const dmx = new DMX();
 
-let universe: IUniverseDriver | undefined;
+let mainUniverse: IUniverseDriver | undefined;
+let debugUniverse: DebugDriver | undefined;
+
 let status: DmxStatus = "disconnected";
 
 const changeStatus = (newStatus: DmxStatus): void => {
@@ -50,6 +57,13 @@ export const initialize = async (): Promise<void> => {
 
   changeStatus("connecting");
 
+  if (!debugUniverse) {
+    debugUniverse = (await dmx.addUniverse(
+      UNIVERSE_DEBUG,
+      new DebugDriver({ dmxSpeed: UNIVERSE_DMX_SPEED }),
+    )) as DebugDriver;
+  }
+
   let serialPorts = getSerialsPorts();
   let firstCheck = true;
 
@@ -67,9 +81,11 @@ export const initialize = async (): Promise<void> => {
   }
 
   try {
-    universe = await dmx.addUniverse(
+    mainUniverse = await dmx.addUniverse(
       UNIVERSE_MAIN,
-      new EnttecUSBDMXProDriver(`/dev/${serialPorts[0]}`, { dmxSpeed: 40 }),
+      new EnttecUSBDMXProDriver(`/dev/${serialPorts[0]}`, {
+        dmxSpeed: UNIVERSE_DMX_SPEED,
+      }),
     );
   } catch (error) {
     await initialize();
@@ -83,13 +99,16 @@ export const initialize = async (): Promise<void> => {
 };
 
 export const reset = (): void => {
-  if (!universe) {
-    return;
+  if (debugUniverse) {
+    setImmediate(() => {
+      dmx.updateAll(UNIVERSE_DEBUG, 0);
+    });
   }
-
-  setImmediate(() => {
-    dmx.updateAll(UNIVERSE_MAIN, 0);
-  });
+  if (mainUniverse) {
+    setImmediate(() => {
+      dmx.updateAll(UNIVERSE_MAIN, 0);
+    });
+  }
 };
 
 export const resetProgram = (mapping: PatchMapping): void => {
@@ -106,11 +125,17 @@ export const resetProgram = (mapping: PatchMapping): void => {
 };
 
 export const update = (programOutput: ProgramOutput): void => {
-  if (!universe) {
-    return;
+  if (debugUniverse) {
+    setImmediate(() => {
+      dmx.update(UNIVERSE_DEBUG, programOutput);
+    });
   }
-
-  setImmediate(() => {
-    dmx.update(UNIVERSE_MAIN, programOutput);
-  });
+  if (mainUniverse) {
+    setImmediate(() => {
+      dmx.update(UNIVERSE_MAIN, programOutput);
+    });
+  }
 };
+
+export const setDebug = (enabled: boolean): void =>
+  debugUniverse?.setEnabled(enabled);

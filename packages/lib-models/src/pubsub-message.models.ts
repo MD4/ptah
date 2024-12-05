@@ -105,6 +105,16 @@ export const pubsubMessageDmxBlackOut = z.object({
   type: z.literal("dmx:blackout"),
 });
 
+export const pubsubMessageDmxDebug = z.object({
+  type: z.literal("dmx:debug"),
+  enabled: z.boolean(),
+});
+
+export const pubsubMessageDmxDebugData = z.object({
+  type: z.literal("dmx:debug:data"),
+  data: z.array(z.number()),
+});
+
 export const pubsubMessageDmxStatusGet = z.object({
   type: z.literal("dmx:status:get"),
 });
@@ -148,6 +158,8 @@ export const pubsubMessageSystem = z.union([
   pubsubMessageProgramSaveSucess,
   pubsubMessageProgramSaveError,
   pubsubMessageDmxBlackOut,
+  pubsubMessageDmxDebug,
+  pubsubMessageDmxDebugData,
   pubsubMessageDmxStatusGet,
   pubsubMessageDmxStatusConnected,
   pubsubMessageDmxStatusDisconnected,
@@ -163,6 +175,13 @@ export const pubsubMessage = z.union([pubsubMessageMidi, pubsubMessageSystem]);
 export type PubsubMessageMidi = z.infer<typeof pubsubMessageMidi>;
 export type PubsubMessageSystem = z.infer<typeof pubsubMessageSystem>;
 export type PubsubMessage = z.infer<typeof pubsubMessage>;
+
+type SocketMessageWrapper<T extends PubsubMessage> = (message: T) => void;
+
+export type SocketPubsubMessage = {
+  midi: SocketMessageWrapper<PubsubMessageMidi>;
+  system: SocketMessageWrapper<PubsubMessageSystem>;
+};
 
 export type PubsubMessageNoteOn = z.infer<typeof pubsubMessageNoteOn>;
 export type PubsubMessageNoteOff = z.infer<typeof pubsubMessageNoteOff>;
@@ -183,6 +202,35 @@ export type PubsubMessageControlChange = z.infer<
 
 export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageShowLoad>;
 export type PubsubMessageDmxBlackOut = z.infer<typeof pubsubMessageDmxBlackOut>;
+
+export type PubsubMessageShowLoad = z.infer<typeof pubsubMessageShowLoad>;
+export type PubsubMessageShowReload = z.infer<typeof pubsubMessageShowReload>;
+export type PubsubMessageShowUnload = z.infer<typeof pubsubMessageShowUnload>;
+export type PubsubMessageShowLoadSucess = z.infer<
+  typeof pubsubMessageShowLoadSucess
+>;
+export type PubsubMessageShowLoadError = z.infer<
+  typeof pubsubMessageShowLoadError
+>;
+
+export type PubsubMessageProgramStarted = z.infer<
+  typeof pubsubMessageProgramStarted
+>;
+export type PubsubMessageProgramStopped = z.infer<
+  typeof pubsubMessageProgramStopped
+>;
+
+export type PubsubMessageProgramSaveSucess = z.infer<
+  typeof pubsubMessageProgramSaveSucess
+>;
+export type PubsubMessageProgramSaveError = z.infer<
+  typeof pubsubMessageProgramSaveError
+>;
+
+export type PubsubMessageDmxDebug = z.infer<typeof pubsubMessageDmxDebug>;
+export type PubsubMessageDmxDebugData = z.infer<
+  typeof pubsubMessageDmxDebugData
+>;
 
 export type PubsubMessageDmxStatusGet = z.infer<
   typeof pubsubMessageDmxStatusGet

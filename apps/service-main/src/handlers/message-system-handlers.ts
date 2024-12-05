@@ -59,6 +59,11 @@ export const handleDmxStatusGet = (): void => {
   dmx.notifyStatus();
 };
 
+export const handleDmxDebug = (enabled: boolean): void => {
+  log(LOG_CONTEXT, "dmx:debug", enabled);
+  dmx.setDebug(enabled);
+};
+
 export const handleSystemMessage = async (
   message: PubsubMessage,
 ): Promise<void> => {
@@ -75,6 +80,9 @@ export const handleSystemMessage = async (
       break;
     case "dmx:status:get":
       handleDmxStatusGet();
+      break;
+    case "dmx:debug":
+      handleDmxDebug(message.enabled);
       break;
     default:
   }

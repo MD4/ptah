@@ -6,9 +6,11 @@ import { theme } from "../theme.js";
 export default function Header({
 	packageName,
 	packageVersion,
+	title,
 }: {
 	packageName: string;
 	packageVersion: string;
+	title: string;
 }): JSX.Element {
 	return (
 		<Box alignItems="center" justifyContent="space-between" width="100%">
@@ -22,7 +24,9 @@ export default function Header({
 			>
 				<Text bold>P T A H</Text>
 			</Box>
-
+			<Text color={theme.colorPrimary} bold>
+				{title}
+			</Text>
 			<Text color={theme.colorPrimary}>
 				{packageName}@{packageVersion}
 			</Text>

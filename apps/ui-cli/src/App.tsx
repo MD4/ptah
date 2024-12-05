@@ -1,9 +1,11 @@
 import { Box } from "ink";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Header from "./components/header.js";
 import Statuses from "./components/statuses.js";
+import { useViewport } from "./effects/viewport.js";
 import { useSystemState } from "./providers/system-provider.js";
+import { RouteDebug } from "./routes/route-debug.js";
 import { RouteHome } from "./routes/route-home.js";
 import RouteLoadShow from "./routes/route-load-show.js";
 import RouteShow from "./routes/route-show.js";
@@ -17,24 +19,11 @@ export default function App({
 	packageName: string;
 	packageVersion: string;
 }): JSX.Element {
-	const [width, setWidth] = useState(process.stdout.columns - 2);
-	const [height, setHeight] = useState(process.stdout.rows - 1);
+	const state = useSystemState();
+	const { width, height } = useViewport();
 	const [route, setRoute] = useState<Route>({ path: "home" });
 
-	const state = useSystemState();
-
-	useEffect(() => {
-		process.stdout.on("resize", () => {
-			const { columns, rows } = process.stdout;
-
-			if (columns !== width) {
-				setWidth(columns - 2);
-			}
-			if (rows !== height) {
-				setHeight(rows - 1);
-			}
-		});
-	}, []);
+	const title = route.path.toUpperCase().replace(/-/g, " ");
 
 	return (
 		<Box
@@ -48,7 +37,11 @@ export default function App({
 			marginX={2}
 			marginY={1}
 		>
-			<Header packageName={packageName} packageVersion={packageVersion} />
+			<Header
+				packageName={packageName}
+				packageVersion={packageVersion}
+				title={title}
+			/>
 			<Box
 				width="100%"
 				borderStyle="round"
@@ -58,6 +51,7 @@ export default function App({
 				alignItems="center"
 			>
 				{route.path === "home" && <RouteHome navigate={setRoute} />}
+				{route.path === "debug" && <RouteDebug navigate={setRoute} />}
 				{route.path === "load-show" && <RouteLoadShow navigate={setRoute} />}
 				{route.path === "show" && (
 					<RouteShow navigate={setRoute} showName={route.showName} />

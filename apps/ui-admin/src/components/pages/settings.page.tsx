@@ -1,0 +1,44 @@
+import Title from "antd/es/typography/Title";
+import * as React from "react";
+
+import { Flex, theme } from "antd";
+
+import { useSettingsGet } from "../../repositories/settings.repository";
+import FullCenteredLayout from "../layouts/full-centered.layout";
+import PtahError from "../molecules/ptah-error";
+
+const { useToken } = theme;
+
+export default function SettingsPage(): JSX.Element {
+  const { token } = useToken();
+  const { error, data } = useSettingsGet();
+
+  const styles: Record<string, React.CSSProperties> = React.useMemo(
+    () => ({
+      container: {
+        width: 400,
+        height: 400,
+        minHeight: 500,
+        maxHeight: 500,
+        maxWidth: "90vw",
+      },
+    }),
+    [],
+  );
+
+  if (error) {
+    return <PtahError error={error} />;
+  }
+
+  return (
+    <FullCenteredLayout>
+      <Flex style={styles.container} vertical>
+        <Flex justify="center">
+          <Title style={{ color: token.colorPrimary }}>SETTINGS</Title>
+        </Flex>
+
+        {data ? JSON.stringify(data) : <Flex justify="center">Loading...</Flex>}
+      </Flex>
+    </FullCenteredLayout>
+  );
+}
