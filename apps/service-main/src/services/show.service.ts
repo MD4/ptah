@@ -1,11 +1,13 @@
 import { type Show, type ShowName } from "@ptah/lib-models";
-import { env, repositories } from "@ptah/lib-shared";
+import { env, repositories, services } from "@ptah/lib-shared";
 
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import * as runner from "./runner.service";
 
 let show: Show | undefined;
+
+export const getCurrentShow = (): Show | undefined => show;
 
 export const loadShow = async (showName: ShowName): Promise<Show> => {
   show = await repositories.show.loadShowFromPath(
@@ -24,6 +26,8 @@ export const loadShow = async (showName: ShowName): Promise<Show> => {
   runner.reset();
   dmx.reset();
 
+  await services.settings.setCurrentShow(showName);
+
   return show;
 };
 
@@ -33,12 +37,14 @@ export const reloadShow = async (): Promise<Show | undefined> => {
   }
 };
 
-export const unloadShow = (): void => {
+export const unloadShow = async (): Promise<void> => {
   patchService.reset();
   runner.reset();
   dmx.reset();
 
   show = undefined;
+
+  await services.settings.removeCurrentShow();
 };
 
 export const containsProgram = (programName: string): boolean => {
@@ -47,4 +53,12 @@ export const containsProgram = (programName: string): boolean => {
   }
 
   return Object.values(show.programs).includes(programName);
+};
+
+export const restoreShow = async (): Promise<Show | undefined> => {
+  const { currentShow } = await services.settings.loadSettingsOrInitialize();
+
+  if (currentShow) {
+    return loadShow(currentShow);
+  }
 };

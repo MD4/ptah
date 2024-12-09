@@ -1,9 +1,18 @@
 import "dotenv/config";
 import { log, logError } from "@ptah/lib-logger";
-import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import type {
+  PubsubChannel,
+  PubsubMessage,
+  PubsubMessageType,
+} from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
 
 import * as server from "./server";
+
+const ignoreMessageTypes: PubsubMessageType[] = [
+  "clock:tick",
+  "control:change",
+];
 
 const kill = async (gracefully: boolean): Promise<void> => {
   log(process.env.SERVICE_GATEWAY_WS_NAME, "killing...");
@@ -33,7 +42,7 @@ const main = async (): Promise<void> => {
     services.pubsub.connect(
       channels,
       (channel: PubsubChannel, message: PubsubMessage) => {
-        if (message.type === "clock:tick") {
+        if (ignoreMessageTypes.includes(message.type)) {
           return; // ignore clock:tick to avoid ws flooding
         }
 

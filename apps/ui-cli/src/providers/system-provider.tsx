@@ -5,7 +5,7 @@ import {
 	type ShowName,
 	type SocketPubsubMessage,
 } from "@ptah/lib-models";
-import { noop } from "@ptah/lib-utils";
+import { noop, sleep } from "@ptah/lib-utils";
 import React, {
 	createContext,
 	type ReactNode,
@@ -20,10 +20,11 @@ export type SystemState = {
 	connected: boolean;
 	dmxStatus: DmxStatus;
 	midiStatus: MidiStatus;
-	showStatus: "running" | "stopped";
+	showStatus: "loading" | "running" | "stopped";
 	tempo: number;
 	activeProgramsIds: number[];
 	dmxDebugOutputs: number[];
+	initialShowName?: ShowName;
 };
 
 export type SystemApi = {
@@ -44,6 +45,7 @@ const getSocket = (
 			.on("connect", () => {
 				if (_socket) {
 					_socket
+						.emit("system", { type: "show:get" })
 						.emit("system", { type: "dmx:status:get" })
 						.emit("system", { type: "midi:status:get" });
 				}
@@ -71,7 +73,7 @@ const initialSystemState: SystemState = {
 	connected: false,
 	dmxStatus: "disconnected",
 	midiStatus: "inactive",
-	showStatus: "stopped",
+	showStatus: "loading",
 	tempo: 0,
 	activeProgramsIds: [],
 	dmxDebugOutputs: Array<number>(512).fill(0),
@@ -115,6 +117,7 @@ export function SystemProvider({
 					setState((_state) => ({
 						..._state,
 						activeProgramsIds: [...state.activeProgramsIds, message.id],
+						showStatus: "running",
 					}));
 					break;
 				case "program:stopped":
@@ -123,6 +126,7 @@ export function SystemProvider({
 						activeProgramsIds: state.activeProgramsIds.filter(
 							(id) => id !== message.id,
 						),
+						showStatus: "running",
 					}));
 					break;
 				case "sequence:continue":
@@ -164,7 +168,6 @@ export function SystemProvider({
 					setState((_state) => ({
 						..._state,
 						midiStatus: "active",
-						showStatus: "running",
 					}));
 					break;
 				case "midi:status:inactive":
@@ -189,6 +192,18 @@ export function SystemProvider({
 						dmxDebugOutputs: message.data,
 					}));
 					break;
+				case "show:load:success":
+					setState((_state) => ({
+						..._state,
+						showStatus: "stopped",
+					}));
+					break;
+				case "show:get:result":
+					setState((_state) => ({
+						..._state,
+						initialShowName: message.showName,
+					}));
+					break;
 				default:
 					break;
 			}
@@ -202,8 +217,14 @@ export function SystemProvider({
 	);
 
 	const loadShow = useCallback(
-		(showName: ShowName) =>
-			socket.emit("system", { type: "show:load", showName }),
+		async (showName: ShowName) => {
+			setState((_state) => ({
+				..._state,
+				showStatus: "loading",
+			}));
+			await sleep(500);
+			socket.emit("system", { type: "show:load", showName });
+		},
 		[socket],
 	);
 

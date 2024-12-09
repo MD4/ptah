@@ -39,7 +39,6 @@ export class DebugDriver extends EventEmitter implements IUniverseDriver {
     for (const c in u) {
       this._universe[c] = u[c];
     }
-    this.logUniverse();
 
     this.emit("update", u, extraData);
   }

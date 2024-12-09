@@ -11,10 +11,12 @@ export const loadSettingsFromPath = async (
 };
 
 export const saveSettingsToPath = async (
-  show: models.Settings,
+  settings: models.Settings,
   path: string,
-): Promise<void> => {
-  const json = JSON.stringify(show, undefined, 2);
+): Promise<models.Settings> => {
+  const json = JSON.stringify(settings, undefined, 2);
 
   await fs.writeFile(path, json);
+
+  return settings;
 };

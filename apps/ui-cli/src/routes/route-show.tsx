@@ -9,6 +9,12 @@ import { theme } from "../theme.js";
 import { type Route } from "./route.types.js";
 import Confirm from "../components/confim.js";
 
+const statusColor = {
+	loading: theme.colorWarning,
+	running: theme.colorSuccess,
+	stopped: theme.colorError,
+};
+
 export default function RouteShow({
 	showName,
 	navigate,
@@ -31,7 +37,7 @@ export default function RouteShow({
 			});
 	}, []);
 
-	useInput((_, key) => {
+	useInput((letter, key) => {
 		if (key.escape) {
 			setUnloadingShow(!unloadingShow);
 		} else if (key.return) {
@@ -39,6 +45,8 @@ export default function RouteShow({
 				unloadShow();
 				navigate({ path: "load-show" });
 			}
+		} else if (letter === "r") {
+			loadShow(showName);
 		}
 	});
 
@@ -82,13 +90,9 @@ export default function RouteShow({
 				<Text bold color={theme.colorPrimary}>
 					{showStatus === "running" && tempo ? `${String(tempo)} bpm` : ""}
 				</Text>
-				<Text
-					bold
-					color={
-						showStatus === "running" ? theme.colorSuccess : theme.colorError
-					}
-				>
-					[{showStatus.toUpperCase()}]
+				<Text bold color={statusColor[showStatus]}>
+					{showStatus === "loading" && <Spinner type="dots" />} [
+					{showStatus.toUpperCase()}]
 				</Text>
 			</Box>
 

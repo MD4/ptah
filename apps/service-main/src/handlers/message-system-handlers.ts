@@ -26,26 +26,32 @@ export const handleShowLoad = async (showName: ShowName): Promise<void> => {
   }
 };
 
-export const handleShowUnload = (): void => {
+export const handleShowUnload = async (): Promise<void> => {
   log(LOG_CONTEXT, "show:unload");
 
-  showService.unloadShow();
+  await showService.unloadShow();
 
   log(LOG_CONTEXT, "show:unload:success");
+};
+
+export const handleShowGet = (): void => {
+  log(LOG_CONTEXT, "show:get");
+
+  const showName = showService.getCurrentShow()?.name;
+
+  services.pubsub.send("system", {
+    type: "show:get:result",
+    showName,
+  });
+
+  log(LOG_CONTEXT, "show:get:result", showName);
 };
 
 export const handleProgramSaveSuccess = async (
   programName: string,
 ): Promise<void> => {
   if (showService.containsProgram(programName)) {
-    const show = await showService.reloadShow();
-
-    if (show) {
-      services.pubsub.send("system", {
-        type: "show:reload",
-        showName: show.name,
-      });
-    }
+    await showService.reloadShow();
   }
 };
 
@@ -71,8 +77,11 @@ export const handleSystemMessage = async (
     case "show:load":
       return handleShowLoad(message.showName);
     case "show:unload":
-      handleShowUnload();
+      return handleShowUnload();
+    case "show:get": {
+      handleShowGet();
       return;
+    }
     case "program:save:success":
       return handleProgramSaveSuccess(message.programName);
     case "dmx:blackout":

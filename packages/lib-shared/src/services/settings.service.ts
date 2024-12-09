@@ -40,3 +40,14 @@ export const loadSettingsOrInitialize = async (): Promise<models.Settings> => {
 
   return settings;
 };
+
+export const setCurrentShow = async (
+  showName?: models.ShowName,
+): Promise<models.Settings> =>
+  saveSettingsToPath(
+    { ...(await loadSettingsOrInitialize()), currentShow: showName },
+    PTAH_SETTINGS_PATH,
+  );
+
+export const removeCurrentShow = (): Promise<models.Settings> =>
+  setCurrentShow();

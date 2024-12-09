@@ -4,6 +4,7 @@ import { services } from "@ptah/lib-shared";
 
 import { handleMessage } from "./handlers/message-handlers";
 import * as dmx from "./services/dmx.service";
+import * as showService from "./services/show.service";
 
 const kill = (gracefully: boolean): void => {
   log(process.env.SERVICE_MAIN_NAME, "killing...");
@@ -23,15 +24,21 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
-  await Promise.all([
+  const [_, restoredShow] = await Promise.all([
     services.pubsub.connect(
       ["midi", "system"],
       (channel, message) => void handleMessage(channel, message),
     ),
-    dmx.initialize(),
+    showService.restoreShow(),
   ]);
 
+  if (restoredShow) {
+    log(process.env.SERVICE_MAIN_NAME, "show restored:", restoredShow.name);
+  }
+
   log(process.env.SERVICE_MAIN_NAME, "service is running");
+
+  await dmx.initialize();
 };
 
 main().catch((error: unknown) => {

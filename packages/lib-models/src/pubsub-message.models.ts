@@ -62,11 +62,6 @@ export const pubsubMessageShowLoad = z.object({
   showName,
 });
 
-export const pubsubMessageShowReload = z.object({
-  type: z.literal("show:reload"),
-  showName,
-});
-
 export const pubsubMessageShowLoadSucess = z.object({
   type: z.literal("show:load:success"),
   showName,
@@ -79,6 +74,15 @@ export const pubsubMessageShowLoadError = z.object({
 
 export const pubsubMessageShowUnload = z.object({
   type: z.literal("show:unload"),
+});
+
+export const pubsubMessageShowGet = z.object({
+  type: z.literal("show:get"),
+});
+
+export const pubsubMessageShowGetData = z.object({
+  type: z.literal("show:get:result"),
+  showName: z.optional(showName),
 });
 
 export const pubsubMessageProgramStarted = z.object({
@@ -149,10 +153,11 @@ export const pubsubMessageMidiStatusIdle = z.object({
 
 export const pubsubMessageSystem = z.union([
   pubsubMessageShowLoad,
-  pubsubMessageShowReload,
   pubsubMessageShowLoadSucess,
   pubsubMessageShowLoadError,
   pubsubMessageShowUnload,
+  pubsubMessageShowGet,
+  pubsubMessageShowGetData,
   pubsubMessageProgramStarted,
   pubsubMessageProgramStopped,
   pubsubMessageProgramSaveSucess,
@@ -175,6 +180,7 @@ export const pubsubMessage = z.union([pubsubMessageMidi, pubsubMessageSystem]);
 export type PubsubMessageMidi = z.infer<typeof pubsubMessageMidi>;
 export type PubsubMessageSystem = z.infer<typeof pubsubMessageSystem>;
 export type PubsubMessage = z.infer<typeof pubsubMessage>;
+export type PubsubMessageType = PubsubMessage["type"];
 
 type SocketMessageWrapper<T extends PubsubMessage> = (message: T) => void;
 
@@ -204,14 +210,15 @@ export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageShowLoad>;
 export type PubsubMessageDmxBlackOut = z.infer<typeof pubsubMessageDmxBlackOut>;
 
 export type PubsubMessageShowLoad = z.infer<typeof pubsubMessageShowLoad>;
-export type PubsubMessageShowReload = z.infer<typeof pubsubMessageShowReload>;
-export type PubsubMessageShowUnload = z.infer<typeof pubsubMessageShowUnload>;
 export type PubsubMessageShowLoadSucess = z.infer<
   typeof pubsubMessageShowLoadSucess
 >;
 export type PubsubMessageShowLoadError = z.infer<
   typeof pubsubMessageShowLoadError
 >;
+export type PubsubMessageShowUnload = z.infer<typeof pubsubMessageShowUnload>;
+export type PubsubMessageShowGet = z.infer<typeof pubsubMessageShowGet>;
+export type PubsubMessageShowGetData = z.infer<typeof pubsubMessageShowGetData>;
 
 export type PubsubMessageProgramStarted = z.infer<
   typeof pubsubMessageProgramStarted

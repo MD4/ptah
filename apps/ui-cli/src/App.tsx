@@ -1,5 +1,5 @@
 import { Box } from "ink";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "./components/header.js";
 import Statuses from "./components/statuses.js";
@@ -24,6 +24,12 @@ export default function App({
 	const [route, setRoute] = useState<Route>({ path: "home" });
 
 	const title = route.path.toUpperCase().replace(/-/g, " ");
+
+	useEffect(() => {
+		if (state.initialShowName) {
+			setRoute({ path: "show", showName: state.initialShowName });
+		}
+	}, [state.initialShowName]);
 
 	return (
 		<Box
