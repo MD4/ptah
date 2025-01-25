@@ -5,6 +5,7 @@ import { version } from "./version.model";
 
 export const settings = z.object({
   version,
+  midiVirtualPortName: z.string().min(1).max(255),
   currentShow: z.optional(showName),
 });
 

@@ -6,6 +6,7 @@ import { Flex, theme } from "antd";
 import { useSettingsGet } from "../../repositories/settings.repository";
 import FullCenteredLayout from "../layouts/full-centered.layout";
 import PtahError from "../molecules/ptah-error";
+import SettingsEdit from "../organisms/settings/settings-edit";
 
 const { useToken } = theme;
 
@@ -37,7 +38,11 @@ export default function SettingsPage(): JSX.Element {
           <Title style={{ color: token.colorPrimary }}>SETTINGS</Title>
         </Flex>
 
-        {data ? JSON.stringify(data) : <Flex justify="center">Loading...</Flex>}
+        {data ? (
+          <SettingsEdit settings={data} />
+        ) : (
+          <Flex justify="center">Loading...</Flex>
+        )}
       </Flex>
     </FullCenteredLayout>
   );

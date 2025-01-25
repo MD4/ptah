@@ -51,7 +51,7 @@ const fitViewOptions: FitViewOptions = {
   maxZoom: 1,
 };
 
-export default function ProgramDashboard(): JSX.Element {
+export default function ProgramEdit(): JSX.Element {
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });
