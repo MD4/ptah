@@ -5,14 +5,11 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "scripts": {
     "build": "tsup",
     "clean": "rm -rf dist",
     "dev": "tsup --watch",
-    "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
@@ -22,7 +19,6 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@ptah/eslint-config": "workspace:*",
     "@types/node": "^22.9.4",
     "@types/uuid": "^10.0.0",
     "tsup": "^7.2.0",

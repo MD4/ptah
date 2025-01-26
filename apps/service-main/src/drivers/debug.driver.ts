@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 
 import { services } from "@ptah/lib-shared";
-import { type IUniverseDriver } from "dmx-ts";
+import type { IUniverseDriver } from "dmx-ts";
 
 export type DebugDriverArgs = {
   dmxSpeed?: number;
@@ -28,7 +28,6 @@ export class DebugDriver extends EventEmitter implements IUniverseDriver {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function -- Required by interface
   async init(): Promise<void> {}
 
   close(): void {

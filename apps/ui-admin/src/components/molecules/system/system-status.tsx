@@ -1,4 +1,4 @@
-import { type DmxStatus, type MidiStatus } from "@ptah/lib-models";
+import type { DmxStatus, MidiStatus } from "@ptah/lib-models";
 import * as React from "react";
 
 import { Badge, theme } from "antd";

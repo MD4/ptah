@@ -1,4 +1,4 @@
-import { type PubsubMessage } from "@ptah/lib-models";
+import type { PubsubMessage } from "@ptah/lib-models";
 import * as React from "react";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -6,20 +6,20 @@ import { useDebounceCallback } from "usehooks-ts";
 
 import { App, notification } from "antd";
 
+import { SystemProvider } from "../domain/system.domain";
 import PageLoader from "./atoms/page-loader";
 import AppLayout from "./layouts/app.layout";
 import HomePage from "./pages/home.page";
-import ShowPage from "./pages/show.page";
-import { SystemProvider } from "../domain/system.domain";
 import ProgramPage from "./pages/program.page";
 import SettingsPage from "./pages/settings.page";
+import ShowPage from "./pages/show.page";
 
 function PtahApp(): JSX.Element {
   const location = useLocation();
 
   useEffect(() => {
     navigator.vibrate(30);
-  }, [location]);
+  }, []);
 
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",

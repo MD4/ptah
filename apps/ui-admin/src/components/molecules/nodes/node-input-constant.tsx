@@ -5,8 +5,8 @@ import { Handle, Position } from "reactflow";
 
 import { Flex, InputNumber } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import { useDefaultNodeStyle } from "./node.style";
 
 export default function NodeInputConstant({
   data,

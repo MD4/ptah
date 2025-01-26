@@ -1,5 +1,5 @@
 import { getOutgoers } from "reactflow";
-import type { Connection, Node, Edge } from "reactflow";
+import type { Connection, Edge, Node } from "reactflow";
 
 export const hasNoCircularDependencies = (
   connection: Connection,

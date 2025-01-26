@@ -5,10 +5,10 @@ import type {
   Connection,
   Edge,
   FitViewOptions,
+  Node,
   OnConnect,
   OnEdgesChange,
   ReactFlowInstance,
-  Node,
   Viewport,
 } from "reactflow";
 import { useBoolean, useWindowSize } from "usehooks-ts";
@@ -17,7 +17,6 @@ import { v4 as uuidv4 } from "uuid";
 import { SaveFilled } from "@ant-design/icons";
 import { Button, notification, theme } from "antd";
 
-import ShowAddProgramModal from "./show-add-program-modal";
 import { repositionProgramNodes } from "../../../adapters/node.adapter";
 import {
   adaptModelShowPatchToToReactFlowEdges,
@@ -38,6 +37,7 @@ import { useShowPut } from "../../../repositories/show.repository";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
+import ShowAddProgramModal from "./show-add-program-modal";
 
 const { useToken } = theme;
 
@@ -135,15 +135,15 @@ export default function ShowPatch({
   React.useEffect(() => {
     if (reactFlowInstance) {
       const y = reactFlowInstance.getViewport().y;
-      reactFlowInstance.fitView(fitViewOptions);
 
+      reactFlowInstance.fitView(fitViewOptions);
       reactFlowInstance.setViewport({
         x: reactFlowInstance.getViewport().x,
         y,
         zoom: reactFlowInstance.getViewport().zoom,
       });
     }
-  }, [reactFlowInstance, windowSize]);
+  }, [reactFlowInstance]);
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
     setEdges((value) => applyEdgeChanges(changes, value));

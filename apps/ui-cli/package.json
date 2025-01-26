@@ -1,49 +1,40 @@
 {
-	"name": "@ptah/ui-cli",
-	"version": "0.0.1",
-	"private": true,
-	"bin": {
-		"ptah": "./dist/index.js"
-	},
-	"type": "module",
-	"engines": {
-		"node": ">=16"
-	},
-	"scripts": {
-		"build": "tsc; chmod u+x dist/index.js; npm link",
-		"clean": "rm -rf dist",
-		"dev": "tsc --watch",
-		"typecheck": "tsc --noEmit",
-		"lint": "eslint src/"
-	},
-	"files": [
-		"dist"
-	],
-	"dependencies": {
-		"@ptah/lib-models": "workspace:*",
-		"@ptah/lib-utils": "workspace:*",
-		"ink": "^4.1.0",
-		"ink-confirm-input": "^2.0.0",
-		"ink-image": "^2.0.0",
-		"ink-select-input": "^6.0.0",
-		"ink-spinner": "^5.0.0",
-		"meow": "^11.0.0",
-		"node-fetch": "^3.3.2",
-		"react": "^18.2.0",
-		"socket.io-client": "^4.8.1"
-	},
-	"devDependencies": {
-		"@ptah/eslint-config": "workspace:*",
-		"@sindresorhus/tsconfig": "^3.0.1",
-		"@types/react": "^18.0.32",
-		"@vdemedes/prettier-config": "^2.0.1",
-		"chalk": "^5.2.0",
-		"eslint-config-xo-react": "^0.27.0",
-		"eslint-plugin-react": "^7.32.2",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"ink-testing-library": "^3.0.0",
-		"prettier": "^2.8.7",
-		"ts-node": "^10.9.1",
-		"typescript": "^5.7.2"
-	}
+  "name": "@ptah/ui-cli",
+  "version": "0.0.1",
+  "private": true,
+  "bin": {
+    "ptah": "./dist/index.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "build": "tsc; chmod u+x dist/index.js; npm link",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": ["dist"],
+  "dependencies": {
+    "@ptah/lib-models": "workspace:*",
+    "@ptah/lib-utils": "workspace:*",
+    "ink": "^4.1.0",
+    "ink-confirm-input": "^2.0.0",
+    "ink-image": "^2.0.0",
+    "ink-select-input": "^6.0.0",
+    "ink-spinner": "^5.0.0",
+    "meow": "^11.0.0",
+    "node-fetch": "^3.3.2",
+    "react": "^18.2.0",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@sindresorhus/tsconfig": "^3.0.1",
+    "@types/react": "^18.0.32",
+    "chalk": "^5.2.0",
+    "ink-testing-library": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.7.2"
+  }
 }

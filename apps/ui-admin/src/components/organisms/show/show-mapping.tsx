@@ -4,9 +4,9 @@ import type {
   Connection,
   Edge,
   FitViewOptions,
-  OnEdgesChange,
   Node,
   OnConnect,
+  OnEdgesChange,
   ReactFlowInstance,
   Viewport,
 } from "reactflow";
@@ -17,7 +17,6 @@ import { v4 as uuidv4 } from "uuid";
 import { SaveFilled } from "@ant-design/icons";
 import { Button, Flex, notification, theme } from "antd";
 
-import ShowAddProgramModal from "./show-add-program-modal";
 import {
   adaptModelMappingToReactFlowEdges,
   adaptReactFlowEdgesAndToModelMapping,
@@ -38,6 +37,7 @@ import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
+import ShowAddProgramModal from "./show-add-program-modal";
 
 const { useToken } = theme;
 
@@ -145,7 +145,7 @@ export default function ShowMapping(): JSX.Element {
         zoom: reactFlowInstance.getViewport().zoom,
       });
     }
-  }, [reactFlowInstance, windowSize]);
+  }, [reactFlowInstance]);
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
     setEdges((value) => applyEdgeChanges(changes, value));

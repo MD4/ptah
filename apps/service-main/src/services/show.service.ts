@@ -1,4 +1,4 @@
-import { type Show, type ShowName } from "@ptah/lib-models";
+import type { Show, ShowName } from "@ptah/lib-models";
 import { env, repositories, services } from "@ptah/lib-shared";
 
 import * as dmx from "./dmx.service";

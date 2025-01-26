@@ -1,7 +1,7 @@
-import { type Settings } from "@ptah/lib-models";
+import type { Settings } from "@ptah/lib-models";
 import * as React from "react";
 
-import { Col, Divider, Row, theme, Typography } from "antd";
+import { Col, Divider, Row, Typography, theme } from "antd";
 
 const { useToken } = theme;
 

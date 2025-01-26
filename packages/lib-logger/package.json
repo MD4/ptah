@@ -4,14 +4,11 @@
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "scripts": {
     "build": "tsup",
     "clean": "rm -rf dist",
     "dev": "tsup --watch",
-    "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
@@ -21,7 +18,6 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@ptah/eslint-config": "workspace:*",
     "@types/node": "^22.9.4",
     "tsup": "^7.2.0",
     "typescript": "^5.7.2"

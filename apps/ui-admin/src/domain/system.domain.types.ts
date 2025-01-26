@@ -1,9 +1,9 @@
-import {
-  type PubsubMessageSystem,
-  type PubsubMessageMidi,
-  type ShowName,
-  type MidiStatus,
-  type DmxStatus,
+import type {
+  DmxStatus,
+  MidiStatus,
+  PubsubMessageMidi,
+  PubsubMessageSystem,
+  ShowName,
 } from "@ptah/lib-models";
 
 export type SystemState = {

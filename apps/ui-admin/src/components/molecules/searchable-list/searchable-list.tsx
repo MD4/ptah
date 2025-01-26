@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
-import { Input, Button, Flex, List, theme } from "antd";
+import { Button, Flex, Input, List, theme } from "antd";
 
 const { useToken } = theme;
 

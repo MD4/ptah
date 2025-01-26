@@ -1,15 +1,15 @@
 import { log } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
 
+import { applyMapping } from "../domains/patch.domain";
+import { getProgramInitialState, performTick } from "../domains/program.domain";
+import type { ProgramOutput } from "../domains/program.types";
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import type {
   RunnerControlsState,
   RunnerProgramsState,
 } from "./runner.service.types";
-import { applyMapping } from "../domains/patch.domain";
-import { getProgramInitialState, performTick } from "../domains/program.domain";
-import type { ProgramOutput } from "../domains/program.types";
 
 const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:runner`;
 

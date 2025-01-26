@@ -1,20 +1,20 @@
 import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type {
-  OnEdgesChange,
-  OnConnect,
-  FitViewOptions,
-  OnNodesChange,
-  Edge,
   Connection,
+  Edge,
+  FitViewOptions,
   Node,
+  OnConnect,
+  OnEdgesChange,
+  OnNodesChange,
   ReactFlowInstance,
 } from "reactflow";
 import {
   ReactFlow,
+  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  addEdge,
   updateEdge,
 } from "reactflow";
 import { useDebounceValue } from "usehooks-ts";
@@ -23,7 +23,6 @@ import { v4 as uuidv4 } from "uuid";
 import { SaveFilled } from "@ant-design/icons";
 import { Button, Flex, notification, theme } from "antd";
 
-import ProgramAddNode from "./program-add-node";
 import {
   adaptModelEdgesToReactFlowEdges,
   adaptReactFlowEdgesToModelEdges,
@@ -41,6 +40,7 @@ import { useProgramPut } from "../../../repositories/program.repository";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { programNodeTypes } from "../../molecules/nodes";
+import ProgramAddNode from "./program-add-node";
 
 const { useToken } = theme;
 
@@ -49,6 +49,19 @@ const fitViewOptions: FitViewOptions = {
   padding: 1,
   minZoom: 1,
   maxZoom: 1,
+};
+
+const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
+  let outputId = 0;
+
+  return _nodes.map((node) =>
+    node.data.type === "output-result"
+      ? {
+          ...node,
+          data: { ...node.data, outputId: outputId++ },
+        }
+      : node,
+  );
 };
 
 export default function ProgramEdit(): JSX.Element {
@@ -101,19 +114,6 @@ export default function ProgramEdit(): JSX.Element {
   );
 
   const [debouncedNodes] = useDebounceValue(nodes, 200);
-
-  const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
-    let outputId = 0;
-
-    return _nodes.map((node) =>
-      node.data.type === "output-result"
-        ? {
-            ...node,
-            data: { ...node.data, outputId: outputId++ },
-          }
-        : node,
-    );
-  };
 
   const onNodesChange = React.useCallback<OnNodesChange>(
     (changes) => {

@@ -1,15 +1,5 @@
 {
-    "eslint.workingDirectories": [
-        { "pattern": "apps/*/" },
-        { "pattern": "packages/*/" }
-    ],
-    "editor.codeActionsOnSave": {
-        "source.fixAll.prettier": "explicit"
-    },
-    "svg.preview.background": "dark-transparent",
-    "files.watcherInclude": [
-        "**/node_modules/@ptah/**"
-    ],
-    "prettier.configPath": ".prettier.config.js",
-    "js/ts.implicitProjectConfig.checkJs": true
+  "svg.preview.background": "dark-transparent",
+  "files.watcherInclude": ["**/node_modules/@ptah/**"],
+  "js/ts.implicitProjectConfig.checkJs": true
 }

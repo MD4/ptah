@@ -5,7 +5,7 @@ import type {
   NodeInternals,
   ReactFlowState,
 } from "reactflow";
-import { getConnectedEdges, Handle, useNodeId, useStore } from "reactflow";
+import { Handle, getConnectedEdges, useNodeId, useStore } from "reactflow";
 
 import { theme } from "antd";
 
@@ -67,7 +67,7 @@ export default function HandleInputWithLimit({
     } else if (!isHandleConnectable && onDisconnect) {
       onDisconnect();
     }
-  }, [isHandleConnectable, onDisconnect, props]);
+  }, [isHandleConnectable, onDisconnect, props.onConnect]);
 
   return (
     <Handle

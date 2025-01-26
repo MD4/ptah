@@ -4,8 +4,8 @@ import { Handle, Position } from "reactflow";
 
 import { Flex, Typography, theme } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import { useSystemState } from "../../../domain/system.domain";
+import { useDefaultNodeStyle } from "./node.style";
 
 const { useToken } = theme;
 

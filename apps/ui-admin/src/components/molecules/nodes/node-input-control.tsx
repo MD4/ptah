@@ -6,8 +6,8 @@ import { Handle, Position } from "reactflow";
 
 import { Flex, Select } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import { useDefaultNodeStyle } from "./node.style";
 
 const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
   value,

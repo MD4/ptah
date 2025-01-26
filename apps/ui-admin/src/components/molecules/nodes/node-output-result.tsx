@@ -5,8 +5,8 @@ import { Position } from "reactflow";
 
 import { Flex, Typography } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import HandleInputWithLimit from "../handles/handle-input-with-limit";
+import { useDefaultNodeStyle } from "./node.style";
 
 export default function NodeOutputResult({
   data: { outputId },

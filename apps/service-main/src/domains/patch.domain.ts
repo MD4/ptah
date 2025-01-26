@@ -16,14 +16,16 @@ export const extractProgramMappingFromShowPatch = (
     .map(({ channel }) => Number(channel));
 
 export const unNaNifyValue = (value: number): number =>
-  isNaN(value) ? 0 : value;
+  Number.isNaN(value) ? 0 : value;
 
 export const unInfinitifyValue = (value: number): number => {
-  if (value === Infinity) {
+  if (value === Number.POSITIVE_INFINITY) {
     return 255;
-  } else if (value === -Infinity) {
+  }
+  if (value === Number.NEGATIVE_INFINITY) {
     return 0;
-  } else if (!isFinite(value)) {
+  }
+  if (!Number.isFinite(value)) {
     return 0;
   }
 

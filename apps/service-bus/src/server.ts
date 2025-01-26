@@ -47,11 +47,11 @@ export const start = (): Promise<void> =>
 
       const channels = ["midi", "system"];
 
-      channels.forEach((channel) => {
+      for (const channel of channels) {
         client.subscribe(channel, (body: Serializable) => {
           server?.broadcast(channel, body);
         });
-      });
+      }
     });
 
     resolve();

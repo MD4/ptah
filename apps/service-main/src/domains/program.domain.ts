@@ -1,13 +1,13 @@
 import type { Node, Program } from "@ptah/lib-models";
-import { isDefined, adsr } from "@ptah/lib-utils";
+import { adsr, isDefined } from "@ptah/lib-utils";
 
+import type { RunnerControlsState } from "../services/runner.service.types";
 import type {
   ProgramCompute,
   ProgramDefinition,
   ProgramOutput,
   ProgramState,
 } from "./program.types";
-import type { RunnerControlsState } from "../services/runner.service.types";
 
 // Defined by MIDI standard
 const TICK = 1 / 24;
@@ -178,7 +178,7 @@ export const compile = (program: Program): ProgramCompute => {
               value = Math.sqrt(a);
               break;
             case "power":
-              value = Math.pow(a, b);
+              value = a ** b;
               break;
             case "absolute":
               value = Math.abs(a);

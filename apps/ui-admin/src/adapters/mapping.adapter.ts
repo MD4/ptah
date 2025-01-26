@@ -2,7 +2,7 @@ import type * as models from "@ptah/lib-models";
 import type { Edge, Node } from "reactflow";
 
 import type { NodeKeyData } from "../components/molecules/nodes/node-key";
-import { isSharpKey, getKeyFromIndex } from "../domain/key.domain";
+import { getKeyFromIndex, isSharpKey } from "../domain/key.domain";
 
 export const adaptModelMappingToReactFlowEdges = (
   mapping: models.ShowMapping,

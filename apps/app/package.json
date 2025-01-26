@@ -5,8 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config .",
-    "lint": "eslint src/"
+    "start": "nodemon -r dotenv/config ."
   },
   "bin": "index.js",
   "dependencies": {
@@ -24,7 +23,6 @@
     "serve-handler": "^6.1.6"
   },
   "devDependencies": {
-    "@ptah/eslint-config": "workspace:*",
     "@types/node": "^22.9.4"
   }
 }

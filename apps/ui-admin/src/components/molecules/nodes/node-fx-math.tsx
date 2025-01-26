@@ -6,9 +6,9 @@ import { Handle, Position } from "reactflow";
 
 import { Flex, Select } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import HandleInputParameter from "../handles/handle-input-parameter";
+import { useDefaultNodeStyle } from "./node.style";
 
 const operations: DefaultOptionType[] = [
   "add",

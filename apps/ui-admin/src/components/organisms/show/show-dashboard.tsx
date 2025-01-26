@@ -88,7 +88,7 @@ export default function ShowDashboard({
         zoom: reactFlowInstance.getViewport().zoom,
       });
     }
-  }, [reactFlowInstance, windowSize]);
+  }, [reactFlowInstance]);
 
   return (
     <div style={styles.container}>

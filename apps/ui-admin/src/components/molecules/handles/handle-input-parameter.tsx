@@ -4,8 +4,8 @@ import { Position } from "reactflow";
 
 import { Flex, InputNumber, theme } from "antd";
 
-import HandleInputWithLimit from "./handle-input-with-limit";
 import { useDefaultNodeStyle } from "../nodes/node.style";
+import HandleInputWithLimit from "./handle-input-with-limit";
 
 const { useToken } = theme;
 

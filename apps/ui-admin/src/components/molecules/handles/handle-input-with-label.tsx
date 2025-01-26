@@ -3,15 +3,15 @@ import { Position } from "reactflow";
 
 import { Flex, theme } from "antd";
 
-import HandleInputWithLimit from "./handle-input-with-limit";
 import { useDefaultNodeStyle } from "../nodes/node.style";
+import HandleInputWithLimit from "./handle-input-with-limit";
 
 const { useToken } = theme;
 
 export default function HandleInputWithLabel({
   id,
   label,
-  isConnectable = Infinity,
+  isConnectable = Number.POSITIVE_INFINITY,
 }: {
   id: number;
   label: string;

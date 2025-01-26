@@ -38,11 +38,11 @@ export const connect = (
       routine: kalm.routines.realtime(),
     });
 
-    channels.forEach((channel) => {
+    for (const channel of channels) {
       client?.subscribe(channel, (message: PubsubMessage) => {
         callback(channel, message);
       });
-    });
+    }
 
     client.on("connect", () => {
       reconnecting = false;

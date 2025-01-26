@@ -3,24 +3,24 @@ import { render } from "ink";
 import meow from "meow";
 import React from "react";
 
-import App from "./app.js";
-import { kill, SystemProvider } from "./providers/system-provider.js";
+import App from "./App.js";
+import { SystemProvider, kill } from "./providers/system-provider.js";
 
 const cli = meow(
-	`
+  `
 	Usage
 	  $ ui-cli
 `,
-	{ importMeta: import.meta },
+  { importMeta: import.meta },
 );
 
 await render(
-	<SystemProvider>
-		<App
-			packageName={String(cli.pkg.name)}
-			packageVersion={String(cli.pkg.version)}
-		/>
-	</SystemProvider>,
+  <SystemProvider>
+    <App
+      packageName={String(cli.pkg.name)}
+      packageVersion={String(cli.pkg.version)}
+    />
+  </SystemProvider>,
 ).waitUntilExit();
 
 kill();

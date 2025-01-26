@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- let it be
-export const debounce = <F extends (this: T, ...args: any[]) => R, T, R>(
+export const debounce = <F extends (this: T, ...args: unknown[]) => R, T, R>(
   fn: F,
   wait = 100,
   immediate = false,
@@ -7,16 +6,13 @@ export const debounce = <F extends (this: T, ...args: any[]) => R, T, R>(
   let timeout: NodeJS.Timeout | undefined;
 
   return function _(this: T, ...args) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias -- just let it be
-    const context = this;
-
-    const later = function (): void {
+    const later = (): void => {
       timeout = undefined;
-      if (!immediate) fn.apply(context, args);
+      if (!immediate) fn.apply(this, args);
     };
     const callNow = immediate && !timeout;
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
-    if (callNow) fn.apply(context, args);
+    if (callNow) fn.apply(this, args);
   };
 };

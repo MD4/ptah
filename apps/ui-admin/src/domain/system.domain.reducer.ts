@@ -1,4 +1,4 @@
-import { type SystemState, type SystemAction } from "./system.domain.types";
+import type { SystemAction, SystemState } from "./system.domain.types";
 
 export const systemReducer = (
   state: SystemState,

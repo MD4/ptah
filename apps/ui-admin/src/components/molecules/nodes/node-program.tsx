@@ -5,9 +5,9 @@ import type { NodeProps } from "reactflow";
 import { EditFilled } from "@ant-design/icons";
 import { Button, Flex, theme } from "antd";
 
-import { useDefaultNodeStyle } from "./node.style";
 import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
+import { useDefaultNodeStyle } from "./node.style";
 
 export type NodeProgramData = {
   programId: string;

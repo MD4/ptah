@@ -17,9 +17,9 @@ const services = ["bus", "api", "gateway-ws", "main", "midi"];
  */
 const uis = { admin: Number(process.env.VITE_UI_ADMIN_PORT) };
 
-import pm2 from "pm2";
+import http from "node:http";
 import arg from "arg";
-import http from "http";
+import pm2 from "pm2";
 
 import handler from "serve-handler";
 
@@ -88,7 +88,7 @@ const serveUi = ([ui, port]) =>
   });
 
 /**
- * @param {Server} server 
+ * @param {Server} server
  * @returns {Promise<void>}
  */
 const stopUi = (server) =>

@@ -3,13 +3,13 @@ import { noop, sleep } from "@ptah/lib-utils";
 import * as React from "react";
 import { useSocket, useSocketEvent } from "socket.io-react-hook";
 
+import { useProgramInvalidate } from "../repositories/program.repository";
 import { systemReducer } from "./system.domain.reducer";
 import type {
-  SystemState,
   SocketMessages,
   SystemApi,
+  SystemState,
 } from "./system.domain.types";
-import { useProgramInvalidate } from "../repositories/program.repository";
 
 const initialSystemState: SystemState = {
   connected: false,
@@ -48,7 +48,6 @@ export function SystemProvider({
   const invalidateProgram = useProgramInvalidate();
 
   React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- false positive
     if (!midiMessage) {
       return;
     }
@@ -84,10 +83,9 @@ export function SystemProvider({
     }
 
     onMessage(midiMessage);
-  }, [invalidateProgram, midiMessage, onMessage]);
+  }, [midiMessage, onMessage]);
 
   React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- false positive
     if (!systemMessage) {
       return;
     }

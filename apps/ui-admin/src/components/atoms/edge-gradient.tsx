@@ -9,8 +9,8 @@ export default function EdgeGradient(): JSX.Element {
 
   return <div />;
 
-  return (
-    <svg>
+  /* return (
+    <svg title="lol">
       <defs>
         <linearGradient id="edge-gradient">
           <stop offset="0" stopColor={token.colorPrimary}>
@@ -40,5 +40,5 @@ export default function EdgeGradient(): JSX.Element {
         </linearGradient>
       </defs>
     </svg>
-  );
+  ); */
 }

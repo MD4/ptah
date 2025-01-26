@@ -2,9 +2,9 @@
   "compilerOptions": {
     "lib": ["ES2015"],
     "module": "CommonJS",
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "exclude": ["node_modules", "dist"],
   "extends": "@ptah/config-ts/base.json",
-  "include": ["."],
+  "include": ["."]
 }

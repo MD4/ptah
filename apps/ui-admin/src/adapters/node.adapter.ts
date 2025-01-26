@@ -1,8 +1,8 @@
 import type * as models from "@ptah/lib-models";
 import type { Node } from "reactflow";
 
-import { getProgramHeight, getProgramOutputCount } from "./show.adapter";
 import type { NodeProgramData } from "../components/molecules/nodes/node-program";
+import { getProgramHeight, getProgramOutputCount } from "./show.adapter";
 
 export const adaptModelNodesToReactFlowNodes = (
   nodes: models.Node[],
