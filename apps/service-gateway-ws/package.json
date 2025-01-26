@@ -21,19 +21,19 @@
     "@ptah/lib-models": "workspace:^",
     "@ptah/lib-shared": "workspace:^",
     "@types/midi": "^2.0.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
-    "nodemon": "^3.1.7",
+    "nodemon": "^3.1.9",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^22.9.4",
+    "@types/node": "^22.10.10",
     "@types/supertest": "^6.0.2",
     "supertest": "^7.0.0",
     "tsup": "^7.2.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   }
 }

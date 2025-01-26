@@ -15,7 +15,9 @@
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@ptah/lib-models": "workspace:*",
     "@ptah/lib-utils": "workspace:*",
@@ -31,10 +33,10 @@
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "^3.0.1",
-    "@types/react": "^18.0.32",
-    "chalk": "^5.2.0",
+    "@types/react": "^18.3.18",
+    "chalk": "^5.4.1",
     "ink-testing-library": "^3.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   }
 }
