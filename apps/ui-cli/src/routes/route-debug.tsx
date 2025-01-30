@@ -41,7 +41,8 @@ export function RouteDebug({
     <Box overflowY="hidden" height={height - 12}>
       <Box gap={1} flexWrap="wrap" marginY={scrollTop}>
         {dmxDebugOutputs.map((output) => (
-          <Text color={getColor(output)} key={output}>
+          // biome-ignore lint/correctness/useJsxKeyInIterable: can't provide a key here
+          <Text color={getColor(output)}>
             {String(output).padStart(3, " ")}
           </Text>
         ))}
