@@ -4,9 +4,9 @@
   "scripts": {
     "start": "cd apps/app && pnpm start",
     "start:ui": "cd apps/ui-admin && pnpm start",
-    "build": "turbo build --force --no-cache",
+    "build": "turbo build --force",
     "clean": "turbo clean",
-    "dev": "turbo dev --no-cache  --continue --concurrency 20",
+    "dev": "turbo dev --cache=local:r,remote:r  --continue --concurrency 20",
     "format": "biome format --write",
     "check": "biome check",
     "check:fix": "biome check --write",
