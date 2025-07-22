@@ -21,12 +21,12 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^22.10.10",
+    "@types/node": "^22.16.5",
     "tsup": "^7.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@ptah/lib-logger": "workspace:*",
-    "zod": "^3.24.1"
+    "zod": "^3.25.76"
   }
 }

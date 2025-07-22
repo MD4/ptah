@@ -22,18 +22,18 @@
     "@ptah/lib-shared": "workspace:*",
     "@ptah/lib-utils": "workspace:*",
     "@types/midi": "^2.0.3",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.10"
   },
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^22.10.10",
-    "@types/supertest": "^6.0.2",
-    "supertest": "^7.0.0",
+    "@types/node": "^22.16.5",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.3",
     "tsup": "^7.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   }
 }
