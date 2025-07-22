@@ -20,7 +20,7 @@
     "@types/react-transition-group": "^4.4.12",
     "@types/uuid": "^10.0.0",
     "antd": "^5.26.6",
-    "antd-zod": "^6.1.0",
+    "antd-zod": "^7.0.0",
     "axios": "^1.10.0",
     "fast-copy": "^3.0.2",
     "fast-equals": "^5.2.2",
@@ -34,12 +34,12 @@
     "type-fest": "^4.41.0",
     "usehooks-ts": "^3.1.1",
     "uuid": "^11.1.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@ptah/config-ts": "workspace:*",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.16.5",
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.7.0",

@@ -18,7 +18,7 @@ export default function App({
 }: {
   packageName: string;
   packageVersion: string;
-}): JSX.Element {
+}) {
   const state = useSystemState();
   const { width, height } = useViewport();
   const [route, setRoute] = useState<Route>({ path: "home" });

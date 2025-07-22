@@ -21,7 +21,7 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^22.16.5",
+    "@types/node": "^24.1.0",
     "@types/uuid": "^10.0.0",
     "tsup": "^7.2.0",
     "typescript": "^5.8.3"
@@ -30,6 +30,6 @@
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:*",
     "uuid": "^11.1.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   }
 }

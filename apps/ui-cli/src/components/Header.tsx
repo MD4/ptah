@@ -11,7 +11,7 @@ export default function Header({
   packageName: string;
   packageVersion: string;
   title: string;
-}): JSX.Element {
+}) {
   return (
     <Box alignItems="center" justifyContent="space-between" width="100%">
       <Box

@@ -21,7 +21,7 @@ export default function RouteShow({
 }: {
   showName: ShowName;
   navigate: (route: Route) => void;
-}): JSX.Element {
+}) {
   const { loadShow, unloadShow } = useSystemApi();
   const { activeProgramsIds, tempo, showStatus } = useSystemState();
   const [show, setState] = useState<Show | undefined>();

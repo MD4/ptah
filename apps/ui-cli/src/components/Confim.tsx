@@ -3,7 +3,7 @@ import React from "react";
 
 import { theme } from "../theme.js";
 
-export default function Confirm(): JSX.Element {
+export default function Confirm() {
   return (
     <Box
       flexGrow={1}

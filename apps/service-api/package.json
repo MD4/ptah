@@ -26,7 +26,7 @@
     "express": "^4.21.2",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.10",
-    "zod": "^3.25.76",
+    "zod": "^4.0.5",
     "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^22.16.5",
+    "@types/node": "^24.1.0",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.1.3",
     "tsup": "^7.2.0",

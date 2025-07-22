@@ -11,7 +11,7 @@ export function RouteHome({
   navigate,
 }: {
   navigate: (route: Route) => void;
-}): JSX.Element {
+}) {
   const { exit } = useApp();
   const items: Item<MenuItemValue>[] = [
     { label: "Load show", value: "load-show" },

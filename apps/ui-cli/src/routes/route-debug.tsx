@@ -9,7 +9,7 @@ export function RouteDebug({
   navigate,
 }: {
   navigate: (route: Route) => void;
-}): JSX.Element {
+}) {
   const { height } = useViewport();
   const { setDmxDebug } = useSystemApi();
   const { dmxDebugOutputs } = useSystemState();

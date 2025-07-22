@@ -92,7 +92,7 @@ export function SystemProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}) {
   const [state, setState] = useState(initialSystemState);
 
   const handleConnect = useCallback(() => {

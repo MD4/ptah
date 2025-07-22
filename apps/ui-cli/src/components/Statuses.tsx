@@ -12,7 +12,7 @@ export default function Statuses({
   connected: boolean;
   dmxStatus: DmxStatus;
   midiStatus: MidiStatus;
-}): JSX.Element {
+}) {
   return (
     <Box justifyContent="space-around" width="100%">
       <div />

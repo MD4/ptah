@@ -11,7 +11,7 @@ export default function RouteLoadShow({
   navigate,
 }: {
   navigate: (route: Route) => void;
-}): JSX.Element {
+}) {
   const [shows, setState] = useState<Item<string>[]>([]);
 
   useEffect(() => {
