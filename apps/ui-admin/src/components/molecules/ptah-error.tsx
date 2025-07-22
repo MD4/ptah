@@ -1,10 +1,9 @@
-import * as React from "react";
-
 import { Button, Result } from "antd";
+import * as React from "react";
 
 import FullCenteredLayout from "../layouts/full-centered.layout";
 
-export default function PtahError({ error }: { error: Error }): JSX.Element {
+export default function PtahError({ error }: { error: Error }) {
   const onReloadClick = (): void => {
     location.reload();
   };

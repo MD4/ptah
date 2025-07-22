@@ -2,7 +2,6 @@ import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type { FitViewOptions, ReactFlowInstance, Viewport } from "reactflow";
 import { ReactFlow } from "reactflow";
-import { useWindowSize } from "usehooks-ts";
 
 import {
   adaptModelMappingToReactFlowEdges,
@@ -42,7 +41,7 @@ export default function ShowDashboard({
 }: {
   show: models.Show;
   programs: models.Program[];
-}): JSX.Element {
+}) {
   const initialNodes = React.useMemo(
     () => [
       ...adaptModelMappingToReactFlowEdgesNodes(show.mapping, 0),
@@ -74,8 +73,6 @@ export default function ShowDashboard({
 
   const [reactFlowInstance, setReactFlowInstance] =
     React.useState<ReactFlowInstance | null>(null);
-
-  const windowSize = useWindowSize();
 
   React.useEffect(() => {
     if (reactFlowInstance) {

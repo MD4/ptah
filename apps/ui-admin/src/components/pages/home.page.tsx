@@ -1,9 +1,8 @@
+import { Button, Flex } from "antd";
 import TypographyLink from "antd/es/typography/Link";
 import Text from "antd/es/typography/Text";
 import * as React from "react";
 import { Link } from "react-router-dom";
-
-import { Button, Flex } from "antd";
 
 import { useSystemApi, useSystemState } from "../../domain/system.domain";
 import FullCenteredLayout from "../layouts/full-centered.layout";
@@ -20,7 +19,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-export default function HomePage(): JSX.Element {
+export default function HomePage() {
   const { connected } = useSystemState();
   const { unloadShow } = useSystemApi();
 

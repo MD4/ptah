@@ -1,15 +1,11 @@
+import { Flex } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-import { Flex } from "antd";
-
-import type { NodeKeyData } from "./node-key";
 import { useDefaultNodeStyle } from "./node.style";
+import type { NodeKeyData } from "./node-key";
 
-export default function NodeInputTime({
-  selected,
-}: NodeProps<NodeKeyData>): JSX.Element {
+export default function NodeInputTime({ selected }: NodeProps<NodeKeyData>) {
   const styles = useDefaultNodeStyle("input", selected);
 
   return (

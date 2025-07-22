@@ -34,7 +34,7 @@ export function SystemProvider({
 }: {
   onMessage: (message: PubsubMessage) => void;
   children: React.ReactNode;
-}): JSX.Element {
+}) {
   const [state, dispatch] = React.useReducer(systemReducer, initialSystemState);
 
   const wsUrl = `ws://${String(

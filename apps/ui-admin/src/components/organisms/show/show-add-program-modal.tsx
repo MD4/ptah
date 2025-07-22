@@ -1,7 +1,6 @@
 import type * as models from "@ptah/lib-models";
-import * as React from "react";
-
 import { Modal } from "antd";
+import * as React from "react";
 
 import {
   useProgramGet,
@@ -18,7 +17,7 @@ export default function ShowAddProgramModal({
   open: boolean;
   onCancel: () => void;
   onProgramSelected: (program: models.Program) => void;
-}): JSX.Element {
+}) {
   const { isPending, data, error } = useProgramList();
   const [programSelected, setProgramSelected] = React.useState<
     string | undefined

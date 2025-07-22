@@ -1,7 +1,6 @@
-import * as React from "react";
-
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Flex, Input, List, theme } from "antd";
+import * as React from "react";
 
 const { useToken } = theme;
 
@@ -17,7 +16,7 @@ export default function SearchableList({
   onItemSelected: (item: string) => void;
   placeholder: string;
   footer?: React.ReactNode;
-}): JSX.Element {
+}) {
   const { token } = useToken();
   const [filteredData, setFilteredData] = React.useState<string[]>([]);
 

@@ -7,11 +7,7 @@ import type { Route } from "./route.types.js";
 
 type MenuItemValue = "load-show" | "debug" | "quit";
 
-export function RouteHome({
-  navigate,
-}: {
-  navigate: (route: Route) => void;
-}) {
+export function RouteHome({ navigate }: { navigate: (route: Route) => void }) {
   const { exit } = useApp();
   const items: Item<MenuItemValue>[] = [
     { label: "Load show", value: "load-show" },

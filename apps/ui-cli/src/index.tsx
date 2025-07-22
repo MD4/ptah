@@ -4,7 +4,7 @@ import meow from "meow";
 import React from "react";
 
 import App from "./App.js";
-import { SystemProvider, kill } from "./providers/system-provider.js";
+import { kill, SystemProvider } from "./providers/system-provider.js";
 
 const cli = meow(
   `

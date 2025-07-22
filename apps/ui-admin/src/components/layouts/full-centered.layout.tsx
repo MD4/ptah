@@ -1,6 +1,5 @@
-import type * as React from "react";
-
 import { Flex } from "antd";
+import type * as React from "react";
 
 const styles: Record<string, React.CSSProperties> = {
   fullCenteredLayout: {
@@ -17,8 +16,8 @@ const styles: Record<string, React.CSSProperties> = {
 export default function FullCenteredLayout({
   children,
 }: {
-  children: JSX.Element | JSX.Element[];
-}): JSX.Element {
+  children: React.ReactNode;
+}) {
   return (
     <Flex
       align="center"

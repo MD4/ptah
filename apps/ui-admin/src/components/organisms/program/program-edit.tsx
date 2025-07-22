@@ -1,4 +1,6 @@
+import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
+import { Button, Flex, notification, theme } from "antd";
 import * as React from "react";
 import type {
   Connection,
@@ -11,17 +13,14 @@ import type {
   ReactFlowInstance,
 } from "reactflow";
 import {
-  ReactFlow,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
+  ReactFlow,
   updateEdge,
 } from "reactflow";
 import { useDebounceValue } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
-
-import { SaveFilled } from "@ant-design/icons";
-import { Button, Flex, notification, theme } from "antd";
 
 import {
   adaptModelEdgesToReactFlowEdges,
@@ -64,7 +63,7 @@ const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
   );
 };
 
-export default function ProgramEdit(): JSX.Element {
+export default function ProgramEdit() {
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });

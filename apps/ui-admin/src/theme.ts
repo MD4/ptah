@@ -36,5 +36,8 @@ export const ptahTheme: ThemeConfig = {
     List: {
       colorBorder: "transparent",
     },
+    Button: {
+      primaryShadow: "none",
+    },
   },
 };

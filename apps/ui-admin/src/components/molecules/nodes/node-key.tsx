@@ -1,8 +1,7 @@
+import { Flex, Typography, theme } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-import { Flex, Typography, theme } from "antd";
 
 import { useSystemState } from "../../../domain/system.domain";
 import { useDefaultNodeStyle } from "./node.style";
@@ -19,7 +18,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
   data: { key, label, sharp },
   selected,
   pressed,
-}: NodeProps<NodeKeyData> & { pressed: boolean }): JSX.Element {
+}: NodeProps<NodeKeyData> & { pressed: boolean }) {
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle("default", selected);
 
@@ -78,7 +77,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
   );
 });
 
-export default function NodeKey(props: NodeProps<NodeKeyData>): JSX.Element {
+export default function NodeKey(props: NodeProps<NodeKeyData>) {
   const { keysPressed } = useSystemState();
 
   const pressed = React.useMemo(

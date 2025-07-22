@@ -12,11 +12,11 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-function PtahLogo(): JSX.Element {
+function PtahLogo() {
   return <img alt="PTAH logo" src="/ptah-logo-white.svg" style={styles.logo} />;
 }
 
-function ShowTitle(): JSX.Element {
+function ShowTitle() {
   const { showName } = useParams();
 
   return (
@@ -26,7 +26,7 @@ function ShowTitle(): JSX.Element {
   );
 }
 
-export default function ShowPage(): JSX.Element {
+export default function ShowPage() {
   const { showName } = useParams();
   const { connected } = useSystemState();
   const { loadShow } = useSystemApi();

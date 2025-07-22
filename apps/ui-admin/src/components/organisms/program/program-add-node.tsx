@@ -1,13 +1,12 @@
-import * as React from "react";
-
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Flex, theme } from "antd";
+import * as React from "react";
 
 import ProgramNodeLibrary from "./program-node-library";
 
 const { useToken } = theme;
 
-export default function ProgramAddNode(): JSX.Element {
+export default function ProgramAddNode() {
   const [open, setOpen] = React.useState(false);
   const [_, setVisible] = React.useState(true);
 

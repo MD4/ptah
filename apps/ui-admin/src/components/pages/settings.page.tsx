@@ -1,7 +1,6 @@
+import { Flex, theme } from "antd";
 import Title from "antd/es/typography/Title";
 import * as React from "react";
-
-import { Flex, theme } from "antd";
 
 import { useSettingsGet } from "../../repositories/settings.repository";
 import FullCenteredLayout from "../layouts/full-centered.layout";
@@ -10,7 +9,7 @@ import SettingsEdit from "../organisms/settings/settings-edit";
 
 const { useToken } = theme;
 
-export default function SettingsPage(): JSX.Element {
+export default function SettingsPage() {
   const { token } = useToken();
   const { error, data } = useSettingsGet();
 

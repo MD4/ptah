@@ -6,7 +6,7 @@ import { useProgramGet } from "../../../repositories/program.repository";
 import PtahError from "../../molecules/ptah-error";
 import ProgramEdit from "../../organisms/program/program-edit";
 
-export default function ProgramCreatePage(): JSX.Element {
+export default function ProgramCreatePage() {
   const { programName } = useParams();
 
   const { error, data } = useProgramGet(programName);

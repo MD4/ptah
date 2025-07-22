@@ -1,13 +1,12 @@
+import { Layout, theme } from "antd";
 import * as React from "react";
 import { Outlet } from "react-router-dom";
-
-import { Layout, theme } from "antd";
 
 import SystemStatus from "../molecules/system/system-status";
 
 const { useToken } = theme;
 
-export default function AppLayout(): JSX.Element {
+export default function AppLayout() {
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(

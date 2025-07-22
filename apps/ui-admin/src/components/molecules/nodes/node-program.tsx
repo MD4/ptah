@@ -1,9 +1,8 @@
+import { EditFilled } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import type { NodeProps } from "reactflow";
-
-import { EditFilled } from "@ant-design/icons";
-import { Button, Flex, theme } from "antd";
 
 import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
@@ -21,7 +20,7 @@ const { useToken } = theme;
 export default function NodeProgram({
   data: { programName, outputsCount, noInput },
   selected,
-}: NodeProps<NodeProgramData>): JSX.Element {
+}: NodeProps<NodeProgramData>) {
   const defaultStyles = useDefaultNodeStyle("default", selected);
   const { token } = useToken();
 

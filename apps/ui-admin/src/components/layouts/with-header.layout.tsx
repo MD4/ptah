@@ -1,7 +1,6 @@
+import { Flex, Layout, theme } from "antd";
 import * as React from "react";
 import { useMediaQuery } from "usehooks-ts";
-
-import { Flex, Layout, theme } from "antd";
 
 const { useToken } = theme;
 
@@ -11,11 +10,11 @@ export default function ShowLayout({
   headerCenter,
   headerRight,
 }: {
-  children: JSX.Element;
-  headerLeft: JSX.Element;
-  headerCenter: JSX.Element;
-  headerRight: JSX.Element;
-}): JSX.Element {
+  children: React.ReactNode;
+  headerLeft: React.ReactNode;
+  headerCenter: React.ReactNode;
+  headerRight: React.ReactNode;
+}) {
   const { token } = useToken();
   const mobile = useMediaQuery("(max-width: 768px)");
 

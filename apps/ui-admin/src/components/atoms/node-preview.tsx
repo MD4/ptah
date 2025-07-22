@@ -1,7 +1,6 @@
 import type * as models from "@ptah/lib-models";
-import * as React from "react";
-
 import { Flex, theme } from "antd";
+import * as React from "react";
 
 import type { NodeStyleType } from "../molecules/nodes/node.style";
 import { useDefaultNodeStyle } from "../molecules/nodes/node.style";
@@ -22,7 +21,7 @@ export default function NodePreview({
   parameters: string[];
   onDrop: () => void;
   onDragStart: () => void;
-}): JSX.Element {
+}) {
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle(type);
 

@@ -1,9 +1,8 @@
+import { CaretLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Flex, theme } from "antd";
 import Title from "antd/es/typography/Title";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { CaretLeftOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Flex, theme } from "antd";
 
 import { useShowList } from "../../../repositories/show.repository";
 import FullCenteredLayout from "../../layouts/full-centered.layout";
@@ -12,7 +11,7 @@ import SearchableList from "../../molecules/searchable-list/searchable-list";
 
 const { useToken } = theme;
 
-export default function ShowListPage(): JSX.Element {
+export default function ShowListPage() {
   const navigate = useNavigate();
   const { token } = useToken();
   const { isPending, error, data } = useShowList();

@@ -1,3 +1,4 @@
+import { theme } from "antd";
 import * as React from "react";
 import type {
   Edge,
@@ -5,9 +6,7 @@ import type {
   NodeInternals,
   ReactFlowState,
 } from "reactflow";
-import { Handle, getConnectedEdges, useNodeId, useStore } from "reactflow";
-
-import { theme } from "antd";
+import { getConnectedEdges, Handle, useNodeId, useStore } from "reactflow";
 
 const { useToken } = theme;
 
@@ -31,7 +30,7 @@ type HandleInputWithLimitProps = Omit<HandleProps, "isConnectable"> & {
 export default function HandleInputWithLimit({
   onDisconnect,
   ...props
-}: HandleInputWithLimitProps): JSX.Element {
+}: HandleInputWithLimitProps) {
   const { token } = useToken();
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();

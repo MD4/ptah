@@ -1,7 +1,6 @@
 import type { DmxStatus, MidiStatus } from "@ptah/lib-models";
-import * as React from "react";
-
 import { Badge, theme } from "antd";
+import * as React from "react";
 
 import { useSystemState } from "../../../domain/system.domain";
 
@@ -37,7 +36,7 @@ const getMidiStatusColor = (
   }
 };
 
-export default function SystemStatus(): JSX.Element {
+export default function SystemStatus() {
   const { token } = useToken();
   const { connected, dmxStatus, midiStatus, tempo } = useSystemState();
 

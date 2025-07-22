@@ -1,7 +1,6 @@
+import { Flex, theme } from "antd";
 import * as React from "react";
 import { Position } from "reactflow";
-
-import { Flex, theme } from "antd";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 import HandleInputWithLimit from "./handle-input-with-limit";
@@ -16,7 +15,7 @@ export default function HandleInputWithLabel({
   id: number;
   label: string;
   isConnectable?: number;
-}): JSX.Element {
+}) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
   const styles = React.useMemo(

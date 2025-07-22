@@ -96,7 +96,7 @@ export function ProgramEditProvider({
 }: {
   children: React.ReactNode;
   initialProgram: models.Program;
-}): JSX.Element {
+}) {
   const [program, dispatch] = React.useReducer(
     programEditReducer,
     initialProgram,

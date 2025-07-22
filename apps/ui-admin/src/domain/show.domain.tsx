@@ -86,7 +86,7 @@ export function ShowEditProvider({
 }: {
   children: React.ReactNode;
   initialShow: models.Show;
-}): JSX.Element {
+}) {
   const [show, dispatch] = React.useReducer(showEditReducer, initialShow);
 
   const hasChanged = React.useMemo(

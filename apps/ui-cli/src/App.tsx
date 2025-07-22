@@ -5,11 +5,11 @@ import Header from "./components/Header.js";
 import Statuses from "./components/Statuses.js";
 import { useViewport } from "./effects/viewport.js";
 import { useSystemState } from "./providers/system-provider.js";
+import type { Route } from "./routes/route.types.js";
 import { RouteDebug } from "./routes/route-debug.js";
 import { RouteHome } from "./routes/route-home.js";
 import RouteLoadShow from "./routes/route-load-show.js";
 import RouteShow from "./routes/route-show.js";
-import type { Route } from "./routes/route.types.js";
 import { theme } from "./theme.js";
 
 export default function App({

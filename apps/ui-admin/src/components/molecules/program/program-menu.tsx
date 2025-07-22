@@ -1,11 +1,10 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Dropdown } from "antd";
+import * as React from "react";
+import { Link } from "react-router-dom";
 
-export default function ProgramMenu(): JSX.Element {
+export default function ProgramMenu() {
   const items: MenuProps["items"] = [
     {
       label: <Link to="/">Close</Link>,

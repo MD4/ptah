@@ -1,12 +1,6 @@
 import * as React from "react";
 
-import { theme } from "antd";
-
-const { useToken } = theme;
-
-export default function EdgeGradient(): JSX.Element {
-  const { token } = useToken();
-
+export default function EdgeGradient() {
   return <div />;
 
   /* return (

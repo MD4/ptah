@@ -1,7 +1,6 @@
+import { Flex, Space, Typography, theme } from "antd";
 import * as React from "react";
 import { Handle, Position } from "reactflow";
-
-import { Flex, Space, Typography, theme } from "antd";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 
@@ -15,7 +14,7 @@ export default function HandleOutputWithLabel({
   id: number;
   label: string;
   isConnectable?: boolean;
-}): JSX.Element {
+}) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
   const styles = React.useMemo(

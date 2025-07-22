@@ -6,7 +6,7 @@ import { useShowGet } from "../../../repositories/show.repository";
 import PtahError from "../../molecules/ptah-error";
 import ShowDashboard from "../../organisms/show/show-dashboard";
 
-export default function ShowDashboardPage(): JSX.Element {
+export default function ShowDashboardPage() {
   const { showName } = useParams();
 
   const show = useShowGet(showName);

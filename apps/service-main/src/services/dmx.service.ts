@@ -87,7 +87,7 @@ export const initialize = async (): Promise<void> => {
         dmxSpeed: UNIVERSE_DMX_SPEED,
       }),
     );
-  } catch (error) {
+  } catch (_) {
     await initialize();
     return;
   }

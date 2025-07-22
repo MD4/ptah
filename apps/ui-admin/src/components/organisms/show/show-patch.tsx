@@ -1,6 +1,7 @@
+import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
+import { Button, notification, theme } from "antd";
 import * as React from "react";
-import { ReactFlow, addEdge, applyEdgeChanges, updateEdge } from "reactflow";
 import type {
   Connection,
   Edge,
@@ -11,11 +12,9 @@ import type {
   ReactFlowInstance,
   Viewport,
 } from "reactflow";
-import { useBoolean, useWindowSize } from "usehooks-ts";
+import { addEdge, applyEdgeChanges, ReactFlow, updateEdge } from "reactflow";
+import { useBoolean } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
-
-import { SaveFilled } from "@ant-design/icons";
-import { Button, notification, theme } from "antd";
 
 import { repositionProgramNodes } from "../../../adapters/node.adapter";
 import {
@@ -57,7 +56,7 @@ export default function ShowPatch({
   programs,
 }: {
   programs: models.Program[];
-}): JSX.Element {
+}) {
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = {
@@ -129,8 +128,6 @@ export default function ShowPatch({
 
   const [reactFlowInstance, setReactFlowInstance] =
     React.useState<ReactFlowInstance | null>(null);
-
-  const windowSize = useWindowSize();
 
   React.useEffect(() => {
     if (reactFlowInstance) {

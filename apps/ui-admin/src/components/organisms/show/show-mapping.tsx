@@ -1,4 +1,6 @@
+import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
+import { Button, Flex, notification, theme } from "antd";
 import * as React from "react";
 import type {
   Connection,
@@ -10,12 +12,9 @@ import type {
   ReactFlowInstance,
   Viewport,
 } from "reactflow";
-import { ReactFlow, addEdge, applyEdgeChanges, updateEdge } from "reactflow";
-import { useBoolean, useWindowSize } from "usehooks-ts";
+import { addEdge, applyEdgeChanges, ReactFlow, updateEdge } from "reactflow";
+import { useBoolean } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
-
-import { SaveFilled } from "@ant-design/icons";
-import { Button, Flex, notification, theme } from "antd";
 
 import {
   adaptModelMappingToReactFlowEdges,
@@ -53,7 +52,7 @@ const defaultViewport: Viewport = {
   zoom: 1,
 };
 
-export default function ShowMapping(): JSX.Element {
+export default function ShowMapping() {
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(
@@ -131,8 +130,6 @@ export default function ShowMapping(): JSX.Element {
 
   const [reactFlowInstance, setReactFlowInstance] =
     React.useState<ReactFlowInstance | null>(null);
-
-  const windowSize = useWindowSize();
 
   React.useEffect(() => {
     if (reactFlowInstance) {

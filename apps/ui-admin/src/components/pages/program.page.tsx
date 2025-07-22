@@ -11,11 +11,11 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-function PtahLogo(): JSX.Element {
+function PtahLogo() {
   return <img alt="PTAH logo" src="/ptah-logo-white.svg" style={styles.logo} />;
 }
 
-function ProgramTitle(): JSX.Element {
+function ProgramTitle() {
   const { programName } = useParams();
 
   return (
@@ -25,7 +25,7 @@ function ProgramTitle(): JSX.Element {
   );
 }
 
-export default function ProgramPage(): JSX.Element {
+export default function ProgramPage() {
   return (
     <WithHeaderLayout
       headerCenter={<ProgramTitle />}

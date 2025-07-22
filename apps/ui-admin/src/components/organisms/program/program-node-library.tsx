@@ -1,7 +1,6 @@
 import type * as models from "@ptah/lib-models";
-import * as React from "react";
-
 import { Col, Row, theme } from "antd";
+import * as React from "react";
 
 import NodePreview from "../../atoms/node-preview";
 import { programNodeTypes } from "../../molecules/nodes";
@@ -41,7 +40,7 @@ export default function ProgramNodeLibrary({
 }: {
   onNodeDropped: () => void;
   onDragStart: () => void;
-}): JSX.Element {
+}) {
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(

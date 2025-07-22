@@ -1,10 +1,9 @@
 import type * as models from "@ptah/lib-models";
+import { Flex, Select } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-import { Flex, Select } from "antd";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useDefaultNodeStyle } from "./node.style";
@@ -17,7 +16,7 @@ const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
 export default function NodeInputControl({
   data,
   selected,
-}: NodeProps<models.NodeInputControl>): JSX.Element {
+}: NodeProps<models.NodeInputControl>) {
   const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
 

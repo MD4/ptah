@@ -1,8 +1,7 @@
+import { Flex, InputNumber, theme } from "antd";
 import { noop } from "antd/es/_util/warning";
 import * as React from "react";
 import { Position } from "reactflow";
-
-import { Flex, InputNumber, theme } from "antd";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 import HandleInputWithLimit from "./handle-input-with-limit";
@@ -25,7 +24,7 @@ export default function HandleParameter({
   min?: number;
   max?: number;
   step?: number;
-}): JSX.Element {
+}) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
   const [isConnected, setIsConnected] = React.useState(false);

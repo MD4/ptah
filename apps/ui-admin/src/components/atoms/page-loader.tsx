@@ -1,8 +1,7 @@
+import { Flex, Spin } from "antd";
 import * as React from "react";
 
-import { Flex, Spin } from "antd";
-
-export default function PageLoader(): JSX.Element {
+export default function PageLoader() {
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({
       container: {

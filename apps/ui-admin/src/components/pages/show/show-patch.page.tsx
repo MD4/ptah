@@ -7,7 +7,7 @@ import { useShowGet } from "../../../repositories/show.repository";
 import PtahError from "../../molecules/ptah-error";
 import ShowPatch from "../../organisms/show/show-patch";
 
-export default function ShowPatchPage(): JSX.Element {
+export default function ShowPatchPage() {
   const { showName } = useParams();
 
   const show = useShowGet(showName);

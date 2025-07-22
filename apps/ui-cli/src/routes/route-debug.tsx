@@ -5,11 +5,7 @@ import { useViewport } from "../effects/viewport.js";
 import { useSystemApi, useSystemState } from "../providers/system-provider.js";
 import type { Route } from "./route.types.js";
 
-export function RouteDebug({
-  navigate,
-}: {
-  navigate: (route: Route) => void;
-}) {
+export function RouteDebug({ navigate }: { navigate: (route: Route) => void }) {
   const { height } = useViewport();
   const { setDmxDebug } = useSystemApi();
   const { dmxDebugOutputs } = useSystemState();

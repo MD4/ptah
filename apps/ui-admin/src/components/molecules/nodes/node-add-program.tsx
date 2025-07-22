@@ -1,9 +1,8 @@
+import { PlusOutlined } from "@ant-design/icons";
 import { noop } from "@ptah/lib-utils";
+import { Button, Flex, theme } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
-
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Flex, theme } from "antd";
 
 const { useToken } = theme;
 
@@ -13,7 +12,7 @@ export type NodeAddProgramData = {
 
 export default function NodeAddProgram({
   data: { onAddProgram = noop },
-}: NodeProps<NodeAddProgramData>): JSX.Element {
+}: NodeProps<NodeAddProgramData>) {
   const { token } = useToken();
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(

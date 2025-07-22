@@ -1,15 +1,10 @@
 import type { Settings } from "@ptah/lib-models";
-import * as React from "react";
-
 import { Col, Divider, Row, Typography, theme } from "antd";
+import * as React from "react";
 
 const { useToken } = theme;
 
-export default function SettingsMainPage({
-  settings,
-}: {
-  settings: Settings;
-}): JSX.Element {
+export default function SettingsMainPage({ settings }: { settings: Settings }) {
   const { token } = useToken();
   const styles: Record<string, React.CSSProperties> = React.useMemo(
     () => ({

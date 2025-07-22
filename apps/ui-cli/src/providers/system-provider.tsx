@@ -14,7 +14,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { type Socket, io } from "socket.io-client";
+import { io, type Socket } from "socket.io-client";
 
 export type SystemState = {
   connected: boolean;
@@ -88,11 +88,7 @@ const SystemApiContext = createContext<SystemApi>({
 process.on("SIGINT", kill);
 process.on("SIGTERM", kill);
 
-export function SystemProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function SystemProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState(initialSystemState);
 
   const handleConnect = useCallback(() => {

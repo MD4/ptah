@@ -1,8 +1,7 @@
+import { Flex, Typography } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-import { Flex, Typography } from "antd";
 
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -13,7 +12,7 @@ export type NodeChannelData = {
 export default function NodeChannel({
   data: { label },
   selected,
-}: NodeProps<NodeChannelData>): JSX.Element {
+}: NodeProps<NodeChannelData>) {
   const defaultStyles = useDefaultNodeStyle("output", selected);
 
   const styles: Record<string, React.CSSProperties> = React.useMemo(

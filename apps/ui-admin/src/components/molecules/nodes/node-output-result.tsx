@@ -1,9 +1,8 @@
 import type * as models from "@ptah/lib-models";
+import { Flex, Typography } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Position } from "reactflow";
-
-import { Flex, Typography } from "antd";
 
 import HandleInputWithLimit from "../handles/handle-input-with-limit";
 import { useDefaultNodeStyle } from "./node.style";
@@ -11,7 +10,7 @@ import { useDefaultNodeStyle } from "./node.style";
 export default function NodeOutputResult({
   data: { outputId },
   selected,
-}: NodeProps<models.NodeOutputResult>): JSX.Element {
+}: NodeProps<models.NodeOutputResult>) {
   const styles = useDefaultNodeStyle("output", selected);
 
   return (

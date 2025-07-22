@@ -1,6 +1,3 @@
-import * as React from "react";
-import { Link, useParams } from "react-router-dom";
-
 import {
   CloseOutlined,
   DashboardOutlined,
@@ -11,12 +8,14 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Dropdown } from "antd";
+import * as React from "react";
+import { Link, useParams } from "react-router-dom";
 
 import { useSystemApi } from "../../../domain/system.domain";
 import { useShowPrograms } from "../../../repositories/program.repository";
 import { useShowGet } from "../../../repositories/show.repository";
 
-export default function ShowMenu(): JSX.Element {
+export default function ShowMenu() {
   const { showName } = useParams();
   const system = useSystemApi();
   const show = useShowGet(showName);

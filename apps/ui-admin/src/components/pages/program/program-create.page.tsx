@@ -1,12 +1,11 @@
-import * as models from "@ptah/lib-models";
-import { createSchemaFieldRule } from "antd-zod";
-import Title from "antd/es/typography/Title";
-import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
-
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
+import * as models from "@ptah/lib-models";
 import type { InputRef } from "antd";
 import { Button, Flex, Form, Input, notification, theme } from "antd";
+import Title from "antd/es/typography/Title";
+import { createSchemaFieldRule } from "antd-zod";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useProgramCreate } from "../../../repositories/program.repository";
 import FullCenteredLayout from "../../layouts/full-centered.layout";
@@ -17,7 +16,7 @@ const styles: Record<string, React.CSSProperties> = {
   form: { width: 400, maxWidth: "90vw" },
 };
 
-export default function ProgramCreatePage(): JSX.Element {
+export default function ProgramCreatePage() {
   const { token } = useToken();
   const navigate = useNavigate();
   const [{ error }, contextHolder] = notification.useNotification({
@@ -48,48 +47,46 @@ export default function ProgramCreatePage(): JSX.Element {
 
   return (
     <FullCenteredLayout>
-      <>
-        {contextHolder}
-        <Flex justify="center">
-          <Title style={{ color: token.colorPrimary }}>CREATE PROGRAM</Title>
-        </Flex>
-        <Form
-          autoComplete="off"
-          initialValues={{ remember: true }}
-          name="basic"
-          onFinish={onFinish}
-          style={styles.form}
-          wrapperCol={{ offset: 2, span: 20 }}
-        >
-          <Form.Item name="name" rules={[rule]}>
-            <Input
-              autoComplete="false"
-              placeholder="Program name (ie: strobe-fast, rgb-fade-in..)"
-              ref={inputName}
-              size="large"
-            />
-          </Form.Item>
+      {contextHolder}
+      <Flex justify="center">
+        <Title style={{ color: token.colorPrimary }}>CREATE PROGRAM</Title>
+      </Flex>
+      <Form
+        autoComplete="off"
+        initialValues={{ remember: true }}
+        name="basic"
+        onFinish={onFinish}
+        style={styles.form}
+        wrapperCol={{ offset: 2, span: 20 }}
+      >
+        <Form.Item name="name" rules={[rule]}>
+          <Input
+            autoComplete="false"
+            placeholder="Program name (ie: strobe-fast, rgb-fade-in..)"
+            ref={inputName}
+            size="large"
+          />
+        </Form.Item>
 
-          <Form.Item>
-            <Flex gap="large" justify="space-around">
-              <Link to="/program">
-                <Button type="text">
-                  <CaretLeftOutlined />
-                  <span>Back</span>
-                </Button>
-              </Link>
-              <Button
-                htmlType="submit"
-                loading={mutation.isPending}
-                type="primary"
-              >
-                <span>Create</span>
-                <CaretRightOutlined />
+        <Form.Item>
+          <Flex gap="large" justify="space-around">
+            <Link to="/program">
+              <Button type="text">
+                <CaretLeftOutlined />
+                <span>Back</span>
               </Button>
-            </Flex>
-          </Form.Item>
-        </Form>
-      </>
+            </Link>
+            <Button
+              htmlType="submit"
+              loading={mutation.isPending}
+              type="primary"
+            >
+              <span>Create</span>
+              <CaretRightOutlined />
+            </Button>
+          </Flex>
+        </Form.Item>
+      </Form>
     </FullCenteredLayout>
   );
 }

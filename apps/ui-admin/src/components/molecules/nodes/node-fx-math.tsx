@@ -1,10 +1,9 @@
 import type * as models from "@ptah/lib-models";
+import { Flex, Select } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
-import { Flex, Select } from "antd";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import HandleInputParameter from "../handles/handle-input-parameter";
@@ -35,7 +34,7 @@ const operations: DefaultOptionType[] = [
 export default function NodeFxMath({
   data,
   selected,
-}: NodeProps<models.NodeFxMath>): JSX.Element {
+}: NodeProps<models.NodeFxMath>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
 
