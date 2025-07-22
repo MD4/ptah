@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.6.1",
+    "@ant-design/icons": "^6.0.0",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@ptah/lib-domains": "workspace:^",
     "@ptah/lib-logger": "workspace:^",
     "@ptah/lib-models": "workspace:*",
@@ -45,6 +46,6 @@
     "@vitejs/plugin-react": "^4.7.0",
     "sass": "^1.89.2",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^7.0.5"
   }
 }
