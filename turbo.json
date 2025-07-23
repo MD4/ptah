@@ -36,6 +36,15 @@
     },
     "start": {
       "dependsOn": ["build"]
+    },
+    "@ptah/lib-shared#build": {
+      "dependsOn": ["@ptah/lib-models#build"]
+    },
+    "@ptah/service-midi#build": {
+      "dependsOn": ["@ptah/lib-shared#build"]
+    },
+    "@ptah/service-api#build": {
+      "dependsOn": ["@ptah/lib-shared#build"]
     }
   }
 }
