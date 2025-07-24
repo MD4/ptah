@@ -6,9 +6,6 @@
     "ptah": "./dist/index.js"
   },
   "type": "module",
-  "engines": {
-    "node": ">=16"
-  },
   "scripts": {
     "build": "tsc; chmod u+x dist/index.js; npm link",
     "clean": "rm -rf dist",
