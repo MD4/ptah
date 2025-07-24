@@ -14,7 +14,7 @@ export default function SearchableList({
   data?: string[];
   isLoading: boolean;
   onItemSelected: (item: string) => void;
-  placeholder: string;
+  placeholder?: string;
   footer?: React.ReactNode;
 }) {
   const { token } = useToken();

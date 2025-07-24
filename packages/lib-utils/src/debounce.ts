@@ -1,11 +1,12 @@
-export const debounce = <F extends (this: T, ...args: unknown[]) => R, T, R>(
+// biome-ignore lint/suspicious/noExplicitAny: This is a workaround for a limitation in the type system
+export const debounce = <F extends (this: T, ...args: any) => R, T, R>(
   fn: F,
   wait = 100,
   immediate = false,
 ): ((this: T, ...args: Parameters<F>) => void) => {
   let timeout: NodeJS.Timeout | undefined;
 
-  return function _(this: T, ...args) {
+  return function _(this: T, ...args: Parameters<F>) {
     const later = (): void => {
       timeout = undefined;
       if (!immediate) fn.apply(this, args);
