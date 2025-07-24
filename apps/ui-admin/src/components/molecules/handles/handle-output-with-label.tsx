@@ -18,21 +18,22 @@ export default function HandleOutputWithLabel({
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
   const styles = React.useMemo(
-    (): Record<string, React.CSSProperties> => ({
-      container: {
-        minHeight: token.sizeLG,
-      },
-      handle: {
-        ...defaultNodeStyle.handle,
-        position: "initial",
-        transform: "none",
-        marginRight: -20,
-      },
-      label: {
-        flex: 1,
-        textAlign: "right",
-      },
-    }),
+    () =>
+      ({
+        container: {
+          minHeight: token.sizeLG,
+        },
+        handle: {
+          ...defaultNodeStyle.handle,
+          position: "initial",
+          transform: "none",
+          marginRight: -20,
+        },
+        label: {
+          flex: 1,
+          textAlign: "right",
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [defaultNodeStyle.handle, token.sizeLG],
   );
 

@@ -12,9 +12,9 @@ import FullCenteredLayout from "../../layouts/full-centered.layout";
 
 const { useToken } = theme;
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   form: { width: 400, maxWidth: "90vw" },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 export default function ProgramCreatePage() {
   const { token } = useToken();

@@ -15,18 +15,19 @@ export default function NodeAddProgram({
 }: NodeProps<NodeAddProgramData>) {
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      container: {
-        padding: token.sizeMS,
-        borderRadius: token.borderRadiusLG,
-        borderStyle: "dashed",
-        borderWidth: 3,
-        borderColor: token.colorFillQuaternary,
-        height: 96,
-        width: 240,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        container: {
+          padding: token.sizeMS,
+          borderRadius: token.borderRadiusLG,
+          borderStyle: "dashed",
+          borderWidth: 3,
+          borderColor: token.colorFillQuaternary,
+          height: 96,
+          width: 240,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.borderRadiusLG, token.colorFillQuaternary, token.sizeMS],
   );
 

@@ -27,13 +27,13 @@ const defaultViewport: Viewport = {
   zoom: 1,
 };
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   container: {
     width: "100%",
     height: "100%",
     animation: "animationEnterLeftToRight 200ms",
   },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 export default function ShowDashboard({
   show,

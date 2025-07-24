@@ -4,11 +4,11 @@ import { Outlet, useParams } from "react-router-dom";
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ProgramMenu from "../molecules/program/program-menu";
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   logo: {
     width: 144,
   },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 function PtahLogo() {
   return <img alt="PTAH logo" src="/ptah-logo-white.svg" style={styles.logo} />;

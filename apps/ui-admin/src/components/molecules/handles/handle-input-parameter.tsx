@@ -29,24 +29,25 @@ export default function HandleParameter({
   const defaultNodeStyle = useDefaultNodeStyle();
   const [isConnected, setIsConnected] = React.useState(false);
   const styles = React.useMemo(
-    (): Record<string, React.CSSProperties> => ({
-      container: {
-        minHeight: token.sizeLG,
-      },
-      handle: {
-        ...defaultNodeStyle.handle,
-        position: "initial",
-        transform: "none",
-        marginLeft: -20,
-      },
-      label: {
-        flex: 1,
-      },
-      input: {
-        minWidth: 58,
-        width: "min-content",
-      },
-    }),
+    () =>
+      ({
+        container: {
+          minHeight: token.sizeLG,
+        },
+        handle: {
+          ...defaultNodeStyle.handle,
+          position: "initial",
+          transform: "none",
+          marginLeft: -20,
+        },
+        label: {
+          flex: 1,
+        },
+        input: {
+          minWidth: 58,
+          width: "min-content",
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [defaultNodeStyle.handle, token.sizeLG],
   );
 

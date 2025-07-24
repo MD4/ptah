@@ -9,14 +9,15 @@ const { useToken } = theme;
 export default function AppLayout() {
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      appLayout: {
-        width: "100%",
-        height: "100%",
-        background: token.colorBgContainer,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        appLayout: {
+          width: "100%",
+          height: "100%",
+          background: token.colorBgContainer,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.colorBgContainer],
   );
 

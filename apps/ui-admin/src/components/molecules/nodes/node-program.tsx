@@ -24,25 +24,26 @@ export default function NodeProgram({
   const defaultStyles = useDefaultNodeStyle("default", selected);
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      ...defaultStyles,
-      container: {
-        ...defaultStyles.container,
-        width: 240,
-      },
-      handle: {
-        ...defaultStyles.handle,
-        position: "initial",
-        transform: "none",
-        marginLeft: -20,
-      },
-      editButton: {
-        position: "absolute",
-        right: token.sizeMS,
-        top: token.sizeMS,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        ...defaultStyles,
+        container: {
+          ...defaultStyles.container,
+          width: 240,
+        },
+        handle: {
+          ...defaultStyles.handle,
+          position: "initial",
+          transform: "none",
+          marginLeft: -20,
+        },
+        editButton: {
+          position: "absolute",
+          right: token.sizeMS,
+          top: token.sizeMS,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [defaultStyles, token.sizeMS],
   );
 

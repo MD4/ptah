@@ -1,7 +1,7 @@
 import { Flex } from "antd";
 import * as React from "react";
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   fullCenteredLayout: {
     animation: "ease-out animationEnterLeftToRight 150ms",
     position: "absolute",
@@ -11,7 +11,7 @@ const styles: Record<string, React.CSSProperties> = {
     height: "100%",
     zIndex: 0,
   },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 export default function FullCenteredLayout({
   children,

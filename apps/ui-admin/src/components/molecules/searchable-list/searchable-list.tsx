@@ -43,40 +43,41 @@ export default function SearchableList({
     }
   }, [data]);
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      search: {
-        paddingLeft: token.sizeMS,
-        paddingRight: token.sizeMD,
-      },
-      list: {
-        overflow: "hidden",
-      },
-      listContent: {
-        overflowY: "auto",
-        minHeight: 200,
-        maxHeight: 300,
-      },
-      listItem: {
-        padding: 0,
-        border: "none",
-      },
-      listItemButton: {
-        width: "100%",
-        borderRadius: token.borderRadius,
-      },
-      listItemLabel: {
-        fontWeight: token.fontWeightStrong,
-      },
-      listItemLabelContainer: {
-        width: "100%",
-      },
-      empty: {
-        display: "flex",
-        justifyContent: "center",
-        padding: token.paddingXL,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        search: {
+          paddingLeft: token.sizeMS,
+          paddingRight: token.sizeMD,
+        },
+        list: {
+          overflow: "hidden",
+        },
+        listContent: {
+          overflowY: "auto",
+          minHeight: 200,
+          maxHeight: 300,
+        },
+        listItem: {
+          padding: 0,
+          border: "none",
+        },
+        listItemButton: {
+          width: "100%",
+          borderRadius: token.borderRadius,
+        },
+        listItemLabel: {
+          fontWeight: token.fontWeightStrong,
+        },
+        listItemLabelContainer: {
+          width: "100%",
+        },
+        empty: {
+          display: "flex",
+          justifyContent: "center",
+          padding: token.paddingXL,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [
       token.borderRadius,
       token.fontWeightStrong,

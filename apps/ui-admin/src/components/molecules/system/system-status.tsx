@@ -40,17 +40,18 @@ export default function SystemStatus() {
   const { token } = useToken();
   const { connected, dmxStatus, midiStatus, tempo } = useSystemState();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      systemStatus: {
-        position: "fixed",
-        left: token.sizeMD,
-        bottom: token.sizeMD,
-        display: "flex",
-        flexDirection: "column",
-        gap: token.sizeXS,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        systemStatus: {
+          position: "fixed",
+          left: token.sizeMD,
+          bottom: token.sizeMD,
+          display: "flex",
+          flexDirection: "column",
+          gap: token.sizeXS,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.sizeMD, token.sizeXS],
   );
 

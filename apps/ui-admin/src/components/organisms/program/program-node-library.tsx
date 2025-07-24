@@ -43,18 +43,19 @@ export default function ProgramNodeLibrary({
 }) {
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      container: {
-        height: "100%",
-        padding: token.paddingLG,
-        width: 400,
-        maxWidth: "100vw",
-      },
-      col: {
-        transform: "translate(0, 0)",
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        container: {
+          height: "100%",
+          padding: token.paddingLG,
+          width: 400,
+          maxWidth: "100vw",
+        },
+        col: {
+          transform: "translate(0, 0)",
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.paddingLG],
   );
 

@@ -15,15 +15,16 @@ export default function NodeChannel({
 }: NodeProps<NodeChannelData>) {
   const defaultStyles = useDefaultNodeStyle("output", selected);
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      ...defaultStyles,
-      container: {
-        ...defaultStyles.container,
-        height: 36,
-        width: 200,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        ...defaultStyles,
+        container: {
+          ...defaultStyles.container,
+          height: 36,
+          width: 200,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [defaultStyles],
   );
 

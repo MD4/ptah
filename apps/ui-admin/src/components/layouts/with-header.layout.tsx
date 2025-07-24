@@ -18,39 +18,40 @@ export default function ShowLayout({
   const { token } = useToken();
   const mobile = useMediaQuery("(max-width: 768px)");
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      showLayout: {
-        width: "100%",
-        height: "100%",
-        background: "transparent",
-        display: "flex",
-      },
-      header: {
-        position: "absolute",
-        padding: token.paddingLG,
-        width: "100%",
-        zIndex: 1,
-        backdropFilter: "blur(8px)",
-        borderBottomColor: token.colorBgContainer,
-        borderBottomStyle: "solid",
-        borderBottomWidth: 1,
-      },
-      headerLeft: { flex: 1, display: "flex", justifyContent: "flex-start" },
-      headerCenter: {
-        flex: 1,
-        display: "flex",
-        justifyContent: "flex-end",
-      },
-      headerRight: {
-        flex: mobile ? "auto" : 1,
-        display: "flex",
-        justifyContent: mobile ? "left" : "center",
-      },
-      content: {
-        flex: 1,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        showLayout: {
+          width: "100%",
+          height: "100%",
+          background: "transparent",
+          display: "flex",
+        },
+        header: {
+          position: "absolute",
+          padding: token.paddingLG,
+          width: "100%",
+          zIndex: 1,
+          backdropFilter: "blur(8px)",
+          borderBottomColor: token.colorBgContainer,
+          borderBottomStyle: "solid",
+          borderBottomWidth: 1,
+        },
+        headerLeft: { flex: 1, display: "flex", justifyContent: "flex-start" },
+        headerCenter: {
+          flex: 1,
+          display: "flex",
+          justifyContent: "flex-end",
+        },
+        headerRight: {
+          flex: mobile ? "auto" : 1,
+          display: "flex",
+          justifyContent: mobile ? "left" : "center",
+        },
+        content: {
+          flex: 1,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.paddingLG, token.colorBgContainer, mobile],
   );
 

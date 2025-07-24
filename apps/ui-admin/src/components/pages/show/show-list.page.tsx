@@ -23,16 +23,17 @@ export default function ShowListPage() {
     [navigate],
   );
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      container: {
-        width: 400,
-        height: 400,
-        minHeight: 500,
-        maxHeight: 500,
-        maxWidth: "90vw",
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        container: {
+          width: 400,
+          height: 400,
+          minHeight: 500,
+          maxHeight: 500,
+          maxWidth: "90vw",
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [],
   );
 

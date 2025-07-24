@@ -6,11 +6,11 @@ import { useSystemApi, useSystemState } from "../../domain/system.domain";
 import WithHeaderLayout from "../layouts/with-header.layout";
 import ShowMenu from "../molecules/show/show-menu";
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   logo: {
     width: 144,
   },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 function PtahLogo() {
   return <img alt="PTAH logo" src="/ptah-logo-white.svg" style={styles.logo} />;

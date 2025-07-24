@@ -69,19 +69,20 @@ export default function ProgramEdit() {
   });
 
   const { token } = useToken();
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      container: {
-        width: "100%",
-        height: "100%",
-        animation: "animationEnterLeftToRight 200ms",
-      },
-      toolbar: {
-        position: "absolute",
-        right: token.sizeMS,
-        bottom: token.sizeMS,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        container: {
+          width: "100%",
+          height: "100%",
+          animation: "animationEnterLeftToRight 200ms",
+        },
+        toolbar: {
+          position: "absolute",
+          right: token.sizeMS,
+          bottom: token.sizeMS,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.sizeMS],
   );
 

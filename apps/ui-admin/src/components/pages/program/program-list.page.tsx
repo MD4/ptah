@@ -23,15 +23,16 @@ export default function ProgramListPage() {
     [navigate],
   );
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      container: {
-        width: 400,
-        height: 500,
-        maxWidth: "90vw",
-        maxHeight: 500,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        container: {
+          width: 400,
+          height: 500,
+          maxWidth: "90vw",
+          maxHeight: 500,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [],
   );
 

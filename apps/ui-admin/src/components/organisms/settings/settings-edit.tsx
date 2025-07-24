@@ -6,17 +6,18 @@ const { useToken } = theme;
 
 export default function SettingsMainPage({ settings }: { settings: Settings }) {
   const { token } = useToken();
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      textVersion: {
-        color: token.colorTextTertiary,
-      },
-      settingsLine: {
-        display: "flex",
-        alignItems: "center",
-        minHeight: 32,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        textVersion: {
+          color: token.colorTextTertiary,
+        },
+        settingsLine: {
+          display: "flex",
+          alignItems: "center",
+          minHeight: 32,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.colorTextTertiary],
   );
 

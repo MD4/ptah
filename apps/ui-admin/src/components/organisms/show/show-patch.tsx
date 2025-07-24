@@ -59,7 +59,7 @@ export default function ShowPatch({
 }) {
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = {
+  const styles = {
     container: {
       width: "100%",
       height: "100%",
@@ -70,7 +70,7 @@ export default function ShowPatch({
       right: token.sizeMS,
       bottom: token.sizeMS,
     },
-  };
+  } satisfies Record<string, React.CSSProperties>;
 
   const [{ error, success }, contextHolder] = notification.useNotification({
     placement: "bottomRight",

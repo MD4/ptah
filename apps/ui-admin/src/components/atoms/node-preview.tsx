@@ -25,17 +25,18 @@ export default function NodePreview({
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle(type);
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      ...defaultStyles,
-      container: {
-        ...defaultStyles.container,
-        cursor: "grab",
-      },
-      parameter: {
-        minHeight: token.sizeLG,
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        ...defaultStyles,
+        container: {
+          ...defaultStyles.container,
+          cursor: "grab",
+        },
+        parameter: {
+          minHeight: token.sizeLG,
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [defaultStyles, token.sizeLG],
   );
 

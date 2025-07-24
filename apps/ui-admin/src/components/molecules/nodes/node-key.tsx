@@ -22,7 +22,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
   const { token } = useToken();
   const defaultStyles = useDefaultNodeStyle("default", selected);
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(() => {
+  const styles = React.useMemo(() => {
     const background = pressed ? token.colorPrimary : token.colorFillQuaternary;
     const sharpBackground = pressed
       ? token.colorPrimaryActive
@@ -44,7 +44,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
         ...defaultStyles.label,
         width: "auto",
       },
-    };
+    } satisfies Record<string, React.CSSProperties>;
   }, [
     defaultStyles,
     pressed,

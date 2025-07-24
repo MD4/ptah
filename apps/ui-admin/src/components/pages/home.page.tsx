@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useSystemApi, useSystemState } from "../../domain/system.domain";
 import FullCenteredLayout from "../layouts/full-centered.layout";
 
-const styles: Record<string, React.CSSProperties> = {
+const styles = {
   container: { width: "400px" },
   logo: {
     aspectRatio: 400 / 90,
@@ -17,7 +17,7 @@ const styles: Record<string, React.CSSProperties> = {
   button: {
     width: "100%",
   },
-};
+} satisfies Record<string, React.CSSProperties>;
 
 export default function HomePage() {
   const { connected } = useSystemState();

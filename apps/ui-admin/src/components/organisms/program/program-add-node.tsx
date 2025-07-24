@@ -12,45 +12,46 @@ export default function ProgramAddNode() {
 
   const { token } = useToken();
 
-  const styles: Record<string, React.CSSProperties> = React.useMemo(
-    () => ({
-      backdrop: {
-        display: "none",
-        position: "absolute",
-        left: 0,
-        top: 0,
-        height: "100%",
-        width: "100%",
-        zIndex: 2,
-        pointerEvents: "none",
-      },
-      container: {
-        position: "absolute",
-        left: 0,
-        top: 0,
-        height: "100%",
-        zIndex: 3,
-        animation: "ease-out animationEnterRightToLeft 100ms",
-        backdropFilter: "blur(8px)",
-        borderRightColor: token.colorBgContainer,
-        borderRightStyle: "solid",
-        borderRightWidth: 1,
-      },
-      buttonContainer: {
-        position: "absolute",
-        left: 0,
-        top: 0,
-        height: "100%",
-        padding: token.padding,
-      },
-      header: {
-        width: "100%",
-        padding: token.padding,
-      },
-      button: {
-        backdropFilter: "blur(8px)",
-      },
-    }),
+  const styles = React.useMemo(
+    () =>
+      ({
+        backdrop: {
+          display: "none",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          height: "100%",
+          width: "100%",
+          zIndex: 2,
+          pointerEvents: "none",
+        },
+        container: {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          height: "100%",
+          zIndex: 3,
+          animation: "ease-out animationEnterRightToLeft 100ms",
+          backdropFilter: "blur(8px)",
+          borderRightColor: token.colorBgContainer,
+          borderRightStyle: "solid",
+          borderRightWidth: 1,
+        },
+        buttonContainer: {
+          position: "absolute",
+          left: 0,
+          top: 0,
+          height: "100%",
+          padding: token.padding,
+        },
+        header: {
+          width: "100%",
+          padding: token.padding,
+        },
+        button: {
+          backdropFilter: "blur(8px)",
+        },
+      }) satisfies Record<string, React.CSSProperties>,
     [token.colorBgContainer, token.padding],
   );
 
