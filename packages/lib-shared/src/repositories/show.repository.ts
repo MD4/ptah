@@ -21,3 +21,5 @@ export const saveShowToPath = async (
 
 export const listShowFromPath = (path: string): Promise<string[]> =>
   listFilesFromPath(path, ["json"]);
+
+export const deleteShowFromPath = (path: string) => void fs.rm(path);

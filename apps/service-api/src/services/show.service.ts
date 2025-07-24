@@ -42,3 +42,13 @@ export const handleShowGet = async (name: string): Promise<models.Show> => {
     `${env.vars.PTAH_SHOWS_PATH}/${name}.json`,
   );
 };
+
+export const handleShowDelete = async (
+  name: models.ShowName,
+): Promise<void> => {
+  await repositories.file.checkPathAndInitialize(env.vars.PTAH_SHOWS_PATH);
+
+  return repositories.show.deleteShowFromPath(
+    `${env.vars.PTAH_SHOWS_PATH}/${name}.json`,
+  );
+};

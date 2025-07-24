@@ -99,3 +99,27 @@ export const useShowPut = (
       }),
   });
 };
+
+/**
+ * DELETE
+ */
+
+const showDelete = (name: models.ShowName): Promise<void> =>
+  axios.delete(`${BASE_URL_API}/show/${name}`);
+
+export const useShowDelete = (
+  onSuccess: () => void,
+  onError: (error: Error) => void,
+): UseMutationResult<void, Error, models.ShowName> => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: showDelete,
+    onSuccess,
+    onError,
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["show"],
+      }),
+  });
+};

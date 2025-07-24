@@ -7,6 +7,7 @@ import { validateRequest } from "zod-express-middleware";
 
 import {
   handleProgramCreate,
+  handleProgramDelete,
   handleProgramGet,
   handleProgramList,
   handleProgramSave,
@@ -88,6 +89,26 @@ export const configureRoutesProgram = (server: Express): Express =>
               type: "program:save:error",
               programName: req.params.name,
             });
+            res.statusCode = 500;
+            res.json(error);
+          });
+      },
+    )
+    .delete(
+      "/program/:name",
+      validateRequest({
+        params: z.object({
+          name: models.programName,
+        }),
+      }),
+      (req, res) => {
+        handleProgramDelete(req.params.name)
+          .then(() => {
+            res.statusCode = 204;
+            res.end();
+          })
+          .catch((error: unknown) => {
+            logError(process.env.SERVICE_API_NAME, error);
             res.statusCode = 500;
             res.json(error);
           });

@@ -171,3 +171,27 @@ export const useProgramInvalidate = (): ((programName: string) => void) => {
     [queryClient],
   );
 };
+
+/**
+ * DELETE
+ */
+
+const programDelete = (name: models.ProgramName): Promise<void> =>
+  axios.delete(`${BASE_URL_API}/program/${name}`);
+
+export const useProgramDelete = (
+  onSuccess: () => void,
+  onError: (error: Error) => void,
+): UseMutationResult<void, Error, models.ProgramName> => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: programDelete,
+    onSuccess,
+    onError,
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["program"],
+      }),
+  });
+};

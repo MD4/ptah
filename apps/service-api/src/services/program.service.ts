@@ -46,3 +46,13 @@ export const handleProgramGet = async (
     `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`,
   );
 };
+
+export const handleProgramDelete = async (
+  name: models.ProgramName,
+): Promise<void> => {
+  await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
+
+  return repositories.program.deleteProgramFromPath(
+    `${env.vars.PTAH_PROGRAMS_PATH}/${name}.json`,
+  );
+};

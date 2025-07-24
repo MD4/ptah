@@ -6,6 +6,7 @@ import { validateRequest } from "zod-express-middleware";
 
 import {
   handleShowCreate,
+  handleShowDelete,
   handleShowGet,
   handleShowList,
   handleShowSave,
@@ -68,6 +69,26 @@ export const configureRoutesShow = (server: Express): Express =>
           .then((show) => {
             res.statusCode = 201;
             res.json(show);
+          })
+          .catch((error: unknown) => {
+            logError(process.env.SERVICE_API_NAME, error);
+            res.statusCode = 500;
+            res.json(error);
+          });
+      },
+    )
+    .delete(
+      "/show/:name",
+      validateRequest({
+        params: z.object({
+          name: models.showName,
+        }),
+      }),
+      (req, res) => {
+        handleShowDelete(req.params.name)
+          .then(() => {
+            res.statusCode = 204;
+            res.end();
           })
           .catch((error: unknown) => {
             logError(process.env.SERVICE_API_NAME, error);

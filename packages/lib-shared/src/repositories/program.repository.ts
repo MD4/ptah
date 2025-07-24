@@ -23,3 +23,6 @@ export const saveProgramToPath = async (
 
 export const listProgramFromPath = (path: string): Promise<string[]> =>
   listFilesFromPath(path, ["json"]);
+
+export const deleteProgramFromPath = (path: string): Promise<void> =>
+  fs.rm(path);

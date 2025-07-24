@@ -1,35 +1,70 @@
 import {
   CloseOutlined,
   DashboardOutlined,
+  DeleteOutlined,
   LoginOutlined,
   LogoutOutlined,
   MenuOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Dropdown } from "antd";
+import { Button, Dropdown, notification } from "antd";
 import * as React from "react";
-import { Link, useParams } from "react-router-dom";
-
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSystemApi } from "../../../domain/system.domain";
 import { useShowPrograms } from "../../../repositories/program.repository";
-import { useShowGet } from "../../../repositories/show.repository";
+import {
+  useShowDelete,
+  useShowGet,
+} from "../../../repositories/show.repository";
 
 export default function ShowMenu() {
-  const { showName } = useParams();
   const system = useSystemApi();
+  const navigate = useNavigate();
+  const { showName } = useParams();
+  const [{ error, success }, contextHolder] = notification.useNotification({
+    placement: "bottomRight",
+  });
+
+  const showPath = React.useMemo(() => `/show/${showName ?? ""}`, [showName]);
+
   const show = useShowGet(showName);
   const programs = useShowPrograms(show.data?.programs ?? {});
 
-  const showPath = `/show/${showName ?? ""}`;
+  const onShowDeleteSuccess = React.useCallback(() => {
+    system.unloadShow();
+    navigate("/");
+    success({
+      message: "All good",
+      description: "Show successfully deleted",
+    });
+  }, [system, navigate, success]);
 
-  const reload = React.useCallback(() => {
+  const onShowDeleteError = React.useCallback(
+    ({ message }: Error) => {
+      error({
+        message: "Something went wrong",
+        description: message,
+      });
+    },
+    [error],
+  );
+
+  const showDelete = useShowDelete(onShowDeleteSuccess, onShowDeleteError);
+
+  const onReloadClick = React.useCallback(() => {
     if (showName) {
       system.loadShow(showName);
       programs.refetch();
       void show.refetch();
     }
   }, [programs, show, showName, system]);
+
+  const onDeleteClick = React.useCallback(() => {
+    if (showName) {
+      showDelete.mutate(showName);
+    }
+  }, [showName, showDelete]);
 
   const items: MenuProps["items"] = [
     {
@@ -52,7 +87,7 @@ export default function ShowMenu() {
     },
     {
       label: (
-        <Link to="#" onClick={reload}>
+        <Link to="#" onClick={onReloadClick}>
           Reload
         </Link>
       ),
@@ -60,15 +95,27 @@ export default function ShowMenu() {
       key: "3",
     },
     {
+      label: (
+        <Link to="#" onClick={onDeleteClick}>
+          Delete
+        </Link>
+      ),
+      icon: <DeleteOutlined />,
+      key: "4",
+    },
+    {
       label: <Link to="/">Close</Link>,
       icon: <CloseOutlined />,
-      key: "4",
+      key: "5",
     },
   ];
 
   return (
-    <Dropdown menu={{ items }} trigger={["click"]}>
-      <Button icon={<MenuOutlined />} size="large" type="text" />
-    </Dropdown>
+    <>
+      <Dropdown menu={{ items }} trigger={["click"]}>
+        <Button icon={<MenuOutlined />} size="large" type="text" />
+      </Dropdown>
+      {contextHolder}
+    </>
   );
 }
