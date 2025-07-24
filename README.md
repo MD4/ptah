@@ -4,13 +4,12 @@
     <img src="./apps/ui-admin/public/ptah-logo-color.svg?raw=true" alt="Logo" height="120px" style="margin-top: 20px;"/>
   </a>
   <h3 align="center">Control your lights.</h3>
-  <br/>
-  <br/>
   <p align="center">
       <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb">
         <img src="https://github.com/MD4/ptah/actions/workflows/build.yml/badge.svg" alt="Logo" height="120px" style="margin-top: 20px;"/>
       </a>
   </p>
+  <br/>
   <br/>
 </p>
 
