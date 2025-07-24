@@ -41,3 +41,38 @@ export const listFilesFromPath = async (
       ),
     );
 };
+
+export const readFileFromPath = async (path: string): Promise<string> => {
+  if (!path) {
+    throw new Error("Path is required to read a file.");
+  }
+
+  if (!(await checkIfFileExists(path))) {
+    throw new Error(`File not found: ${path}`);
+  }
+
+  return fs.readFile(path, "utf8");
+};
+
+export const writeFileToPath = async (
+  path: string,
+  content: string,
+): Promise<void> => {
+  if (!path) {
+    throw new Error("Path is required to write a file.");
+  }
+
+  return fs.writeFile(path, content, "utf8");
+};
+
+export const deleteFileFromPath = async (path: string): Promise<void> => {
+  if (!path) {
+    throw new Error("Path is required to delete a file.");
+  }
+
+  if (!(await checkIfFileExists(path))) {
+    throw new Error(`File not found: ${path}`);
+  }
+
+  return fs.unlink(path);
+};

@@ -1,13 +1,14 @@
-import fs from "node:fs/promises";
-
 import * as models from "@ptah/lib-models";
 
-import { listFilesFromPath } from "./file.repository";
+import {
+  deleteFileFromPath,
+  listFilesFromPath,
+  readFileFromPath,
+  writeFileToPath,
+} from "./file.repository";
 
 export const loadShowFromPath = async (path: string): Promise<models.Show> => {
-  const buffer = await fs.readFile(path, "utf8");
-
-  return models.show.parseAsync(JSON.parse(buffer));
+  return models.show.parseAsync(JSON.parse(await readFileFromPath(path)));
 };
 
 export const saveShowToPath = async (
@@ -16,10 +17,10 @@ export const saveShowToPath = async (
 ): Promise<void> => {
   const json = JSON.stringify(show, undefined, 2);
 
-  return fs.writeFile(path, json);
+  return writeFileToPath(path, json);
 };
 
 export const listShowFromPath = (path: string): Promise<string[]> =>
   listFilesFromPath(path, ["json"]);
 
-export const deleteShowFromPath = (path: string) => void fs.rm(path);
+export const deleteShowFromPath = (path: string) => deleteFileFromPath(path);

@@ -1,11 +1,10 @@
-import fs from "node:fs/promises";
-
 import * as models from "@ptah/lib-models";
+import { readFileFromPath, writeFileToPath } from "./file.repository";
 
 export const loadSettingsFromPath = async (
   path: string,
 ): Promise<models.Settings> => {
-  const buffer = await fs.readFile(path, "utf8");
+  const buffer = await readFileFromPath(path);
 
   return models.settings.parseAsync(JSON.parse(buffer));
 };
@@ -16,7 +15,7 @@ export const saveSettingsToPath = async (
 ): Promise<models.Settings> => {
   const json = JSON.stringify(settings, undefined, 2);
 
-  await fs.writeFile(path, json);
+  await writeFileToPath(path, json);
 
   return settings;
 };

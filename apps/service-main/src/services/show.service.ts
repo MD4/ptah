@@ -1,6 +1,6 @@
+import { log } from "@ptah/lib-logger";
 import type { Show, ShowName } from "@ptah/lib-models";
 import { env, repositories, services } from "@ptah/lib-shared";
-
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import * as runner from "./runner.service";
@@ -59,6 +59,16 @@ export const restoreShow = async (): Promise<Show | undefined> => {
   const { currentShow } = await services.settings.loadSettingsOrInitialize();
 
   if (currentShow) {
-    return loadShow(currentShow);
+    log(process.env.SERVICE_MAIN_NAME, `Restoring show "${currentShow}"...`);
+    try {
+      return await loadShow(currentShow);
+    } catch (_) {
+      log(
+        process.env.SERVICE_MAIN_NAME,
+        `Error restoring show "${currentShow}". It may have been deleted or moved.`,
+      );
+
+      await services.settings.removeCurrentShow();
+    }
   }
 };
