@@ -45,8 +45,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       nodemon:
         specifier: ^3.1.10
         version: 3.1.10
@@ -85,8 +85,8 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       express:
         specifier: ^5.1.0
         version: 5.1.0
@@ -97,11 +97,11 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
       zod-express-middleware:
         specifier: ^1.4.0
-        version: 1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.0.5)
+        version: 1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.0.9)
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -128,8 +128,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       supertest:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^7.1.4
+        version: 7.1.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(typescript@5.8.3)(yaml@2.6.0)
@@ -149,8 +149,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -174,8 +174,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       supertest:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^7.1.4
+        version: 7.1.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(typescript@5.8.3)(yaml@2.6.0)
@@ -201,8 +201,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -229,8 +229,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       supertest:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^7.1.4
+        version: 7.1.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(typescript@5.8.3)(yaml@2.6.0)
@@ -262,8 +262,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -287,8 +287,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       supertest:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^7.1.4
+        version: 7.1.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(typescript@5.8.3)(yaml@2.6.0)
@@ -317,8 +317,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       dotenv:
-        specifier: ^17.2.0
-        version: 17.2.0
+        specifier: ^17.2.1
+        version: 17.2.1
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -342,8 +342,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       supertest:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^7.1.4
+        version: 7.1.4
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(typescript@5.8.3)(yaml@2.6.0)
@@ -388,10 +388,10 @@ importers:
         version: 5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       antd-zod:
         specifier: ^7.0.0
-        version: 7.0.0(antd@5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(zod@4.0.5)
+        version: 7.0.0(antd@5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(zod@4.0.9)
       axios:
-        specifier: ^1.10.0
-        version: 1.10.0
+        specifier: ^1.11.0
+        version: 1.11.0
       fast-copy:
         specifier: ^3.0.2
         version: 3.0.2
@@ -405,8 +405,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router-dom:
-        specifier: ^7.7.0
-        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.1
+        version: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -429,8 +429,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
     devDependencies:
       '@ptah/config-ts':
         specifier: workspace:*
@@ -449,7 +449,7 @@ importers:
         version: 19.1.6(@types/react@19.1.8)
       '@vitejs/plugin-react':
         specifier: ^4.7.0
-        version: 4.7.0(vite@7.0.5(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0))
+        version: 4.7.0(vite@7.0.6(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0))
       sass:
         specifier: ^1.89.2
         version: 1.89.2
@@ -457,8 +457,8 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7.0.5
-        version: 7.0.5(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0)
+        specifier: ^7.0.6
+        version: 7.0.6(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0)
 
   apps/ui-cli:
     dependencies:
@@ -539,8 +539,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -585,8 +585,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -622,8 +622,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -647,8 +647,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.9
+        version: 4.0.9
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -2235,8 +2235,8 @@ packages:
     resolution: {integrity: sha512-ooviqdwwgfIfNmDwo94wlshcdzfO64XV0Cg6oDsDYBJfITDz1EngD2z7DkbvCWn+XIMsIqW27sEVF6qcpJrRcg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  axios@1.10.0:
-    resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
+  axios@1.11.0:
+    resolution: {integrity: sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==}
 
   babel-jest@30.0.5:
     resolution: {integrity: sha512-mRijnKimhGDMsizTvBTWotwNpzrkHr+VvZUQBof2AufXKB8NXrL1W69TG20EvOz7aevx6FTJIaBuBkYxS8zolg==}
@@ -2749,8 +2749,8 @@ packages:
   dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
 
-  dotenv@17.2.0:
-    resolution: {integrity: sha512-Q4sgBT60gzd0BB0lSyYD3xM4YxrXA9y4uBDof1JNYGzOXrQdQ6yX+7XIAqoFOGQFOTK1D3Hts5OllpxMDZFONQ==}
+  dotenv@17.2.1:
+    resolution: {integrity: sha512-kQhDYKZecqnM0fCnzI5eIv5L4cAe/iRI+HqMbO/hbRdTAeXDG+M9FjipUxNfbARuEg4iHIbhnhs78BCHNbSxEQ==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -4331,15 +4331,15 @@ packages:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
-  react-router-dom@7.7.0:
-    resolution: {integrity: sha512-wwGS19VkNBkneVh9/YD0pK3IsjWxQUVMDD6drlG7eJpo1rXBtctBqDyBm/k+oKHRAm1x9XWT3JFC82QI9YOXXA==}
+  react-router-dom@7.7.1:
+    resolution: {integrity: sha512-bavdk2BA5r3MYalGKZ01u8PGuDBloQmzpBZVhDLrOOv1N943Wq6dcM9GhB3x8b7AbqPMEezauv4PeGkAJfy7FQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
 
-  react-router@7.7.0:
-    resolution: {integrity: sha512-3FUYSwlvB/5wRJVTL/aavqHmfUKe0+Xm9MllkYgGo9eDwNdkvwlJGjpPxono1kCycLt6AnDTgjmXvK3/B4QGuw==}
+  react-router@7.7.1:
+    resolution: {integrity: sha512-jVKHXoWRIsD/qS6lvGveckwb862EekvapdHJN/cGmzw40KnJH5gg53ujOJ4qX6EKIK9LSBfFed/xiQ5yeXNrUA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -4731,12 +4731,12 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  superagent@10.2.2:
-    resolution: {integrity: sha512-vWMq11OwWCC84pQaFPzF/VO3BrjkCeewuvJgt1jfV0499Z1QSAWN4EqfMM5WlFDDX9/oP8JjlDKpblrmEoyu4Q==}
+  superagent@10.2.3:
+    resolution: {integrity: sha512-y/hkYGeXAj7wUMjxRbB21g/l6aAEituGXM9Rwl4o20+SX3e8YOSV6BxFXl+dL3Uk0mjSL3kCbNkwURm8/gEDig==}
     engines: {node: '>=14.18.0'}
 
-  supertest@7.1.3:
-    resolution: {integrity: sha512-ORY0gPa6ojmg/C74P/bDoS21WL6FMXq5I8mawkEz30/zkwdu0gOeqstFy316vHG6OKxqQ+IbGneRemHI8WraEw==}
+  supertest@7.1.4:
+    resolution: {integrity: sha512-tjLPs7dVyqgItVFirHYqe2T+MfWc2VOBQ8QFKKbWTA3PU7liZR8zoSpAi/C1k1ilm9RsXIKYf197oap9wXGVYg==}
     engines: {node: '>=14.18.0'}
 
   supports-color@5.5.0:
@@ -5042,8 +5042,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vite@7.0.5:
-    resolution: {integrity: sha512-1mncVwJxy2C9ThLwz0+2GKZyEXuC3MyWtAAlNftlZZXZDP3AJt5FmwcMit/IGGaNZ8ZOB2BNO/HFUB+CpN0NQw==}
+  vite@7.0.6:
+    resolution: {integrity: sha512-MHFiOENNBd+Bd9uvc8GEsIzdkn1JxMmEeYX35tI3fv0sJBUTfW5tQsoaOwuY4KhBI09A3dUJ/DXf2yxPVPUceg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -5255,8 +5255,8 @@ packages:
       express: ^4.17.1
       zod: ^3.2.0
 
-  zod@4.0.5:
-    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
+  zod@4.0.9:
+    resolution: {integrity: sha512-PAqUh1FW4Irxcs6/sWfnhJGV/8F0eLNd1FryydBfbA9Qvz1LaJk0TDrSC+hIKlArS/xVISuX/yjlS1bzg2D3Zw==}
 
   zustand@4.5.5:
     resolution: {integrity: sha512-+0PALYNJNgK6hldkgDq2vLrw5f6g/jCInz52n9RTpropGgeAf/ioFUCdtsjCqu4gNhW9D01rUQBROoRjdzyn2Q==}
@@ -6766,7 +6766,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@4.7.0(vite@7.0.5(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0))':
+  '@vitejs/plugin-react@4.7.0(vite@7.0.6(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0))':
     dependencies:
       '@babel/core': 7.28.0
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.0)
@@ -6774,7 +6774,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 7.0.5(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0)
+      vite: 7.0.6(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -6853,11 +6853,11 @@ snapshots:
 
   ansis@4.0.0-node10: {}
 
-  antd-zod@7.0.0(antd@5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(zod@4.0.5):
+  antd-zod@7.0.0(antd@5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(zod@4.0.9):
     dependencies:
       antd: 5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       lodash.merge: 4.6.2
-      zod: 4.0.5
+      zod: 4.0.9
 
   antd@5.26.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
@@ -6956,10 +6956,10 @@ snapshots:
 
   auto-bind@5.0.1: {}
 
-  axios@1.10.0:
+  axios@1.11.0:
     dependencies:
       follow-redirects: 1.15.9(debug@4.3.7)
-      form-data: 4.0.1
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -7461,7 +7461,7 @@ snapshots:
       '@babel/runtime': 7.26.0
       csstype: 3.1.3
 
-  dotenv@17.2.0: {}
+  dotenv@17.2.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -9381,13 +9381,13 @@ snapshots:
 
   react-refresh@0.17.0: {}
 
-  react-router-dom@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router-dom@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
-      react-router: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
-  react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router@7.7.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       cookie: 1.0.2
       react: 19.1.0
@@ -9881,7 +9881,7 @@ snapshots:
       pirates: 4.0.7
       ts-interface-checker: 0.1.13
 
-  superagent@10.2.2:
+  superagent@10.2.3:
     dependencies:
       component-emitter: 1.3.1
       cookiejar: 2.1.4
@@ -9895,10 +9895,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  supertest@7.1.3:
+  supertest@7.1.4:
     dependencies:
       methods: 1.1.2
-      superagent: 10.2.2
+      superagent: 10.2.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10191,7 +10191,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@7.0.5(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0):
+  vite@7.0.6(@types/node@24.1.0)(sass@1.89.2)(terser@5.36.0)(yaml@2.6.0):
     dependencies:
       esbuild: 0.25.8
       fdir: 6.4.6(picomatch@4.0.3)
@@ -10346,13 +10346,13 @@ snapshots:
 
   yoga-layout@3.2.1: {}
 
-  zod-express-middleware@1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.0.5):
+  zod-express-middleware@1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.0.9):
     dependencies:
       '@types/express': 5.0.3
       express: 5.1.0
-      zod: 4.0.5
+      zod: 4.0.9
 
-  zod@4.0.5: {}
+  zod@4.0.9: {}
 
   zustand@4.5.5(@types/react@19.1.8)(react@19.1.0):
     dependencies:

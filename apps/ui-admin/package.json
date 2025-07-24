@@ -22,12 +22,12 @@
     "@types/uuid": "^10.0.0",
     "antd": "^5.26.6",
     "antd-zod": "^7.0.0",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
     "fast-copy": "^3.0.2",
     "fast-equals": "^5.2.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.7.0",
+    "react-router-dom": "^7.7.1",
     "react-transition-group": "^4.4.5",
     "reactflow": "^11.11.4",
     "serve": "^14.2.4",
@@ -35,7 +35,7 @@
     "type-fest": "^4.41.0",
     "usehooks-ts": "^3.1.1",
     "uuid": "^11.1.0",
-    "zod": "^4.0.5"
+    "zod": "^4.0.9"
   },
   "devDependencies": {
     "@ptah/config-ts": "workspace:*",
@@ -46,6 +46,6 @@
     "@vitejs/plugin-react": "^4.7.0",
     "sass": "^1.89.2",
     "typescript": "^5.8.3",
-    "vite": "^7.0.5"
+    "vite": "^7.0.6"
   }
 }
