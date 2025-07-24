@@ -3,8 +3,8 @@ import { Flex } from "antd";
 import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import AdsrPreview from "../../atoms/adsr-preview";
 import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -14,6 +14,14 @@ export default function NodeFxADSR({
 }: NodeProps<models.NodeFxADSR>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
+
+  const containerStyle = React.useMemo(
+    () => ({
+      ...styles.container,
+      width: "auto",
+    }),
+    [styles.container],
+  );
 
   const onValueAttackChange = React.useCallback<
     (attackRate: number | null) => void
@@ -72,7 +80,7 @@ export default function NodeFxADSR({
   );
 
   return (
-    <Flex gap="small" style={styles.container} vertical>
+    <Flex gap="small" style={containerStyle} vertical>
       <div style={styles.label}>ADSR</div>
 
       <HandleInputParameter id={0} label="Time" />
@@ -119,6 +127,17 @@ export default function NodeFxADSR({
         position={Position.Right}
         style={styles.handle}
         type="source"
+      />
+
+      <div />
+
+      <AdsrPreview
+        attackRate={data.attackRate}
+        decayRate={data.decayRate}
+        sustainLevel={data.sustainLevel}
+        releaseRate={data.releaseRate}
+        precision={200}
+        width={150}
       />
     </Flex>
   );

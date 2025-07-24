@@ -22,7 +22,7 @@ export default function ShowMenu() {
   const system = useSystemApi();
   const navigate = useNavigate();
   const { showName } = useParams();
-  const [{ error, success }, contextHolder] = notification.useNotification({
+  const [{ error }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });
 
@@ -34,11 +34,7 @@ export default function ShowMenu() {
   const onShowDeleteSuccess = React.useCallback(() => {
     system.unloadShow();
     navigate("/");
-    success({
-      message: "All good",
-      description: "Show successfully deleted",
-    });
-  }, [system, navigate, success]);
+  }, [system, navigate]);
 
   const onShowDeleteError = React.useCallback(
     ({ message }: Error) => {

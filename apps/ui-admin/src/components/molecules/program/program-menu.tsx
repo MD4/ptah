@@ -8,16 +8,13 @@ import { useProgramDelete } from "../../../repositories/program.repository";
 export default function ProgramMenu() {
   const navigate = useNavigate();
   const { programName } = useParams();
-  const [{ error, success }, contextHolder] = notification.useNotification({
+  const [{ error }, contextHolder] = notification.useNotification({
     placement: "bottomRight",
   });
-  const onProgramDeleteSuccess = React.useCallback(() => {
-    navigate("/");
-    success({
-      message: "All good",
-      description: "Program successfully deleted",
-    });
-  }, [navigate, success]);
+  const onProgramDeleteSuccess = React.useCallback(
+    () => navigate("/"),
+    [navigate],
+  );
 
   const onProgramDeleteError = React.useCallback(
     ({ message }: Error) => {

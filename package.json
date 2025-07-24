@@ -12,7 +12,8 @@
     "check": "biome check",
     "check:fix": "biome check --write",
     "test": "turbo test",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "allcheck": "pnpm format && pnpm check && pnpm typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",

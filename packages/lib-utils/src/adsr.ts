@@ -27,8 +27,5 @@ export const adsr =
       );
     }
 
-    return (
-      easeOutQuintInvert((1 / decayRate) * attackRate) * (1 - sustainLevel) +
-      sustainLevel
-    );
+    return sustainLevel;
   };
