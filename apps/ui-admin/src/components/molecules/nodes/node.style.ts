@@ -16,7 +16,7 @@ export const useDefaultNodeStyle = (
       ({
         container: {
           border: "none",
-          padding: token.sizeMS,
+          padding: token.sizeSM,
 
           borderTopLeftRadius:
             type === "output" ? token.borderRadiusLG * 2 : token.borderRadiusLG,
@@ -32,7 +32,8 @@ export const useDefaultNodeStyle = (
           borderWidth: token.lineWidth,
 
           background: token.colorBgElevated,
-          width: 160,
+          width: "auto",
+          minWidth: 120,
         },
         handle: {
           borderRadius: token.sizeXS,
@@ -57,7 +58,7 @@ export const useDefaultNodeStyle = (
       token.colorTextDescription,
       token.colorTextTertiary,
       token.lineWidth,
-      token.sizeMS,
+      token.sizeSM,
       token.sizeXS,
       token.sizeXXS,
       type,

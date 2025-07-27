@@ -1,4 +1,5 @@
-import type { RunnerControlsState } from "../services/runner.service.types";
+import type { PatchMapping } from "./patch.domain.types";
+import type { RunnerControlsState } from "./runner.domain.types";
 
 export type ProgramCompute = (
   time: number,
@@ -14,5 +15,12 @@ export type ProgramState = {
   time: number;
   output: ProgramOutput;
 };
+
+export type PatchItem = {
+  program: ProgramDefinition;
+  mapping: PatchMapping;
+};
+
+export type Patch = Map<number, PatchItem>;
 
 export type ProgramOutput = Record<number, number>;

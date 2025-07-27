@@ -1,16 +1,16 @@
-// @TODO: here connect & update DMX stuff
-
 import fs from "node:fs";
-
+import type {
+  patch as patchDomain,
+  program as programDomain,
+} from "@ptah/lib-domains";
 import { log } from "@ptah/lib-logger";
 import type { DmxStatus } from "@ptah/lib-models";
 import { services } from "@ptah/lib-shared";
 import { sleep } from "@ptah/lib-utils";
+
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 
-import type { PatchMapping } from "../domains/patch.domain.types";
-import type { ProgramOutput } from "../domains/program.types";
 import { DebugDriver } from "../drivers/debug.driver";
 
 const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:dmx`;
@@ -111,11 +111,11 @@ export const reset = (): void => {
   }
 };
 
-export const resetProgram = (mapping: PatchMapping): void => {
+export const resetProgram = (mapping: patchDomain.PatchMapping): void => {
   setImmediate(() => {
     dmx.update(
       UNIVERSE_MAIN,
-      mapping.reduce<ProgramOutput>((channels, channel) => {
+      mapping.reduce<programDomain.ProgramOutput>((channels, channel) => {
         channels[channel] = 0;
 
         return channels;
@@ -124,7 +124,7 @@ export const resetProgram = (mapping: PatchMapping): void => {
   });
 };
 
-export const update = (programOutput: ProgramOutput): void => {
+export const update = (programOutput: programDomain.ProgramOutput): void => {
   if (debugUniverse) {
     setImmediate(() => {
       dmx.update(UNIVERSE_DEBUG, programOutput);

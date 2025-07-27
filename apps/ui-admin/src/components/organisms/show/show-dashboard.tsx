@@ -2,7 +2,7 @@ import type * as models from "@ptah/lib-models";
 import * as React from "react";
 import type { FitViewOptions, ReactFlowInstance, Viewport } from "reactflow";
 import { ReactFlow } from "reactflow";
-
+import { useResizeObserver } from "usehooks-ts";
 import {
   adaptModelMappingToReactFlowEdges,
   adaptModelMappingToReactFlowEdgesNodes,
@@ -59,6 +59,9 @@ export default function ShowDashboard({
     [show],
   );
 
+  const [reactFlowInstance, setReactFlowInstance] =
+    React.useState<ReactFlowInstance | null>(null);
+
   const onInit = React.useCallback((instance: ReactFlowInstance) => {
     const { x, zoom } = instance.getViewport();
 
@@ -71,14 +74,11 @@ export default function ShowDashboard({
     });
   }, []);
 
-  const [reactFlowInstance, setReactFlowInstance] =
-    React.useState<ReactFlowInstance | null>(null);
-
-  React.useEffect(() => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const fitView = React.useCallback(() => {
     if (reactFlowInstance) {
       const y = reactFlowInstance.getViewport().y;
       reactFlowInstance.fitView(fitViewOptions);
-
       reactFlowInstance.setViewport({
         x: reactFlowInstance.getViewport().x,
         y,
@@ -87,9 +87,18 @@ export default function ShowDashboard({
     }
   }, [reactFlowInstance]);
 
+  React.useEffect(() => fitView(), [fitView]);
+  useResizeObserver({
+    // @ts-ignore
+    ref,
+    box: "border-box",
+    onResize: () => fitView(),
+  });
+
   return (
     <div style={styles.container}>
       <ReactFlow
+        ref={ref}
         defaultViewport={defaultViewport}
         edges={initialEdges}
         elementsSelectable={false}

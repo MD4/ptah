@@ -1,7 +1,9 @@
 import type { ShowPatch } from "@ptah/lib-models";
 
 import type { PatchMapping } from "./patch.domain.types";
-import type { ProgramOutput } from "./program.types";
+import type { ProgramOutput } from "./program.domain.types";
+
+export type * from "./patch.domain.types";
 
 export const extractProgramMappingFromShowPatch = (
   showPatch: ShowPatch,

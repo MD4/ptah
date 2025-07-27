@@ -1,9 +1,10 @@
+import {
+  patch as patchDomain,
+  program as programDomain,
+} from "@ptah/lib-domains";
 import { log } from "@ptah/lib-logger";
 import { services } from "@ptah/lib-shared";
 
-import { applyMapping } from "../domains/patch.domain";
-import { getProgramInitialState, performTick } from "../domains/program.domain";
-import type { ProgramOutput } from "../domains/program.types";
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import type {
@@ -33,7 +34,10 @@ export const startProgram = (id: number, parameter: number): void => {
     programsState.set(id, {
       program,
       mapping,
-      programState: getProgramInitialState(program, controlsState),
+      programState: programDomain.getProgramInitialState(
+        program,
+        controlsState,
+      ),
     });
   }
 
@@ -66,12 +70,12 @@ export const stopProgram = (id: number): void => {
   log(LOG_CONTEXT, "program:stop", id);
 };
 
-export const tick = (): ProgramOutput => {
-  let stateToReturn: ProgramOutput = {};
+export const tick = (): programDomain.ProgramOutput => {
+  let stateToReturn: programDomain.ProgramOutput = {};
 
   programsState.forEach(
     ({ program, mapping, programState: previousProgramState }, id) => {
-      const programState = performTick(
+      const programState = programDomain.performTick(
         program,
         controlsState,
         previousProgramState,
@@ -85,7 +89,7 @@ export const tick = (): ProgramOutput => {
 
       stateToReturn = {
         ...stateToReturn,
-        ...applyMapping(programState.output, mapping),
+        ...patchDomain.applyMapping(programState.output, mapping),
       };
     },
   );

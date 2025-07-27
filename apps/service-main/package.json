@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
+    "@ptah/lib-domains": "workspace:*",
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:^",
     "@ptah/lib-shared": "workspace:*",

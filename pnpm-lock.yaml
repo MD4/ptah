@@ -243,6 +243,9 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
+      '@ptah/lib-domains':
+        specifier: workspace:*
+        version: link:../../packages/lib-domains
       '@ptah/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
@@ -535,6 +538,9 @@ importers:
       '@ptah/lib-models':
         specifier: workspace:*
         version: link:../lib-models
+      '@ptah/lib-utils':
+        specifier: workspace:*
+        version: link:../lib-utils
       uuid:
         specifier: ^11.1.0
         version: 11.1.0

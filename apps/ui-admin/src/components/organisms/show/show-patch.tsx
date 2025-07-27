@@ -13,7 +13,7 @@ import type {
   Viewport,
 } from "reactflow";
 import { addEdge, applyEdgeChanges, ReactFlow, updateEdge } from "reactflow";
-import { useBoolean } from "usehooks-ts";
+import { useBoolean, useResizeObserver } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
 
 import { repositionProgramNodes } from "../../../adapters/node.adapter";
@@ -114,6 +114,9 @@ export default function ShowPatch({
 
   const edgeUpdateSuccessful = React.useRef(true);
 
+  const [reactFlowInstance, setReactFlowInstance] =
+    React.useState<ReactFlowInstance | null>(null);
+
   const onInit = React.useCallback((reactFlowInstance: ReactFlowInstance) => {
     const { x, zoom } = reactFlowInstance.getViewport();
 
@@ -125,22 +128,6 @@ export default function ShowPatch({
       zoom,
     });
   }, []);
-
-  const [reactFlowInstance, setReactFlowInstance] =
-    React.useState<ReactFlowInstance | null>(null);
-
-  React.useEffect(() => {
-    if (reactFlowInstance) {
-      const y = reactFlowInstance.getViewport().y;
-
-      reactFlowInstance.fitView(fitViewOptions);
-      reactFlowInstance.setViewport({
-        x: reactFlowInstance.getViewport().x,
-        y,
-        zoom: reactFlowInstance.getViewport().zoom,
-      });
-    }
-  }, [reactFlowInstance]);
 
   const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
     setEdges((value) => applyEdgeChanges(changes, value));
@@ -276,10 +263,32 @@ export default function ShowPatch({
     });
   }, [dispatch, nodes]);
 
+  const ref = React.useRef<HTMLDivElement>(null);
+  const fitView = React.useCallback(() => {
+    if (reactFlowInstance) {
+      const y = reactFlowInstance.getViewport().y;
+      reactFlowInstance.fitView(fitViewOptions);
+      reactFlowInstance.setViewport({
+        x: reactFlowInstance.getViewport().x,
+        y,
+        zoom: reactFlowInstance.getViewport().zoom,
+      });
+    }
+  }, [reactFlowInstance]);
+
+  React.useEffect(() => fitView(), [fitView]);
+  useResizeObserver({
+    // @ts-ignore
+    ref,
+    box: "border-box",
+    onResize: () => fitView(),
+  });
+
   return (
     <div style={styles.container}>
       {contextHolder}
       <ReactFlow
+        ref={ref}
         defaultViewport={defaultViewport}
         edges={edges}
         fitView

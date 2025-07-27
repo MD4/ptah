@@ -1,16 +1,17 @@
+import {
+  patch as patchDomain,
+  program as programDomain,
+} from "@ptah/lib-domains";
 import type { Program, Show } from "@ptah/lib-models";
+import type { PatchState, PatchStateItem } from "./patch.service.types";
 
-import { extractProgramMappingFromShowPatch } from "../domains/patch.domain";
-import { compile } from "../domains/program.domain";
-import type { Patch, PatchItem } from "./patch.service.types";
-
-const patch: Patch = new Map();
+const patch: PatchState = new Map();
 
 export const reset = (): void => {
   patch.clear();
 };
 
-export const getFromId = (id: number): PatchItem | undefined => {
+export const getFromId = (id: number): PatchStateItem | undefined => {
   return patch.get(id);
 };
 
@@ -26,10 +27,13 @@ export const loadMapping = (show: Show, programs: Program[]): void => {
 
     if (program) {
       patch.set(Number(key), {
-        mapping: extractProgramMappingFromShowPatch(show.patch, programId),
+        mapping: patchDomain.extractProgramMappingFromShowPatch(
+          show.patch,
+          programId,
+        ),
         program: {
           resetAtEnd: true,
-          compute: compile(program),
+          compute: programDomain.compile(program),
         },
       });
     }

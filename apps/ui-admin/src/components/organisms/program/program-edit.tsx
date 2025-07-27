@@ -1,6 +1,6 @@
 import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
-import { Button, Flex, notification, theme } from "antd";
+import { Button, Flex, notification, Switch, theme } from "antd";
 import * as React from "react";
 import type {
   Connection,
@@ -19,9 +19,8 @@ import {
   ReactFlow,
   updateEdge,
 } from "reactflow";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounceValue, useResizeObserver } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
-
 import {
   adaptModelEdgesToReactFlowEdges,
   adaptReactFlowEdgesToModelEdges,
@@ -35,6 +34,7 @@ import {
   useProgramEdit,
   useProgramEditDispatch,
 } from "../../../domain/program.domain";
+import { ProgramPreviewProvider } from "../../../domain/program.preview.domain";
 import { useProgramPut } from "../../../repositories/program.repository";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
@@ -81,9 +81,16 @@ export default function ProgramEdit() {
           position: "absolute",
           right: token.sizeMS,
           bottom: token.sizeMS,
+          display: "flex",
+          gap: token.sizeMS,
+          alignItems: "center",
+        },
+        preview: {
+          display: "flex",
+          gap: token.sizeXS,
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [token.sizeMS],
+    [token.sizeMS, token.sizeXS],
   );
 
   const dispatch = useProgramEditDispatch();
@@ -269,44 +276,73 @@ export default function ProgramEdit() {
     });
   }, [dispatch, debouncedNodes]);
 
+  const ref = React.useRef<HTMLDivElement>(null);
+  const fitView = React.useCallback(() => {
+    if (reactFlowInstance) {
+      const y = reactFlowInstance.getViewport().y;
+      reactFlowInstance.fitView(fitViewOptions);
+      reactFlowInstance.setViewport({
+        x: reactFlowInstance.getViewport().x,
+        y,
+        zoom: reactFlowInstance.getViewport().zoom,
+      });
+    }
+  }, [reactFlowInstance]);
+
+  const [preview, setPreview] = React.useState<boolean>(false);
+
+  React.useEffect(() => fitView(), [fitView]);
+  useResizeObserver({
+    // @ts-ignore
+    ref,
+    box: "border-box",
+    onResize: () => fitView(),
+  });
+
   return (
     <Flex style={styles.container}>
       {contextHolder}
-      <ReactFlow
-        edges={edges}
-        fitView
-        fitViewOptions={fitViewOptions}
-        isValidConnection={isValidConnection}
-        nodeTypes={programNodeTypes}
-        nodes={nodes}
-        onConnect={onConnect}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-        onEdgeUpdate={onEdgeUpdate}
-        onEdgeUpdateEnd={onEdgeUpdateEnd}
-        onEdgeUpdateStart={onEdgeUpdateStart}
-        onEdgesChange={onEdgesChange}
-        onInit={setReactFlowInstance}
-        onNodesChange={onNodesChange}
-        panOnScroll
-        proOptions={proOptions}
-        snapToGrid
-      >
-        <EdgeGradient />
-      </ReactFlow>
+      <ProgramPreviewProvider program={program} active={preview}>
+        <ReactFlow
+          ref={ref}
+          edges={edges}
+          fitView
+          fitViewOptions={fitViewOptions}
+          isValidConnection={isValidConnection}
+          nodeTypes={programNodeTypes}
+          nodes={nodes}
+          onConnect={onConnect}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          onEdgeUpdate={onEdgeUpdate}
+          onEdgeUpdateEnd={onEdgeUpdateEnd}
+          onEdgeUpdateStart={onEdgeUpdateStart}
+          onEdgesChange={onEdgesChange}
+          onInit={setReactFlowInstance}
+          onNodesChange={onNodesChange}
+          panOnScroll
+          proOptions={proOptions}
+          snapToGrid
+        >
+          <EdgeGradient />
+        </ReactFlow>
+      </ProgramPreviewProvider>
       <ProgramAddNode />
       <div style={styles.toolbar}>
-        {hasChanged ? (
-          <Button
-            icon={<SaveFilled />}
-            loading={saveMutation.isPending}
-            onClick={onSaveClick}
-            size="large"
-            type="primary"
-          >
-            Save
-          </Button>
-        ) : null}
+        <div style={styles.preview}>
+          <span>Preview</span>
+          <Switch checked={preview} onChange={setPreview} />
+        </div>
+        <Button
+          icon={<SaveFilled />}
+          loading={saveMutation.isPending}
+          onClick={onSaveClick}
+          size="large"
+          type="primary"
+          disabled={!hasChanged}
+        >
+          Save
+        </Button>
       </div>
     </Flex>
   );

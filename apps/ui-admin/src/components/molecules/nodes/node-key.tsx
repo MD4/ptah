@@ -37,6 +37,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
         borderTopLeftRadius: token.borderRadiusSM,
         borderBottomLeftRadius: token.borderRadiusSM,
         background: sharp ? sharpBackground : background,
+        minHeight: 0,
         height: sharp ? "32px" : "64px",
         width: sharp ? "160px" : "240px",
       },

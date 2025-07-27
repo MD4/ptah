@@ -1,9 +1,11 @@
-import type { PatchMapping } from "../domains/patch.domain.types";
-import type { ProgramDefinition } from "../domains/program.types";
+import type {
+  patch as patchDomain,
+  program as programDomain,
+} from "@ptah/lib-domains";
 
-export type PatchItem = {
-  program: ProgramDefinition;
-  mapping: PatchMapping;
+export type PatchStateItem = {
+  program: programDomain.ProgramDefinition;
+  mapping: patchDomain.PatchMapping;
 };
 
-export type Patch = Map<number, PatchItem>;
+export type PatchState = Map<number, PatchStateItem>;
