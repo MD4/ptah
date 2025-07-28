@@ -1,5 +1,4 @@
 import * as z from "zod";
-
 import { uuid } from "./uuid.model";
 
 const nodeGeneric = z.object({
@@ -77,7 +76,17 @@ export const nodeFxMath = nodeGeneric.extend({
 });
 export type NodeFxMath = z.infer<typeof nodeFxMath>;
 
-export const nodeFx = z.union([nodeFxADSR, nodeFxMath]);
+export const nodeFxDistortion = nodeGeneric.extend({
+  type: z.literal("fx-distortion"),
+  time: z.number().min(0).max(1),
+  value: z.number().min(0).max(1),
+  drive: z.number().min(0).max(1),
+  tone: z.number().min(0).max(1),
+  level: z.number().min(0).max(1),
+});
+export type NodeFxDistortion = z.infer<typeof nodeFxDistortion>;
+
+export const nodeFx = z.union([nodeFxADSR, nodeFxMath, nodeFxDistortion]);
 export type NodeFx = z.infer<typeof nodeFx>;
 
 export const node = z.union([nodeInput, nodeOutputResult, nodeFx]);

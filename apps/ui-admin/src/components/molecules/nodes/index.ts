@@ -5,6 +5,7 @@ import type { NodeProps } from "reactflow";
 import NodeAddProgram from "./node-add-program";
 import NodeChannel from "./node-channel";
 import NodeFxADSR from "./node-fx-adsr";
+import NodeFxDistortion from "./node-fx-distortion";
 import NodeFxMath from "./node-fx-math";
 import NodeInputConstant from "./node-input-constant";
 import NodeInputControl from "./node-input-control";
@@ -29,5 +30,6 @@ export const programNodeTypes: Record<
   "input-constant": NodeInputConstant,
   "input-control": NodeInputControl,
   "fx-math": NodeFxMath,
+  "fx-distortion": NodeFxDistortion,
   "output-result": NodeOutputResult,
 };

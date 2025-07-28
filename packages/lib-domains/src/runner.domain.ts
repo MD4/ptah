@@ -31,3 +31,14 @@ export const adsr =
 
     return sustainLevel;
   };
+
+export const distortion =
+  (value: number, drive: number, tone: number, level: number) =>
+  (time: number): number => {
+    return (
+      value * level +
+      (1 - level) / 2 +
+      drive * 3 * Math.sin(tone * time * 50) * 0.1 +
+      drive * 3 * Math.cos((tone / 3) * time * 70) * 0.1
+    );
+  };

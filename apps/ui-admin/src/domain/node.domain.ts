@@ -7,6 +7,8 @@ export const createNode = (nodeType: models.Node["type"]): models.Node => {
       return createNodeFxADSR();
     case "fx-math":
       return createNodeFxMath();
+    case "fx-distortion":
+      return createNodeFxDistortion();
     case "input-constant":
       return createNodeInputConstant();
     case "input-control":
@@ -22,10 +24,10 @@ export const createNodeFxADSR = (): models.NodeFxADSR => ({
   id: uuidv4(),
   position: { x: 0, y: 0 },
   type: "fx-adsr",
-  attackRate: 0,
-  decayRate: 0,
-  releaseRate: 0,
-  sustainLevel: 0,
+  attackRate: 0.1,
+  decayRate: 0.2,
+  releaseRate: 0.5,
+  sustainLevel: 0.3,
 });
 
 export const createNodeFxMath = (): models.NodeFxMath => ({
@@ -35,6 +37,17 @@ export const createNodeFxMath = (): models.NodeFxMath => ({
   operation: "add",
   valueA: 0,
   valueB: 0,
+});
+
+export const createNodeFxDistortion = (): models.NodeFxDistortion => ({
+  id: uuidv4(),
+  position: { x: 0, y: 0 },
+  type: "fx-distortion",
+  time: 0,
+  value: 0,
+  drive: 0.2,
+  tone: 0.6,
+  level: 0.8,
 });
 
 export const createNodeInputConstant = (): models.NodeInputConstant => ({

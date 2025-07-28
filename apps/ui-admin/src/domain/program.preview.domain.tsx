@@ -29,11 +29,6 @@ export function ProgramPreviewProvider({
 
   const inputs = React.useMemo(() => new Map<number, number>(), []);
 
-  // const programPreview: programDomain.ProgramOutput[] = React.useMemo(
-  //   () => range(length).map((time) => compiledProgram(time / 24, inputs)),
-  //   [compiledProgram, inputs, length],
-  // );
-
   const initialProgramPreview = React.useMemo(
     () => range(length).map((time) => compiledProgram(time / 24, inputs)),
     [compiledProgram, inputs, length],
@@ -57,11 +52,14 @@ export function ProgramPreviewProvider({
   }, 1000 / 24); // Update at 24 FPS
 
   React.useEffect(() => {
-    if (!active) {
+    if (active) {
+      setProgramPreview(initialProgramPreview);
+      setTime(0);
+    } else {
       setProgramPreview(initialProgramPreview);
       setTime(0);
     }
-  }, [active, initialProgramPreview]);
+  }, [initialProgramPreview, active]);
 
   return (
     <ProgramPreviewStateContext.Provider value={programPreview}>

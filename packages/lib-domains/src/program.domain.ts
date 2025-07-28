@@ -7,7 +7,7 @@ import type {
   ProgramOutput,
   ProgramState,
 } from "./program.domain.types";
-import { adsr } from "./runner.domain";
+import { adsr, distortion } from "./runner.domain";
 import type { RunnerControlsState } from "./runner.domain.types";
 
 export type * from "./program.domain.types";
@@ -100,7 +100,17 @@ export const compile = (program: models.Program): ProgramCompute => {
       node,
       inputsNodesIds: program.edges
         .filter((edge) => edge.target === node.id)
-        .map(({ source, sourceOutput }) => ({ id: source, sourceOutput })),
+        .reduce<{ id: string; sourceOutput: number }[]>(
+          (acc, { source, sourceOutput, targetIntput }) => {
+            acc[targetIntput] = {
+              id: source,
+              sourceOutput,
+            };
+
+            return acc;
+          },
+          [],
+        ),
     }));
 
   return (time, inputs) => {
@@ -120,12 +130,33 @@ export const compile = (program: models.Program): ProgramCompute => {
           register.set(node.id, [time]);
           break;
         case "fx-adsr": {
+          const attackRate = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[1],
+            node.attackRate,
+          );
+          const decayRate = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[2],
+            node.decayRate,
+          );
+          const sustainLevel = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[3],
+            node.sustainLevel,
+          );
+          const releaseRate = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[4],
+            node.releaseRate,
+          );
+
           register.set(node.id, [
             adsr(
-              node.attackRate,
-              node.decayRate,
-              node.sustainLevel,
-              node.releaseRate,
+              attackRate,
+              decayRate,
+              sustainLevel,
+              releaseRate,
             )(getNodeInputValueFromRegister(register, inputsNodesIds[0])),
           ]);
           break;
@@ -205,6 +236,40 @@ export const compile = (program: models.Program): ProgramCompute => {
           }
 
           register.set(node.id, [value]);
+          break;
+        }
+
+        case "fx-distortion": {
+          const value = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[1],
+            node.value,
+          );
+
+          const drive = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[2],
+            node.drive,
+          );
+          const tone = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[3],
+            node.tone,
+          );
+          const level = getNodeInputValueFromRegister(
+            register,
+            inputsNodesIds[4],
+            node.level,
+          );
+
+          register.set(node.id, [
+            distortion(
+              value,
+              drive,
+              tone,
+              level,
+            )(getNodeInputValueFromRegister(register, inputsNodesIds[0])),
+          ]);
           break;
         }
 

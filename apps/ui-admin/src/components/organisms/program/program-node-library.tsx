@@ -30,6 +30,11 @@ export const nodesDefinitions: Record<
     label: "MATH",
     parameters: ["Value A", "Value B"],
   },
+  "fx-distortion": {
+    type: "default",
+    label: "DISTORTION",
+    parameters: ["Time", "Value", "Drive", "Tone", "Level"],
+  },
 };
 
 const { useToken } = theme;
