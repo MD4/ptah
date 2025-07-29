@@ -31,6 +31,7 @@ import {
   useShowEdit,
   useShowEditDispatch,
 } from "../../../domain/show.domain";
+import { useSystemApi } from "../../../domain/system.domain";
 import { useShowPut } from "../../../repositories/show.repository";
 import { hasNoCircularDependencies } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
@@ -78,6 +79,7 @@ export default function ShowMapping() {
 
   const dispatch = useShowEditDispatch();
   const { initialShow, show, hasChanged } = useShowEdit();
+  const system = useSystemApi();
 
   const {
     value: addProgramModalOpened,
@@ -211,7 +213,8 @@ export default function ShowMapping() {
       message: "All good",
       description: "Show successfully saved",
     });
-  }, [success]);
+    system.loadShow(show.name);
+  }, [success, system, show.name]);
 
   const onSaveMutationError = React.useCallback<(err: Error) => void>(
     ({ message }) => {
