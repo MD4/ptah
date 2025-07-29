@@ -1,4 +1,4 @@
-name: build
+name: Auto Merge Dependabot PRs
 
 on:
   push:
@@ -11,10 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: pnpm build
+    uses: ./.github/workflows/build.yml
 
   dependabot:
     needs: [build]
