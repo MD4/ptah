@@ -1,7 +1,10 @@
 import type { ShowPatch } from "@ptah/lib-models";
 
 import type { PatchMapping } from "./patch.domain.types";
-import type { ProgramOutput } from "./program.domain.types";
+import type {
+  ProgramOutput,
+  ProgramOutputOuputs,
+} from "./program.domain.types";
 
 export type * from "./patch.domain.types";
 
@@ -46,10 +49,12 @@ export const fromChannelValue = (value: number): number =>
 export const applyMapping = (
   programOutput: ProgramOutput,
   mapping: PatchMapping,
-): ProgramOutput => {
-  return mapping.reduce<ProgramOutput>(
+): ProgramOutputOuputs => {
+  return mapping.reduce<ProgramOutputOuputs>(
     (mappedOutput, targetIndex, outputIndex) => {
-      mappedOutput[targetIndex] = toChannelValue(programOutput[outputIndex]);
+      mappedOutput[targetIndex] = toChannelValue(
+        programOutput.outputs[outputIndex],
+      );
 
       return mappedOutput;
     },

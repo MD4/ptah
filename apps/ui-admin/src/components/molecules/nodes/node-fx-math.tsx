@@ -1,3 +1,4 @@
+import { runner as runnerDomain } from "@ptah/lib-domains";
 import type * as models from "@ptah/lib-models";
 import { Flex, Select } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
@@ -6,6 +7,8 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import { useProgramPreviewStateRegistryValues } from "../../../domain/program.preview.domain";
+import Graph from "../../atoms/graph";
 import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -37,6 +40,7 @@ export default function NodeFxMath({
 }: NodeProps<models.NodeFxMath>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
+  const previewValues = useProgramPreviewStateRegistryValues(data.id);
 
   const onOperationChange = React.useCallback<
     (operation: models.NodeFxMath["operation"]) => void
@@ -93,17 +97,20 @@ export default function NodeFxMath({
       <HandleInputParameter
         defaultValue={data.valueA}
         id={0}
-        label="Value A"
+        label="Value"
         onChange={onValueValueAChange}
         step={0.5}
       />
-      <HandleInputParameter
-        defaultValue={data.valueB}
-        id={1}
-        label="Value B"
-        onChange={onValueValueBChange}
-        step={0.5}
-      />
+
+      {runnerDomain.mathNodeOperatorHasSecondValue(data.operation) && (
+        <HandleInputParameter
+          defaultValue={data.valueB}
+          id={1}
+          label="Value"
+          onChange={onValueValueBChange}
+          step={0.5}
+        />
+      )}
 
       <Handle
         id={String(0)}
@@ -112,6 +119,10 @@ export default function NodeFxMath({
         style={styles.handle}
         type="source"
       />
+
+      <div />
+
+      <Graph values={previewValues} width={130} height={40} />
     </Flex>
   );
 }

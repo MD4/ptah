@@ -1,6 +1,6 @@
 import { program as programDomain } from "@ptah/lib-domains";
 import type { Program } from "@ptah/lib-models";
-import { range } from "@ptah/lib-utils";
+import { clamp, range } from "@ptah/lib-utils";
 
 import * as React from "react";
 import { useInterval } from "usehooks-ts";
@@ -54,12 +54,12 @@ export function ProgramPreviewProvider({
   React.useEffect(() => {
     if (active) {
       setProgramPreview(initialProgramPreview);
-      setTime(0);
+      setTime(length);
     } else {
       setProgramPreview(initialProgramPreview);
-      setTime(0);
+      setTime(length);
     }
-  }, [initialProgramPreview, active]);
+  }, [initialProgramPreview, active, length]);
 
   return (
     <ProgramPreviewStateContext.Provider value={programPreview}>
@@ -70,4 +70,22 @@ export function ProgramPreviewProvider({
 
 export function useProgramPreviewState(): programDomain.ProgramOutput[] {
   return React.useContext(ProgramPreviewStateContext);
+}
+
+export function useProgramPreviewStateOutputValues(outputId: number): number[] {
+  const programPreview = useProgramPreviewState();
+
+  return React.useMemo(
+    () => programPreview.map(({ outputs }) => clamp(outputs[outputId], 0, 1)),
+    [programPreview, outputId],
+  );
+}
+
+export function useProgramPreviewStateRegistryValues(nodeId: string): number[] {
+  const programPreview = useProgramPreviewState();
+
+  return React.useMemo(
+    () => programPreview.map(({ registry }) => registry.get(nodeId)?.[0] ?? 0),
+    [programPreview, nodeId],
+  );
 }

@@ -4,7 +4,8 @@ import * as React from "react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
-import AdsrPreview from "../../atoms/adsr-preview";
+import { useProgramPreviewStateRegistryValues } from "../../../domain/program.preview.domain";
+import Graph from "../../atoms/graph";
 import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -14,6 +15,7 @@ export default function NodeFxADSR({
 }: NodeProps<models.NodeFxADSR>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
+  const previewValues = useProgramPreviewStateRegistryValues(data.id);
 
   const containerStyle = React.useMemo(
     () => ({
@@ -131,14 +133,7 @@ export default function NodeFxADSR({
 
       <div />
 
-      <AdsrPreview
-        attackRate={data.attackRate}
-        decayRate={data.decayRate}
-        sustainLevel={data.sustainLevel}
-        releaseRate={data.releaseRate}
-        precision={200}
-        width={150}
-      />
+      <Graph values={previewValues} width={130} height={40} />
     </Flex>
   );
 }

@@ -23,4 +23,10 @@ export type PatchItem = {
 
 export type Patch = Map<number, PatchItem>;
 
-export type ProgramOutput = Record<number, number>;
+export type ProgramOutputOuputs = Record<number, number>;
+export type ProgramOutputRegistry = Map<string, number[]>;
+
+export type ProgramOutput = {
+  outputs: ProgramOutputOuputs;
+  registry: ProgramOutputRegistry;
+};

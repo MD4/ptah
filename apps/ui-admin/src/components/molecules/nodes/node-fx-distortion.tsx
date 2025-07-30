@@ -5,6 +5,8 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import { useProgramPreviewStateRegistryValues } from "../../../domain/program.preview.domain";
+import Graph from "../../atoms/graph";
 import HandleInputParameter from "../handles/handle-input-parameter";
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -14,6 +16,7 @@ export default function NodeFxDistortion({
 }: NodeProps<models.NodeFxDistortion>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
+  const previewValues = useProgramPreviewStateRegistryValues(data.id);
 
   const onValueTimeChange = React.useCallback<(value: number | null) => void>(
     (value) => {
@@ -122,6 +125,10 @@ export default function NodeFxDistortion({
         style={styles.handle}
         type="source"
       />
+
+      <div />
+
+      <Graph values={previewValues} width={130} height={40} />
     </Flex>
   );
 }

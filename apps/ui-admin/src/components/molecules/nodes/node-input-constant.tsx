@@ -35,7 +35,7 @@ export default function NodeInputConstant({
         defaultValue={data.value}
         onChange={onValueChange}
         size="small"
-        style={{ width: "100%" }}
+        style={{ width: "100%", maxWidth: "130px" }}
       />
 
       <Handle

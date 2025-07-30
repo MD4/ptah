@@ -70,8 +70,8 @@ export const stopProgram = (id: number): void => {
   log(LOG_CONTEXT, "program:stop", id);
 };
 
-export const tick = (): programDomain.ProgramOutput => {
-  let stateToReturn: programDomain.ProgramOutput = {};
+export const tick = (): programDomain.ProgramOutputOuputs => {
+  let stateToReturn: programDomain.ProgramOutputOuputs = {};
 
   programsState.forEach(
     ({ program, mapping, programState: previousProgramState }, id) => {

@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import type {
   ProgramCompute,
   ProgramDefinition,
-  ProgramOutput,
+  ProgramOutputOuputs,
+  ProgramOutputRegistry,
   ProgramState,
 } from "./program.domain.types";
 import { adsr, distortion } from "./runner.domain";
@@ -46,7 +47,7 @@ export const getProgramInitialState = (
 };
 
 const getNodeInputValueFromRegister = (
-  register: Map<string, number[]>,
+  register: ProgramOutputRegistry,
   input?: {
     id: string;
     sourceOutput: number;
@@ -114,61 +115,60 @@ export const compile = (program: models.Program): ProgramCompute => {
     }));
 
   return (time, inputs) => {
-    const register = new Map<string, number[]>();
-
-    const programOutput: ProgramOutput = {};
+    const registry: ProgramOutputRegistry = new Map();
+    const outputs: ProgramOutputOuputs = {};
 
     for (const { node, inputsNodesIds } of evalOrder) {
       switch (node.type) {
         case "input-constant":
-          register.set(node.id, [node.value]);
+          registry.set(node.id, [node.value]);
           break;
         case "input-control":
-          register.set(node.id, [inputs.get(node.controlId) ?? 0]);
+          registry.set(node.id, [inputs.get(node.controlId) ?? 0]);
           break;
         case "input-time":
-          register.set(node.id, [time]);
+          registry.set(node.id, [time]);
           break;
         case "fx-adsr": {
           const attackRate = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[1],
             node.attackRate,
           );
           const decayRate = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[2],
             node.decayRate,
           );
           const sustainLevel = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[3],
             node.sustainLevel,
           );
           const releaseRate = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[4],
             node.releaseRate,
           );
 
-          register.set(node.id, [
+          registry.set(node.id, [
             adsr(
               attackRate,
               decayRate,
               sustainLevel,
               releaseRate,
-            )(getNodeInputValueFromRegister(register, inputsNodesIds[0])),
+            )(getNodeInputValueFromRegister(registry, inputsNodesIds[0])),
           ]);
           break;
         }
         case "fx-math": {
           const a = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[0],
             node.valueA,
           );
           const b = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[1],
             node.valueB,
           );
@@ -235,47 +235,47 @@ export const compile = (program: models.Program): ProgramCompute => {
               break;
           }
 
-          register.set(node.id, [value]);
+          registry.set(node.id, [value]);
           break;
         }
 
         case "fx-distortion": {
           const value = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[1],
             node.value,
           );
 
           const drive = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[2],
             node.drive,
           );
           const tone = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[3],
             node.tone,
           );
           const level = getNodeInputValueFromRegister(
-            register,
+            registry,
             inputsNodesIds[4],
             node.level,
           );
 
-          register.set(node.id, [
+          registry.set(node.id, [
             distortion(
               value,
               drive,
               tone,
               level,
-            )(getNodeInputValueFromRegister(register, inputsNodesIds[0])),
+            )(getNodeInputValueFromRegister(registry, inputsNodesIds[0])),
           ]);
           break;
         }
 
         case "output-result":
-          programOutput[node.outputId] = getNodeInputValueFromRegister(
-            register,
+          outputs[node.outputId] = getNodeInputValueFromRegister(
+            registry,
             inputsNodesIds[0],
           );
           break;
@@ -283,6 +283,6 @@ export const compile = (program: models.Program): ProgramCompute => {
       }
     }
 
-    return programOutput;
+    return { outputs, registry };
   };
 };

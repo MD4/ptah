@@ -115,7 +115,7 @@ export const resetProgram = (mapping: patchDomain.PatchMapping): void => {
   setImmediate(() => {
     dmx.update(
       UNIVERSE_MAIN,
-      mapping.reduce<programDomain.ProgramOutput>((channels, channel) => {
+      mapping.reduce<programDomain.ProgramOutputOuputs>((channels, channel) => {
         channels[channel] = 0;
 
         return channels;
@@ -124,7 +124,9 @@ export const resetProgram = (mapping: patchDomain.PatchMapping): void => {
   });
 };
 
-export const update = (programOutput: programDomain.ProgramOutput): void => {
+export const update = (
+  programOutput: programDomain.ProgramOutputOuputs,
+): void => {
   if (debugUniverse) {
     setImmediate(() => {
       dmx.update(UNIVERSE_DEBUG, programOutput);

@@ -9,14 +9,16 @@ export default function AdsrPreview({
   sustainLevel,
   releaseRate,
   precision,
-  width = 100,
+  width,
+  height,
 }: {
   attackRate: number;
   decayRate: number;
   sustainLevel: number;
   releaseRate: number;
   precision: number;
-  width?: number;
+  width: number;
+  height: number;
 }) {
   const adsrInstance = React.useMemo(
     () => runnerDomain.adsr(attackRate, decayRate, sustainLevel, releaseRate),
@@ -28,5 +30,5 @@ export default function AdsrPreview({
     [adsrInstance, precision],
   );
 
-  return <Graph values={values} width={width} height={width / 2} />;
+  return <Graph values={values} width={width} height={height} />;
 }

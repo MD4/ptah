@@ -28,7 +28,7 @@ export const nodesDefinitions: Record<
   "fx-math": {
     type: "default",
     label: "MATH",
-    parameters: ["Value A", "Value B"],
+    parameters: ["Value", "Value"],
   },
   "fx-distortion": {
     type: "default",

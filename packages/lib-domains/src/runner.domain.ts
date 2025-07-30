@@ -1,4 +1,4 @@
-import { easeOutQuint, easeOutQuintInvert } from "@ptah/lib-utils";
+import { clamp, easeOutQuint, easeOutQuintInvert } from "@ptah/lib-utils";
 
 export type * from "./runner.domain.types";
 
@@ -11,25 +11,29 @@ export const adsr =
   ) =>
   (t: number): number => {
     if (t < attackRate) {
-      return easeOutQuint((1 / attackRate) * t);
+      return clamp(easeOutQuint((1 / attackRate) * t), 0, 1);
     }
 
     if (t < attackRate + decayRate) {
-      return (
+      return clamp(
         easeOutQuintInvert((1 / decayRate) * (t - attackRate)) *
           (1 - sustainLevel) +
-        sustainLevel
+          sustainLevel,
+        0,
+        1,
       );
     }
 
     if (t > 1 - releaseRate) {
-      return (
+      return clamp(
         easeOutQuintInvert((1 / releaseRate) * (t - (1 - releaseRate))) *
-        sustainLevel
+          sustainLevel,
+        0,
+        1,
       );
     }
 
-    return sustainLevel;
+    return clamp(sustainLevel, 0, 1);
   };
 
 export const distortion =
@@ -42,3 +46,8 @@ export const distortion =
       drive * 3 * Math.cos((tone / 3) * time * 70) * 0.1
     );
   };
+
+export const mathNodeOperatorHasSecondValue = (operation: string): boolean =>
+  ["add", "substract", "divide", "multiply", "modulo", "power"].includes(
+    operation,
+  );

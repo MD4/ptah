@@ -24,10 +24,18 @@ export default function Graph({
     [],
   );
 
+  const rectifiedValues = React.useMemo(
+    () =>
+      values.filter((value) => !Number.isNaN(value) && Number.isFinite(value)),
+    [values],
+  );
+  const max = Math.max(...rectifiedValues, 1);
+  const min = Math.min(...rectifiedValues, 0);
+
   const pathData = React.useMemo(() => {
-    const allPoints = values.map((value, index) => {
-      const x = (index / (values.length - 1)) * width;
-      const y = height - value * height;
+    const allPoints = rectifiedValues.map((value, index) => {
+      const x = (index / (rectifiedValues.length - 1)) * width;
+      const y = height - ((value - min) * height) / (max - min);
 
       return `${x},${y}`;
     });
@@ -35,7 +43,7 @@ export default function Graph({
     const [firstPoint, ...points] = allPoints;
 
     return `M${firstPoint} L${points.join(" L")}`;
-  }, [values, width, height]);
+  }, [rectifiedValues, width, height, min, max]);
 
   return (
     <figure style={styles.container}>
