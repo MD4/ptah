@@ -1,7 +1,7 @@
+import { Position } from "@xyflow/react";
 import { Flex, InputNumber, theme } from "antd";
 import { noop } from "antd/es/_util/warning";
 import * as React from "react";
-import { Position } from "reactflow";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 import HandleInputWithLimit from "./handle-input-with-limit";
@@ -42,6 +42,7 @@ export default function HandleParameter({
         },
         label: {
           flex: 1,
+          minHeight: 26,
         },
         input: {
           minWidth: 58,

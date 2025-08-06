@@ -1,6 +1,6 @@
 import type * as models from "@ptah/lib-models";
 import { noop } from "@ptah/lib-utils";
-import type { Node } from "reactflow";
+import type { Node } from "@xyflow/react";
 
 import type { NodeAddProgramData } from "../components/molecules/nodes/node-add-program";
 import type { NodeProgramData } from "../components/molecules/nodes/node-program";
@@ -58,12 +58,16 @@ export const adaptModelShowProgramsToReactFlowNodes = (
 };
 
 export const adaptReactFlowNodesToModelShowPrograms = (
-  nodes: Node<NodeProgramData>[],
+  nodes: Node[],
 ): models.ShowPrograms =>
   nodes.reduce<models.ShowPrograms>(
     (memo, node) =>
       node.type === "node-program"
-        ? { ...memo, [node.id.replace("program-", "")]: node.data.programName }
+        ? {
+            ...memo,
+            [node.id.replace("program-", "")]: (node.data as NodeProgramData)
+              .programName,
+          }
         : memo,
     {},
   );

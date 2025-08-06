@@ -1,18 +1,29 @@
 import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
-import { Button, Flex, notification, theme } from "antd";
-import * as React from "react";
 import type {
   Connection,
   Edge,
   FitViewOptions,
+  IsValidConnection,
   Node,
   OnConnect,
   OnEdgesChange,
+  OnNodesChange,
   ReactFlowInstance,
   Viewport,
-} from "reactflow";
-import { addEdge, applyEdgeChanges, ReactFlow, updateEdge } from "reactflow";
+} from "@xyflow/react";
+import {
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
+  PanOnScrollMode,
+  ReactFlow,
+  reconnectEdge,
+  useEdgesState,
+  useNodesState,
+} from "@xyflow/react";
+import { Button, Flex, notification, theme } from "antd";
+import * as React from "react";
 import { useBoolean, useResizeObserver } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
 
@@ -62,6 +73,10 @@ export default function ShowMapping() {
         container: {
           width: "100%",
           height: "100%",
+          opacity: 0,
+        },
+        initialized: {
+          opacity: 1,
           animation: "animationEnterLeftToRight 200ms",
         },
         toolbar: {
@@ -107,14 +122,12 @@ export default function ShowMapping() {
     [initialShow.mapping],
   );
 
-  const [nodes, setNodes] = React.useState(initialNodes);
-  const [edges, setEdges] = React.useState(initialEdges);
+  const [nodes, setNodes] = useNodesState(initialNodes);
+  const [edges, setEdges] = useEdgesState(initialEdges);
 
   const edgeUpdateSuccessful = React.useRef(true);
 
-  const isValidConnection = React.useCallback<
-    (connection: Connection) => boolean
-  >(
+  const isValidConnection = React.useCallback<IsValidConnection<Edge>>(
     (connection) => hasNoCircularDependencies(connection, nodes, edges),
     [nodes, edges],
   );
@@ -122,21 +135,24 @@ export default function ShowMapping() {
   const [reactFlowInstance, setReactFlowInstance] =
     React.useState<ReactFlowInstance | null>(null);
 
-  const onInit = React.useCallback((reactFlowInstance: ReactFlowInstance) => {
-    const { x, zoom } = reactFlowInstance.getViewport();
+  const onInit = React.useCallback((instance: ReactFlowInstance) => {
+    const { x, zoom } = instance.getViewport();
 
-    setReactFlowInstance(reactFlowInstance);
+    setReactFlowInstance(instance);
 
-    reactFlowInstance.setViewport({
+    instance.setViewport({
       x,
       y: 196,
       zoom,
     });
   }, []);
 
-  const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
-    setEdges((value) => applyEdgeChanges(changes, value));
-  }, []);
+  const onEdgesChange = React.useCallback<OnEdgesChange>(
+    (changes) => {
+      setEdges((value) => applyEdgeChanges(changes, value));
+    },
+    [setEdges],
+  );
 
   const onEdgeUpdateStart = React.useCallback(() => {
     edgeUpdateSuccessful.current = false;
@@ -146,39 +162,51 @@ export default function ShowMapping() {
     (oldEdge: Edge, newConnection: Connection) => {
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
-        updateEdge(oldEdge, newConnection, _edges).map((edge) =>
+        reconnectEdge(oldEdge, newConnection, _edges).map((edge) =>
           edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
         ),
       );
     },
-    [],
+    [setEdges],
   );
 
-  const onEdgeUpdateEnd = React.useCallback((_: unknown, edge: Edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      setEdges((_edges) => _edges.filter((_edge) => _edge.id !== edge.id));
-    }
+  const onEdgeUpdateEnd = React.useCallback(
+    (_: unknown, edge: Edge) => {
+      if (!edgeUpdateSuccessful.current) {
+        setEdges((_edges) => _edges.filter((_edge) => _edge.id !== edge.id));
+      }
 
-    edgeUpdateSuccessful.current = true;
-  }, []);
+      edgeUpdateSuccessful.current = true;
+    },
+    [setEdges],
+  );
 
-  const onConnect = React.useCallback<OnConnect>((params) => {
-    const { source, target, sourceHandle, targetHandle } = params;
+  const onConnect = React.useCallback<OnConnect>(
+    (params) => {
+      const { source, target, sourceHandle, targetHandle } = params;
 
-    if (!source || !target || !sourceHandle || !targetHandle) {
-      return;
-    }
+      if (!source || !target || !sourceHandle || !targetHandle) {
+        return;
+      }
 
-    const newEdge: Edge = {
-      id: uuidv4(),
-      source,
-      target,
-      sourceHandle,
-      targetHandle,
-    };
+      const newEdge: Edge = {
+        id: uuidv4(),
+        source,
+        target,
+        sourceHandle,
+        targetHandle,
+      };
 
-    setEdges((value) => addEdge(newEdge, value));
-  }, []);
+      setEdges((value) => addEdge(newEdge, value));
+    },
+    [setEdges],
+  );
+
+  const onNodesChange = React.useCallback<OnNodesChange>(
+    (changes) =>
+      setNodes(repositionProgramNodes(applyNodeChanges(changes, nodes))),
+    [nodes, setNodes],
+  );
 
   const onProgramAdded = React.useCallback(
     (program: models.Program) => {
@@ -192,7 +220,7 @@ export default function ShowMapping() {
           {
             id: programId,
             data: {
-              programId: program.id,
+              programId,
               programName: program.name,
               outputsCount: 0,
             },
@@ -205,7 +233,7 @@ export default function ShowMapping() {
         ]);
       });
     },
-    [closeProgramModal],
+    [closeProgramModal, setNodes],
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
@@ -248,11 +276,11 @@ export default function ShowMapping() {
   }, [dispatch, nodes]);
 
   const ref = React.useRef<HTMLDivElement>(null);
-  const fitView = React.useCallback(() => {
+  const fitView = React.useCallback(async () => {
     if (reactFlowInstance) {
       const y = reactFlowInstance.getViewport().y;
-      reactFlowInstance.fitView(fitViewOptions);
-      reactFlowInstance.setViewport({
+      await reactFlowInstance.fitView(fitViewOptions);
+      await reactFlowInstance.setViewport({
         x: reactFlowInstance.getViewport().x,
         y,
         zoom: reactFlowInstance.getViewport().zoom,
@@ -260,7 +288,7 @@ export default function ShowMapping() {
     }
   }, [reactFlowInstance]);
 
-  React.useEffect(() => fitView(), [fitView]);
+  React.useEffect(() => void fitView(), [fitView]);
   useResizeObserver({
     // @ts-ignore
     ref,
@@ -268,9 +296,18 @@ export default function ShowMapping() {
     onResize: () => fitView(),
   });
 
+  const nodeTypes = React.useMemo(() => showNodeTypes, []);
+
   return (
     <>
-      <Flex style={styles.container}>
+      <Flex
+        style={
+          reactFlowInstance
+            ? { ...styles.container, ...styles.initialized }
+            : styles.container
+        }
+        ref={ref}
+      >
         {contextHolder}
         <ReactFlow
           ref={ref}
@@ -279,20 +316,24 @@ export default function ShowMapping() {
           fitView
           fitViewOptions={fitViewOptions}
           isValidConnection={isValidConnection}
-          nodeTypes={showNodeTypes}
+          nodeTypes={nodeTypes}
           nodes={nodes}
           nodesDraggable={false}
           onConnect={onConnect}
-          onEdgeUpdate={onEdgeUpdate}
-          onEdgeUpdateEnd={onEdgeUpdateEnd}
-          onEdgeUpdateStart={onEdgeUpdateStart}
+          onReconnect={onEdgeUpdate}
+          onReconnectEnd={onEdgeUpdateEnd}
+          onReconnectStart={onEdgeUpdateStart}
           onEdgesChange={onEdgesChange}
+          onNodesChange={onNodesChange}
           onInit={onInit}
           onlyRenderVisibleElements
+          panOnDrag={false}
           panOnScroll
-          panOnScrollMode="vertical"
+          panOnScrollMode={PanOnScrollMode.Vertical}
           proOptions={proOptions}
-          snapToGrid
+          zoomOnDoubleClick={false}
+          zoomOnPinch={false}
+          zoomOnScroll={false}
         >
           <EdgeGradient />
         </ReactFlow>

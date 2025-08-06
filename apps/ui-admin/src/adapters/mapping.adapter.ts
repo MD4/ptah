@@ -1,5 +1,5 @@
 import type * as models from "@ptah/lib-models";
-import type { Edge, Node } from "reactflow";
+import type { Edge, Node } from "@xyflow/react";
 
 import type { NodeKeyData } from "../components/molecules/nodes/node-key";
 import { getKeyFromIndex, isSharpKey } from "../domain/key.domain";

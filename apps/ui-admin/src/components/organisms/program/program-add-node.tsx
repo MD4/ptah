@@ -33,9 +33,6 @@ export default function ProgramAddNode() {
           zIndex: 3,
           animation: "ease-out animationEnterRightToLeft 100ms",
           backdropFilter: "blur(8px)",
-          borderRightColor: token.colorBgContainer,
-          borderRightStyle: "solid",
-          borderRightWidth: 1,
         },
         buttonContainer: {
           position: "absolute",
@@ -52,7 +49,7 @@ export default function ProgramAddNode() {
           backdropFilter: "blur(8px)",
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [token.colorBgContainer, token.padding],
+    [token.padding],
   );
 
   const onAddNodeClick = React.useCallback(() => {

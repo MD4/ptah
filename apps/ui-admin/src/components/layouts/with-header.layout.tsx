@@ -29,13 +29,10 @@ export default function ShowLayout({
         },
         header: {
           position: "absolute",
-          padding: token.paddingLG,
+          padding: `${token.paddingSM}px ${token.paddingLG}px`,
           width: "100%",
           zIndex: 1,
           backdropFilter: "blur(8px)",
-          borderBottomColor: token.colorBgContainer,
-          borderBottomStyle: "solid",
-          borderBottomWidth: 1,
         },
         headerLeft: { flex: 1, display: "flex", justifyContent: "flex-start" },
         headerCenter: {
@@ -52,7 +49,7 @@ export default function ShowLayout({
           flex: 1,
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [token.paddingLG, token.colorBgContainer, mobile],
+    [token.paddingLG, token.paddingSM, mobile],
   );
 
   return (

@@ -1,5 +1,5 @@
 import type * as models from "@ptah/lib-models";
-import type { Edge, Node } from "reactflow";
+import type { Edge, Node } from "@xyflow/react";
 
 import type { NodeChannelData } from "../components/molecules/nodes/node-channel";
 

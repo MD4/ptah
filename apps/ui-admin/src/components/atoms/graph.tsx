@@ -1,4 +1,7 @@
+import { theme } from "antd";
 import * as React from "react";
+
+const { useToken } = theme;
 
 export default function Graph({
   values,
@@ -9,6 +12,7 @@ export default function Graph({
   width: number;
   height: number;
 }) {
+  const { token } = useToken();
   const gradientId = React.useId();
   const styles = React.useMemo(
     () =>
@@ -57,8 +61,8 @@ export default function Graph({
         <title>ADSR Envelope Preview</title>
         <defs>
           <linearGradient id={gradientId}>
-            <stop offset="0" stopColor="#4c2bf0" />
-            <stop offset="1" stopColor="#6d4fe5" />
+            <stop offset="0" stopColor={token.colorPrimary} />
+            <stop offset="1" stopColor={token.colorPrimaryHover} />
           </linearGradient>
           <mask id={`${gradientId}-mask`}>
             <path

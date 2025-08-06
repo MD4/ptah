@@ -6,6 +6,7 @@ export const ptahTheme: ThemeConfig = {
   token: {
     colorPrimary: "#4c2bf0",
     colorInfo: "#4c2bf0",
+    colorPrimaryHover: "#6d4fe5",
     colorError: "#ee2b3b",
     colorSuccess: "#81e052",
     colorWarning: "#f8c754",

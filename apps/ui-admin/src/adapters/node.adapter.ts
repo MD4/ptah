@@ -1,5 +1,5 @@
 import type * as models from "@ptah/lib-models";
-import type { Node } from "reactflow";
+import type { Node } from "@xyflow/react";
 
 import type { NodeProgramData } from "../components/molecules/nodes/node-program";
 import { getProgramHeight, getProgramOutputCount } from "./show.adapter";
@@ -17,8 +17,9 @@ export const adaptModelNodeToReactFlowNode = (
   type: node.type,
 });
 
-export const adaptReactFlowNodesToModelNodes = (nodes: Node[]): models.Node[] =>
-  nodes.map(adaptReactFlowNodeToModelNode);
+export const adaptReactFlowNodesToModelNodes = (
+  nodes: Node<models.Node>[],
+): models.Node[] => nodes.map(adaptReactFlowNodeToModelNode);
 
 export const adaptReactFlowNodeToModelNode = ({
   data,

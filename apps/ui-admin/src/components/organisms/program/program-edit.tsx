@@ -1,24 +1,28 @@
 import { SaveFilled } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
-import { Button, Flex, notification, Switch, theme } from "antd";
-import * as React from "react";
 import type {
   Connection,
   Edge,
   FitViewOptions,
+  IsValidConnection,
   Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
   ReactFlowInstance,
-} from "reactflow";
+} from "@xyflow/react";
 import {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   ReactFlow,
-  updateEdge,
-} from "reactflow";
+  reconnectEdge,
+  useEdgesState,
+  useNodesState,
+} from "@xyflow/react";
+import { Button, Flex, notification, Switch, theme } from "antd";
+import type { DragEventHandler } from "react";
+import * as React from "react";
 import { useDebounceValue, useResizeObserver } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -44,7 +48,7 @@ import ProgramAddNode from "./program-add-node";
 const { useToken } = theme;
 
 const proOptions = { hideAttribution: true };
-const fitViewOptions: FitViewOptions = {
+const fitViewOptions: FitViewOptions<Node<models.Node>> = {
   padding: 1,
   minZoom: 1,
   maxZoom: 1,
@@ -75,6 +79,10 @@ export default function ProgramEdit() {
         container: {
           width: "100%",
           height: "100%",
+          opacity: 0,
+        },
+        initialized: {
+          opacity: 1,
           animation: "animationEnterLeftToRight 200ms",
         },
         toolbar: {
@@ -105,24 +113,22 @@ export default function ProgramEdit() {
     [initialProgram.edges],
   );
 
-  const [nodes, setNodes] = React.useState(initialNodes);
-  const [edges, setEdges] = React.useState(initialEdges);
+  const [nodes, setNodes] = useNodesState(initialNodes);
+  const [edges, setEdges] = useEdgesState(initialEdges);
 
   const [reactFlowInstance, setReactFlowInstance] =
-    React.useState<ReactFlowInstance | null>(null);
+    React.useState<ReactFlowInstance<Node<models.Node>> | null>(null);
 
   const edgeUpdateSuccessful = React.useRef(true);
 
-  const isValidConnection = React.useCallback<
-    (connection: Connection) => boolean
-  >(
+  const isValidConnection = React.useCallback<IsValidConnection<Edge>>(
     (connection) => hasNoCircularDependencies(connection, nodes, edges),
     [nodes, edges],
   );
 
   const [debouncedNodes] = useDebounceValue(nodes, 200);
 
-  const onNodesChange = React.useCallback<OnNodesChange>(
+  const onNodesChange: OnNodesChange<Node<models.Node>> = React.useCallback(
     (changes) => {
       const shouldRewireOutputs = changes.some(
         (change) =>
@@ -137,12 +143,15 @@ export default function ProgramEdit() {
         return shouldRewireOutputs ? rewireOutputs(newNodes) : newNodes;
       });
     },
-    [nodes],
+    [nodes, setNodes],
   );
 
-  const onEdgesChange = React.useCallback<OnEdgesChange>((changes) => {
-    setEdges((value) => applyEdgeChanges(changes, value));
-  }, []);
+  const onEdgesChange = React.useCallback<OnEdgesChange>(
+    (changes) => {
+      setEdges((value) => applyEdgeChanges(changes, value));
+    },
+    [setEdges],
+  );
 
   const onEdgeUpdateStart = React.useCallback(() => {
     edgeUpdateSuccessful.current = false;
@@ -152,39 +161,45 @@ export default function ProgramEdit() {
     (oldEdge: Edge, newConnection: Connection) => {
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
-        updateEdge(oldEdge, newConnection, _edges).map((edge) =>
+        reconnectEdge(oldEdge, newConnection, _edges).map((edge) =>
           edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
         ),
       );
     },
-    [],
+    [setEdges],
   );
 
-  const onEdgeUpdateEnd = React.useCallback((_: unknown, edge: Edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-    }
+  const onEdgeUpdateEnd = React.useCallback(
+    (_: unknown, edge: Edge) => {
+      if (!edgeUpdateSuccessful.current) {
+        setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+      }
 
-    edgeUpdateSuccessful.current = true;
-  }, []);
+      edgeUpdateSuccessful.current = true;
+    },
+    [setEdges],
+  );
 
-  const onConnect = React.useCallback<OnConnect>((params) => {
-    const { source, target, sourceHandle, targetHandle } = params;
+  const onConnect = React.useCallback<OnConnect>(
+    (params) => {
+      const { source, target, sourceHandle, targetHandle } = params;
 
-    if (!source || !target || !sourceHandle || !targetHandle) {
-      return;
-    }
+      if (!source || !target || !sourceHandle || !targetHandle) {
+        return;
+      }
 
-    const newEdge: Edge = {
-      id: uuidv4(),
-      source,
-      target,
-      sourceHandle,
-      targetHandle,
-    };
+      const newEdge: Edge = {
+        id: uuidv4(),
+        source,
+        target,
+        sourceHandle,
+        targetHandle,
+      };
 
-    setEdges((value) => addEdge(newEdge, value));
-  }, []);
+      setEdges((value) => addEdge(newEdge, value));
+    },
+    [setEdges],
+  );
 
   const onSaveMutationSuccess = React.useCallback(() => {
     success({ message: "All good", description: "Program successfully saved" });
@@ -206,7 +221,7 @@ export default function ProgramEdit() {
     saveMutation.mutate(program);
   }, [program, saveMutation]);
 
-  const onDragOver = React.useCallback((event: DragEvent) => {
+  const onDragOver: DragEventHandler = React.useCallback((event) => {
     event.preventDefault();
 
     if (!event.dataTransfer) {
@@ -216,8 +231,8 @@ export default function ProgramEdit() {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onDrop = React.useCallback(
-    (event: DragEvent) => {
+  const onDrop: DragEventHandler = React.useCallback(
+    (event) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -251,12 +266,12 @@ export default function ProgramEdit() {
           : newNodes;
       });
     },
-    [reactFlowInstance],
+    [reactFlowInstance, setNodes],
   );
 
   React.useEffect(() => {
     setNodes(adaptModelNodesToReactFlowNodes(program.nodes));
-  }, [program.nodes]);
+  }, [program.nodes, setNodes]);
 
   React.useEffect(() => {
     dispatch({
@@ -277,11 +292,11 @@ export default function ProgramEdit() {
   }, [dispatch, debouncedNodes]);
 
   const ref = React.useRef<HTMLDivElement>(null);
-  const fitView = React.useCallback(() => {
+  const fitView = React.useCallback(async () => {
     if (reactFlowInstance) {
       const y = reactFlowInstance.getViewport().y;
-      reactFlowInstance.fitView(fitViewOptions);
-      reactFlowInstance.setViewport({
+      await reactFlowInstance.fitView(fitViewOptions);
+      await reactFlowInstance.setViewport({
         x: reactFlowInstance.getViewport().x,
         y,
         zoom: reactFlowInstance.getViewport().zoom,
@@ -291,7 +306,7 @@ export default function ProgramEdit() {
 
   const [preview, setPreview] = React.useState<boolean>(false);
 
-  React.useEffect(() => fitView(), [fitView]);
+  React.useEffect(() => void fitView(), [fitView]);
   useResizeObserver({
     // @ts-ignore
     ref,
@@ -300,10 +315,16 @@ export default function ProgramEdit() {
   });
 
   return (
-    <Flex style={styles.container}>
+    <Flex
+      style={
+        reactFlowInstance
+          ? { ...styles.container, ...styles.initialized }
+          : styles.container
+      }
+    >
       {contextHolder}
       <ProgramPreviewProvider program={program} active={preview}>
-        <ReactFlow
+        <ReactFlow<Node<models.Node>>
           ref={ref}
           edges={edges}
           fitView
@@ -314,9 +335,9 @@ export default function ProgramEdit() {
           onConnect={onConnect}
           onDragOver={onDragOver}
           onDrop={onDrop}
-          onEdgeUpdate={onEdgeUpdate}
-          onEdgeUpdateEnd={onEdgeUpdateEnd}
-          onEdgeUpdateStart={onEdgeUpdateStart}
+          onReconnect={onEdgeUpdate}
+          onReconnectEnd={onEdgeUpdateEnd}
+          onReconnectStart={onEdgeUpdateStart}
           onEdgesChange={onEdgesChange}
           onInit={setReactFlowInstance}
           onNodesChange={onNodesChange}

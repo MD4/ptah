@@ -1,10 +1,10 @@
 import { runner as runnerDomain } from "@ptah/lib-domains";
 import type * as models from "@ptah/lib-models";
+import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { Flex, Select } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Handle, Position } from "reactflow";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useProgramPreviewStateRegistryValues } from "../../../domain/program.preview.domain";
@@ -37,7 +37,7 @@ const operations: DefaultOptionType[] = [
 export default function NodeFxMath({
   data,
   selected,
-}: NodeProps<models.NodeFxMath>) {
+}: NodeProps<Node<models.NodeFxMath>>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
   const previewValues = useProgramPreviewStateRegistryValues(data.id);

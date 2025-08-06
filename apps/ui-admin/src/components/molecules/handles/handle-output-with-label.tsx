@@ -1,6 +1,6 @@
+import { Handle, Position } from "@xyflow/react";
 import { Flex, Space, Typography, theme } from "antd";
 import * as React from "react";
-import { Handle, Position } from "reactflow";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 

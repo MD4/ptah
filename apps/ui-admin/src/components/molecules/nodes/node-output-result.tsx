@@ -1,8 +1,8 @@
 import type * as models from "@ptah/lib-models";
+import type { Node, NodeProps } from "@xyflow/react";
+import { Position } from "@xyflow/react";
 import { Flex, Typography } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Position } from "reactflow";
 import { useProgramPreviewStateOutputValues } from "../../../domain/program.preview.domain";
 import Graph from "../../atoms/graph";
 import HandleInputWithLimit from "../handles/handle-input-with-limit";
@@ -11,7 +11,7 @@ import { useDefaultNodeStyle } from "./node.style";
 export default function NodeOutputResult({
   data: { outputId },
   selected,
-}: NodeProps<models.NodeOutputResult>) {
+}: NodeProps<Node<models.NodeOutputResult>>) {
   const styles = useDefaultNodeStyle("output", selected);
   const previewValues = useProgramPreviewStateOutputValues(outputId);
 

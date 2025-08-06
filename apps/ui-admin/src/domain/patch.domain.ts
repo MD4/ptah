@@ -1,4 +1,4 @@
-import type { Node } from "reactflow";
+import type { Node } from "@xyflow/react";
 
 import type { NodeChannelData } from "../components/molecules/nodes/node-channel";
 

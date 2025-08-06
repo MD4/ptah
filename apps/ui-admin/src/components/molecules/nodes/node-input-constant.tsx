@@ -1,8 +1,8 @@
 import type * as models from "@ptah/lib-models";
+import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { Flex, InputNumber } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Handle, Position } from "reactflow";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useDefaultNodeStyle } from "./node.style";
@@ -10,7 +10,7 @@ import { useDefaultNodeStyle } from "./node.style";
 export default function NodeInputConstant({
   data,
   selected,
-}: NodeProps<models.NodeInputConstant>) {
+}: NodeProps<Node<models.NodeInputConstant>>) {
   const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
 

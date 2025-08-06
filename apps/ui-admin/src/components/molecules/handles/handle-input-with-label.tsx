@@ -1,6 +1,6 @@
+import { Position } from "@xyflow/react";
 import { Flex, theme } from "antd";
 import * as React from "react";
-import { Position } from "reactflow";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
 import HandleInputWithLimit from "./handle-input-with-limit";

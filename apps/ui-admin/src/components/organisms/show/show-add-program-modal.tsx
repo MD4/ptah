@@ -28,6 +28,7 @@ export default function ShowAddProgramModal({
   React.useEffect(() => {
     if (!program.isLoading && !program.isError && program.data) {
       onProgramSelected(program.data);
+      setProgramSelected(undefined);
     }
   }, [onProgramSelected, program.data, program.isError, program.isLoading]);
 

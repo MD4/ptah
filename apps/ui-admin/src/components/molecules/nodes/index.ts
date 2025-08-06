@@ -1,6 +1,4 @@
-import type * as models from "@ptah/lib-models";
-import type { ComponentType } from "react";
-import type { NodeProps } from "reactflow";
+import type { NodeTypes } from "@xyflow/react";
 
 import NodeAddProgram from "./node-add-program";
 import NodeChannel from "./node-channel";
@@ -14,17 +12,14 @@ import NodeKey from "./node-key";
 import NodeOutputResult from "./node-output-result";
 import NodeProgram from "./node-program";
 
-export const showNodeTypes: Record<string, ComponentType<NodeProps>> = {
+export const showNodeTypes: NodeTypes = {
   "node-key": NodeKey,
   "node-program": NodeProgram,
   "node-channel": NodeChannel,
   "node-add-program": NodeAddProgram,
 };
 
-export const programNodeTypes: Record<
-  models.Node["type"],
-  ComponentType<NodeProps>
-> = {
+export const programNodeTypes: NodeTypes = {
   "fx-adsr": NodeFxADSR,
   "input-time": NodeInputTime,
   "input-constant": NodeInputConstant,

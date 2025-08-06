@@ -1,9 +1,9 @@
-import { EditFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import type { Node } from "@xyflow/react";
+import { type NodeProps, useReactFlow } from "@xyflow/react";
 import { Button, Flex, theme } from "antd";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import type { NodeProps } from "reactflow";
-
 import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
 import { useDefaultNodeStyle } from "./node.style";
@@ -18,9 +18,10 @@ export type NodeProgramData = {
 const { useToken } = theme;
 
 export default function NodeProgram({
-  data: { programName, outputsCount, noInput },
+  data: { programId, programName, outputsCount, noInput },
   selected,
-}: NodeProps<NodeProgramData>) {
+}: NodeProps<Node<NodeProgramData>>) {
+  const reactFlow = useReactFlow();
   const defaultStyles = useDefaultNodeStyle("default", selected);
   const { token } = useToken();
 
@@ -38,13 +39,16 @@ export default function NodeProgram({
           transform: "none",
           marginLeft: -20,
         },
-        editButton: {
+        actions: {
           position: "absolute",
           right: token.sizeMS,
           top: token.sizeMS,
+          display: "flex",
+          flexDirection: "row",
+          gap: token.sizeXXS,
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [defaultStyles, token.sizeMS],
+    [defaultStyles, token.sizeMS, token.sizeXXS],
   );
 
   const outputHandles = React.useMemo(
@@ -55,17 +59,26 @@ export default function NodeProgram({
     [outputsCount],
   );
 
+  const onDeleteClick = React.useCallback(() => {
+    reactFlow.deleteElements({
+      nodes: [{ id: `program-${programId}` }],
+    });
+  }, [programId, reactFlow]);
+
   return (
     <>
       {selected ? (
-        <Link to={`/program/${programName}`}>
+        <div style={styles.actions}>
+          <Link to={`/program/${programName}`}>
+            <Button icon={<EditFilled />} size="small" type="text" />
+          </Link>
           <Button
-            icon={<EditFilled />}
+            icon={<DeleteFilled />}
             size="small"
-            style={styles.editButton}
             type="text"
+            onClick={onDeleteClick}
           />
-        </Link>
+        </div>
       ) : null}
 
       <Flex gap="small" style={styles.container} vertical>

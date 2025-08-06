@@ -1,8 +1,8 @@
 import type * as models from "@ptah/lib-models";
+import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { Flex } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Handle, Position } from "reactflow";
 
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useProgramPreviewStateRegistryValues } from "../../../domain/program.preview.domain";
@@ -13,7 +13,7 @@ import { useDefaultNodeStyle } from "./node.style";
 export default function NodeFxDistortion({
   data,
   selected,
-}: NodeProps<models.NodeFxDistortion>) {
+}: NodeProps<Node<models.NodeFxDistortion>>) {
   const styles = useDefaultNodeStyle("default", selected);
   const dispatch = useProgramEditDispatch();
   const previewValues = useProgramPreviewStateRegistryValues(data.id);

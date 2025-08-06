@@ -1,7 +1,7 @@
+import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { Flex, Typography } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Handle, Position } from "reactflow";
 
 import { useDefaultNodeStyle } from "./node.style";
 
@@ -12,7 +12,7 @@ export type NodeChannelData = {
 export default function NodeChannel({
   data: { label },
   selected,
-}: NodeProps<NodeChannelData>) {
+}: NodeProps<Node<NodeChannelData>>) {
   const defaultStyles = useDefaultNodeStyle("output", selected);
 
   const styles = React.useMemo(

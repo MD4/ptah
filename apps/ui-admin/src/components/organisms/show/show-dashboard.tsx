@@ -1,7 +1,12 @@
 import type * as models from "@ptah/lib-models";
+import type {
+  FitViewOptions,
+  Node,
+  ReactFlowInstance,
+  Viewport,
+} from "@xyflow/react";
+import { PanOnScrollMode, ReactFlow } from "@xyflow/react";
 import * as React from "react";
-import type { FitViewOptions, ReactFlowInstance, Viewport } from "reactflow";
-import { ReactFlow } from "reactflow";
 import { useResizeObserver } from "usehooks-ts";
 import {
   adaptModelMappingToReactFlowEdges,
@@ -14,9 +19,12 @@ import {
 import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
+import type { NodeAddProgramData } from "../../molecules/nodes/node-add-program";
+import type { NodeChannelData } from "../../molecules/nodes/node-channel";
+import type { NodeProgramData } from "../../molecules/nodes/node-program";
 
 const proOptions = { hideAttribution: true };
-const fitViewOptions: FitViewOptions = {
+const fitViewOptions: FitViewOptions<Node<PossibleNode>> = {
   padding: 0,
   minZoom: 1,
   maxZoom: 1,
@@ -31,9 +39,15 @@ const styles = {
   container: {
     width: "100%",
     height: "100%",
+    opacity: 0,
+  },
+  initialized: {
+    opacity: 1,
     animation: "animationEnterLeftToRight 200ms",
   },
 } satisfies Record<string, React.CSSProperties>;
+
+type PossibleNode = NodeChannelData | NodeProgramData | NodeAddProgramData;
 
 export default function ShowDashboard({
   show,
@@ -42,7 +56,7 @@ export default function ShowDashboard({
   show: models.Show;
   programs: models.Program[];
 }) {
-  const initialNodes = React.useMemo(
+  const initialNodes: Node<PossibleNode>[] = React.useMemo(
     () => [
       ...adaptModelMappingToReactFlowEdgesNodes(show.mapping, 0),
       ...adaptModelShowProgramsToReactFlowNodes(show.programs, programs, 500),
@@ -60,26 +74,29 @@ export default function ShowDashboard({
   );
 
   const [reactFlowInstance, setReactFlowInstance] =
-    React.useState<ReactFlowInstance | null>(null);
+    React.useState<ReactFlowInstance<Node<PossibleNode>> | null>(null);
 
-  const onInit = React.useCallback((instance: ReactFlowInstance) => {
-    const { x, zoom } = instance.getViewport();
+  const onInit = React.useCallback(
+    (instance: ReactFlowInstance<Node<PossibleNode>>) => {
+      const { x, zoom } = instance.getViewport();
 
-    setReactFlowInstance(instance);
+      setReactFlowInstance(instance);
 
-    instance.setViewport({
-      x,
-      y: 196,
-      zoom,
-    });
-  }, []);
+      instance.setViewport({
+        x,
+        y: 196,
+        zoom,
+      });
+    },
+    [],
+  );
 
   const ref = React.useRef<HTMLDivElement>(null);
-  const fitView = React.useCallback(() => {
+  const fitView = React.useCallback(async () => {
     if (reactFlowInstance) {
       const y = reactFlowInstance.getViewport().y;
-      reactFlowInstance.fitView(fitViewOptions);
-      reactFlowInstance.setViewport({
+      await reactFlowInstance.fitView(fitViewOptions);
+      await reactFlowInstance.setViewport({
         x: reactFlowInstance.getViewport().x,
         y,
         zoom: reactFlowInstance.getViewport().zoom,
@@ -87,7 +104,7 @@ export default function ShowDashboard({
     }
   }, [reactFlowInstance]);
 
-  React.useEffect(() => fitView(), [fitView]);
+  React.useEffect(() => void fitView(), [fitView]);
   useResizeObserver({
     // @ts-ignore
     ref,
@@ -96,8 +113,14 @@ export default function ShowDashboard({
   });
 
   return (
-    <div style={styles.container}>
-      <ReactFlow
+    <div
+      style={
+        reactFlowInstance
+          ? { ...styles.container, ...styles.initialized }
+          : styles.container
+      }
+    >
+      <ReactFlow<Node<PossibleNode>>
         ref={ref}
         defaultViewport={defaultViewport}
         edges={initialEdges}
@@ -112,7 +135,7 @@ export default function ShowDashboard({
         onlyRenderVisibleElements
         panOnDrag={false}
         panOnScroll
-        panOnScrollMode="vertical"
+        panOnScrollMode={PanOnScrollMode.Vertical}
         proOptions={proOptions}
         zoomOnDoubleClick={false}
         zoomOnPinch={false}

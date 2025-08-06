@@ -1,8 +1,8 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { noop } from "@ptah/lib-utils";
+import type { Node, NodeProps } from "@xyflow/react";
 import { Button, Flex, theme } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
 
 const { useToken } = theme;
 
@@ -12,7 +12,7 @@ export type NodeAddProgramData = {
 
 export default function NodeAddProgram({
   data: { onAddProgram = noop },
-}: NodeProps<NodeAddProgramData>) {
+}: NodeProps<Node<NodeAddProgramData>>) {
   const { token } = useToken();
 
   const styles = React.useMemo(

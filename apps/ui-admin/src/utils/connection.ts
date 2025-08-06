@@ -1,8 +1,8 @@
-import type { Connection, Edge, Node } from "reactflow";
-import { getOutgoers } from "reactflow";
+import type { Connection, Edge, Node } from "@xyflow/react";
+import { getOutgoers } from "@xyflow/react";
 
 export const hasNoCircularDependencies = (
-  connection: Connection,
+  connection: Edge | Connection,
   nodes: Node[],
   edges: Edge[],
 ): boolean => {

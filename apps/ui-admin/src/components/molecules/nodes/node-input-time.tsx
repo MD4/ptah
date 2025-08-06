@@ -1,11 +1,13 @@
+import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { Flex } from "antd";
 import * as React from "react";
-import type { NodeProps } from "reactflow";
-import { Handle, Position } from "reactflow";
 import { useDefaultNodeStyle } from "./node.style";
 import type { NodeKeyData } from "./node-key";
 
-export default function NodeInputTime({ selected }: NodeProps<NodeKeyData>) {
+export default function NodeInputTime({
+  selected,
+}: NodeProps<Node<NodeKeyData>>) {
   const styles = useDefaultNodeStyle("input", selected);
 
   return (
