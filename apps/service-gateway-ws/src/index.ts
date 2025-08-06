@@ -38,21 +38,23 @@ const main = async (): Promise<void> => {
 
   const channels: PubsubChannel[] = ["midi", "system"];
 
-  await Promise.all([
-    services.pubsub.connect(
-      channels,
-      (channel: PubsubChannel, message: PubsubMessage) => {
-        if (ignoreMessageTypes.includes(message.type)) {
-          return; // ignore clock:tick to avoid ws flooding
-        }
+  void services.pubsub.connect(
+    channels,
+    (channel: PubsubChannel, message: PubsubMessage) => {
+      if (ignoreMessageTypes.includes(message.type)) {
+        return; // ignore clock:tick to avoid ws flooding
+      }
 
-        server.broadcast(channel, message);
-      },
-    ),
-    server.start(channels, (channel: PubsubChannel, message: PubsubMessage) => {
+      server.broadcast(channel, message);
+    },
+  );
+
+  await server.start(
+    channels,
+    (channel: PubsubChannel, message: PubsubMessage) => {
       services.pubsub.send(channel, message);
-    }),
-  ]);
+    },
+  );
 
   log(process.env.SERVICE_GATEWAY_WS_NAME, "service is running");
 };

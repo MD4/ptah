@@ -24,21 +24,20 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
-  const [_, restoredShow] = await Promise.all([
-    services.pubsub.connect(
-      ["midi", "system"],
-      (channel, message) => void handleMessage(channel, message),
-    ),
-    showService.restoreShow(),
-  ]);
+  void services.pubsub.connect(
+    ["midi", "system"],
+    (channel, message) => void handleMessage(channel, message),
+  );
+
+  const restoredShow = await showService.restoreShow();
 
   if (restoredShow) {
     log(process.env.SERVICE_MAIN_NAME, "show restored:", restoredShow.name);
   }
 
-  log(process.env.SERVICE_MAIN_NAME, "service is running");
-
   await dmx.initialize();
+
+  log(process.env.SERVICE_MAIN_NAME, "service is running");
 };
 
 main().catch((error: unknown) => {

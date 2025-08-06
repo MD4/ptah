@@ -27,8 +27,10 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
+  void services.pubsub.connect();
+
   await services.settings.loadSettingsOrInitialize();
-  await Promise.all([services.pubsub.connect(), createServer()]);
+  await createServer();
 
   log(process.env.SERVICE_API_NAME, "service is running");
 };

@@ -1,5 +1,16 @@
 #!/usr/bin/env node
 
+import "dotenv/config";
+
+import { ChildProcess } from "node:child_process";
+import http from "node:http";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import arg from "arg";
+import open from "open";
+import pm2 from "pm2";
+import handler from "serve-handler";
+
 /**
  * @typedef {import("arg")} arg
  * @typedef {import("http")} http
@@ -17,16 +28,23 @@ const services = ["bus", "api", "gateway-ws", "main", "midi"];
  */
 const uis = { admin: Number(process.env.VITE_UI_ADMIN_PORT) };
 
-import http from "node:http";
-import arg from "arg";
-import pm2 from "pm2";
-
-import handler from "serve-handler";
+/**
+ * @type {string}
+ */
+const __filename = fileURLToPath(import.meta.url);
+/**
+ * @type {string}
+ */
+const __dirname = dirname(__filename);
 
 /**
  * @type {Server[]}
  */
 let startedUi = [];
+/**
+ * @type {ChildProcess[]}
+ */
+const openedTabs = [];
 
 /**
  * @param {string} service
@@ -36,7 +54,7 @@ const startService = (service) =>
   new Promise((resolve, reject) =>
     pm2.start(
       {
-        script: `./node_modules/@ptah/service-${service}/dist/index.js`,
+        script: `${__dirname}/node_modules/@ptah/service-${service}/dist/index.js`,
         name: service,
       },
       (err) => {
@@ -88,6 +106,17 @@ const serveUi = ([ui, port]) =>
   });
 
 /**
+ * @param {string} ui
+ * @param {number} port
+ * @returns {Promise<ChildProcess>}
+ */
+const openUi = (ui, port) => {
+  const url = `http://localhost:${port}`;
+  console.log(`Opening UI ${ui} at ${url}`);
+  return open(url);
+};
+
+/**
  * @param {Server} server
  * @returns {Promise<void>}
  */
@@ -124,6 +153,10 @@ const kill = (resolve) => async () => {
   console.log("Stopping UIs...");
   await Promise.all(startedUi.map(stopUi));
   console.log("All UIs stopped.");
+
+  console.log("Closing opened tabs...");
+  await Promise.all(openedTabs.map((tab) => tab.kill()));
+  console.log("All opened tabs closed.");
 
   console.log("Killing supervisor...");
   try {
@@ -170,7 +203,7 @@ const start = (noUi) =>
  */
 const parseArgv = () => {
   try {
-    return arg({ "--no-ui": Boolean });
+    return arg({ "--no-ui": Boolean, "--no-open": Boolean });
   } catch (err) {
     console.error(err.message);
     process.exit(1);
@@ -183,6 +216,7 @@ const parseArgv = () => {
 const main = async () => {
   const args = parseArgv();
   const noUi = args["--no-ui"] ?? false;
+  const noOpen = args["--no-open"] ?? false;
 
   console.log("Flushing logs...");
   await flush();
@@ -195,6 +229,18 @@ const main = async () => {
   } catch (err) {
     console.log(`Start error:\n${err}`);
     process.exit(1);
+  }
+
+  if (!noOpen) {
+    try {
+      openedTabs.push(await openUi("admin", uis.admin));
+    } catch (err) {
+      console.log(
+        `Failed to open UI admin at http://localhost:${uis.admin}:`,
+        err,
+      );
+      process.exit(1);
+    }
   }
 
   console.log("Watching for signals...");

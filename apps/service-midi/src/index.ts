@@ -26,9 +26,9 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
-  await services.pubsub.connect(["system"], (channel, message) => {
-    handleMessage(channel, message);
-  });
+  void services.pubsub.connect(["system"], (channel, message) =>
+    handleMessage(channel, message),
+  );
 
   midiServer.start(handleMidiCallback);
 
