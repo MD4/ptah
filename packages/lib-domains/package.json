@@ -21,7 +21,7 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^24.1.0",
+    "@types/node": "^24.2.1",
     "@types/uuid": "^10.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2"
