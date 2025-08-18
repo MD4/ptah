@@ -20,7 +20,7 @@
     "@tanstack/react-query": "^5.84.2",
     "@types/react-transition-group": "^4.4.12",
     "@types/uuid": "^10.0.0",
-    "@xyflow/react": "^12.8.2",
+    "@xyflow/react": "^12.8.3",
     "antd": "^5.26.7",
     "antd-zod": "^7.0.0",
     "axios": "^1.11.0",
