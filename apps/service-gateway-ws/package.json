@@ -22,7 +22,7 @@
     "@ptah/lib-shared": "workspace:^",
     "@types/midi": "^2.0.3",
     "dotenv": "^17.2.1",
-    "kalm": "^7.0.0",
+    "kalm": "^8.0.1",
     "midi": "^2.0.0",
     "nodemon": "^3.1.10",
     "socket.io": "^4.8.1"

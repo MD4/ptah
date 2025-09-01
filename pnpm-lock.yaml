@@ -155,8 +155,8 @@ importers:
         specifier: ^17.2.1
         version: 17.2.1
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -207,8 +207,8 @@ importers:
         specifier: ^17.2.1
         version: 17.2.1
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -271,8 +271,8 @@ importers:
         specifier: ^17.2.1
         version: 17.2.1
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -326,8 +326,8 @@ importers:
         specifier: ^17.2.1
         version: 17.2.1
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -628,8 +628,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-models
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       zod:
         specifier: ^4.1.5
         version: 4.1.5
@@ -3720,9 +3720,9 @@ packages:
   jspack@0.0.4:
     resolution: {integrity: sha512-DC/lSTXYDDdYWzyY/9A1kMzp6Ov9mCRhZQ1cGg4te2w3y4/aKZTSspvbYN4LUsvSzMCb/H8z4TV9mYYW/bs3PQ==}
 
-  kalm@7.0.0:
-    resolution: {integrity: sha512-kyDo0nFfIJ69jh5Bcr/+5oS4n7BX2AyvfRAojf9FmtE3jz/mVnV6nkfXwagWEwRtXTTwTQjTpG5OVRP1uUSksg==}
-    engines: {node: '>=14'}
+  kalm@8.0.1:
+    resolution: {integrity: sha512-tu/ofDdfGS5Kb32EK1ElJKtBfQqOGy10FsnIBuT8HZhMkvqqNzIoJ+c5T3wh57K6mQubb1qwK1b9sXUHQm8MFg==}
+    engines: {node: '>=20'}
 
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
@@ -8709,7 +8709,7 @@ snapshots:
 
   jspack@0.0.4: {}
 
-  kalm@7.0.0: {}
+  kalm@8.0.1: {}
 
   kuler@2.0.0: {}
 

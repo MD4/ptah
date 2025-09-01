@@ -29,7 +29,7 @@
     "@ptah/lib-domains": "workspace:^",
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:*",
-    "kalm": "^7.0.0",
+    "kalm": "^8.0.1",
     "zod": "^4.1.5"
   }
 }
