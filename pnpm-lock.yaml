@@ -503,8 +503,8 @@ importers:
         version: 4.8.1
     devDependencies:
       '@sindresorhus/tsconfig':
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.0
@@ -1945,9 +1945,9 @@ packages:
   '@sinclair/typebox@0.34.38':
     resolution: {integrity: sha512-HpkxMmc2XmZKhvaKIZZThlHmx1L0I/V1hWK1NubtlFnr6ZqdiOpV72TKudZUNQjZNsyDBay72qFEhEvb+bcwcA==}
 
-  '@sindresorhus/tsconfig@7.0.0':
-    resolution: {integrity: sha512-i5K04hLAP44Af16zmDjG07E1NHuDgCM07SJAT4gY0LZSRrWYzwt4qkLem6TIbIVh0k51RkN2bF+lP+lM5eC9fw==}
-    engines: {node: '>=18'}
+  '@sindresorhus/tsconfig@8.0.1':
+    resolution: {integrity: sha512-EcJpJuPR+Ot2DGJwQNRMVrWMxiYluGEQrgHeFHvKkKJcHCL/J3fmAKtN5WmAHIN7oxtwSEvNfjJgwffmxKBw9Q==}
+    engines: {node: '>=20'}
 
   '@sinonjs/commons@3.0.1':
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
@@ -6652,7 +6652,7 @@ snapshots:
 
   '@sinclair/typebox@0.34.38': {}
 
-  '@sindresorhus/tsconfig@7.0.0': {}
+  '@sindresorhus/tsconfig@8.0.1': {}
 
   '@sinonjs/commons@3.0.1':
     dependencies:
