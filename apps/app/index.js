@@ -21,7 +21,7 @@ import handler from "serve-handler";
 /**
  * @type {string[]}
  */
-const services = ["bus", "api", "gateway-ws", "main", "midi"];
+const services = ["bus", "gateway-ws", "api", "main", "midi"];
 
 /**
  * @type {{ [key: string]: number }}
@@ -67,6 +67,18 @@ const startService = (service) =>
       },
     ),
   );
+
+/**
+ * @param {string[]} services
+ * @returns {Promise<void>}
+ */
+const startServices = async (services) => {
+  for (const service of services) {
+    console.log(`Starting service ${service}...`);
+    await startService(service);
+    console.log(`Service ${service} started.`);
+  }
+};
 
 /**
  * @param {string} service
@@ -188,7 +200,7 @@ const start = (noUi) =>
         return reject(err);
       }
 
-      await Promise.all(services.map(startService));
+      await startServices(services);
 
       if (!noUi) {
         startedUi = await Promise.all(Object.entries(uis).map(serveUi));

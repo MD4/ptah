@@ -62,6 +62,7 @@ export const createNodeInputControl = (): models.NodeInputControl => ({
   position: { x: 0, y: 0 },
   type: "input-control",
   controlId: 0,
+  defaultValue: 127,
 });
 
 export const createNodeInputTime = (): models.NodeInputTime => ({

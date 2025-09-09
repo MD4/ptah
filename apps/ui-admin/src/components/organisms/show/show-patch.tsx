@@ -296,7 +296,7 @@ export default function ShowPatch({
 
   React.useEffect(() => void fitView(), [fitView]);
   useResizeObserver({
-    // @ts-ignore
+    // @ts-expect-error
     ref,
     box: "border-box",
     onResize: () => fitView(),

@@ -40,6 +40,7 @@ export const connect = (
 
     for (const channel of channels) {
       client?.subscribe(channel, (message: PubsubMessage) => {
+        console.log(`Pubsub message on channel ${channel}:`, message);
         callback(channel, message);
       });
     }

@@ -17,6 +17,7 @@ const changeStatus = (newStatus: MidiStatus): void => {
 };
 
 export const notifyStatus = (): void => {
+  console.log(`MIDI status: ${status}`);
   services.pubsub.send("system", { type: `midi:status:${status}` });
 };
 

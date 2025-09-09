@@ -67,6 +67,7 @@ const NodeKeyInternal = React.memo(function NodeKeyInternal({
     >
       <div style={styles.label}>{label}</div>
       <Typography.Text code>{key}</Typography.Text>
+      {/** biome-ignore lint/correctness/useUniqueElementIds: need to be "output" */}
       <Handle
         id="output"
         isConnectable
