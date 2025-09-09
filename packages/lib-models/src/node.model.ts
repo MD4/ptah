@@ -17,6 +17,7 @@ export type NodeInputTime = z.infer<typeof nodeInputTime>;
 export const nodeInputControl = nodeGeneric.extend({
   type: z.literal("input-control"),
   controlId: z.number(),
+  defaultValue: z.number().min(0).max(255),
 });
 export type NodeInputControl = z.infer<typeof nodeInputControl>;
 

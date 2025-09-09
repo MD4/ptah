@@ -5,7 +5,7 @@
     "start": "cd apps/app && pnpm start",
     "start:ui": "cd apps/ui-admin && pnpm start",
     "build": "turbo build --force",
-    "clean": "turbo clean",
+    "clean": "turbo clean && rm -Rf .turbo",
     "dev": "turbo dev --cache=local:r,remote:r  --continue --concurrency 20",
     "format": "biome format",
     "format:fix": "biome format --write",

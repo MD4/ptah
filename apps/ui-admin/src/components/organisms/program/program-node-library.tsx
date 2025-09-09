@@ -1,5 +1,6 @@
 import type * as models from "@ptah/lib-models";
-import { Col, Row, theme } from "antd";
+import { theme } from "antd";
+import { Masonry, type RenderComponentProps } from "masonic";
 import * as React from "react";
 
 import NodePreview from "../../atoms/node-preview";
@@ -39,6 +40,24 @@ export const nodesDefinitions: Record<
 
 const { useToken } = theme;
 
+const MasonryNode = React.memo(
+  ({
+    data: { nodeType, onNodeDropped, onDragStart },
+  }: RenderComponentProps<{
+    nodeType: models.Node["type"];
+    onNodeDropped: () => void;
+    onDragStart: () => void;
+  }>) => (
+    <NodePreview
+      key={nodeType}
+      onDrop={onNodeDropped}
+      onDragStart={onDragStart}
+      nodeType={nodeType}
+      {...nodesDefinitions[nodeType]}
+    />
+  ),
+);
+
 export default function ProgramNodeLibrary({
   onNodeDropped,
   onDragStart,
@@ -53,33 +72,42 @@ export default function ProgramNodeLibrary({
       ({
         container: {
           height: "100%",
-          padding: token.paddingLG,
-          width: 400,
+          padding: token.padding,
+          width: 384,
           maxWidth: "100vw",
         },
         col: {
           transform: "translate(0, 0)",
         },
+        grid: {
+          display: "grid",
+          gap: "10px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+          gridTemplateRows: "masonry",
+        },
       }) satisfies Record<string, React.CSSProperties>,
-    [token.paddingLG],
+    [token.padding],
+  );
+
+  const items = React.useMemo(
+    () =>
+      Object.keys(programNodeTypes).map((nodeType) => ({
+        nodeType: nodeType as models.Node["type"],
+        onNodeDropped,
+        onDragStart,
+      })),
+    [onNodeDropped, onDragStart],
   );
 
   return (
     <div style={styles.container}>
-      <Row gutter={[16, 16]}>
-        {(Object.keys(programNodeTypes) as models.Node["type"][]).map(
-          (nodeType) => (
-            <Col key={nodeType} style={styles.col}>
-              <NodePreview
-                onDrop={onNodeDropped}
-                onDragStart={onDragStart}
-                nodeType={nodeType}
-                {...nodesDefinitions[nodeType]}
-              />
-            </Col>
-          ),
-        )}
-      </Row>
+      <Masonry
+        items={items}
+        render={MasonryNode}
+        columnCount={2}
+        rowGutter={16}
+        columnGutter={16}
+      />
     </div>
   );
 }

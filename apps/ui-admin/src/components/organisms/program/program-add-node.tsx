@@ -1,5 +1,5 @@
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Flex, theme } from "antd";
+import { Button, Flex, Typography, theme } from "antd";
 import * as React from "react";
 
 import ProgramNodeLibrary from "./program-node-library";
@@ -80,7 +80,8 @@ export default function ProgramAddNode() {
         <>
           <div aria-hidden="true" onClick={onClose} style={styles.backdrop} />
           <div style={styles.container}>
-            <Flex justify="flex-end" style={styles.header}>
+            <Flex justify="space-between" align="center" style={styles.header}>
+              <Typography.Text>Add Node</Typography.Text>
               <Button
                 icon={<CloseOutlined />}
                 onClick={onClose}

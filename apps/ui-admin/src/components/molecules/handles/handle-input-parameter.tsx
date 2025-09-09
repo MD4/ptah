@@ -1,5 +1,5 @@
-import { Position } from "@xyflow/react";
-import { Flex, InputNumber, theme } from "antd";
+import { Position, useNodeConnections, useNodeId } from "@xyflow/react";
+import { Flex, InputNumber, Typography, theme } from "antd";
 import { noop } from "antd/es/_util/warning";
 import * as React from "react";
 
@@ -27,7 +27,11 @@ export default function HandleParameter({
 }) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
-  const [isConnected, setIsConnected] = React.useState(false);
+  const nodeId = useNodeId();
+  const isConnected = useNodeConnections({
+    id: nodeId ?? undefined,
+  }).some((connection) => connection.targetHandle === String(id));
+
   const styles = React.useMemo(
     () =>
       ({
@@ -52,14 +56,6 @@ export default function HandleParameter({
     [defaultNodeStyle.handle, token.sizeLG],
   );
 
-  const onHandleConnect = React.useCallback(() => {
-    setIsConnected(true);
-  }, []);
-
-  const onHandleDisconnect = React.useCallback(() => {
-    setIsConnected(false);
-  }, []);
-
   const onValueChange = React.useCallback<(value: number | null) => void>(
     (value) => {
       if (value !== null) {
@@ -74,16 +70,14 @@ export default function HandleParameter({
       <HandleInputWithLimit
         id={String(id)}
         isConnectable={1}
-        onConnect={onHandleConnect}
-        onDisconnect={onHandleDisconnect}
         position={Position.Left}
         style={styles.handle}
         type="target"
       />
 
-      <div style={styles.label}>{label}</div>
+      <Typography.Text style={styles.label}>{label}</Typography.Text>
 
-      {isConnected ? (
+      {!isConnected ? (
         <InputNumber
           className="nodrag nopan"
           defaultValue={defaultValue}

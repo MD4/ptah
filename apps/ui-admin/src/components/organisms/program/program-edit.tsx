@@ -15,6 +15,8 @@ import {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
+  Background,
+  BackgroundVariant,
   ReactFlow,
   reconnectEdge,
   useEdgesState,
@@ -344,8 +346,15 @@ export default function ProgramEdit() {
           panOnScroll
           proOptions={proOptions}
           snapToGrid
+          snapGrid={[16, 16]}
         >
           <EdgeGradient />
+          <Background
+            color="rgba(255, 255, 255, 0.1)"
+            variant={BackgroundVariant.Dots}
+            gap={16}
+            offset={16}
+          />
         </ReactFlow>
       </ProgramPreviewProvider>
       <ProgramAddNode />

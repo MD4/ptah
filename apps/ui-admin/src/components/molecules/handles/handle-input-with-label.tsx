@@ -1,5 +1,5 @@
 import { Position } from "@xyflow/react";
-import { Flex, theme } from "antd";
+import { Flex, Typography, theme } from "antd";
 import * as React from "react";
 
 import { useDefaultNodeStyle } from "../nodes/node.style";
@@ -47,7 +47,7 @@ export default function HandleInputWithLabel({
         type="target"
       />
 
-      <div style={styles.label}>{label}</div>
+      <Typography.Text style={styles.label}>{label}</Typography.Text>
     </Flex>
   );
 }

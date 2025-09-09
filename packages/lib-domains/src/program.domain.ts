@@ -124,7 +124,9 @@ export const compile = (program: models.Program): ProgramCompute => {
           registry.set(node.id, [node.value]);
           break;
         case "input-control":
-          registry.set(node.id, [inputs.get(node.controlId) ?? 0]);
+          registry.set(node.id, [
+            inputs.get(node.controlId) ?? node.defaultValue,
+          ]);
           break;
         case "input-time":
           registry.set(node.id, [time]);

@@ -1,5 +1,5 @@
 import type { HandleProps } from "@xyflow/react";
-import { Handle, useNodeConnections } from "@xyflow/react";
+import { Handle, useNodeConnections, useNodeId } from "@xyflow/react";
 import { theme } from "antd";
 import * as React from "react";
 
@@ -17,9 +17,10 @@ export default function HandleInputWithLimit({
   ...props
 }: HandleInputWithLimitProps) {
   const { token } = useToken();
+  const nodeId = useNodeId();
   const connections = useNodeConnections({
-    handleType: props.type,
-  });
+    id: nodeId ?? undefined,
+  }).filter((connection) => connection.targetHandle === props.id);
 
   const connectedStyle = React.useMemo(
     (): React.CSSProperties => ({

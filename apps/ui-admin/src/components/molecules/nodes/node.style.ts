@@ -48,6 +48,11 @@ export const useDefaultNodeStyle = (
           width: "100%",
           color: token.colorTextTertiary,
         },
+        slider: {
+          width: "100%",
+          margin: 0,
+          marginBottom: token.sizeXXS,
+        },
       }) satisfies Record<string, React.CSSProperties>,
     [
       selected,
