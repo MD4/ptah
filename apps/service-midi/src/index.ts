@@ -26,11 +26,14 @@ const main = async (): Promise<void> => {
   process.on("SIGTERM", killVoid(true));
   // process.on("SIGKILL", killVoid(false));
 
+  const { midiChannel, midiVirtualPortName } =
+    await services.settings.loadSettingsOrInitialize();
+
   void services.pubsub.connect(["system"], (channel, message) =>
     handleMessage(channel, message),
   );
 
-  midiServer.start(handleMidiCallback);
+  midiServer.start(handleMidiCallback(midiChannel), midiVirtualPortName);
 
   log(process.env.SERVICE_MIDI_NAME, "service is running");
 };

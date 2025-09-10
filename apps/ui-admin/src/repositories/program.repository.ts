@@ -13,6 +13,18 @@ import * as z from "zod";
 
 import { BASE_URL_API } from "../utils/env";
 
+export const useProgramInvalidate = (): ((programName: string) => void) => {
+  const queryClient = useQueryClient();
+
+  return React.useCallback(
+    (programName: string) =>
+      void queryClient.invalidateQueries({
+        queryKey: ["program", programName],
+      }),
+    [queryClient],
+  );
+};
+
 /**
  * CREATE
  */
@@ -158,18 +170,6 @@ export const useProgramPut = (
         queryKey: ["program", program?.name],
       }),
   });
-};
-
-export const useProgramInvalidate = (): ((programName: string) => void) => {
-  const queryClient = useQueryClient();
-
-  return React.useCallback(
-    (programName: string) =>
-      void queryClient.invalidateQueries({
-        queryKey: ["program", programName],
-      }),
-    [queryClient],
-  );
 };
 
 /**

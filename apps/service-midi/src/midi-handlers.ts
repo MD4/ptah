@@ -69,30 +69,31 @@ const handleMidiStatusChannelControlChange = (
   }
 };
 
-export const handleMidiCallback: MidiCallback = (deltaTime, message) => {
-  const [status, data1, data2] = message;
+export const handleMidiCallback: (midiChannel: number) => MidiCallback =
+  (midiChannel: number) => (deltaTime, message) => {
+    const [status, data1, data2] = message;
 
-  switch (status) {
-    case MIDI_STATUS_SYSTEM_START_SEQUENCE:
-      handleMidiStatusSystemStartSequence();
-      break;
-    case MIDI_STATUS_SYSTEM_CONTINUE_SEQUENCE:
-      handleMidiStatusSystemContinueSequence();
-      break;
-    case MIDI_STATUS_SYSTEM_STOP_SEQUENCE:
-      handleMidiStatusSystemStopSequence();
-      break;
-    case MIDI_STATUS_SYSTEM_TIMING_CLOCK:
-      handleMidiStatusSystemTimingClock(deltaTime);
-      break;
-    case MIDI_STATUS_CHANNEL_NOTE_ON:
-      handleMidiStatusChannelNoteOn(data1, data2);
-      break;
-    case MIDI_STATUS_CHANNEL_NOTE_OFF:
-      handleMidiStatusChannelNoteOff(data1, data2);
-      break;
-    case MIDI_STATUS_CHANNEL_CONTROL_CHANGE:
-      handleMidiStatusChannelControlChange(data1, data2);
-      break;
-  }
-};
+    switch (status) {
+      case MIDI_STATUS_SYSTEM_START_SEQUENCE:
+        handleMidiStatusSystemStartSequence();
+        break;
+      case MIDI_STATUS_SYSTEM_CONTINUE_SEQUENCE:
+        handleMidiStatusSystemContinueSequence();
+        break;
+      case MIDI_STATUS_SYSTEM_STOP_SEQUENCE:
+        handleMidiStatusSystemStopSequence();
+        break;
+      case MIDI_STATUS_SYSTEM_TIMING_CLOCK:
+        handleMidiStatusSystemTimingClock(deltaTime);
+        break;
+      case MIDI_STATUS_CHANNEL_NOTE_ON + (midiChannel - 1):
+        handleMidiStatusChannelNoteOn(data1, data2);
+        break;
+      case MIDI_STATUS_CHANNEL_NOTE_OFF + (midiChannel - 1):
+        handleMidiStatusChannelNoteOff(data1, data2);
+        break;
+      case MIDI_STATUS_CHANNEL_CONTROL_CHANGE:
+        handleMidiStatusChannelControlChange(data1, data2);
+        break;
+    }
+  };

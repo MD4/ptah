@@ -28,13 +28,16 @@ const onMessageReceived: MidiCallback = () => {
   trailingDebouncedChangeState("idle");
 };
 
-export const start = (midiMessageCallback: MidiCallback): void => {
+export const start = (
+  midiMessageCallback: MidiCallback,
+  midiVirtualPortName: string,
+): void => {
   log(LOG_CONTEXT, "creating virtual port..");
 
   changeStatus("inactive");
 
   input.ignoreTypes(true, false, true);
-  input.openVirtualPort("ptah");
+  input.openVirtualPort(midiVirtualPortName);
   input.on("message", midiMessageCallback);
   input.on("message", onMessageReceived);
 
