@@ -326,8 +326,8 @@ importers:
         specifier: ^17.2.2
         version: 17.2.2
       kalm:
-        specifier: ^8.0.1
-        version: 8.0.1
+        specifier: ^7.0.0
+        version: 7.0.0
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -3541,10 +3541,6 @@ packages:
   kalm@7.0.0:
     resolution: {integrity: sha512-kyDo0nFfIJ69jh5Bcr/+5oS4n7BX2AyvfRAojf9FmtE3jz/mVnV6nkfXwagWEwRtXTTwTQjTpG5OVRP1uUSksg==}
     engines: {node: '>=14'}
-
-  kalm@8.0.1:
-    resolution: {integrity: sha512-tu/ofDdfGS5Kb32EK1ElJKtBfQqOGy10FsnIBuT8HZhMkvqqNzIoJ+c5T3wh57K6mQubb1qwK1b9sXUHQm8MFg==}
-    engines: {node: '>=20'}
 
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
@@ -8480,8 +8476,6 @@ snapshots:
   jspack@0.0.4: {}
 
   kalm@7.0.0: {}
-
-  kalm@8.0.1: {}
 
   kuler@2.0.0: {}
 
