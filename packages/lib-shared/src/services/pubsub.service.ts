@@ -5,7 +5,7 @@ import * as kalm from "kalm";
 
 const LOG_CONTEXT = `${process.env.UI_ADMIN_NAME ?? ""}:pusub`;
 
-let client: Client | undefined;
+let client: ReturnType<typeof kalm.connect>  | undefined;
 let reconnecting = false;
 
 export const connect = (
@@ -40,7 +40,6 @@ export const connect = (
 
     for (const channel of channels) {
       client?.subscribe(channel, (message: PubsubMessage) => {
-        console.log(`Pubsub message on channel ${channel}:`, message);
         callback(channel, message);
       });
     }

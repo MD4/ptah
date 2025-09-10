@@ -143,8 +143,8 @@ importers:
   apps/service-bus:
     dependencies:
       '@kalm/ipc':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@ptah/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
@@ -189,8 +189,8 @@ importers:
   apps/service-gateway-ws:
     dependencies:
       '@kalm/ipc':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@ptah/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
@@ -244,8 +244,8 @@ importers:
   apps/service-main:
     dependencies:
       '@kalm/ipc':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@ptah/lib-domains':
         specifier: workspace:*
         version: link:../../packages/lib-domains
@@ -305,8 +305,8 @@ importers:
   apps/service-midi:
     dependencies:
       '@kalm/ipc':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@ptah/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
@@ -326,8 +326,8 @@ importers:
         specifier: ^17.2.2
         version: 17.2.2
       kalm:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.1
+        version: 8.0.1
       midi:
         specifier: ^2.0.0
         version: 2.0.0
@@ -619,8 +619,8 @@ importers:
   packages/lib-shared:
     dependencies:
       '@kalm/ipc':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@ptah/lib-domains':
         specifier: workspace:^
         version: link:../lib-domains
@@ -1362,9 +1362,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@kalm/ipc@8.0.0':
-    resolution: {integrity: sha512-G93rRsXba0FhLAFtFJIMtQDdRokZZFTaa1K0yscn5O4bPtAaxDXmBLHwCy1yKD7IjYm7F4ngioqDQt/WtPOXpA==}
-    engines: {node: '>=20'}
+  '@kalm/ipc@7.0.0':
+    resolution: {integrity: sha512-rrF5PlbjSVzPzD8Gtc8qu1fLiWbVaATA56JVtAcrezYo41PZ7+SG02sVcdt/dCJ9O22tid8AMKDJvK78hE61GA==}
+    engines: {node: '>=14'}
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -3541,6 +3541,10 @@ packages:
   kalm@7.0.0:
     resolution: {integrity: sha512-kyDo0nFfIJ69jh5Bcr/+5oS4n7BX2AyvfRAojf9FmtE3jz/mVnV6nkfXwagWEwRtXTTwTQjTpG5OVRP1uUSksg==}
     engines: {node: '>=14'}
+
+  kalm@8.0.1:
+    resolution: {integrity: sha512-tu/ofDdfGS5Kb32EK1ElJKtBfQqOGy10FsnIBuT8HZhMkvqqNzIoJ+c5T3wh57K6mQubb1qwK1b9sXUHQm8MFg==}
+    engines: {node: '>=20'}
 
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
@@ -6033,7 +6037,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@kalm/ipc@8.0.0': {}
+  '@kalm/ipc@7.0.0': {}
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
@@ -6336,7 +6340,7 @@ snapshots:
   '@serialport/binding-mock@10.2.2':
     dependencies:
       '@serialport/bindings-interface': 1.2.2
-      debug: 4.3.4
+      debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8476,6 +8480,8 @@ snapshots:
   jspack@0.0.4: {}
 
   kalm@7.0.0: {}
+
+  kalm@8.0.1: {}
 
   kuler@2.0.0: {}
 

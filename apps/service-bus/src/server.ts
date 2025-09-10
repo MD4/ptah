@@ -4,7 +4,7 @@ import ipc from "@kalm/ipc";
 import { log } from "@ptah/lib-logger";
 import * as kalm from "kalm";
 
-let server: Server | undefined;
+let server: ReturnType<typeof kalm.listen> | undefined;
 
 export const start = (): Promise<void> =>
   new Promise((resolve, reject) => {

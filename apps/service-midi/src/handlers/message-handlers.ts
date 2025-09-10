@@ -6,7 +6,6 @@ export const handleMessage = (
   channel: PubsubChannel,
   message: PubsubMessage,
 ): void => {
-  console.log(`Message received on channel ${channel}:`, message);
   switch (channel) {
     case "system":
       handleSystemMessage(message);

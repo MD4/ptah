@@ -16,7 +16,7 @@
     "preset": "jest-presets/jest/node"
   },
   "dependencies": {
-    "@kalm/ipc": "^8.0.0",
+    "@kalm/ipc": "^7.0.0",
     "@ptah/lib-domains": "workspace:*",
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:^",
