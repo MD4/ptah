@@ -5,7 +5,7 @@ import * as kalm from "kalm";
 
 const LOG_CONTEXT = `${process.env.UI_ADMIN_NAME ?? ""}:pusub`;
 
-let client: ReturnType<typeof kalm.connect>  | undefined;
+let client: ReturnType<typeof kalm.connect> | undefined;
 let reconnecting = false;
 
 export const connect = (
