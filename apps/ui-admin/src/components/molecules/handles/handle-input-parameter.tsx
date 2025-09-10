@@ -30,7 +30,10 @@ export default function HandleParameter({
   const nodeId = useNodeId();
   const isConnected = useNodeConnections({
     id: nodeId ?? undefined,
-  }).some((connection) => connection.targetHandle === String(id));
+  }).some(
+    (connection) =>
+      connection.targetHandle === String(id) && connection.target === nodeId,
+  );
 
   const styles = React.useMemo(
     () =>
