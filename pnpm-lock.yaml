@@ -100,11 +100,11 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
       zod-express-middleware:
         specifier: ^1.4.0
-        version: 1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.1.5)
+        version: 1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.1.8)
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -397,7 +397,7 @@ importers:
         version: 5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       antd-zod:
         specifier: ^7.0.0
-        version: 7.0.0(antd@5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(zod@4.1.5)
+        version: 7.0.0(antd@5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(zod@4.1.8)
       axios:
         specifier: ^1.12.0
         version: 1.12.0
@@ -438,8 +438,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
     devDependencies:
       '@ptah/config-ts':
         specifier: workspace:*
@@ -551,8 +551,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -597,8 +597,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -634,8 +634,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -659,8 +659,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.1.5
-        version: 4.1.5
+        specifier: ^4.1.8
+        version: 4.1.8
     devDependencies:
       '@ptah/config-jest':
         specifier: workspace:*
@@ -5289,8 +5289,8 @@ packages:
       express: ^4.17.1
       zod: ^3.2.0
 
-  zod@4.1.5:
-    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
+  zod@4.1.8:
+    resolution: {integrity: sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ==}
 
   zustand@4.5.7:
     resolution: {integrity: sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==}
@@ -6788,11 +6788,11 @@ snapshots:
 
   ansis@4.0.0-node10: {}
 
-  antd-zod@7.0.0(antd@5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(zod@4.1.5):
+  antd-zod@7.0.0(antd@5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(zod@4.1.8):
     dependencies:
       antd: 5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       lodash.merge: 4.6.2
-      zod: 4.1.5
+      zod: 4.1.8
 
   antd@5.27.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
@@ -10361,13 +10361,13 @@ snapshots:
 
   yoga-layout@3.2.1: {}
 
-  zod-express-middleware@1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.1.5):
+  zod-express-middleware@1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.1.8):
     dependencies:
       '@types/express': 5.0.3
       express: 5.1.0
-      zod: 4.1.5
+      zod: 4.1.8
 
-  zod@4.1.5: {}
+  zod@4.1.8: {}
 
   zustand@4.5.7(@types/react@19.1.13)(react@19.1.1):
     dependencies:
