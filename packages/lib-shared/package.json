@@ -8,9 +8,9 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup --onSuccess \"tsc --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "clean": "rm -rf dist",
-    "dev": "tsup --watch",
+    "dev": "tsup --dts --watch --onSuccess \"tsc --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
