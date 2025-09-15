@@ -23,6 +23,9 @@ importers:
 
   apps/app:
     dependencies:
+      '@ptah/lib-shared':
+        specifier: workspace:*
+        version: link:../../packages/lib-shared
       '@ptah/service-api':
         specifier: workspace:*
         version: link:../service-api
@@ -5587,7 +5590,7 @@ snapshots:
       '@babel/parser': 7.28.0
       '@babel/template': 7.27.2
       '@babel/types': 7.28.4
-      debug: 4.4.1
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -7862,14 +7865,14 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.1
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.1
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 

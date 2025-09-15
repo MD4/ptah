@@ -6,6 +6,7 @@ import { ChildProcess } from "node:child_process";
 import http from "node:http";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import * as shared from "@ptah/lib-shared";
 import arg from "arg";
 import open from "open";
 import pm2 from "pm2";
@@ -26,7 +27,7 @@ const services = ["bus", "gateway-ws", "api", "main", "midi"];
 /**
  * @type {{ [key: string]: number }}
  */
-const uis = { admin: Number(process.env.VITE_UI_ADMIN_PORT) };
+const defaultUIs = { admin: Number(process.env.VITE_UI_ADMIN_PORT) };
 
 /**
  * @type {string}
@@ -114,7 +115,8 @@ const serveUi = ([ui, port]) =>
           ],
         }),
       )
-      .listen(port, (err) => (err ? reject(err) : resolve(server)));
+      .listen(port, () => resolve(server))
+      .on("error", reject);
   });
 
 /**
@@ -191,9 +193,10 @@ const watchSigs = () =>
 
 /**
  * @param {boolean} noUi
+ * @param {{ [key: string]: number }} uis
  * @returns {Promise<void>}
  */
-const start = (noUi) =>
+const start = (noUi, uis) =>
   new Promise((resolve, reject) => {
     pm2.connect(true, async (err) => {
       if (err) {
@@ -211,15 +214,27 @@ const start = (noUi) =>
   });
 
 /**
- * @returns {arg.Result<{ "--no-ui": BooleanConstructor; }>}
+ * @returns {arg.Result<{ "--no-ui": BooleanConstructor; "--no-open": BooleanConstructor }>}
  */
 const parseArgv = () => {
   try {
     return arg({ "--no-ui": Boolean, "--no-open": Boolean });
-  } catch (err) {
+  } catch (/** @type {any} */ err) {
     console.error(err.message);
     process.exit(1);
   }
+};
+
+/**
+ * @param {{ [key: string]: number }} defaultUIs
+ * @param {{ appAdminPort:number}} settings
+ * @returns
+ */
+const getUIs = (defaultUIs, settings) => {
+  return {
+    ...defaultUIs,
+    admin: settings.appAdminPort ?? defaultUIs.admin,
+  };
 };
 
 /**
@@ -230,13 +245,17 @@ const main = async () => {
   const noUi = args["--no-ui"] ?? false;
   const noOpen = args["--no-open"] ?? false;
 
+  const settings = await shared.services.settings.loadSettingsOrInitialize();
+
+  const uis = getUIs(defaultUIs, settings);
+
   console.log("Flushing logs...");
   await flush();
   console.log("Logs flushed.");
 
   console.log("Starting processes...");
   try {
-    await start(noUi);
+    await start(noUi, uis);
     console.log("All processes started.");
   } catch (err) {
     console.log(`Start error:\n${err}`);

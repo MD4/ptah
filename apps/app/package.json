@@ -9,6 +9,7 @@
   },
   "bin": "index.js",
   "dependencies": {
+    "@ptah/lib-shared": "workspace:*",
     "@ptah/service-api": "workspace:*",
     "@ptah/service-bus": "workspace:*",
     "@ptah/service-gateway-ws": "workspace:*",
