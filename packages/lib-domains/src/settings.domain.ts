@@ -1,7 +1,7 @@
 import type * as models from "@ptah/lib-models";
 
 export const createSettings = (): models.Settings => ({
-  version: "1.0.0",
+  version: "0.0.1",
   midiVirtualPortName: "ptah",
   midiChannel: 1,
   appAdminPort: 3001,

@@ -40,6 +40,12 @@ export const ptahTheme: ThemeConfig = {
     Button: {
       primaryShadow: "none",
     },
+    Tag: {
+      defaultBg: "rgba(255, 255, 255, 0.04)",
+      defaultColor: "#ffffff",
+      borderRadius: 4,
+      colorBorder: "transparent",
+    },
     Slider: {
       colorPrimary: "#4c2bf0",
       colorPrimaryHover: "#4c2bf0",

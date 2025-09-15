@@ -8,6 +8,7 @@ import {
   InputNumber,
   notification,
   Row,
+  Tag,
   Typography,
   theme,
 } from "antd";
@@ -112,7 +113,7 @@ export default function SettingsMainPage({
           <Typography.Text style={styles.textVersion}>Version</Typography.Text>
         </Col>
         <Col span={12} style={styles.settingsLine}>
-          <Typography.Text>v{settings.version}</Typography.Text>
+          <Tag>v{settings.version}</Tag>
         </Col>
 
         <Divider plain>MIDI</Divider>
