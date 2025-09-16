@@ -125,7 +125,7 @@ export const compile = (program: models.Program): ProgramCompute => {
           break;
         case "input-control":
           registry.set(node.id, [
-            inputs.get(node.controlId) ?? node.defaultValue,
+            (inputs.get(node.controlId) ?? node.defaultValue) / 127,
           ]);
           break;
         case "input-time":

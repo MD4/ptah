@@ -92,7 +92,7 @@ export const handleMidiCallback: (midiChannel: number) => MidiCallback =
       case MIDI_STATUS_CHANNEL_NOTE_OFF + (midiChannel - 1):
         handleMidiStatusChannelNoteOff(data1, data2);
         break;
-      case MIDI_STATUS_CHANNEL_CONTROL_CHANGE:
+      case MIDI_STATUS_CHANNEL_CONTROL_CHANGE + (midiChannel - 1):
         handleMidiStatusChannelControlChange(data1, data2);
         break;
     }
