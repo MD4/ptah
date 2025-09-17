@@ -1,13 +1,23 @@
 {
   "name": "@ptah/app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "build": "npm link",
+    "start": "nodemon"
+  },
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "start": "nodemon -r dotenv/config ."
+  "engines": {
+    "node": ">=20.0.0"
   },
-  "bin": "index.js",
+  "bin": {
+    "ptah": "./index.js"
+  },
+  "files": [
+    "index.js",
+    ".env"
+  ],
   "dependencies": {
     "@ptah/lib-shared": "workspace:*",
     "@ptah/service-api": "workspace:*",

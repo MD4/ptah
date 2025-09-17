@@ -106,7 +106,7 @@ const serveUi = ([ui, port]) =>
     const server = http
       .createServer((request, response) =>
         handler(request, response, {
-          public: `./node_modules/@ptah/ui-${ui}/dist`,
+          public: `${__dirname}/node_modules/@ptah/ui-${ui}/dist`,
           rewrites: [
             {
               source: "/**",
