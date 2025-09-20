@@ -20,8 +20,10 @@ export default function HandleInputWithLimit({
   const nodeId = useNodeId();
   const connections = useNodeConnections({
     id: nodeId ?? undefined,
-  }).filter((connection) => connection.targetHandle === props.id);
-
+  }).filter(
+    (connection) =>
+      connection.targetHandle === props.id && connection.target === nodeId,
+  );
   const connectedStyle = React.useMemo(
     (): React.CSSProperties => ({
       ...props.style,
