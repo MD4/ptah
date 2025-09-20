@@ -36,13 +36,13 @@ export function RouteDebug({ navigate }: { navigate: (route: Route) => void }) {
   return (
     <Box overflowY="hidden" height={height - 12}>
       <Box gap={1} flexWrap="wrap" marginY={scrollTop}>
-        {dmxDebugOutputs.map(
-          (output, index) =>
-            index && (
-              <Text color={getColor(output)}>
-                {String(output).padStart(3, " ")}
-              </Text>
-            ),
+        {dmxDebugOutputs.map((output, index) =>
+          index ? (
+            // biome-ignore lint/correctness/useJsxKeyInIterable: can't have iterator key here
+            <Text color={getColor(output)}>
+              {String(output).padStart(3, " ")}
+            </Text>
+          ) : null,
         )}
       </Box>
     </Box>
