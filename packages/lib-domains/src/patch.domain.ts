@@ -11,14 +11,23 @@ export type * from "./patch.domain.types";
 export const extractProgramMappingFromShowPatch = (
   showPatch: ShowPatch,
   programId: string,
-): number[] =>
+): PatchMapping =>
   Object.entries(showPatch)
     .flatMap(([channel, outputs]) =>
       outputs.map((output) => ({ ...output, channel })),
     )
     .filter((output) => output.programId === programId)
     .sort((a, b) => a.programOutput - b.programOutput)
-    .map(({ channel }) => Number(channel));
+    .reduce<PatchMapping>(
+      (patchMapping, { channel, programOutput }) => ({
+        ...patchMapping,
+        [Number(programOutput)]: [
+          ...(patchMapping[Number(programOutput)] ?? []),
+          Number(channel),
+        ],
+      }),
+      {},
+    );
 
 export const unNaNifyValue = (value: number): number =>
   Number.isNaN(value) ? 0 : value;
@@ -49,15 +58,17 @@ export const fromChannelValue = (value: number): number =>
 export const applyMapping = (
   programOutput: ProgramOutput,
   mapping: PatchMapping,
-): ProgramOutputOuputs => {
-  return mapping.reduce<ProgramOutputOuputs>(
-    (mappedOutput, targetIndex, outputIndex) => {
-      mappedOutput[targetIndex] = toChannelValue(
-        programOutput.outputs[outputIndex],
-      );
-
-      return mappedOutput;
-    },
+): ProgramOutputOuputs =>
+  Object.entries(mapping).reduce<ProgramOutputOuputs>(
+    (mappedOutput, [outputIndex, targetIndexes]) =>
+      targetIndexes.reduce(
+        (mappedOutputInner, targetIndex) => ({
+          ...mappedOutputInner,
+          [targetIndex]: toChannelValue(
+            programOutput.outputs[Number(outputIndex)],
+          ),
+        }),
+        mappedOutput,
+      ),
     {},
   );
-};

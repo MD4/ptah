@@ -111,18 +111,18 @@ export const reset = (): void => {
   }
 };
 
-export const resetProgram = (mapping: patchDomain.PatchMapping): void => {
-  setImmediate(() => {
+export const resetProgram = (mapping: patchDomain.PatchMapping): void =>
+  void setImmediate(() =>
     dmx.update(
       UNIVERSE_MAIN,
-      mapping.reduce<programDomain.ProgramOutputOuputs>((channels, channel) => {
-        channels[channel] = 0;
-
-        return channels;
-      }, {}),
-    );
-  });
-};
+      Object.values(mapping)
+        .flat()
+        .reduce<programDomain.ProgramOutputOuputs>(
+          (acc, channel) => ({ ...acc, [channel]: 0 }),
+          {},
+        ),
+    ),
+  );
 
 export const update = (
   programOutput: programDomain.ProgramOutputOuputs,

@@ -1,1 +1,1 @@
-export type PatchMapping = number[];
+export type PatchMapping = Record<number, number[]>;
