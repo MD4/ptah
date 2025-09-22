@@ -33,7 +33,7 @@
     "react-transition-group": "^4.4.5",
     "serve": "^14.2.5",
     "socket.io-react-hook": "^2.4.5",
-    "type-fest": "^5.0.0",
+    "type-fest": "^5.0.1",
     "usehooks-ts": "^3.1.1",
     "uuid": "^13.0.0",
     "zod": "^4.1.8"
