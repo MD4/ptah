@@ -4,6 +4,7 @@ import type { RunnerControlsState } from "./runner.domain.types";
 export type ProgramCompute = (
   time: number,
   inputs: RunnerControlsState,
+  parameter?: number,
 ) => ProgramOutput;
 
 export type ProgramDefinition = {

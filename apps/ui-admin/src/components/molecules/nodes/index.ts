@@ -8,6 +8,7 @@ import NodeFxMath from "./node-fx-math";
 import NodeInputConstant from "./node-input-constant";
 import NodeInputControl from "./node-input-control";
 import NodeInputTime from "./node-input-time";
+import NodeInputVelocity from "./node-input-velocity";
 import NodeKey from "./node-key";
 import NodeOutputResult from "./node-output-result";
 import NodeProgram from "./node-program";
@@ -24,6 +25,7 @@ export const programNodeTypes: NodeTypes = {
   "input-time": NodeInputTime,
   "input-constant": NodeInputConstant,
   "input-control": NodeInputControl,
+  "input-velocity": NodeInputVelocity,
   "fx-math": NodeFxMath,
   "fx-distortion": NodeFxDistortion,
   "output-result": NodeOutputResult,

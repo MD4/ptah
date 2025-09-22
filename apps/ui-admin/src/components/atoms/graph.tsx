@@ -7,10 +7,14 @@ export default function Graph({
   values,
   width,
   height,
+  forceMax,
+  forceMin,
 }: {
   values: number[];
   width: number;
   height: number;
+  forceMax?: number;
+  forceMin?: number;
 }) {
   const { token } = useToken();
   const gradientId = React.useId();
@@ -33,8 +37,8 @@ export default function Graph({
       values.filter((value) => !Number.isNaN(value) && Number.isFinite(value)),
     [values],
   );
-  const max = Math.max(...rectifiedValues, 1);
-  const min = Math.min(...rectifiedValues, 0);
+  const max = forceMax ?? Math.max(...rectifiedValues, 1);
+  const min = forceMin ?? Math.min(...rectifiedValues, 0);
 
   const pathData = React.useMemo(() => {
     const allPoints = rectifiedValues.map((value, index) => {

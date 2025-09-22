@@ -113,8 +113,7 @@ export const reset = (): void => {
 
 export const resetProgram = (mapping: patchDomain.PatchMapping): void =>
   void setImmediate(() =>
-    dmx.update(
-      UNIVERSE_MAIN,
+    update(
       Object.values(mapping)
         .flat()
         .reduce<programDomain.ProgramOutputOuputs>(

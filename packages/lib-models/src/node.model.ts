@@ -14,6 +14,12 @@ export const nodeInputTime = nodeGeneric.extend({
 });
 export type NodeInputTime = z.infer<typeof nodeInputTime>;
 
+export const nodeInputConstant = nodeGeneric.extend({
+  type: z.literal("input-constant"),
+  value: z.number(),
+});
+export type NodeInputConstant = z.infer<typeof nodeInputConstant>;
+
 export const nodeInputControl = nodeGeneric.extend({
   type: z.literal("input-control"),
   controlId: z.number(),
@@ -21,16 +27,17 @@ export const nodeInputControl = nodeGeneric.extend({
 });
 export type NodeInputControl = z.infer<typeof nodeInputControl>;
 
-export const nodeInputConstant = nodeGeneric.extend({
-  type: z.literal("input-constant"),
-  value: z.number(),
+export const nodeInputVelocity = nodeGeneric.extend({
+  type: z.literal("input-velocity"),
+  defaultValue: z.number().min(0).max(255),
 });
-export type NodeInputConstant = z.infer<typeof nodeInputConstant>;
+export type NodeInputVelocity = z.infer<typeof nodeInputVelocity>;
 
 export const nodeInput = z.union([
   nodeInputTime,
-  nodeInputControl,
   nodeInputConstant,
+  nodeInputControl,
+  nodeInputVelocity,
 ]);
 export type NodeInput = z.infer<typeof nodeInput>;
 

@@ -28,15 +28,18 @@ export const setControlValue = (controlId: number, value: number): void => {
 
 export const startProgram = (id: number, parameter: number): void => {
   const patchItem = patchService.getFromId(id);
+
   if (patchItem) {
     const { program, mapping } = patchItem;
 
     programsState.set(id, {
       program,
       mapping,
+      parameter,
       programState: programDomain.getProgramInitialState(
         program,
         controlsState,
+        parameter,
       ),
     });
   }
@@ -74,17 +77,22 @@ export const tick = (): programDomain.ProgramOutputOuputs => {
   let stateToReturn: programDomain.ProgramOutputOuputs = {};
 
   programsState.forEach(
-    ({ program, mapping, programState: previousProgramState }, id) => {
+    (
+      { program, mapping, parameter, programState: previousProgramState },
+      id,
+    ) => {
       const programState = programDomain.performTick(
         program,
         controlsState,
         previousProgramState,
+        parameter,
       );
 
       programsState.set(id, {
         program,
         programState,
         mapping,
+        parameter,
       });
 
       stateToReturn = {

@@ -13,6 +13,8 @@ export const createNode = (nodeType: models.Node["type"]): models.Node => {
       return createNodeInputConstant();
     case "input-control":
       return createNodeInputControl();
+    case "input-velocity":
+      return createNodeInputVelocity();
     case "input-time":
       return createNodeInputTime();
     case "output-result":
@@ -62,6 +64,13 @@ export const createNodeInputControl = (): models.NodeInputControl => ({
   position: { x: 0, y: 0 },
   type: "input-control",
   controlId: 0,
+  defaultValue: 127,
+});
+
+export const createNodeInputVelocity = (): models.NodeInputVelocity => ({
+  id: uuidv4(),
+  position: { x: 0, y: 0 },
+  type: "input-velocity",
   defaultValue: 127,
 });
 

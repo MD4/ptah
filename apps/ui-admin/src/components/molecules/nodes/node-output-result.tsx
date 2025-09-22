@@ -32,7 +32,13 @@ export default function NodeOutputResult({
 
       <div style={styles.label}>OUTPUT</div>
 
-      <Graph values={previewValues} width={60} height={28} />
+      <Graph
+        values={previewValues}
+        width={60}
+        height={28}
+        forceMax={1}
+        forceMin={0}
+      />
 
       <Typography.Text code>{outputId}</Typography.Text>
     </Flex>

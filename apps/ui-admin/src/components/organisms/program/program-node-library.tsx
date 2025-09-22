@@ -18,6 +18,7 @@ export const nodesDefinitions: Record<
   "input-time": { type: "input", label: "TIME", parameters: [] },
   "input-constant": { type: "input", label: "CONSTANT", parameters: [] },
   "input-control": { type: "input", label: "CONTROL", parameters: [] },
+  "input-velocity": { type: "input", label: "VELOCITY", parameters: [] },
 
   "output-result": { type: "output", label: "OUTPUT", parameters: [] },
 

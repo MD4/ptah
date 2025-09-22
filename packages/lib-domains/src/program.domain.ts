@@ -27,22 +27,24 @@ export const performTick = (
   program: ProgramDefinition,
   inputs: RunnerControlsState,
   programState: ProgramState,
+  parameter: number,
 ): ProgramState => {
   const time = programState.time + TICK;
 
   return {
     time,
-    output: program.compute(time, inputs),
+    output: program.compute(time, inputs, parameter),
   };
 };
 
 export const getProgramInitialState = (
   program: ProgramDefinition,
   inputs: RunnerControlsState,
+  parameter: number,
 ): ProgramState => {
   return {
     time: 0,
-    output: program.compute(0, inputs),
+    output: program.compute(0, inputs, parameter),
   };
 };
 
@@ -114,7 +116,7 @@ export const compile = (program: models.Program): ProgramCompute => {
         ),
     }));
 
-  return (time, inputs) => {
+  return (time, inputs, parameter) => {
     const registry: ProgramOutputRegistry = new Map();
     const outputs: ProgramOutputOuputs = {};
 
@@ -125,8 +127,11 @@ export const compile = (program: models.Program): ProgramCompute => {
           break;
         case "input-control":
           registry.set(node.id, [
-            (inputs.get(node.controlId) ?? node.defaultValue) / 127,
+            inputs.get(node.controlId) ?? node.defaultValue,
           ]);
+          break;
+        case "input-velocity":
+          registry.set(node.id, [parameter ?? node.defaultValue]);
           break;
         case "input-time":
           registry.set(node.id, [time]);
@@ -281,7 +286,9 @@ export const compile = (program: models.Program): ProgramCompute => {
             inputsNodesIds[0],
           );
           break;
+
         default:
+          throw new Error("Node not implemented");
       }
     }
 

@@ -1,34 +1,18 @@
 import type * as models from "@ptah/lib-models";
 import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
-import { Flex, Select, Slider, Typography } from "antd";
-import type { DefaultOptionType } from "antd/es/select";
+import { Flex, Slider, Typography } from "antd";
 import * as React from "react";
 import { useDebounceCallback } from "usehooks-ts";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
 import { useDefaultNodeStyle } from "./node.style";
 
-const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
-  value,
-  label: `Control ${String(value)}`,
-}));
-
-export default function NodeInputControl({
+export default function NodeInputVelocity({
   data,
   selected,
-}: NodeProps<Node<models.NodeInputControl>>) {
+}: NodeProps<Node<models.NodeInputVelocity>>) {
   const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
-
-  const onControlChange = React.useCallback<(controlId: number) => void>(
-    (controlId) => {
-      dispatch({
-        type: "update-node",
-        payload: { node: { ...data, controlId } },
-      });
-    },
-    [data, dispatch],
-  );
 
   const onValueChange = React.useCallback<(value: number) => void>(
     (defaultValue) => {
@@ -44,24 +28,7 @@ export default function NodeInputControl({
 
   return (
     <Flex gap="small" style={styles.container} vertical>
-      <div style={styles.label}>CONTROL</div>
-
-      <Typography.Text>Control ID</Typography.Text>
-      <Select
-        className="nodrag nopan"
-        defaultValue={data.controlId}
-        onChange={onControlChange}
-        options={controls}
-        size="small"
-      />
-
-      <Handle
-        id={String(0)}
-        isConnectable
-        position={Position.Right}
-        style={styles.handle}
-        type="source"
-      />
+      <div style={styles.label}>VELOCITY</div>
 
       <Typography.Text>Default value</Typography.Text>
       <Slider
@@ -72,6 +39,14 @@ export default function NodeInputControl({
         min={0}
         max={127}
         step={1}
+      />
+
+      <Handle
+        id={String(0)}
+        isConnectable
+        position={Position.Right}
+        style={styles.handle}
+        type="source"
       />
     </Flex>
   );

@@ -9,6 +9,7 @@ export type RunnerProgramsState = Map<
     program: programDomain.ProgramDefinition;
     programState: programDomain.ProgramState;
     mapping: patchDomain.PatchMapping;
+    parameter: number;
   }
 >;
 
