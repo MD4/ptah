@@ -69,7 +69,7 @@ export default function NodeInputControl({
         className="nodrag nopan"
         defaultValue={data.defaultValue}
         onChange={onValueChangeDebounced}
-        min={0}
+        min={1}
         max={127}
         step={1}
       />
