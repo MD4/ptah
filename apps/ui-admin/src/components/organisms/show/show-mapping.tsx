@@ -1,4 +1,4 @@
-import { SaveFilled } from "@ant-design/icons";
+import { SaveFilled, SisternodeOutlined } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
 import type {
   Connection,
@@ -83,6 +83,9 @@ export default function ShowMapping() {
           position: "absolute",
           right: token.sizeMS,
           bottom: token.sizeMS,
+          display: "flex",
+          gap: token.sizeMS,
+          alignItems: "center",
         },
       }) satisfies Record<string, React.CSSProperties>,
     [token.sizeMS],
@@ -257,6 +260,18 @@ export default function ShowMapping() {
     saveMutation.mutate(pruneShow(show));
   }, [show, saveMutation]);
 
+  const onAutoWireClick = React.useCallback(() => {
+    const newMapping: models.ShowMapping = Object.keys(show.programs).reduce(
+      (newMapping, programId, index) => ({
+        ...newMapping,
+        [index]: [programId],
+      }),
+      {},
+    );
+
+    setEdges(() => adaptModelMappingToReactFlowEdges(newMapping));
+  }, [setEdges, show.programs]);
+
   React.useEffect(() => {
     dispatch({
       type: "update-mapping",
@@ -289,6 +304,7 @@ export default function ShowMapping() {
   }, [reactFlowInstance]);
 
   React.useEffect(() => void fitView(), [fitView]);
+
   useResizeObserver({
     // @ts-expect-error
     ref,
@@ -344,17 +360,24 @@ export default function ShowMapping() {
         open={addProgramModalOpened}
       />
       <div style={styles.toolbar}>
-        {hasChanged ? (
-          <Button
-            icon={<SaveFilled />}
-            loading={saveMutation.isPending}
-            onClick={onSaveClick}
-            size="large"
-            type="primary"
-          >
-            Save
-          </Button>
-        ) : null}
+        <Button
+          icon={<SisternodeOutlined />}
+          onClick={onAutoWireClick}
+          size="large"
+          type="primary"
+        >
+          Auto-wire
+        </Button>
+        <Button
+          icon={<SaveFilled />}
+          loading={saveMutation.isPending}
+          onClick={onSaveClick}
+          size="large"
+          type="primary"
+          disabled={!hasChanged}
+        >
+          Save
+        </Button>
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { SaveFilled } from "@ant-design/icons";
+import { SaveFilled, SisternodeOutlined } from "@ant-design/icons";
 import type * as models from "@ptah/lib-models";
 import type {
   Connection,
@@ -84,6 +84,9 @@ export default function ShowPatch({
       position: "absolute",
       right: token.sizeMS,
       bottom: token.sizeMS,
+      display: "flex",
+      gap: token.sizeMS,
+      alignItems: "center",
     },
   } satisfies Record<string, React.CSSProperties>;
 
@@ -261,6 +264,41 @@ export default function ShowPatch({
     saveMutation.mutate(pruneShow(show));
   }, [show, saveMutation]);
 
+  const onAutoWireClick = React.useCallback(() => {
+    const currentOutput: Record<string, number> = {};
+    const newPatch: models.ShowPatch = Object.entries(
+      show.programs,
+    ).reduce<models.ShowPatch>((newPatch, [programId, programName], _index) => {
+      const outputsCount = getProgramOutputCount(
+        programs.find((p) => p.name === programName),
+      );
+
+      const addPatch: models.ShowPatch = Array.from({
+        length: outputsCount,
+      }).reduce<models.ShowPatch>((addPatch, _, output) => {
+        currentOutput[programName] = (currentOutput[programName] ?? 0) + 1;
+
+        return {
+          ...addPatch,
+          [currentOutput[programName]]: [
+            ...(newPatch[currentOutput[programName]] ?? []),
+            {
+              programId,
+              programOutput: output,
+            },
+          ],
+        };
+      }, {});
+
+      return {
+        ...newPatch,
+        ...addPatch,
+      };
+    }, {});
+
+    setEdges(() => adaptModelShowPatchToToReactFlowEdges(newPatch));
+  }, [setEdges, show.programs, programs.find, programs]);
+
   React.useEffect(() => {
     dispatch({
       type: "update-patch",
@@ -279,7 +317,7 @@ export default function ShowPatch({
         ),
       },
     });
-  }, [dispatch, nodes]);
+  }, [nodes, dispatch]);
 
   const ref = React.useRef<HTMLDivElement>(null);
   const fitView = React.useCallback(async () => {
@@ -344,17 +382,24 @@ export default function ShowPatch({
         open={addProgramModalOpened}
       />
       <div style={styles.toolbar}>
-        {hasChanged ? (
-          <Button
-            icon={<SaveFilled />}
-            loading={saveMutation.isPending}
-            onClick={onSaveClick}
-            size="large"
-            type="primary"
-          >
-            Save
-          </Button>
-        ) : null}
+        <Button
+          icon={<SisternodeOutlined />}
+          onClick={onAutoWireClick}
+          size="large"
+          type="primary"
+        >
+          Auto-wire
+        </Button>
+        <Button
+          icon={<SaveFilled />}
+          loading={saveMutation.isPending}
+          onClick={onSaveClick}
+          size="large"
+          type="primary"
+          disabled={!hasChanged}
+        >
+          Save
+        </Button>
       </div>
     </div>
   );
