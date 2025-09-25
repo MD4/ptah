@@ -48,7 +48,7 @@ export default function ProgramMenu() {
       key: "4",
     },
     {
-      label: <Link to="/">Close</Link>,
+      label: <Link to="/program">Close</Link>,
       icon: <CloseOutlined />,
       key: "5",
     },
