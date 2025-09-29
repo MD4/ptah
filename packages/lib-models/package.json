@@ -27,6 +27,6 @@
   },
   "dependencies": {
     "@ptah/lib-logger": "workspace:*",
-    "zod": "^4.1.8"
+    "zod": "^4.1.11"
   }
 }
