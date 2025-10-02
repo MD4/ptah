@@ -24,6 +24,11 @@ export const ptahTheme: ThemeConfig = {
   components: {
     Typography: {
       fontWeightStrong: 300,
+      fontSizeHeading1: 28,
+      fontSizeHeading2: 24,
+      fontSizeHeading3: 20,
+      fontSizeHeading4: 16,
+      fontSizeHeading5: 14,
     },
     Input: {
       colorBorder: "transparent",
