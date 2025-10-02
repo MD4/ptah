@@ -164,7 +164,7 @@ export default function ShowPatch({
       edgeUpdateSuccessful.current = true;
       setEdges((_edges) =>
         reconnectEdge(oldEdge, newConnection, _edges).map((edge) =>
-          edge.id.startsWith("reactflow_") ? { ...edge, id: uuidv4() } : edge,
+          edge.id.startsWith("xy-edge__") ? { ...edge, id: uuidv4() } : edge,
         ),
       );
     },
