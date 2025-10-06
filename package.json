@@ -16,7 +16,7 @@
     "allcheck": "pnpm format && pnpm check && pnpm typecheck"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
+    "@biomejs/biome": "^2.2.5",
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "turbo": "^2.5.6"
