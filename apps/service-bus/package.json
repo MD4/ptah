@@ -16,7 +16,7 @@
     "preset": "jest-presets/jest/node"
   },
   "dependencies": {
-    "@kalm/ipc": "^8.0.0",
+    "@kalm/ipc": "^7.0.0",
     "@ptah/lib-logger": "workspace:*",
     "@types/midi": "^2.0.3",
     "dotenv": "^17.2.3",
