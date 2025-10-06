@@ -57,8 +57,8 @@ importers:
         specifier: ^10.2.0
         version: 10.2.0
       pm2:
-        specifier: ^6.0.11
-        version: 6.0.11
+        specifier: ^6.0.13
+        version: 6.0.13
       serve:
         specifier: ^14.2.5
         version: 14.2.5
@@ -1619,6 +1619,11 @@ packages:
   '@pm2/agent@2.1.1':
     resolution: {integrity: sha512-0V9ckHWd/HSC8BgAbZSoq8KXUG81X97nSkAxmhKDhmF8vanyaoc1YXwc2KVkbWz82Rg4gjd2n9qiT3i7bdvGrQ==}
 
+  '@pm2/blessed@0.1.81':
+    resolution: {integrity: sha512-ZcNHqQjMuNRcQ7Z1zJbFIQZO/BDKV3KbiTckWdfbUaYhj7uNmUwb+FbdDWSCkvxNr9dBJQwvV17o6QBkAvgO0g==}
+    engines: {node: '>= 0.8.0'}
+    hasBin: true
+
   '@pm2/io@6.1.0':
     resolution: {integrity: sha512-IxHuYURa3+FQ6BKePlgChZkqABUKFYH6Bwbw7V/pWU1pP6iR1sCI26l7P9ThUEB385ruZn/tZS3CXDUF5IA1NQ==}
     engines: {node: '>=6.0'}
@@ -2503,11 +2508,6 @@ packages:
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
-  blessed@0.1.81:
-    resolution: {integrity: sha512-LoF5gae+hlmfORcG1M5+5XZi4LBmvlXTzwJWzUlPryN/SJdSflZvROM2TwkT0GMpq7oqT48NRd4GS7BiVBc5OQ==}
-    engines: {node: '>= 0.8.0'}
-    hasBin: true
-
   bodec@0.1.0:
     resolution: {integrity: sha512-Ylo+MAo5BDUq1KA3f3R/MFhh+g8cnHmo8bz3YPGhI1znrMaf77ol1sfvYJzsw3nTE+Y2GryfDxBaR+AqpAkEHQ==}
 
@@ -2857,6 +2857,9 @@ packages:
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
+
+  dayjs@1.11.15:
+    resolution: {integrity: sha512-MC+DfnSWiM9APs7fpiurHGCoeIx0Gdl6QZBy+5lu8MbYKN5FZEXqOgrundfibdfhGZ15o9hzmZ2xJjZnbvgKXQ==}
 
   dayjs@1.11.18:
     resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
@@ -4279,8 +4282,8 @@ packages:
   pm2-sysmonit@1.2.8:
     resolution: {integrity: sha512-ACOhlONEXdCTVwKieBIQLSi2tQZ8eKinhcr9JpZSUAL8Qy0ajIgRtsLxG/lwPOW3JEKqPyw/UaHmTWhUzpP4kA==}
 
-  pm2@6.0.11:
-    resolution: {integrity: sha512-vD6uYdLLxs6xT6jKvLSJx3V+IhViHac8zEsvZm+0QDjR2dUyZtvem+sDLteZRnQ21tsp2oF7P03vCTDtOWD2HQ==}
+  pm2@6.0.13:
+    resolution: {integrity: sha512-1hS/adMgKoDpX4S1ichJW8SiGpex+oBSZK31dP1FSYOOGtaeuemXzhXPOCefmddgIY4K6v7uu+7xNPnmEnK3ag==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -5045,8 +5048,8 @@ packages:
     resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  systeminformation@5.27.9:
-    resolution: {integrity: sha512-g2PsfwJtUOwTki9Dbpq11GqGGk9XWczBf3iDuXm9lEa4akZxSXjAnZyE7oJhlS+vxjlmexThtYRxvxrOSb8erQ==}
+  systeminformation@5.27.11:
+    resolution: {integrity: sha512-K3Lto/2m3K2twmKHdgx5B+0in9qhXK4YnoT9rIlgwN/4v7OV5c8IjbeAUkuky/6VzCQC7iKCAqi8rZathCdjHg==}
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -6495,6 +6498,8 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@pm2/blessed@0.1.81': {}
+
   '@pm2/io@6.1.0':
     dependencies:
       async: 2.6.4
@@ -7376,8 +7381,6 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
 
-  blessed@0.1.81: {}
-
   bodec@0.1.0: {}
 
   body-parser@2.2.0:
@@ -7723,6 +7726,8 @@ snapshots:
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
+
+  dayjs@1.11.15: {}
 
   dayjs@1.11.18: {}
 
@@ -8120,7 +8125,7 @@ snapshots:
 
   finalhandler@2.1.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -9368,26 +9373,26 @@ snapshots:
       async: 3.2.6
       debug: 4.4.3
       pidusage: 2.0.21
-      systeminformation: 5.27.9
+      systeminformation: 5.27.11
       tx2: 1.0.5
     transitivePeerDependencies:
       - supports-color
     optional: true
 
-  pm2@6.0.11:
+  pm2@6.0.13:
     dependencies:
       '@pm2/agent': 2.1.1
+      '@pm2/blessed': 0.1.81
       '@pm2/io': 6.1.0
       '@pm2/js-api': 0.8.0
       '@pm2/pm2-version-check': 1.0.4
       ansis: 4.0.0-node10
       async: 3.2.6
-      blessed: 0.1.81
       chokidar: 3.6.0
       cli-tableau: 2.0.1
       commander: 2.15.1
       croner: 4.1.97
-      dayjs: 1.11.18
+      dayjs: 1.11.15
       debug: 4.4.3
       enquirer: 2.3.6
       eventemitter2: 5.0.1
@@ -9986,7 +9991,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -10044,7 +10049,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -10351,7 +10356,7 @@ snapshots:
     dependencies:
       component-emitter: 1.3.1
       cookiejar: 2.1.4
-      debug: 4.4.1
+      debug: 4.4.3
       fast-safe-stringify: 2.1.1
       form-data: 4.0.4
       formidable: 3.5.4
@@ -10388,7 +10393,7 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.2.9
 
-  systeminformation@5.27.9:
+  systeminformation@5.27.11:
     optional: true
 
   tagged-tag@1.0.0: {}
