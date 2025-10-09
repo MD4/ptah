@@ -17,9 +17,12 @@ const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:runner`;
 const programsState: RunnerProgramsState = new Map();
 const controlsState: RunnerControlsState = new Map();
 
-export const reset = (): void => {
+export const reset = (resetControlsState: boolean): void => {
   programsState.clear();
-  controlsState.clear();
+
+  if (resetControlsState) {
+    controlsState.clear();
+  }
 };
 
 export const setControlValue = (controlId: number, value: number): void => {

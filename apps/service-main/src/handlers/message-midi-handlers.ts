@@ -17,19 +17,19 @@ export const handleNoteOff = (keyNumber: number, velocity: number): void => {
 };
 
 export const handleSequenceStart = (): void => {
-  runner.reset();
+  runner.reset(false);
   dmx.reset();
   log(LOG_CONTEXT, "sequence:start");
 };
 
 export const handleSequenceContinue = (): void => {
-  runner.reset();
+  runner.reset(false);
   dmx.reset();
   log(LOG_CONTEXT, "sequence:continue");
 };
 
 export const handleSequenceStop = (): void => {
-  runner.reset();
+  runner.reset(false);
   log(LOG_CONTEXT, "sequence:stop");
 };
 

@@ -23,7 +23,7 @@ export const loadShow = async (showName: ShowName): Promise<Show> => {
   );
 
   patchService.loadMapping(show, programs);
-  runner.reset();
+  runner.reset(true);
   dmx.reset();
 
   await services.settings.setCurrentShow(showName);
@@ -39,7 +39,7 @@ export const reloadShow = async (): Promise<Show | undefined> => {
 
 export const unloadShow = async (): Promise<void> => {
   patchService.reset();
-  runner.reset();
+  runner.reset(true);
   dmx.reset();
 
   show = undefined;
