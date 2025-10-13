@@ -22,7 +22,7 @@
     "@ptah/config-ts": "workspace:*",
     "@types/node": "^24.5.2",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
