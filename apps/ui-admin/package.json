@@ -42,7 +42,7 @@
     "@ptah/config-ts": "workspace:*",
     "@types/events": "^3.0.3",
     "@types/node": "^24.5.2",
-    "@types/react": "^19.2.0",
+    "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "sass": "^1.93.2",
