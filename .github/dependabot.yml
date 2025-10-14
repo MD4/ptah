@@ -9,3 +9,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+ignore:
+  - dependency-name: "@kalm/ipc"
+    versions: [ ">=8.0.0" ]
