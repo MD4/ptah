@@ -21,7 +21,7 @@
     "@types/react-transition-group": "^4.4.12",
     "@types/uuid": "^11.0.0",
     "@xyflow/react": "^12.8.6",
-    "antd": "^5.27.4",
+    "antd": "^5.27.5",
     "antd-zod": "^7.0.0",
     "axios": "^1.12.2",
     "fast-copy": "^3.0.2",
