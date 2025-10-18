@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
-import "dotenv/config";
-
 import { ChildProcess } from "node:child_process";
 import http from "node:http";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as shared from "@ptah/lib-shared";
 import arg from "arg";
+import { config } from "dotenv";
 import open from "open";
 import pm2 from "pm2";
 import handler from "serve-handler";
@@ -48,6 +47,16 @@ let startedUi = [];
 const openedTabs = [];
 
 /**
+ * @param {NodeJS.ProcessEnv} env
+ * @returns {Record<string, string>}
+ */
+const toEnv = (env) =>
+  Object.entries(env).reduce(
+    (envs, [key, value]) => (value ? { ...envs, [key]: value } : envs),
+    {},
+  );
+
+/**
  * @param {string} service
  * @returns {Promise<void>}
  */
@@ -57,6 +66,7 @@ const startService = (service) =>
       {
         script: `${__dirname}/node_modules/@ptah/service-${service}/dist/index.js`,
         name: service,
+        env: toEnv(process.env),
       },
       (err) => {
         if (err) {
@@ -241,6 +251,11 @@ const getUIs = (defaultUIs, settings) => {
  * @returns {Promise<void>}
  */
 const main = async () => {
+  console.log(`Loading envs from '${__dirname}/.env'`);
+  config({
+    path: `${__dirname}/.env`,
+  });
+
   const args = parseArgv();
   const noUi = args["--no-ui"] ?? false;
   const noOpen = args["--no-open"] ?? false;
