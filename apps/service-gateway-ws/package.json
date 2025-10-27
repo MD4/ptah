@@ -20,7 +20,7 @@
     "@ptah/lib-logger": "workspace:*",
     "@ptah/lib-models": "workspace:^",
     "@ptah/lib-shared": "workspace:^",
-    "@types/midi": "^2.0.3",
+    "@types/midi": "^2.0.4",
     "dotenv": "^17.2.3",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
