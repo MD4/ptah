@@ -18,7 +18,7 @@
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
     "@ptah/lib-logger": "workspace:*",
-    "@types/midi": "^2.0.3",
+    "@types/midi": "^2.0.4",
     "dotenv": "^17.2.3",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
