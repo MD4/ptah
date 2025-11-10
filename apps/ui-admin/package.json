@@ -23,7 +23,7 @@
     "@xyflow/react": "^12.9.2",
     "antd": "^5.28.0",
     "antd-zod": "^7.0.0",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "fast-copy": "^3.0.2",
     "fast-equals": "^5.3.2",
     "masonic": "^4.1.0",
