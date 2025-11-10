@@ -20,7 +20,7 @@
   "devDependencies": {
     "@ptah/config-jest": "workspace:*",
     "@ptah/config-ts": "workspace:*",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.10.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   }

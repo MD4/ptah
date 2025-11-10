@@ -35,6 +35,6 @@
     "serve-handler": "^6.1.6"
   },
   "devDependencies": {
-    "@types/node": "^24.9.1"
+    "@types/node": "^24.10.0"
   }
 }

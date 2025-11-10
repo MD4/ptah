@@ -41,7 +41,7 @@
   "devDependencies": {
     "@ptah/config-ts": "workspace:*",
     "@types/events": "^3.0.3",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.0.4",
