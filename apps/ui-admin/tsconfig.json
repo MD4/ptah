@@ -1,5 +1,5 @@
 {
-  "extends": "@ptah/config-ts/vite.json",
+  "extends": "@ptah-app/config-ts/vite.json",
   "exclude": ["node_modules", "dist", "build", "coverage", "out"],
   "compilerOptions": {
     "rootDir": "src",

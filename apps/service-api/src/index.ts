@@ -1,7 +1,7 @@
 import "dotenv/config";
 
-import { log, logError } from "@ptah/lib-logger";
-import { services } from "@ptah/lib-shared";
+import { log, logError } from "@ptah-app/lib-logger";
+import { services } from "@ptah-app/lib-shared";
 
 import { createServer, killServer } from "./services/server.service";
 

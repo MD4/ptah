@@ -1,8 +1,8 @@
 import {
   patch as patchDomain,
   program as programDomain,
-} from "@ptah/lib-domains";
-import type { Program, Show } from "@ptah/lib-models";
+} from "@ptah-app/lib-domains";
+import type { Program, Show } from "@ptah-app/lib-models";
 import type { PatchState, PatchStateItem } from "./patch.service.types";
 
 const patch: PatchState = new Map();

@@ -1,4 +1,4 @@
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 import { v4 as uuidv4 } from "uuid";
 
 export const createNode = (nodeType: models.Node["type"]): models.Node => {

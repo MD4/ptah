@@ -1,9 +1,9 @@
 {
-  "name": "@ptah/app",
+  "name": "@ptah-app/app",
   "version": "0.0.0",
   "private": false,
   "scripts": {
-    "build": "npm link",
+    "build": "npm link --force",
     "start": "nodemon"
   },
   "type": "module",
@@ -19,13 +19,13 @@
     ".env"
   ],
   "dependencies": {
-    "@ptah/lib-shared": "workspace:*",
-    "@ptah/service-api": "workspace:*",
-    "@ptah/service-bus": "workspace:*",
-    "@ptah/service-gateway-ws": "workspace:*",
-    "@ptah/service-main": "workspace:*",
-    "@ptah/service-midi": "workspace:*",
-    "@ptah/ui-admin": "workspace:*",
+    "@ptah-app/lib-shared": "workspace:*",
+    "@ptah-app/service-api": "workspace:*",
+    "@ptah-app/service-bus": "workspace:*",
+    "@ptah-app/service-gateway-ws": "workspace:*",
+    "@ptah-app/service-main": "workspace:*",
+    "@ptah-app/service-midi": "workspace:*",
+    "@ptah-app/ui-admin": "workspace:*",
     "arg": "^5.0.2",
     "dotenv": "^17.2.3",
     "nodemon": "^3.1.10",

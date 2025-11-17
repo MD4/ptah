@@ -1,5 +1,5 @@
 {
-  "name": "ptah",
+  "name": "ptah-app",
   "private": true,
   "scripts": {
     "start": "cd apps/app && pnpm start",

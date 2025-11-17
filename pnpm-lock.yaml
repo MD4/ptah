@@ -27,25 +27,25 @@ importers:
 
   apps/app:
     dependencies:
-      '@ptah/lib-shared':
+      '@ptah-app/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
-      '@ptah/service-api':
+      '@ptah-app/service-api':
         specifier: workspace:*
         version: link:../service-api
-      '@ptah/service-bus':
+      '@ptah-app/service-bus':
         specifier: workspace:*
         version: link:../service-bus
-      '@ptah/service-gateway-ws':
+      '@ptah-app/service-gateway-ws':
         specifier: workspace:*
         version: link:../service-gateway-ws
-      '@ptah/service-main':
+      '@ptah-app/service-main':
         specifier: workspace:*
         version: link:../service-main
-      '@ptah/service-midi':
+      '@ptah-app/service-midi':
         specifier: workspace:*
         version: link:../service-midi
-      '@ptah/ui-admin':
+      '@ptah-app/ui-admin':
         specifier: workspace:*
         version: link:../ui-admin
       arg:
@@ -76,16 +76,16 @@ importers:
 
   apps/service-api:
     dependencies:
-      '@ptah/lib-domains':
+      '@ptah-app/lib-domains':
         specifier: workspace:^
         version: link:../../packages/lib-domains
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../../packages/lib-models
-      '@ptah/lib-shared':
+      '@ptah-app/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
       body-parser:
@@ -113,10 +113,10 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0(@types/express@5.0.3)(express@5.1.0)(zod@4.1.12)
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../../packages/config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/body-parser':
@@ -152,7 +152,7 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
       '@types/midi':
@@ -171,10 +171,10 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../../packages/config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/node':
@@ -198,13 +198,13 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:^
         version: link:../../packages/lib-models
-      '@ptah/lib-shared':
+      '@ptah-app/lib-shared':
         specifier: workspace:^
         version: link:../../packages/lib-shared
       '@types/midi':
@@ -226,10 +226,10 @@ importers:
         specifier: ^4.8.1
         version: 4.8.1
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../../packages/config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/node':
@@ -253,19 +253,19 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
-      '@ptah/lib-domains':
+      '@ptah-app/lib-domains':
         specifier: workspace:*
         version: link:../../packages/lib-domains
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:^
         version: link:../../packages/lib-models
-      '@ptah/lib-shared':
+      '@ptah-app/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
-      '@ptah/lib-utils':
+      '@ptah-app/lib-utils':
         specifier: workspace:*
         version: link:../../packages/lib-utils
       '@types/midi':
@@ -287,10 +287,10 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../../packages/config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/node':
@@ -314,16 +314,16 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../../packages/lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../../packages/lib-models
-      '@ptah/lib-shared':
+      '@ptah-app/lib-shared':
         specifier: workspace:*
         version: link:../../packages/lib-shared
-      '@ptah/lib-utils':
+      '@ptah-app/lib-utils':
         specifier: workspace:*
         version: link:../../packages/lib-utils
       '@types/midi':
@@ -342,10 +342,10 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../../packages/config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/node':
@@ -372,16 +372,16 @@ importers:
       '@ant-design/v5-patch-for-react-19':
         specifier: ^1.0.3
         version: 1.0.3(antd@5.28.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@ptah/lib-domains':
+      '@ptah-app/lib-domains':
         specifier: workspace:^
         version: link:../../packages/lib-domains
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:^
         version: link:../../packages/lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../../packages/lib-models
-      '@ptah/lib-utils':
+      '@ptah-app/lib-utils':
         specifier: workspace:*
         version: link:../../packages/lib-utils
       '@simbathesailor/use-what-changed':
@@ -448,7 +448,7 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
       '@types/events':
@@ -478,10 +478,10 @@ importers:
 
   apps/ui-cli:
     dependencies:
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../../packages/lib-models
-      '@ptah/lib-utils':
+      '@ptah-app/lib-utils':
         specifier: workspace:*
         version: link:../../packages/lib-utils
       ink:
@@ -545,13 +545,13 @@ importers:
 
   packages/lib-domains:
     dependencies:
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../lib-models
-      '@ptah/lib-utils':
+      '@ptah-app/lib-utils':
         specifier: workspace:*
         version: link:../lib-utils
       uuid:
@@ -561,10 +561,10 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
       '@types/node':
@@ -582,10 +582,10 @@ importers:
 
   packages/lib-logger:
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
       '@types/node':
@@ -600,17 +600,17 @@ importers:
 
   packages/lib-models:
     dependencies:
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../lib-logger
       zod:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
       '@types/node':
@@ -628,13 +628,13 @@ importers:
       '@kalm/ipc':
         specifier: ^7.0.0
         version: 7.0.0
-      '@ptah/lib-domains':
+      '@ptah-app/lib-domains':
         specifier: workspace:^
         version: link:../lib-domains
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../lib-logger
-      '@ptah/lib-models':
+      '@ptah-app/lib-models':
         specifier: workspace:*
         version: link:../lib-models
       kalm:
@@ -644,10 +644,10 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
       '@types/node':
@@ -662,17 +662,17 @@ importers:
 
   packages/lib-utils:
     dependencies:
-      '@ptah/lib-logger':
+      '@ptah-app/lib-logger':
         specifier: workspace:*
         version: link:../lib-logger
       zod:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@ptah/config-jest':
+      '@ptah-app/config-jest':
         specifier: workspace:*
         version: link:../config-jest
-      '@ptah/config-ts':
+      '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
       '@types/node':

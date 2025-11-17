@@ -1,6 +1,6 @@
-import { log } from "@ptah/lib-logger";
-import type { PubsubMessage, ShowName } from "@ptah/lib-models";
-import { services } from "@ptah/lib-shared";
+import { log } from "@ptah-app/lib-logger";
+import type { PubsubMessage, ShowName } from "@ptah-app/lib-models";
+import { services } from "@ptah-app/lib-shared";
 
 import * as dmx from "../services/dmx.service";
 import * as showService from "../services/show.service";

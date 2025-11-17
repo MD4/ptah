@@ -4,7 +4,7 @@ import { ChildProcess } from "node:child_process";
 import http from "node:http";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import * as shared from "@ptah/lib-shared";
+import * as shared from "@ptah-app/lib-shared";
 import arg from "arg";
 import { config } from "dotenv";
 import open from "open";
@@ -64,7 +64,7 @@ const startService = (service) =>
   new Promise((resolve, reject) =>
     pm2.start(
       {
-        script: `${__dirname}/node_modules/@ptah/service-${service}/dist/index.js`,
+        script: `${__dirname}/node_modules/@ptah-app/service-${service}/dist/index.js`,
         name: service,
         env: toEnv(process.env),
       },
@@ -116,7 +116,7 @@ const serveUi = ([ui, port]) =>
     const server = http
       .createServer((request, response) =>
         handler(request, response, {
-          public: `${__dirname}/node_modules/@ptah/ui-${ui}/dist`,
+          public: `${__dirname}/node_modules/@ptah-app/ui-${ui}/dist`,
           rewrites: [
             {
               source: "/**",

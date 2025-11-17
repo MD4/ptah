@@ -1,5 +1,5 @@
-import { runner as runnerDomain } from "@ptah/lib-domains";
-import { range } from "@ptah/lib-utils";
+import { runner as runnerDomain } from "@ptah-app/lib-domains";
+import { range } from "@ptah-app/lib-utils";
 import * as React from "react";
 import Graph from "./graph";
 

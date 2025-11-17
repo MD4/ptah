@@ -1,5 +1,5 @@
 {
-  "name": "@ptah/lib-logger",
+  "name": "@ptah-app/lib-logger",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -18,8 +18,8 @@
     "preset": "jest-presets/jest/node"
   },
   "devDependencies": {
-    "@ptah/config-jest": "workspace:*",
-    "@ptah/config-ts": "workspace:*",
+    "@ptah-app/config-jest": "workspace:*",
+    "@ptah-app/config-ts": "workspace:*",
     "@types/node": "^24.10.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3"

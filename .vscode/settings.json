@@ -1,5 +1,5 @@
 {
   "svg.preview.background": "dark-transparent",
-  "files.watcherInclude": ["**/node_modules/@ptah/**"],
+  "files.watcherInclude": ["**/node_modules/@ptah-app/**"],
   "js/ts.implicitProjectConfig.checkJs": true
 }

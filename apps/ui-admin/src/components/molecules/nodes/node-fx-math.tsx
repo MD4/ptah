@@ -1,5 +1,5 @@
-import { runner as runnerDomain } from "@ptah/lib-domains";
-import type * as models from "@ptah/lib-models";
+import { runner as runnerDomain } from "@ptah-app/lib-domains";
+import type * as models from "@ptah-app/lib-models";
 import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
 import { Flex, Select } from "antd";

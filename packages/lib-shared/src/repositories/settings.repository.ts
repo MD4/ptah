@@ -1,4 +1,4 @@
-import * as models from "@ptah/lib-models";
+import * as models from "@ptah-app/lib-models";
 import { readFileFromPath, writeFileToPath } from "./file.repository";
 
 export const loadSettingsFromPath = async (

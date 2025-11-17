@@ -1,5 +1,5 @@
-import { logError } from "@ptah/lib-logger";
-import * as models from "@ptah/lib-models";
+import { logError } from "@ptah-app/lib-logger";
+import * as models from "@ptah-app/lib-models";
 import type { Express } from "express";
 import { z } from "zod";
 import { validateRequest } from "zod-express-middleware";

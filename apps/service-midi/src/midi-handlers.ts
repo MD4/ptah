@@ -1,4 +1,4 @@
-import { services } from "@ptah/lib-shared";
+import { services } from "@ptah-app/lib-shared";
 import type { MidiCallback } from "midi";
 
 import {

@@ -1,6 +1,6 @@
 import ipc from "@kalm/ipc";
-import { log } from "@ptah/lib-logger";
-import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import { log } from "@ptah-app/lib-logger";
+import type { PubsubChannel, PubsubMessage } from "@ptah-app/lib-models";
 import * as kalm from "kalm";
 
 const LOG_CONTEXT = `${process.env.UI_ADMIN_NAME ?? ""}:pusub`;

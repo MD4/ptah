@@ -4,8 +4,8 @@ import type {
   PubsubMessage,
   ShowName,
   SocketPubsubMessage,
-} from "@ptah/lib-models";
-import { noop, sleep } from "@ptah/lib-utils";
+} from "@ptah-app/lib-models";
+import { noop, sleep } from "@ptah-app/lib-utils";
 import React, {
   createContext,
   type ReactNode,

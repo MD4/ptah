@@ -1,6 +1,6 @@
-import * as domains from "@ptah/lib-domains";
-import { log } from "@ptah/lib-logger";
-import type * as models from "@ptah/lib-models";
+import * as domains from "@ptah-app/lib-domains";
+import { log } from "@ptah-app/lib-logger";
+import type * as models from "@ptah-app/lib-models";
 
 import { PTAH_DIRECTORY, PTAH_SETTINGS_PATH } from "../env/vars.env";
 import {

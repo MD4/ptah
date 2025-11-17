@@ -1,5 +1,5 @@
-import type * as models from "@ptah/lib-models";
-import { noop } from "@ptah/lib-utils";
+import type * as models from "@ptah-app/lib-models";
+import { noop } from "@ptah-app/lib-utils";
 import type { Node } from "@xyflow/react";
 
 import type { NodeAddProgramData } from "../components/molecules/nodes/node-add-program";

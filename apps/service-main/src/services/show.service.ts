@@ -1,6 +1,6 @@
-import { log } from "@ptah/lib-logger";
-import type { Show, ShowName } from "@ptah/lib-models";
-import { env, repositories, services } from "@ptah/lib-shared";
+import { log } from "@ptah-app/lib-logger";
+import type { Show, ShowName } from "@ptah-app/lib-models";
+import { env, repositories, services } from "@ptah-app/lib-shared";
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";
 import * as runner from "./runner.service";

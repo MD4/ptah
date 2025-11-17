@@ -1,5 +1,5 @@
 import { CaretLeftOutlined, SaveFilled } from "@ant-design/icons";
-import type { Settings } from "@ptah/lib-models";
+import type { Settings } from "@ptah-app/lib-models";
 import {
   Button,
   Col,

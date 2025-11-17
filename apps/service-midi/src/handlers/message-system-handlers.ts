@@ -1,4 +1,4 @@
-import type { PubsubMessage } from "@ptah/lib-models";
+import type { PubsubMessage } from "@ptah-app/lib-models";
 
 import * as midi from "../midi-server";
 

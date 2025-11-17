@@ -1,5 +1,5 @@
-import type { PubsubMessage, ShowName } from "@ptah/lib-models";
-import { noop, sleep } from "@ptah/lib-utils";
+import type { PubsubMessage, ShowName } from "@ptah-app/lib-models";
+import { noop, sleep } from "@ptah-app/lib-utils";
 import * as React from "react";
 import { useSocket, useSocketEvent } from "socket.io-react-hook";
 

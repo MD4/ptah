@@ -1,5 +1,5 @@
-import * as models from "@ptah/lib-models";
-import { deduplicate, isDefined } from "@ptah/lib-utils";
+import * as models from "@ptah-app/lib-models";
+import { deduplicate, isDefined } from "@ptah-app/lib-utils";
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import {
   useMutation,

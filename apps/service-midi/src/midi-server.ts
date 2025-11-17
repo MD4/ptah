@@ -1,7 +1,7 @@
-import { log } from "@ptah/lib-logger";
-import type { MidiStatus } from "@ptah/lib-models";
-import { services } from "@ptah/lib-shared";
-import { debounce } from "@ptah/lib-utils";
+import { log } from "@ptah-app/lib-logger";
+import type { MidiStatus } from "@ptah-app/lib-models";
+import { services } from "@ptah-app/lib-shared";
+import { debounce } from "@ptah-app/lib-utils";
 import type { MidiCallback } from "midi";
 import { Input } from "midi";
 

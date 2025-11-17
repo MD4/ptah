@@ -1,4 +1,4 @@
-import type { ShowPatch } from "@ptah/lib-models";
+import type { ShowPatch } from "@ptah-app/lib-models";
 
 import type { PatchMapping } from "./patch.domain.types";
 import type {

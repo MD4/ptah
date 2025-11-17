@@ -1,4 +1,4 @@
-import * as models from "@ptah/lib-models";
+import * as models from "@ptah-app/lib-models";
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";

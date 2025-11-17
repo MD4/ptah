@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 import ipc from "@kalm/ipc";
-import { log } from "@ptah/lib-logger";
+import { log } from "@ptah-app/lib-logger";
 import * as kalm from "kalm";
 
 let server: ReturnType<typeof kalm.listen> | undefined;

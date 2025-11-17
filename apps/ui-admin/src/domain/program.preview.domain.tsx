@@ -1,6 +1,6 @@
-import { program as programDomain } from "@ptah/lib-domains";
-import type { Program } from "@ptah/lib-models";
-import { clamp, range } from "@ptah/lib-utils";
+import { program as programDomain } from "@ptah-app/lib-domains";
+import type { Program } from "@ptah-app/lib-models";
+import { clamp, range } from "@ptah-app/lib-utils";
 
 import * as React from "react";
 import { useInterval } from "usehooks-ts";

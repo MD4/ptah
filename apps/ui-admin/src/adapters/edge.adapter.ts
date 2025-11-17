@@ -1,4 +1,4 @@
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 import type { Edge } from "@xyflow/react";
 
 export const adaptModelEdgesToReactFlowEdges = (edges: models.Edge[]): Edge[] =>

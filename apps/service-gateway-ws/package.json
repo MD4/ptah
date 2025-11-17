@@ -1,5 +1,5 @@
 {
-  "name": "@ptah/service-gateway-ws",
+  "name": "@ptah-app/service-gateway-ws",
   "version": "0.0.0",
   "private": true,
   "type": "commonjs",
@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@kalm/ipc": "^7.0.0",
-    "@ptah/lib-logger": "workspace:*",
-    "@ptah/lib-models": "workspace:^",
-    "@ptah/lib-shared": "workspace:^",
+    "@ptah-app/lib-logger": "workspace:*",
+    "@ptah-app/lib-models": "workspace:^",
+    "@ptah-app/lib-shared": "workspace:^",
     "@types/midi": "^2.0.4",
     "dotenv": "^17.2.3",
     "kalm": "^7.0.0",
@@ -28,8 +28,8 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "@ptah/config-jest": "workspace:*",
-    "@ptah/config-ts": "workspace:*",
+    "@ptah-app/config-jest": "workspace:*",
+    "@ptah-app/config-ts": "workspace:*",
     "@types/node": "^24.10.0",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.1.4",

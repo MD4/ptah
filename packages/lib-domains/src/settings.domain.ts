@@ -1,4 +1,4 @@
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 
 export const createSettings = (): models.Settings => ({
   version: "0.0.1",

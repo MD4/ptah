@@ -1,5 +1,5 @@
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import * as models from "@ptah/lib-models";
+import * as models from "@ptah-app/lib-models";
 import type { InputRef } from "antd";
 import { Button, Flex, Form, Input, notification, theme } from "antd";
 import Title from "antd/es/typography/Title";

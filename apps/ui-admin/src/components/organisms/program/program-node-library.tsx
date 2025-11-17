@@ -1,4 +1,4 @@
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 import { theme } from "antd";
 import { Masonry, type RenderComponentProps } from "masonic";
 import * as React from "react";

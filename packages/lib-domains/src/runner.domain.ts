@@ -1,4 +1,4 @@
-import { clamp, easeOutQuint, easeOutQuintInvert } from "@ptah/lib-utils";
+import { clamp, easeOutQuint, easeOutQuintInvert } from "@ptah-app/lib-utils";
 
 export type * from "./runner.domain.types";
 

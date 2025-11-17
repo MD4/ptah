@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 
-import { services } from "@ptah/lib-shared";
+import { services } from "@ptah-app/lib-shared";
 import type { IUniverseDriver } from "dmx-ts";
 
 export type DebugDriverArgs = {

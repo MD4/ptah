@@ -1,5 +1,5 @@
-import type * as models from "@ptah/lib-models";
-import { isDefined } from "@ptah/lib-utils";
+import type * as models from "@ptah-app/lib-models";
+import { isDefined } from "@ptah-app/lib-utils";
 import { v4 as uuidv4 } from "uuid";
 import type {
   ProgramCompute,

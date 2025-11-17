@@ -1,5 +1,5 @@
 {
-  "name": "@ptah/service-api",
+  "name": "@ptah-app/service-api",
   "version": "0.0.0",
   "private": true,
   "type": "commonjs",
@@ -16,10 +16,10 @@
     "preset": "jest-presets/jest/node"
   },
   "dependencies": {
-    "@ptah/lib-domains": "workspace:^",
-    "@ptah/lib-logger": "workspace:*",
-    "@ptah/lib-models": "workspace:*",
-    "@ptah/lib-shared": "workspace:*",
+    "@ptah-app/lib-domains": "workspace:^",
+    "@ptah-app/lib-logger": "workspace:*",
+    "@ptah-app/lib-models": "workspace:*",
+    "@ptah-app/lib-shared": "workspace:*",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -30,8 +30,8 @@
     "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
-    "@ptah/config-jest": "workspace:*",
-    "@ptah/config-ts": "workspace:*",
+    "@ptah-app/config-jest": "workspace:*",
+    "@ptah-app/config-ts": "workspace:*",
     "@types/body-parser": "^1.19.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",

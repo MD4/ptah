@@ -1,5 +1,5 @@
-import { log } from "@ptah/lib-logger";
-import type { PubsubMessage } from "@ptah/lib-models";
+import { log } from "@ptah-app/lib-logger";
+import type { PubsubMessage } from "@ptah-app/lib-models";
 
 import * as dmx from "../services/dmx.service";
 import * as runner from "../services/runner.service";

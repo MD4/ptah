@@ -1,4 +1,4 @@
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 import type { Node } from "@xyflow/react";
 
 import type { NodeProgramData } from "../components/molecules/nodes/node-program";

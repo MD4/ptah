@@ -1,5 +1,5 @@
 import { SaveFilled, SisternodeOutlined } from "@ant-design/icons";
-import type * as models from "@ptah/lib-models";
+import type * as models from "@ptah-app/lib-models";
 import type {
   Connection,
   Edge,

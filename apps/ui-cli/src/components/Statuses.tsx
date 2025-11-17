@@ -1,4 +1,4 @@
-import type { DmxStatus, MidiStatus } from "@ptah/lib-models";
+import type { DmxStatus, MidiStatus } from "@ptah-app/lib-models";
 import { Box, Text } from "ink";
 import React from "react";
 

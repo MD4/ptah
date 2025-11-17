@@ -1,9 +1,9 @@
 {
-  "name": "@ptah/ui-cli",
+  "name": "@ptah-app/ui-cli",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "tsc; chmod u+x dist/index.js; npm link",
+    "build": "tsc; chmod u+x dist/index.js; npm link --force",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit"
@@ -20,8 +20,8 @@
     "dist"
   ],
   "dependencies": {
-    "@ptah/lib-models": "workspace:*",
-    "@ptah/lib-utils": "workspace:*",
+    "@ptah-app/lib-models": "workspace:*",
+    "@ptah-app/lib-utils": "workspace:*",
     "ink": "^6.4.0",
     "ink-confirm-input": "^2.0.0",
     "ink-image": "^2.0.0",

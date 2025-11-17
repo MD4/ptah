@@ -1,5 +1,5 @@
-import { log } from "@ptah/lib-logger";
-import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import { log } from "@ptah-app/lib-logger";
+import type { PubsubChannel, PubsubMessage } from "@ptah-app/lib-models";
 import type { Socket } from "socket.io";
 import { Server } from "socket.io";
 

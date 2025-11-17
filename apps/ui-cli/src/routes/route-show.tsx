@@ -1,5 +1,5 @@
-import type { Show, ShowName } from "@ptah/lib-models";
-import { deduplicate, isDefined } from "@ptah/lib-utils";
+import type { Show, ShowName } from "@ptah-app/lib-models";
+import { deduplicate, isDefined } from "@ptah-app/lib-utils";
 import { Box, Text, useInput } from "ink";
 import Spinner from "ink-spinner";
 import React, { useEffect, useMemo, useState } from "react";

@@ -2,11 +2,11 @@ import fs from "node:fs";
 import type {
   patch as patchDomain,
   program as programDomain,
-} from "@ptah/lib-domains";
-import { log } from "@ptah/lib-logger";
-import type { DmxStatus } from "@ptah/lib-models";
-import { services } from "@ptah/lib-shared";
-import { sleep } from "@ptah/lib-utils";
+} from "@ptah-app/lib-domains";
+import { log } from "@ptah-app/lib-logger";
+import type { DmxStatus } from "@ptah-app/lib-models";
+import { services } from "@ptah-app/lib-shared";
+import { sleep } from "@ptah-app/lib-utils";
 
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";

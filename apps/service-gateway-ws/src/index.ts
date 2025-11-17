@@ -1,11 +1,11 @@
 import "dotenv/config";
-import { log, logError } from "@ptah/lib-logger";
+import { log, logError } from "@ptah-app/lib-logger";
 import type {
   PubsubChannel,
   PubsubMessage,
   PubsubMessageType,
-} from "@ptah/lib-models";
-import { services } from "@ptah/lib-shared";
+} from "@ptah-app/lib-models";
+import { services } from "@ptah-app/lib-shared";
 
 import * as server from "./server";
 

@@ -1,4 +1,4 @@
-import type { ShowName } from "@ptah/lib-models";
+import type { ShowName } from "@ptah-app/lib-models";
 
 export type Route =
   | { path: "home" }

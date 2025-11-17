@@ -1,4 +1,4 @@
-import { logError } from "@ptah/lib-logger";
+import { logError } from "@ptah-app/lib-logger";
 import type { Express } from "express";
 
 import {

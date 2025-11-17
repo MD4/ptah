@@ -1,9 +1,9 @@
 import {
   patch as patchDomain,
   program as programDomain,
-} from "@ptah/lib-domains";
-import { log } from "@ptah/lib-logger";
-import { services } from "@ptah/lib-shared";
+} from "@ptah-app/lib-domains";
+import { log } from "@ptah-app/lib-logger";
+import { services } from "@ptah-app/lib-shared";
 
 import * as dmx from "./dmx.service";
 import * as patchService from "./patch.service";

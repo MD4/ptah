@@ -1,6 +1,6 @@
-import * as domains from "@ptah/lib-domains";
-import type * as models from "@ptah/lib-models";
-import { noop } from "@ptah/lib-utils";
+import * as domains from "@ptah-app/lib-domains";
+import type * as models from "@ptah-app/lib-models";
+import { noop } from "@ptah-app/lib-utils";
 import { deepEqual } from "fast-equals";
 import * as React from "react";
 

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { log, logError } from "@ptah/lib-logger";
+import { log, logError } from "@ptah-app/lib-logger";
 
 import * as server from "./server";
 

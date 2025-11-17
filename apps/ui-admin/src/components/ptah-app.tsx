@@ -1,4 +1,4 @@
-import type { PubsubMessage } from "@ptah/lib-models";
+import type { PubsubMessage } from "@ptah-app/lib-models";
 import { App, notification } from "antd";
 import * as React from "react";
 import { useEffect } from "react";

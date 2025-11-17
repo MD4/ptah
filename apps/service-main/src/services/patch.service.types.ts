@@ -1,7 +1,7 @@
 import type {
   patch as patchDomain,
   program as programDomain,
-} from "@ptah/lib-domains";
+} from "@ptah-app/lib-domains";
 
 export type PatchStateItem = {
   program: programDomain.ProgramDefinition;

@@ -1,4 +1,4 @@
-import type { PubsubChannel, PubsubMessage } from "@ptah/lib-models";
+import type { PubsubChannel, PubsubMessage } from "@ptah-app/lib-models";
 
 import { handleSystemMessage } from "./message-system-handlers";
 

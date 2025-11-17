@@ -4,7 +4,7 @@ import type {
   PubsubMessageMidi,
   PubsubMessageSystem,
   ShowName,
-} from "@ptah/lib-models";
+} from "@ptah-app/lib-models";
 
 export type SystemState = {
   connected: boolean;

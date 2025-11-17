@@ -5,6 +5,6 @@
     "outDir": "./dist"
   },
   "exclude": ["node_modules", "dist"],
-  "extends": "@ptah/config-ts/base.json",
+  "extends": "@ptah-app/config-ts/base.json",
   "include": ["."]
 }

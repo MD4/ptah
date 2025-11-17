@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { noop } from "@ptah/lib-utils";
+import { noop } from "@ptah-app/lib-utils";
 import type { Node, NodeProps } from "@xyflow/react";
 import { Button, Flex, theme } from "antd";
 import * as React from "react";

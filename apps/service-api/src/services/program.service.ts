@@ -1,6 +1,6 @@
-import * as domains from "@ptah/lib-domains";
-import type * as models from "@ptah/lib-models";
-import { env, repositories } from "@ptah/lib-shared";
+import * as domains from "@ptah-app/lib-domains";
+import type * as models from "@ptah-app/lib-models";
+import { env, repositories } from "@ptah-app/lib-shared";
 
 export const handleProgramList = async (): Promise<models.ProgramName[]> => {
   await repositories.file.checkPathAndInitialize(env.vars.PTAH_PROGRAMS_PATH);
