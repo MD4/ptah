@@ -1,0 +1,18 @@
+# @ptah-app/app
+
+## 0.1.0
+
+### Minor Changes
+
+- 3a09045: First release 🎉
+
+### Patch Changes
+
+- Updated dependencies [3a09045]
+  - @ptah-app/service-api@0.1.0
+  - @ptah-app/service-bus@0.1.0
+  - @ptah-app/service-gateway-ws@0.1.0
+  - @ptah-app/service-main@0.1.0
+  - @ptah-app/service-midi@0.1.0
+  - @ptah-app/ui-admin@0.1.0
+  - @ptah-app/lib-shared@0.1.0
