@@ -1,7 +1,7 @@
 {
   "name": "@ptah-app/config-jest",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "dependencies": {
     "ts-jest": "^29.4.5"

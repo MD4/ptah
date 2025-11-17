@@ -1,7 +1,7 @@
 {
   "name": "@ptah-app/ui-admin",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "serve --single dist",
     "build": "vite build",
