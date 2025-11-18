@@ -10,6 +10,7 @@ import { config } from "dotenv";
 import open from "open";
 import pm2 from "pm2";
 import handler from "serve-handler";
+import packageJson from "./package.json" with { type: "json" };
 
 /**
  * @typedef {import("arg")} arg
@@ -255,6 +256,8 @@ const main = async () => {
   config({
     path: `${__dirname}/.env`,
   });
+
+  process.env.APP_VERSION = packageJson.version;
 
   const args = parseArgv();
   const noUi = args["--no-ui"] ?? false;
