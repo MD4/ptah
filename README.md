@@ -7,9 +7,8 @@
   <h5 align="center">MIDI to DMX mapper and program runner.</h5>
   <br/>
   <p align="center">
-      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb">
-        <img src="https://github.com/MD4/ptah/actions/workflows/build.yml/badge.svg" alt="Logo" height="120px" style="margin-top: 20px;"/>
-      </a>
+      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb"><img src="https://github.com/MD4/ptah/actions/workflows/build.yml/badge.svg" alt="build status" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb"><img src="https://img.shields.io/npm/v/@ptah-app/app" alt="npm version" height="120px" style="margin-top: 20px;"/></a>
   </p>
   <br/>
   <br/>
