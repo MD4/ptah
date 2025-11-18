@@ -110,10 +110,12 @@ export default function SettingsMainPage({
     <>
       <Row gutter={[16, 16]} justify="center">
         <Col span={12}>
-          <Typography.Text style={styles.textVersion}>Version</Typography.Text>
+          <Typography.Text style={styles.textVersion}>
+            App version
+          </Typography.Text>
         </Col>
         <Col span={12} style={styles.settingsLine}>
-          <Tag>v{settings.version}</Tag>
+          <Tag>v{settings.appVersion ?? "0.0.0-dev"}</Tag>
         </Col>
 
         <Divider plain>MIDI</Divider>
