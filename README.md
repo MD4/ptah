@@ -7,8 +7,10 @@
   <h5 align="center">MIDI to DMX mapper and program runner.</h5>
   <br/>
   <p align="center">
-      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb"><img src="https://github.com/MD4/ptah/actions/workflows/build.yml/badge.svg" alt="build status" height="120px" style="margin-top: 20px;"/></a>
-      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml" alt="Screeb"><img src="https://img.shields.io/npm/v/@ptah-app/app" alt="npm version" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://github.com/MD4/ptah/actions/workflows/build.yml"><img src="https://github.com/MD4/ptah/actions/workflows/build.yml/badge.svg" alt="build status" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://www.npmjs.com/package/@ptah-app/app"><img src="https://img.shields.io/npm/v/%40ptah-app%2Fapp" alt="npm version" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://www.npmjs.com/package/@ptah-app/app"><img src="https://img.shields.io/npm/dy/%40ptah-app%2Fapp" alt="license" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://github.com/MD4/ptah/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MD4/ptah" alt="license" height="120px" style="margin-top: 20px;"/></a>
   </p>
   <br/>
   <br/>
