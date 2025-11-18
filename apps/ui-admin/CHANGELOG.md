@@ -1,5 +1,19 @@
 # @ptah-app/ui-admin
 
+## 0.2.0
+
+### Minor Changes
+
+- 0b79de1:
+
+### Patch Changes
+
+- Updated dependencies [0b79de1]
+  - @ptah-app/lib-domains@0.2.0
+  - @ptah-app/lib-logger@0.2.0
+  - @ptah-app/lib-models@0.2.0
+  - @ptah-app/lib-utils@0.2.0
+
 ## 0.1.0
 
 ### Minor Changes
