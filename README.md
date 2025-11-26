@@ -54,35 +54,4 @@ npm remove -g @ptah-app/app@latest
 
 ## Contribute to PTAH
 
-To contribute to PTAH, please follow these steps:
-
-### Step #1 - Checkout
-Checkout this repository.
-
-```
-git clone https://github.com/MD4/ptah
-```
-
-### Step #2 - Node.js
-Make sure you have Node.js >= installed.
-If not, check out [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) then run:
-
-```
-nvm use
-```
-
-### Step #3 - pnpm
-This project uses pnpm.
-If you don't have it installed, check out [here](https://pnpm.io/fr/installation).
-
-### Step #4 - Start dev mode
-
-Install then start dev mode by running:
-
-```bash
-pnpm i
-pnpm dev
-```
-### Step 5 - You're ready to go
-
-Let's contribute, you marvelous little star! ✨
+See [CONTRIBUTING/Develop](./CONTRIBUTING.md#Develop)
