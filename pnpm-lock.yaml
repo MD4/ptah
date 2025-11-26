@@ -407,9 +407,6 @@ importers:
       axios:
         specifier: ^1.13.2
         version: 1.13.2
-      fast-copy:
-        specifier: ^4.0.0
-        version: 4.0.0
       fast-equals:
         specifier: ^5.3.3
         version: 5.3.3
@@ -3278,9 +3275,6 @@ packages:
 
   extrareqp2@1.0.0:
     resolution: {integrity: sha512-Gum0g1QYb6wpPJCVypWP3bbIuaibcFiJcpuPM10YSXp/tzqi84x9PJageob+eN4xVRIOto4wjSGNLyMD54D2xA==}
-
-  fast-copy@4.0.0:
-    resolution: {integrity: sha512-/oA0gx1xyXE9R2YlV4FXwZJXngFdm9Du0zN8FhY38jnLkhp1u35h6bCyKgRhlsA6C9I+1vfXE4KISdt7xc6M9w==}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -8536,8 +8530,6 @@ snapshots:
       follow-redirects: 1.15.11(debug@4.3.7)
     transitivePeerDependencies:
       - debug
-
-  fast-copy@4.0.0: {}
 
   fast-deep-equal@3.1.3: {}
 
