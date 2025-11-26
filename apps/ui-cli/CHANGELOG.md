@@ -1,5 +1,14 @@
 # @ptah-app/ui-cli
 
+## 0.2.1
+
+### Patch Changes
+
+- 38dcc4a: upgrade dependencies
+- Updated dependencies [38dcc4a]
+  - @ptah-app/lib-models@0.2.1
+  - @ptah-app/lib-utils@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

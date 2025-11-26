@@ -1,5 +1,15 @@
 # @ptah-app/lib-shared
 
+## 0.2.1
+
+### Patch Changes
+
+- 38dcc4a: upgrade dependencies
+- Updated dependencies [38dcc4a]
+  - @ptah-app/lib-domains@0.2.1
+  - @ptah-app/lib-logger@0.2.1
+  - @ptah-app/lib-models@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

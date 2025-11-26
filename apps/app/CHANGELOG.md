@@ -1,5 +1,19 @@
 # @ptah-app/app
 
+## 0.2.1
+
+### Patch Changes
+
+- 38dcc4a: upgrade dependencies
+- Updated dependencies [38dcc4a]
+  - @ptah-app/service-api@0.2.1
+  - @ptah-app/service-bus@0.2.1
+  - @ptah-app/service-gateway-ws@0.2.1
+  - @ptah-app/service-main@0.2.1
+  - @ptah-app/service-midi@0.2.1
+  - @ptah-app/ui-admin@0.2.1
+  - @ptah-app/lib-shared@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
