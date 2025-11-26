@@ -14,7 +14,7 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "allcheck": "pnpm format && pnpm check && pnpm typecheck",
-    "publish-packages": "pnpm clean && pnpm allcheck && changeset version && changeset publish && git push --tags"
+    "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
