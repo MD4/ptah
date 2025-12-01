@@ -21,7 +21,7 @@
     "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
     "@types/node": "^24.10.0",
-    "tsup": "^8.5.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
