@@ -396,8 +396,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       '@xyflow/react':
-        specifier: ^12.9.2
-        version: 12.9.2(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^12.10.0
+        version: 12.10.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       antd:
         specifier: ^5.28.0
         version: 5.28.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -2386,14 +2386,14 @@ packages:
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
 
-  '@xyflow/react@12.9.2':
-    resolution: {integrity: sha512-Xr+LFcysHCCoc5KRHaw+FwbqbWYxp9tWtk1mshNcqy25OAPuaKzXSdqIMNOA82TIXF/gFKo0Wgpa6PU7wUUVqw==}
+  '@xyflow/react@12.10.0':
+    resolution: {integrity: sha512-eOtz3whDMWrB4KWVatIBrKuxECHqip6PfA8fTpaS2RUGVpiEAe+nqDKsLqkViVWxDGreq0lWX71Xth/SPAzXiw==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
 
-  '@xyflow/system@0.0.72':
-    resolution: {integrity: sha512-WBI5Aau0fXTXwxHPzceLNS6QdXggSWnGjDtj/gG669crApN8+SCmEtkBth1m7r6pStNo/5fI9McEi7Dk0ymCLA==}
+  '@xyflow/system@0.0.74':
+    resolution: {integrity: sha512-7v7B/PkiVrkdZzSbL+inGAo6tkR/WQHHG0/jhSvLQToCsfa8YubOGmBYd1s08tpKpihdHDZFwzQZeR69QSBb4Q==}
 
   '@zeit/schemas@2.36.0':
     resolution: {integrity: sha512-7kjMwcChYEzMKjeex9ZFXkt1AyNov9R5HZtjBKVsmVpw7pa7ZtlCGvCBC2vnnXctaYN+aRI61HjIqeetZW5ROg==}
@@ -7478,9 +7478,9 @@ snapshots:
 
   '@xmldom/xmldom@0.8.10': {}
 
-  '@xyflow/react@12.9.2(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@xyflow/react@12.10.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@xyflow/system': 0.0.72
+      '@xyflow/system': 0.0.74
       classcat: 5.0.5
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
@@ -7489,7 +7489,7 @@ snapshots:
       - '@types/react'
       - immer
 
-  '@xyflow/system@0.0.72':
+  '@xyflow/system@0.0.74':
     dependencies:
       '@types/d3-drag': 3.0.7
       '@types/d3-interpolate': 3.0.4
