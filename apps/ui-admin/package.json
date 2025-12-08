@@ -17,7 +17,7 @@
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-utils": "workspace:*",
     "@simbathesailor/use-what-changed": "^2.0.0",
-    "@tanstack/react-query": "^5.90.5",
+    "@tanstack/react-query": "^5.90.12",
     "@types/react-transition-group": "^4.4.12",
     "@types/uuid": "^11.0.0",
     "@xyflow/react": "^12.9.2",
