@@ -30,7 +30,7 @@
     "meow": "^13.2.0",
     "node-fetch": "^3.3.2",
     "react": "^19.2.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "^7.0.0",
