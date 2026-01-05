@@ -28,7 +28,7 @@
     "masonic": "^4.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.9.6",
+    "react-router-dom": "^7.11.0",
     "react-transition-group": "^4.4.5",
     "serve": "^14.2.5",
     "socket.io-react-hook": "^2.4.5",
