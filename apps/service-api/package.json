@@ -26,7 +26,7 @@
     "express": "^5.2.0",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.11",
-    "zod": "^4.1.13",
+    "zod": "^4.3.5",
     "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
