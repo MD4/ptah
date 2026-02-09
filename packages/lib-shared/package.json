@@ -30,6 +30,6 @@
     "@ptah-app/lib-logger": "workspace:*",
     "@ptah-app/lib-models": "workspace:*",
     "kalm": "^7.0.0",
-    "zod": "^4.3.5"
+    "zod": "^4.3.6"
   }
 }
