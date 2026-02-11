@@ -405,8 +405,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(antd@6.2.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(zod@4.3.6)
       axios:
-        specifier: ^1.13.3
-        version: 1.13.3
+        specifier: ^1.13.5
+        version: 1.13.5
       fast-equals:
         specifier: ^5.4.0
         version: 5.4.0
@@ -2766,8 +2766,8 @@ packages:
     resolution: {integrity: sha512-ooviqdwwgfIfNmDwo94wlshcdzfO64XV0Cg6oDsDYBJfITDz1EngD2z7DkbvCWn+XIMsIqW27sEVF6qcpJrRcg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  axios@1.13.3:
-    resolution: {integrity: sha512-ERT8kdX7DZjtUm7IitEyV7InTHAF42iJuMArIiDIV5YtPanJkgw4hw5Dyg9fh0mihdWNn1GKaeIWErfe56UQ1g==}
+  axios@1.13.5:
+    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
 
   babel-jest@30.2.0:
     resolution: {integrity: sha512-0YiBEOxWqKkSQWL9nNGGEgndoeL0ZpWrbLMNL5u/Kaxrli3Eaxlt3ZtIDktEvXt4L/R9r3ODr2zKwGM/2BjxVw==}
@@ -7966,7 +7966,7 @@ snapshots:
 
   auto-bind@5.0.1: {}
 
-  axios@1.13.3:
+  axios@1.13.5:
     dependencies:
       follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.5
