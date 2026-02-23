@@ -17,7 +17,7 @@
     "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.13",
+    "@biomejs/biome": "^2.4.4",
     "@changesets/cli": "^2.29.8",
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
