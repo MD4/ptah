@@ -25,7 +25,7 @@
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
     "nodemon": "^3.1.14",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
