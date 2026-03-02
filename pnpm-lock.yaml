@@ -396,8 +396,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       '@xyflow/react':
-        specifier: ^12.10.0
-        version: 12.10.0(@types/react@19.2.8)(react-dom@19.2.4(react@19.2.3))(react@19.2.3)
+        specifier: ^12.10.1
+        version: 12.10.1(@types/react@19.2.8)(react-dom@19.2.4(react@19.2.3))(react@19.2.3)
       antd:
         specifier: ^6.3.0
         version: 6.3.0(react-dom@19.2.4(react@19.2.3))(react@19.2.3)
@@ -2619,14 +2619,14 @@ packages:
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
 
-  '@xyflow/react@12.10.0':
-    resolution: {integrity: sha512-eOtz3whDMWrB4KWVatIBrKuxECHqip6PfA8fTpaS2RUGVpiEAe+nqDKsLqkViVWxDGreq0lWX71Xth/SPAzXiw==}
+  '@xyflow/react@12.10.1':
+    resolution: {integrity: sha512-5eSWtIK/+rkldOuFbOOz44CRgQRjtS9v5nufk77DV+XBnfCGL9HAQ8PG00o2ZYKqkEU/Ak6wrKC95Tu+2zuK3Q==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
 
-  '@xyflow/system@0.0.74':
-    resolution: {integrity: sha512-7v7B/PkiVrkdZzSbL+inGAo6tkR/WQHHG0/jhSvLQToCsfa8YubOGmBYd1s08tpKpihdHDZFwzQZeR69QSBb4Q==}
+  '@xyflow/system@0.0.75':
+    resolution: {integrity: sha512-iXs+AGFLi8w/VlAoc/iSxk+CxfT6o64Uw/k0CKASOPqjqz6E0rb5jFZgJtXGZCpfQI6OQpu5EnumP5fGxQheaQ==}
 
   '@zeit/schemas@2.36.0':
     resolution: {integrity: sha512-7kjMwcChYEzMKjeex9ZFXkt1AyNov9R5HZtjBKVsmVpw7pa7ZtlCGvCBC2vnnXctaYN+aRI61HjIqeetZW5ROg==}
@@ -2824,6 +2824,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -7787,9 +7788,9 @@ snapshots:
 
   '@xmldom/xmldom@0.8.10': {}
 
-  '@xyflow/react@12.10.0(@types/react@19.2.8)(react-dom@19.2.4(react@19.2.3))(react@19.2.3)':
+  '@xyflow/react@12.10.1(@types/react@19.2.8)(react-dom@19.2.4(react@19.2.3))(react@19.2.3)':
     dependencies:
-      '@xyflow/system': 0.0.74
+      '@xyflow/system': 0.0.75
       classcat: 5.0.5
       react: 19.2.3
       react-dom: 19.2.4(react@19.2.3)
@@ -7798,7 +7799,7 @@ snapshots:
       - '@types/react'
       - immer
 
-  '@xyflow/system@0.0.74':
+  '@xyflow/system@0.0.75':
     dependencies:
       '@types/d3-drag': 3.0.7
       '@types/d3-interpolate': 3.0.4
