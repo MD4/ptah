@@ -24,7 +24,7 @@
     "antd": "^6.3.0",
     "antd-zod": "^8.0.0",
     "axios": "^1.13.6",
-    "fast-equals": "^5.4.0",
+    "fast-equals": "^6.0.0",
     "masonic": "^4.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.4",
