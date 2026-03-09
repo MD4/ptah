@@ -27,7 +27,7 @@
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.3.5",
     "@types/supertest": "^7.2.0",
     "supertest": "^7.2.2",
     "tsup": "^8.5.1",
