@@ -41,7 +41,7 @@ export default function NodePreview({
   );
 
   const _onDragStart = React.useCallback(
-    (event: DragEvent) => {
+    (event: React.DragEvent<HTMLElement>) => {
       if (!event.dataTransfer || !event.target) {
         return;
       }
