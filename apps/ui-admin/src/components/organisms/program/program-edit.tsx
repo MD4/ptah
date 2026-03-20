@@ -204,12 +204,12 @@ export default function ProgramEdit() {
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
-    success({ message: "All good", description: "Program successfully saved" });
+    success({ title: "All good", description: "Program successfully saved" });
   }, [success]);
 
   const onSaveMutationError = React.useCallback<(err: Error) => void>(
     ({ message }) => {
-      error({ message: "Something went wrong", description: message });
+      error({ title: "Something went wrong", description: message });
     },
     [error],
   );

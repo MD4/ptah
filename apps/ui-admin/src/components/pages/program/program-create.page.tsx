@@ -27,7 +27,7 @@ export default function ProgramCreatePage() {
       navigate(`/program/${name}`);
     },
     (err) => {
-      error({ message: "Something went wrong", description: err.message });
+      error({ title: "Something went wrong", description: err.message });
     },
   );
 

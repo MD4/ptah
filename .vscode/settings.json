@@ -1,5 +1,6 @@
 {
   "svg.preview.background": "dark-transparent",
   "files.watcherInclude": ["**/node_modules/@ptah-app/**"],
-  "js/ts.implicitProjectConfig.checkJs": true
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "workbench.browser.enableChatTools": true
 }

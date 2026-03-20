@@ -1,5 +1,5 @@
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Flex, Input, List, theme } from "antd";
+import { Button, Flex, Input, Spin, theme } from "antd";
 import * as React from "react";
 
 const { useToken } = theme;
@@ -77,10 +77,15 @@ export default function SearchableList({
           justifyContent: "center",
           padding: token.paddingXL,
         },
+        listFooter: {
+          padding: `${token.padding}px ${token.paddingLG}px`,
+        },
       }) satisfies Record<string, React.CSSProperties>,
     [
       token.borderRadius,
       token.fontWeightStrong,
+      token.padding,
+      token.paddingLG,
       token.paddingXL,
       token.sizeMD,
       token.sizeMS,
@@ -98,38 +103,36 @@ export default function SearchableList({
         suffix={<SearchOutlined />}
       />
 
-      <List
-        footer={footer}
-        loading={isLoading}
-        size="large"
-        style={styles.list}
-      >
-        <div style={styles.listContent}>
-          {data && !filteredData.length ? (
-            <List.Item style={styles.empty}>No programs found.</List.Item>
-          ) : null}
-          {filteredData.map((item) => (
-            <List.Item key={item} style={styles.listItem}>
-              <Button
-                onClick={() => {
-                  onItemSelected(item);
-                }}
-                size="large"
-                style={styles.listItemButton}
-                type="text"
-              >
-                <Flex
-                  style={styles.listItemLabelContainer}
-                  justify="space-between"
+      <div style={styles.list}>
+        <Spin spinning={isLoading}>
+          <div style={styles.listContent}>
+            {data && !filteredData.length ? (
+              <div style={styles.empty}>No programs found.</div>
+            ) : null}
+            {filteredData.map((item) => (
+              <div key={item} style={styles.listItem}>
+                <Button
+                  onClick={() => {
+                    onItemSelected(item);
+                  }}
+                  size="large"
+                  style={styles.listItemButton}
+                  type="text"
                 >
-                  <div style={styles.listItemLabel}>{item}</div>
-                  <CaretRightOutlined />
-                </Flex>
-              </Button>
-            </List.Item>
-          ))}
-        </div>
-      </List>
+                  <Flex
+                    style={styles.listItemLabelContainer}
+                    justify="space-between"
+                  >
+                    <div style={styles.listItemLabel}>{item}</div>
+                    <CaretRightOutlined />
+                  </Flex>
+                </Button>
+              </div>
+            ))}
+          </div>
+        </Spin>
+        <div style={styles.listFooter}>{footer}</div>
+      </div>
     </Flex>
   );
 }

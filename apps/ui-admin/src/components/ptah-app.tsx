@@ -15,7 +15,13 @@ import ShowPage from "./pages/show.page";
 
 function PtahApp() {
   useEffect(() => {
-    navigator.vibrate(30);
+    if (navigator.vibrate) {
+      const onInteraction = () => {
+        navigator.vibrate(30);
+        document.removeEventListener("click", onInteraction);
+      };
+      document.addEventListener("click", onInteraction, { once: true });
+    }
   }, []);
 
   const [{ error, success }, contextHolder] = notification.useNotification({
@@ -27,13 +33,13 @@ function PtahApp() {
       switch (message.type) {
         case "show:load:success":
           success({
-            message: message.showName,
+            title: message.showName,
             description: "Show successfully loaded",
           });
           break;
         case "show:load:error":
           error({
-            message: message.showName,
+            title: message.showName,
             description: "Something went wrong",
           });
           break;

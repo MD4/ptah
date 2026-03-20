@@ -39,7 +39,7 @@ export default function ShowMenu() {
   const onShowDeleteError = React.useCallback(
     ({ message }: Error) => {
       error({
-        message: "Something went wrong",
+        title: "Something went wrong",
         description: message,
       });
     },

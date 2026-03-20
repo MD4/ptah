@@ -241,7 +241,7 @@ export default function ShowMapping() {
 
   const onSaveMutationSuccess = React.useCallback(() => {
     success({
-      message: "All good",
+      title: "All good",
       description: "Show successfully saved",
     });
     system.loadShow(show.name);
@@ -249,7 +249,7 @@ export default function ShowMapping() {
 
   const onSaveMutationError = React.useCallback<(err: Error) => void>(
     ({ message }) => {
-      error({ message: "Something went wrong", description: message });
+      error({ title: "Something went wrong", description: message });
     },
     [error],
   );

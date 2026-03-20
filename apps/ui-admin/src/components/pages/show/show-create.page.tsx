@@ -27,7 +27,7 @@ export default function ShowCreatePage() {
       navigate(`/show/${name}`);
     },
     (err) => {
-      error({ message: "Something went wrong", description: err.message });
+      error({ title: "Something went wrong", description: err.message });
     },
   );
 
