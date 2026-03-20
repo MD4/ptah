@@ -2,7 +2,7 @@
   "name": "@ptah-app/service-gateway-ws",
   "version": "0.2.1",
   "private": false,
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "start": "nodemon dist/index.js",

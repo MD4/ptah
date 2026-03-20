@@ -1,11 +1,14 @@
 import type { Server } from "node:http";
 
-import { json, urlencoded } from "body-parser";
+import bodyParser from "body-parser";
+
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 
 import { configureRoutes } from "../routes";
+
+const { json, urlencoded } = bodyParser;
 
 let server: Server | undefined;
 

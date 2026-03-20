@@ -4,10 +4,10 @@
   "Display": "Vite",
   "compilerOptions": {
     "allowJs": false,
-    "esModuleInterop": false,
     "jsx": "react",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "ESNext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
