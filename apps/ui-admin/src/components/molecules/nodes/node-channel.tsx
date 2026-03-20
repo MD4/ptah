@@ -31,7 +31,6 @@ export default function NodeChannel({
   return (
     <Flex align="center" style={styles.container}>
       <Typography.Text code>{label}</Typography.Text>
-      {/** biome-ignore lint/correctness/useUniqueElementIds: need to be "output" */}
       <Handle
         id="input"
         isConnectable
