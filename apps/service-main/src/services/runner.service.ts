@@ -25,7 +25,7 @@ export const reset = (resetControlsState: boolean): void => {
   }
 };
 
-export const setControlValue = (controlId: number, value: number): void => {
+export const setControlValue = (controlId: string, value: number): void => {
   controlsState.set(controlId, value);
 };
 
