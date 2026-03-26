@@ -1,9 +1,6 @@
 name: Auto Merge Dependabot PRs
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 permissions:
@@ -11,6 +8,7 @@ permissions:
 
 jobs:
   build:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     uses: ./.github/workflows/build.yml
 
   dependabot:
