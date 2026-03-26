@@ -19,6 +19,7 @@ export const nodesDefinitions: Record<
   "input-constant": { type: "input", label: "CONSTANT", parameters: [] },
   "input-control": { type: "input", label: "CONTROL", parameters: [] },
   "input-velocity": { type: "input", label: "VELOCITY", parameters: [] },
+  "input-audio": { type: "input", label: "AUDIO", parameters: [] },
 
   "output-result": { type: "output", label: "OUTPUT", parameters: [] },
 

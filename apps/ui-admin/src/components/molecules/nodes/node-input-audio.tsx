@@ -6,25 +6,27 @@ import type { DefaultOptionType } from "antd/es/select";
 import * as React from "react";
 import { useDebounceCallback } from "usehooks-ts";
 import { useProgramEditDispatch } from "../../../domain/program.domain";
+import { useDeviceAudioInputList } from "../../../repositories/device.repository";
 import { useDefaultNodeStyle } from "./node.style";
 
-const controls: DefaultOptionType[] = [...Array(12).keys()].map((value) => ({
-  value,
-  label: `Control ${String(value)}`,
-}));
+const noneItem: DefaultOptionType = {
+  label: "None",
+  value: "none",
+};
 
-export default function NodeInputControl({
+export default function NodeInpuAudio({
   data,
   selected,
-}: NodeProps<Node<models.NodeInputControl>>) {
+}: NodeProps<Node<models.NodeInputAudio>>) {
   const styles = useDefaultNodeStyle("input", selected);
   const dispatch = useProgramEditDispatch();
+  const audioInputsQuery = useDeviceAudioInputList();
 
-  const onControlChange = React.useCallback<(controlId: number) => void>(
-    (controlId) => {
+  const onControlChange = React.useCallback<(deviceId: string) => void>(
+    (deviceId) => {
       dispatch({
         type: "update-node",
-        payload: { node: { ...data, controlId } },
+        payload: { node: { ...data, deviceId } },
       });
     },
     [data, dispatch],
@@ -42,16 +44,30 @@ export default function NodeInputControl({
 
   const onValueChangeDebounced = useDebounceCallback(onValueChange, 5);
 
+  const devices: DefaultOptionType[] = React.useMemo(
+    () =>
+      audioInputsQuery.error || !audioInputsQuery.data
+        ? [noneItem]
+        : [
+            noneItem,
+            ...audioInputsQuery.data.map(({ label, deviceId: value }) => ({
+              value,
+              label,
+            })),
+          ],
+    [audioInputsQuery.error, audioInputsQuery.data],
+  );
+
   return (
     <Flex gap="small" style={styles.container} vertical>
-      <div style={styles.label}>CONTROL</div>
+      <div style={styles.label}>AUDIO</div>
 
-      <Typography.Text>Control ID</Typography.Text>
+      <Typography.Text>Device</Typography.Text>
       <Select
         className="nodrag nopan"
-        defaultValue={data.controlId}
+        defaultValue={data.deviceId}
         onChange={onControlChange}
-        options={controls}
+        options={devices}
         size="small"
       />
 
