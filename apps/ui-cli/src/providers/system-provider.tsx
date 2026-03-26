@@ -6,7 +6,7 @@ import type {
   SocketPubsubMessage,
 } from "@ptah-app/lib-models";
 import { noop, sleep } from "@ptah-app/lib-utils";
-import React, {
+import {
   createContext,
   type ReactNode,
   useCallback,

@@ -1,6 +1,5 @@
 import type { DmxStatus, MidiStatus } from "@ptah-app/lib-models";
 import { Box, Text } from "ink";
-import React from "react";
 
 import { dmxStatusColor, midiStatusColor, theme } from "../theme.js";
 

@@ -1,6 +1,6 @@
 import { Box, Text, useApp } from "ink";
 import SelectInput from "ink-select-input";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 
 import type { Item } from "./item.types.js";
 import type { Route } from "./route.types.js";

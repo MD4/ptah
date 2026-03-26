@@ -1,7 +1,7 @@
 import { Box, Text, useInput } from "ink";
 import SelectInput from "ink-select-input";
 import Spinner from "ink-spinner";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { theme } from "../theme.js";
 import type { Item } from "./item.types.js";

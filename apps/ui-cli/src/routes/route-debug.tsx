@@ -1,5 +1,5 @@
 import { Box, Text, useInput } from "ink";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useViewport } from "../effects/viewport.js";
 import { useSystemApi, useSystemState } from "../providers/system-provider.js";

@@ -1,5 +1,5 @@
 import { Box } from "ink";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header.js";
 import Statuses from "./components/Statuses.js";

@@ -9,9 +9,9 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup --onSuccess \"tsc --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
+    "build": "tsup --onSuccess \"tsc --ignoreConfig --types node --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "clean": "rm -rf dist",
-    "dev": "tsup --dts --watch --onSuccess \"tsc --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
+    "dev": "tsup --dts --watch --onSuccess \"tsc --ignoreConfig --types node --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
@@ -24,7 +24,7 @@
     "@types/node": "^25.5.0",
     "@types/uuid": "^11.0.0",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "dependencies": {
     "@ptah-app/lib-logger": "workspace:*",
