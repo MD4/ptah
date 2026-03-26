@@ -127,7 +127,12 @@ export const compile = (program: models.Program): ProgramCompute => {
           break;
         case "input-control":
           registry.set(node.id, [
-            inputs.get(node.controlId) ?? node.defaultValue,
+            inputs.get(`control-${node.controlId}`) ?? node.defaultValue,
+          ]);
+          break;
+        case "input-audio":
+          registry.set(node.id, [
+            inputs.get(`device-${node.deviceId}`) ?? node.defaultValue,
           ]);
           break;
         case "input-velocity":
