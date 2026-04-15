@@ -65,7 +65,11 @@ const handleMidiStatusChannelControlChange = (
   value: number,
 ): void => {
   if (controlId <= 13) {
-    services.pubsub.send("midi", { type: "control:change", controlId, value });
+    services.pubsub.send("midi", {
+      type: "control:change",
+      controlId: String(controlId),
+      value,
+    });
   }
 };
 
