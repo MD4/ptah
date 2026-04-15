@@ -32,7 +32,7 @@ If not, check [here](https://nodejs.org/en/download).
 To install PTAH please run:
 
 ```bash
-npm install -g @ptah-app/ptah@latest
+npm install -g @ptah-app/app@latest
 ```
 
 ### Step #3 - Start PTAH
