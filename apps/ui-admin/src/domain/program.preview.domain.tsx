@@ -27,7 +27,10 @@ export function ProgramPreviewProvider({
     [program],
   );
 
-  const inputs = React.useMemo(() => new Map<number, number>(), []);
+  const inputs = React.useMemo(() => new Map<string, number>(), []);
+
+  // @TODO: Remove this, its just for testing purposes
+  inputs.set("14371516494135178375", 60);
 
   const initialProgramPreview = React.useMemo(
     () => range(length).map((time) => compiledProgram(time / 24, inputs)),
