@@ -21,7 +21,7 @@
     "@changesets/cli": "^2.31.0",
     "@types/jest": "^30.0.0",
     "jest": "^30.3.0",
-    "turbo": "^2.8.20"
+    "turbo": "^2.9.6"
   },
   "packageManager": "pnpm@9.15.4"
 }
