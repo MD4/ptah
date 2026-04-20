@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
-    "@changesets/cli": "^2.30.0",
+    "@changesets/cli": "^2.31.0",
     "@types/jest": "^30.0.0",
     "jest": "^30.3.0",
     "turbo": "^2.8.20"
