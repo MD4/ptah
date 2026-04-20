@@ -30,7 +30,7 @@
     "@ptah-app/lib-logger": "workspace:*",
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-utils": "workspace:*",
-    "uuid": "^13.0.0",
+    "uuid": "^14.0.0",
     "zod": "^4.3.6"
   }
 }
