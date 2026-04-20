@@ -25,7 +25,7 @@
     "axios": "^1.15.1",
     "fast-equals": "^6.0.0",
     "masonic": "^4.1.0",
-    "react": "^19.2.4",
+    "react": "^19.2.5",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.1",
     "react-transition-group": "^4.4.5",
