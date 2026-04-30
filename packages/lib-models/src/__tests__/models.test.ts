@@ -71,7 +71,7 @@ describe("edge schema", () => {
     source: "node-a",
     target: "node-b",
     sourceOutput: 0,
-    targetIntput: 0, // NOTE: typo in model (B8 bug)
+    targetInput: 0, // NOTE: typo in model (B8 bug)
   };
 
   it("accepts valid edge", () => {
@@ -87,8 +87,8 @@ describe("edge schema", () => {
   it("rejects non-number sourceOutput", () => {
     expect(() => edge.parse({ ...validEdge, sourceOutput: "0" })).toThrow(ZodError);
   });
-  it("rejects missing targetIntput", () => {
-    const { targetIntput, ...rest } = validEdge;
+  it("rejects missing targetInput", () => {
+    const { targetInput, ...rest } = validEdge;
     expect(() => edge.parse(rest)).toThrow(ZodError);
   });
 });

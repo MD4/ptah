@@ -7,6 +7,6 @@ export const edge = z.object({
   source: z.string(),
   target: z.string(),
   sourceOutput: z.number(),
-  targetIntput: z.number(),
+  targetInput: z.number(),
 });
 export type Edge = z.infer<typeof edge>;

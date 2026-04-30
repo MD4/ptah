@@ -104,8 +104,8 @@ export const compile = (program: models.Program): ProgramCompute => {
       inputsNodesIds: program.edges
         .filter((edge) => edge.target === node.id)
         .reduce<{ id: string; sourceOutput: number }[]>(
-          (acc, { source, sourceOutput, targetIntput }) => {
-            acc[targetIntput] = {
+          (acc, { source, sourceOutput, targetInput }) => {
+            acc[targetInput] = {
               id: source,
               sourceOutput,
             };

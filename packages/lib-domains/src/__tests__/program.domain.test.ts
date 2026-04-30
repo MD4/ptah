@@ -73,13 +73,13 @@ const mkEdge = (
   source: string,
   target: string,
   sourceOutput = 0,
-  targetIntput = 0
+  targetInput = 0
 ) => ({
   id: uuidv4(),
   source,
   target,
   sourceOutput,
-  targetIntput,
+  targetInput,
 });
 
 const emptyControls = new Map<number, number>();
