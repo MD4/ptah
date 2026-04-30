@@ -1,10 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["ES2015", "ESNext"],
+    "lib": [
+      "ES2015",
+      "ESNext"
+    ],
     "module": "ESNext",
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "."
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "extends": "@ptah-app/config-ts/base.json",
-  "include": ["."]
+  "include": [
+    "."
+  ]
 }

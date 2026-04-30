@@ -1,8 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "."
   },
-  "exclude": ["node_modules", "dist", "build", "coverage", "out"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "out"
+  ],
   "extends": "@ptah-app/config-ts/base.json",
-  "include": ["."]
+  "include": [
+    "."
+  ]
 }
