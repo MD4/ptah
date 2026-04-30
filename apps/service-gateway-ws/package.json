@@ -10,7 +10,8 @@
     "build": "tsup",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "jest --detectOpenHandles --passWithNoTests"
+    "test": "jest --detectOpenHandles --passWithNoTests",
+    "test:coverage": "jest --detectOpenHandles --passWithNoTests --coverage"
   },
   "jest": {
     "preset": "jest-presets/jest/node"

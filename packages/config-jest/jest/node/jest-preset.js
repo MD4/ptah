@@ -10,4 +10,12 @@ module.exports = {
     "<rootDir>/dist",
   ],
   preset: "ts-jest",
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/**/__tests__/**",
+    "!src/**/*.d.ts",
+    "!src/index.ts",
+  ],
+  coverageReporters: ["text", "lcov", "html"],
+  coverageDirectory: "<rootDir>/coverage",
 };

@@ -13,7 +13,8 @@
     "clean": "rm -rf dist",
     "dev": "tsup --dts --watch --onSuccess \"tsc --ignoreConfig --types node --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "jest": {
     "preset": "jest-presets/jest/node",
