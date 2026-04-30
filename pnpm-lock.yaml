@@ -127,6 +127,9 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/morgan':
         specifier: ^1.9.10
         version: 1.9.10
@@ -136,6 +139,9 @@ importers:
       '@types/supertest':
         specifier: ^7.2.0
         version: 7.2.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       supertest:
         specifier: ^7.2.2
         version: 7.2.2
@@ -347,12 +353,18 @@ importers:
       '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../../packages/config-ts
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
       '@types/supertest':
         specifier: ^7.2.0
         version: 7.2.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       supertest:
         specifier: ^7.2.2
         version: 7.2.2
@@ -528,7 +540,7 @@ importers:
     dependencies:
       ts-jest:
         specifier: ^29.4.9
-        version: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)
+        version: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)
     devDependencies:
       jest-environment-jsdom:
         specifier: ^30.3.0
@@ -560,12 +572,18 @@ importers:
       '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
       '@types/uuid':
         specifier: ^11.0.0
         version: 11.0.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.12)(typescript@6.0.2)(yaml@2.6.0)
@@ -606,9 +624,15 @@ importers:
       '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.12)(typescript@6.0.2)(yaml@2.6.0)
@@ -646,6 +670,9 @@ importers:
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.12)(typescript@6.0.2)(yaml@2.6.0)
@@ -668,9 +695,15 @@ importers:
       '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
+      jest-presets:
+        specifier: npm:@ptah-app/config-jest@*
+        version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)'
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.12)(typescript@6.0.2)(yaml@2.6.0)
@@ -1685,6 +1718,9 @@ packages:
 
   '@pm2/pm2-version-check@1.0.4':
     resolution: {integrity: sha512-SXsM27SGH3yTWKc2fKR4SYNxsmnvuBQ9dd6QHtEWmiZ/VqaOYPAIlS8+vMcn27YLtAEBGvNRSh3TPNvtjZgfqA==}
+
+  '@ptah-app/config-jest@0.2.1':
+    resolution: {integrity: sha512-BId6JDNvsDf0BA1MwBJMSA/OMsP7bUFyjRc3GOxnYS6AOzdbfnJTCNy+tjScTysNssJEJ9Bt5e2fMDb0Qyn9RQ==}
 
   '@rc-component/async-validator@5.1.0':
     resolution: {integrity: sha512-n4HcR5siNUXRX23nDizbZBQPO0ZM/5oTtmKZ6/eqL0L2bo747cklFdZGRN2f+c9qWGICwDzrhW0H7tE9PptdcA==}
@@ -6929,6 +6965,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@ptah-app/config-jest@0.2.1(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)':
+    dependencies:
+      ts-jest: 29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@jest/transform'
+      - '@jest/types'
+      - babel-jest
+      - esbuild
+      - jest
+      - jest-util
+      - typescript
+
   '@rc-component/async-validator@5.1.0':
     dependencies:
       '@babel/runtime': 7.29.2
@@ -11009,7 +11058,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2):
+  ts-jest@29.4.9(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.29.0))(esbuild@0.27.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2)))(typescript@6.0.2):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -11027,6 +11076,7 @@ snapshots:
       '@jest/transform': 30.3.0
       '@jest/types': 30.3.0
       babel-jest: 30.3.0(@babel/core@7.29.0)
+      esbuild: 0.27.0
       jest-util: 30.3.0
 
   ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.2):
