@@ -17,7 +17,7 @@ let tempo = 120;
 const updateTempo = (newTempo: number): void => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
-    services.pubsub.send("midi", { type: "tempo:change", tempo });
+    services.pubsub.send("midi", { type: "tempo:change", tempo: newTempo });
     tempo = newTempo;
   }, 100);
 };
@@ -64,7 +64,7 @@ const handleMidiStatusChannelControlChange = (
   controlId: number,
   value: number,
 ): void => {
-  if (controlId <= 13) {
+  if (controlId <= 127) {
     services.pubsub.send("midi", { type: "control:change", controlId, value });
   }
 };

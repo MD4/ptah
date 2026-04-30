@@ -13,7 +13,15 @@
     "test": "jest --detectOpenHandles"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/../../packages/lib-domains/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../../packages/lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../../packages/lib-models/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../../packages/lib-logger/src/index.ts",
+      "^@ptah-app/lib-domains$": "<rootDir>/../../packages/lib-domains/src/index.ts",
+      "^@ptah-app/lib-shared$": "<rootDir>/../../packages/lib-shared/src/index.ts"
+    }
   },
   "dependencies": {
     "@ptah-app/lib-domains": "workspace:^",
