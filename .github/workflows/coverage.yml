@@ -1,0 +1,98 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+
+      - name: Install libasound2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run coverage
+        run: pnpm test:coverage
+
+      - name: Post coverage comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const fs = require('fs');
+
+            const files = execSync(
+              'find . -name "coverage-summary.json" -not -path "*/node_modules/*"',
+              { encoding: 'utf8' }
+            ).trim().split('\n').filter(Boolean);
+
+            const rows = [];
+            let totalS = 0, totalB = 0, totalF = 0, totalL = 0, count = 0;
+
+            for (const file of files.sort()) {
+              let data;
+              try { data = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { continue; }
+              const t = data.total;
+              if (!t) continue;
+
+              const pkg = file.replace(/^\.\//, '').replace(/\/coverage\/coverage-summary\.json$/, '');
+              const s = t.statements.pct, b = t.branches.pct, f = t.functions.pct, l = t.lines.pct;
+              const icon = s >= 80 ? '🟢' : s >= 50 ? '🟡' : '🔴';
+              rows.push(`| ${icon} \`${pkg}\` | ${s}% | ${b}% | ${f}% | ${l}% |`);
+
+              totalS += s; totalB += b; totalF += f; totalL += l; count++;
+            }
+
+            const avg = v => count > 0 ? (v / count).toFixed(1) : 'N/A';
+
+            const body = [
+              '## 📊 Coverage Report',
+              '',
+              '| Package | Statements | Branches | Functions | Lines |',
+              '|---------|-----------|----------|-----------|-------|',
+              ...rows,
+              `| **Average** | **${avg(totalS)}%** | **${avg(totalB)}%** | **${avg(totalF)}%** | **${avg(totalL)}%** |`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c => c.body.startsWith('## 📊 Coverage Report'));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
