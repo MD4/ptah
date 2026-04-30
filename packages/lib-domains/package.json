@@ -24,7 +24,8 @@
     "@types/node": "^25.6.0",
     "@types/uuid": "^11.0.0",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "jest-presets": "npm:@ptah-app/config-jest@*"
   },
   "dependencies": {
     "@ptah-app/lib-logger": "workspace:*",
