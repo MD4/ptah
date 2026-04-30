@@ -33,39 +33,39 @@ jobs:
       - name: Run coverage
         run: pnpm test:coverage
 
-      - name: Post coverage comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { execSync } = require('child_process');
+      - name: Build coverage comment
+        run: |
+          node -e "
             const fs = require('fs');
-            const path = require('path');
-
-            const workspace = process.env.GITHUB_WORKSPACE;
+            const { execSync } = require('child_process');
 
             const files = execSync(
-              'find . -name "coverage-summary.json" -not -path "*/node_modules/*"',
-              { encoding: 'utf8', cwd: workspace }
+              'find . -name coverage-summary.json -not -path */node_modules/*',
+              { encoding: 'utf8' }
             ).trim().split('\n').filter(Boolean);
+
+            console.error('Found ' + files.length + ' coverage files:', files);
 
             const rows = [];
             let totalS = 0, totalB = 0, totalF = 0, totalL = 0, count = 0;
 
             for (const file of files.sort()) {
               let data;
-              try { data = JSON.parse(fs.readFileSync(path.join(workspace, file), 'utf8')); } catch { continue; }
+              try { data = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { console.error('skip', file, e.message); continue; }
               const t = data.total;
               if (!t) continue;
 
               const pkg = file.replace(/^\.\//, '').replace(/\/coverage\/coverage-summary\.json$/, '');
-              const s = t.statements.pct, b = t.branches.pct, f = t.functions.pct, l = t.lines.pct;
+              const s = Number(t.statements.pct) || 0;
+              const b = Number(t.branches.pct) || 0;
+              const f = Number(t.functions.pct) || 0;
+              const l = Number(t.lines.pct) || 0;
               const icon = s >= 80 ? '🟢' : s >= 50 ? '🟡' : '🔴';
-              rows.push(`| ${icon} \`${pkg}\` | ${s}% | ${b}% | ${f}% | ${l}% |`);
-
+              rows.push('| ' + icon + ' \`' + pkg + '\` | ' + s + '% | ' + b + '% | ' + f + '% | ' + l + '% |');
               totalS += s; totalB += b; totalF += f; totalL += l; count++;
             }
 
-            const avg = v => count > 0 ? (v / count).toFixed(1) : 'N/A';
+            const avg = v => count > 0 ? (v / count).toFixed(1) : '0';
 
             const body = [
               '## 📊 Coverage Report',
@@ -73,8 +73,19 @@ jobs:
               '| Package | Statements | Branches | Functions | Lines |',
               '|---------|-----------|----------|-----------|-------|',
               ...rows,
-              `| **Average** | **${avg(totalS)}%** | **${avg(totalB)}%** | **${avg(totalF)}%** | **${avg(totalL)}%** |`,
+              '| **Average** | **' + avg(totalS) + '%** | **' + avg(totalB) + '%** | **' + avg(totalF) + '%** | **' + avg(totalL) + '%** |',
             ].join('\n');
+
+            fs.writeFileSync('/tmp/coverage-comment.md', body);
+            console.log('Written comment (' + count + ' packages)');
+          "
+
+      - name: Post coverage comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('/tmp/coverage-comment.md', 'utf8');
 
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
