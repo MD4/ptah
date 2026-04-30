@@ -16,7 +16,13 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../lib-models/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../lib-logger/src/index.ts"
+    }
   },
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
