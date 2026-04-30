@@ -43,6 +43,5 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # Uncomment the following lines if you want to run tests
-      # - name: Run tests
-      #  run: pnpm test
+      - name: Run tests
+        run: pnpm test
