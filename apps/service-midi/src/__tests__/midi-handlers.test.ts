@@ -7,16 +7,16 @@ jest.mock("@ptah-app/lib-shared", () => ({
 }));
 
 import { services } from "@ptah-app/lib-shared";
-import { handleMidiCallback } from "../midi-handlers";
 import {
-  MIDI_STATUS_SYSTEM_START_SEQUENCE,
+  MIDI_STATUS_CHANNEL_CONTROL_CHANGE,
+  MIDI_STATUS_CHANNEL_NOTE_OFF,
+  MIDI_STATUS_CHANNEL_NOTE_ON,
   MIDI_STATUS_SYSTEM_CONTINUE_SEQUENCE,
+  MIDI_STATUS_SYSTEM_START_SEQUENCE,
   MIDI_STATUS_SYSTEM_STOP_SEQUENCE,
   MIDI_STATUS_SYSTEM_TIMING_CLOCK,
-  MIDI_STATUS_CHANNEL_NOTE_ON,
-  MIDI_STATUS_CHANNEL_NOTE_OFF,
-  MIDI_STATUS_CHANNEL_CONTROL_CHANGE,
 } from "../constants";
+import { handleMidiCallback } from "../midi-handlers";
 
 const send = services.pubsub.send as jest.Mock;
 const CHANNEL = 1;
@@ -64,7 +64,10 @@ describe("sequence:stop", () => {
 describe("clock:tick", () => {
   it("sends clock:tick with deltaTime", () => {
     sendMsg(MIDI_STATUS_SYSTEM_TIMING_CLOCK, 0, 0, 0.02);
-    expect(send).toHaveBeenCalledWith("midi", { type: "clock:tick", deltaTime: 0.02 });
+    expect(send).toHaveBeenCalledWith("midi", {
+      type: "clock:tick",
+      deltaTime: 0.02,
+    });
   });
 
   // tempo module state starts at 120; use 140 BPM to guarantee a change
@@ -75,7 +78,9 @@ describe("clock:tick", () => {
     sendMsg(MIDI_STATUS_SYSTEM_TIMING_CLOCK, 0, 0, dt);
     jest.advanceTimersByTime(200);
 
-    const tempoCalls = send.mock.calls.filter(([, msg]) => msg.type === "tempo:change");
+    const tempoCalls = send.mock.calls.filter(
+      ([, msg]) => msg.type === "tempo:change",
+    );
     expect(tempoCalls.length).toBe(1);
     expect(tempoCalls[0][1].tempo).toBe(expectedTempo); // must be 140, not stale 120
     expect(tempoCalls[0][1].tempo).not.toBe(120);
@@ -89,7 +94,9 @@ describe("clock:tick", () => {
     }
     jest.advanceTimersByTime(200);
 
-    const tempoCalls = send.mock.calls.filter(([, msg]) => msg.type === "tempo:change");
+    const tempoCalls = send.mock.calls.filter(
+      ([, msg]) => msg.type === "tempo:change",
+    );
     expect(tempoCalls.length).toBe(1);
   });
 
@@ -99,7 +106,9 @@ describe("clock:tick", () => {
     sendMsg(MIDI_STATUS_SYSTEM_TIMING_CLOCK, 0, 0, dt);
     jest.advanceTimersByTime(200);
 
-    const tempoCalls = send.mock.calls.filter(([, msg]) => msg.type === "tempo:change");
+    const tempoCalls = send.mock.calls.filter(
+      ([, msg]) => msg.type === "tempo:change",
+    );
     expect(tempoCalls.length).toBe(0);
   });
 });
@@ -134,7 +143,9 @@ describe("multi-channel routing", () => {
     // Channel 2 note-on = 0x91 = 145
     ch2Callback(0, [MIDI_STATUS_CHANNEL_NOTE_ON, 60, 100]); // channel 1 msg
     // No send should have happened (channel 1 ≠ channel 2)
-    const noteCalls = send.mock.calls.filter(([, msg]) => msg.type === "note:on");
+    const noteCalls = send.mock.calls.filter(
+      ([, msg]) => msg.type === "note:on",
+    );
     expect(noteCalls.length).toBe(0);
   });
 
@@ -199,7 +210,9 @@ describe("control:change", () => {
 
   it("does not send for controlId 128 (out of MIDI range)", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 128, 0);
-    const ccCalls = send.mock.calls.filter(([, msg]) => msg.type === "control:change");
+    const ccCalls = send.mock.calls.filter(
+      ([, msg]) => msg.type === "control:change",
+    );
     expect(ccCalls.length).toBe(0);
   });
 });

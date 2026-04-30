@@ -1,22 +1,23 @@
 import { ZodError } from "zod";
+import type { NodeFxMath } from "../index";
 import {
   edge,
   node,
-  nodeInputTime,
+  nodeFxADSR,
+  nodeFxDistortion,
+  nodeFxMath,
   nodeInputConstant,
   nodeInputControl,
+  nodeInputTime,
   nodeInputVelocity,
   nodeOutputResult,
-  nodeFxADSR,
-  nodeFxMath,
-  nodeFxDistortion,
   program,
-  programName,
   programCreate,
+  programName,
   settings,
-  showName,
   show,
   showCreate,
+  showName,
 } from "../index";
 import { uuid } from "../uuid.model";
 
@@ -85,7 +86,9 @@ describe("edge schema", () => {
     expect(() => edge.parse({ ...validEdge, id: "bad" })).toThrow(ZodError);
   });
   it("rejects non-number sourceOutput", () => {
-    expect(() => edge.parse({ ...validEdge, sourceOutput: "0" })).toThrow(ZodError);
+    expect(() => edge.parse({ ...validEdge, sourceOutput: "0" })).toThrow(
+      ZodError,
+    );
   });
   it("rejects missing targetInput", () => {
     const { targetInput, ...rest } = validEdge;
@@ -101,12 +104,19 @@ describe("nodeInputTime schema", () => {
     expect(nodeInputTime.parse(valid)).toEqual(valid);
   });
   it("rejects wrong type literal", () => {
-    expect(() => nodeInputTime.parse({ ...valid, type: "input-constant" })).toThrow(ZodError);
+    expect(() =>
+      nodeInputTime.parse({ ...valid, type: "input-constant" }),
+    ).toThrow(ZodError);
   });
 });
 
 describe("nodeInputConstant schema", () => {
-  const valid = { id: validUuid, position: pos, type: "input-constant" as const, value: 0.5 };
+  const valid = {
+    id: validUuid,
+    position: pos,
+    type: "input-constant" as const,
+    value: 0.5,
+  };
   it("accepts valid input-constant node", () => {
     expect(nodeInputConstant.parse(valid)).toEqual(valid);
   });
@@ -115,7 +125,9 @@ describe("nodeInputConstant schema", () => {
     expect(() => nodeInputConstant.parse(rest)).toThrow(ZodError);
   });
   it("rejects non-number value", () => {
-    expect(() => nodeInputConstant.parse({ ...valid, value: "0.5" })).toThrow(ZodError);
+    expect(() => nodeInputConstant.parse({ ...valid, value: "0.5" })).toThrow(
+      ZodError,
+    );
   });
 });
 
@@ -131,10 +143,14 @@ describe("nodeInputControl schema", () => {
     expect(nodeInputControl.parse(valid)).toEqual(valid);
   });
   it("rejects defaultValue > 255", () => {
-    expect(() => nodeInputControl.parse({ ...valid, defaultValue: 256 })).toThrow(ZodError);
+    expect(() =>
+      nodeInputControl.parse({ ...valid, defaultValue: 256 }),
+    ).toThrow(ZodError);
   });
   it("rejects defaultValue < 0", () => {
-    expect(() => nodeInputControl.parse({ ...valid, defaultValue: -1 })).toThrow(ZodError);
+    expect(() =>
+      nodeInputControl.parse({ ...valid, defaultValue: -1 }),
+    ).toThrow(ZodError);
   });
 });
 
@@ -149,7 +165,9 @@ describe("nodeInputVelocity schema", () => {
     expect(nodeInputVelocity.parse(valid)).toEqual(valid);
   });
   it("rejects defaultValue > 255", () => {
-    expect(() => nodeInputVelocity.parse({ ...valid, defaultValue: 256 })).toThrow(ZodError);
+    expect(() =>
+      nodeInputVelocity.parse({ ...valid, defaultValue: 256 }),
+    ).toThrow(ZodError);
   });
 });
 
@@ -164,10 +182,14 @@ describe("nodeOutputResult schema", () => {
     expect(nodeOutputResult.parse(valid)).toEqual(valid);
   });
   it("rejects outputId < 0", () => {
-    expect(() => nodeOutputResult.parse({ ...valid, outputId: -1 })).toThrow(ZodError);
+    expect(() => nodeOutputResult.parse({ ...valid, outputId: -1 })).toThrow(
+      ZodError,
+    );
   });
   it("rejects outputId > 127", () => {
-    expect(() => nodeOutputResult.parse({ ...valid, outputId: 128 })).toThrow(ZodError);
+    expect(() => nodeOutputResult.parse({ ...valid, outputId: 128 })).toThrow(
+      ZodError,
+    );
   });
 });
 
@@ -185,10 +207,14 @@ describe("nodeFxADSR schema", () => {
     expect(nodeFxADSR.parse(valid)).toEqual(valid);
   });
   it("rejects attackRate > 1", () => {
-    expect(() => nodeFxADSR.parse({ ...valid, attackRate: 1.1 })).toThrow(ZodError);
+    expect(() => nodeFxADSR.parse({ ...valid, attackRate: 1.1 })).toThrow(
+      ZodError,
+    );
   });
   it("rejects sustainLevel < 0", () => {
-    expect(() => nodeFxADSR.parse({ ...valid, sustainLevel: -0.1 })).toThrow(ZodError);
+    expect(() => nodeFxADSR.parse({ ...valid, sustainLevel: -0.1 })).toThrow(
+      ZodError,
+    );
   });
 });
 
@@ -205,13 +231,31 @@ describe("nodeFxMath schema", () => {
     expect(nodeFxMath.parse(valid)).toEqual(valid);
   });
   it("rejects unknown operation", () => {
-    expect(() => nodeFxMath.parse({ ...valid, operation: "hyperbolic-sine" })).toThrow(ZodError);
+    expect(() =>
+      nodeFxMath.parse({ ...valid, operation: "hyperbolic-sine" }),
+    ).toThrow(ZodError);
   });
   it("accepts all valid operations", () => {
-    const ops = [
-      "add","substract","divide","multiply","modulo","sinus","cosinus",
-      "tangent","arcsinus","arccosinus","arctangent","exponential","logarithm",
-      "square-root","power","absolute","round","floor","ceil",
+    const ops: NodeFxMath["operation"][] = [
+      "add",
+      "substract",
+      "divide",
+      "multiply",
+      "modulo",
+      "sinus",
+      "cosinus",
+      "tangent",
+      "arcsinus",
+      "arccosinus",
+      "arctangent",
+      "exponential",
+      "logarithm",
+      "square-root",
+      "power",
+      "absolute",
+      "round",
+      "floor",
+      "ceil",
     ];
     for (const op of ops) {
       expect(() => nodeFxMath.parse({ ...valid, operation: op })).not.toThrow();
@@ -234,10 +278,14 @@ describe("nodeFxDistortion schema", () => {
     expect(nodeFxDistortion.parse(valid)).toEqual(valid);
   });
   it("rejects drive > 1", () => {
-    expect(() => nodeFxDistortion.parse({ ...valid, drive: 1.1 })).toThrow(ZodError);
+    expect(() => nodeFxDistortion.parse({ ...valid, drive: 1.1 })).toThrow(
+      ZodError,
+    );
   });
   it("rejects level < 0", () => {
-    expect(() => nodeFxDistortion.parse({ ...valid, level: -0.1 })).toThrow(ZodError);
+    expect(() => nodeFxDistortion.parse({ ...valid, level: -0.1 })).toThrow(
+      ZodError,
+    );
   });
 });
 
@@ -247,11 +295,20 @@ describe("node discriminated union", () => {
     expect(node.parse(n)).toEqual(n);
   });
   it("accepts fx-math via union", () => {
-    const n = { id: validUuid, position: pos, type: "fx-math", operation: "add", valueA: 0, valueB: 0 };
+    const n = {
+      id: validUuid,
+      position: pos,
+      type: "fx-math",
+      operation: "add",
+      valueA: 0,
+      valueB: 0,
+    };
     expect(node.parse(n)).toEqual(n);
   });
   it("rejects unknown type via union", () => {
-    expect(() => node.parse({ id: validUuid, position: pos, type: "unknown" })).toThrow(ZodError);
+    expect(() =>
+      node.parse({ id: validUuid, position: pos, type: "unknown" }),
+    ).toThrow(ZodError);
   });
 });
 
@@ -273,10 +330,14 @@ describe("program schema", () => {
     expect(() => program.parse(rest)).toThrow(ZodError);
   });
   it("rejects invalid name (space)", () => {
-    expect(() => program.parse({ ...validProgram, name: "bad name" })).toThrow(ZodError);
+    expect(() => program.parse({ ...validProgram, name: "bad name" })).toThrow(
+      ZodError,
+    );
   });
   it("rejects non-array nodes", () => {
-    expect(() => program.parse({ ...validProgram, nodes: null })).toThrow(ZodError);
+    expect(() => program.parse({ ...validProgram, nodes: null })).toThrow(
+      ZodError,
+    );
   });
   it("programCreate only requires name", () => {
     expect(programCreate.parse({ name: "test" })).toEqual({ name: "test" });
@@ -304,19 +365,29 @@ describe("settings schema", () => {
     expect(settings.parse(s).currentShow).toBe("my-show");
   });
   it("rejects midiChannel < 1", () => {
-    expect(() => settings.parse({ ...validSettings, midiChannel: 0 })).toThrow(ZodError);
+    expect(() => settings.parse({ ...validSettings, midiChannel: 0 })).toThrow(
+      ZodError,
+    );
   });
   it("rejects midiChannel > 16", () => {
-    expect(() => settings.parse({ ...validSettings, midiChannel: 17 })).toThrow(ZodError);
+    expect(() => settings.parse({ ...validSettings, midiChannel: 17 })).toThrow(
+      ZodError,
+    );
   });
   it("rejects appAdminPort < 1024", () => {
-    expect(() => settings.parse({ ...validSettings, appAdminPort: 80 })).toThrow(ZodError);
+    expect(() =>
+      settings.parse({ ...validSettings, appAdminPort: 80 }),
+    ).toThrow(ZodError);
   });
   it("rejects appAdminPort > 49151", () => {
-    expect(() => settings.parse({ ...validSettings, appAdminPort: 60000 })).toThrow(ZodError);
+    expect(() =>
+      settings.parse({ ...validSettings, appAdminPort: 60000 }),
+    ).toThrow(ZodError);
   });
   it("rejects empty midiVirtualPortName", () => {
-    expect(() => settings.parse({ ...validSettings, midiVirtualPortName: "" })).toThrow(ZodError);
+    expect(() =>
+      settings.parse({ ...validSettings, midiVirtualPortName: "" }),
+    ).toThrow(ZodError);
   });
 });
 
@@ -344,13 +415,18 @@ describe("show schema", () => {
   };
 
   it("accepts valid show", () => {
-    expect(show.parse(validShow)).toMatchObject({ id: validUuid, name: "test-show" });
+    expect(show.parse(validShow)).toMatchObject({
+      id: validUuid,
+      name: "test-show",
+    });
   });
   it("rejects non-UUID id", () => {
     expect(() => show.parse({ ...validShow, id: "bad-id" })).toThrow(ZodError);
   });
   it("rejects invalid name", () => {
-    expect(() => show.parse({ ...validShow, name: "bad name!" })).toThrow(ZodError);
+    expect(() => show.parse({ ...validShow, name: "bad name!" })).toThrow(
+      ZodError,
+    );
   });
   it("showCreate only requires name", () => {
     expect(showCreate.parse({ name: "my-show" })).toEqual({ name: "my-show" });

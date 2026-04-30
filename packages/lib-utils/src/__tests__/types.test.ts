@@ -6,5 +6,6 @@ describe("isDefined", () => {
   it("returns true for false", () => expect(isDefined(false)).toBe(true));
   it("returns true for null", () => expect(isDefined(null)).toBe(true));
   it("returns true for objects", () => expect(isDefined({})).toBe(true));
-  it("returns false for undefined", () => expect(isDefined(undefined)).toBe(false));
+  it("returns false for undefined", () =>
+    expect(isDefined(undefined)).toBe(false));
 });

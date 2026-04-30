@@ -1,5 +1,5 @@
+import type { NodeFxMath, Program } from "@ptah-app/lib-models";
 import { v4 as uuidv4 } from "uuid";
-import type { Program } from "@ptah-app/lib-models";
 import {
   compile,
   createProgram,
@@ -44,11 +44,16 @@ const outputNode = (id: string, outputId: number) => ({
   outputId,
 });
 
-const mathNode = (id: string, operation: string, valueA = 0, valueB = 0) => ({
+const mathNode = (
+  id: string,
+  operation: NodeFxMath["operation"],
+  valueA = 0,
+  valueB = 0,
+) => ({
   id,
   type: "fx-math" as const,
   position: pos,
-  operation: operation as any,
+  operation: operation,
   valueA,
   valueB,
 });
@@ -58,7 +63,7 @@ const adsrNode = (
   attackRate = 0.1,
   decayRate = 0.1,
   sustainLevel = 0.5,
-  releaseRate = 0.1
+  releaseRate = 0.1,
 ) => ({
   id,
   type: "fx-adsr" as const,
@@ -73,7 +78,7 @@ const mkEdge = (
   source: string,
   target: string,
   sourceOutput = 0,
-  targetInput = 0
+  targetInput = 0,
 ) => ({
   id: uuidv4(),
   source,
@@ -101,7 +106,7 @@ describe("createProgram", () => {
   it("assigns valid UUID format", () => {
     const p = createProgram("test");
     expect(p.id).toMatch(
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/,
     );
   });
 });
@@ -129,7 +134,7 @@ describe("compile — constant → output", () => {
 
   it("output is same at any time (constant is time-independent)", () => {
     expect(compute(0, emptyControls).outputs[0]).toBe(
-      compute(100, emptyControls).outputs[0]
+      compute(100, emptyControls).outputs[0],
     );
   });
 });
@@ -209,14 +214,23 @@ describe("compile — disconnected output defaults to 0", () => {
 });
 
 describe("compile — math node operations", () => {
-  const makeBinaryProg = (op: string, a: number, b: number): Program => ({
+  const makeBinaryProg = (
+    op: NodeFxMath["operation"],
+    a: number,
+    b: number,
+  ): Program => ({
     id: uuidv4(),
     name: op,
-    nodes: [constantNode("a", a), constantNode("b", b), mathNode("m", op), outputNode("out", 0)],
+    nodes: [
+      constantNode("a", a),
+      constantNode("b", b),
+      mathNode("m", op),
+      outputNode("out", 0),
+    ],
     edges: [mkEdge("a", "m", 0, 0), mkEdge("b", "m", 0, 1), mkEdge("m", "out")],
   });
 
-  const makeUnaryProg = (op: string, a: number): Program => ({
+  const makeUnaryProg = (op: NodeFxMath["operation"], a: number): Program => ({
     id: uuidv4(),
     name: op,
     nodes: [constantNode("a", a), mathNode("m", op), outputNode("out", 0)],
@@ -224,61 +238,99 @@ describe("compile — math node operations", () => {
   });
 
   it("add", () => {
-    expect(compile(makeBinaryProg("add", 0.3, 0.2))(0, emptyControls).outputs[0]).toBeCloseTo(0.5);
+    expect(
+      compile(makeBinaryProg("add", 0.3, 0.2))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(0.5);
   });
   it("substract", () => {
-    expect(compile(makeBinaryProg("substract", 1, 0.3))(0, emptyControls).outputs[0]).toBeCloseTo(0.7);
+    expect(
+      compile(makeBinaryProg("substract", 1, 0.3))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(0.7);
   });
   it("multiply", () => {
-    expect(compile(makeBinaryProg("multiply", 2, 3))(0, emptyControls).outputs[0]).toBeCloseTo(6);
+    expect(
+      compile(makeBinaryProg("multiply", 2, 3))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(6);
   });
   it("divide", () => {
-    expect(compile(makeBinaryProg("divide", 1, 4))(0, emptyControls).outputs[0]).toBeCloseTo(0.25);
+    expect(
+      compile(makeBinaryProg("divide", 1, 4))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(0.25);
   });
   it("modulo", () => {
-    expect(compile(makeBinaryProg("modulo", 7, 3))(0, emptyControls).outputs[0]).toBeCloseTo(1);
+    expect(
+      compile(makeBinaryProg("modulo", 7, 3))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(1);
   });
   it("power", () => {
-    expect(compile(makeBinaryProg("power", 2, 3))(0, emptyControls).outputs[0]).toBeCloseTo(8);
+    expect(
+      compile(makeBinaryProg("power", 2, 3))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(8);
   });
   it("sinus", () => {
-    expect(compile(makeUnaryProg("sinus", Math.PI / 2))(0, emptyControls).outputs[0]).toBeCloseTo(1);
+    expect(
+      compile(makeUnaryProg("sinus", Math.PI / 2))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(1);
   });
   it("cosinus", () => {
-    expect(compile(makeUnaryProg("cosinus", 0))(0, emptyControls).outputs[0]).toBeCloseTo(1);
+    expect(
+      compile(makeUnaryProg("cosinus", 0))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(1);
   });
   it("tangent", () => {
-    expect(compile(makeUnaryProg("tangent", 0))(0, emptyControls).outputs[0]).toBeCloseTo(0);
+    expect(
+      compile(makeUnaryProg("tangent", 0))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(0);
   });
   it("absolute", () => {
-    expect(compile(makeUnaryProg("absolute", -5))(0, emptyControls).outputs[0]).toBeCloseTo(5);
+    expect(
+      compile(makeUnaryProg("absolute", -5))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(5);
   });
   it("square-root", () => {
-    expect(compile(makeUnaryProg("square-root", 9))(0, emptyControls).outputs[0]).toBeCloseTo(3);
+    expect(
+      compile(makeUnaryProg("square-root", 9))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(3);
   });
   it("exponential", () => {
-    expect(compile(makeUnaryProg("exponential", 1))(0, emptyControls).outputs[0]).toBeCloseTo(Math.E);
+    expect(
+      compile(makeUnaryProg("exponential", 1))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(Math.E);
   });
   it("logarithm", () => {
-    expect(compile(makeUnaryProg("logarithm", Math.E))(0, emptyControls).outputs[0]).toBeCloseTo(1);
+    expect(
+      compile(makeUnaryProg("logarithm", Math.E))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(1);
   });
   it("round", () => {
-    expect(compile(makeUnaryProg("round", 2.7))(0, emptyControls).outputs[0]).toBe(3);
+    expect(
+      compile(makeUnaryProg("round", 2.7))(0, emptyControls).outputs[0],
+    ).toBe(3);
   });
   it("floor", () => {
-    expect(compile(makeUnaryProg("floor", 2.9))(0, emptyControls).outputs[0]).toBe(2);
+    expect(
+      compile(makeUnaryProg("floor", 2.9))(0, emptyControls).outputs[0],
+    ).toBe(2);
   });
   it("ceil", () => {
-    expect(compile(makeUnaryProg("ceil", 2.1))(0, emptyControls).outputs[0]).toBe(3);
+    expect(
+      compile(makeUnaryProg("ceil", 2.1))(0, emptyControls).outputs[0],
+    ).toBe(3);
   });
   it("arcsinus", () => {
-    expect(compile(makeUnaryProg("arcsinus", 1))(0, emptyControls).outputs[0]).toBeCloseTo(Math.PI / 2);
+    expect(
+      compile(makeUnaryProg("arcsinus", 1))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(Math.PI / 2);
   });
   it("arccosinus", () => {
-    expect(compile(makeUnaryProg("arccosinus", 1))(0, emptyControls).outputs[0]).toBeCloseTo(0);
+    expect(
+      compile(makeUnaryProg("arccosinus", 1))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(0);
   });
   it("arctangent", () => {
-    expect(compile(makeUnaryProg("arctangent", 1))(0, emptyControls).outputs[0]).toBeCloseTo(Math.PI / 4);
+    expect(
+      compile(makeUnaryProg("arctangent", 1))(0, emptyControls).outputs[0],
+    ).toBeCloseTo(Math.PI / 4);
   });
 });
 
@@ -311,10 +363,7 @@ describe("compile — fx-adsr node", () => {
       adsrNode("a", 0.1, 0.1, 0.5, 0.1),
       outputNode("out", 0),
     ],
-    edges: [
-      mkEdge("t", "a", 0, 0),
-      mkEdge("a", "out"),
-    ],
+    edges: [mkEdge("t", "a", 0, 0), mkEdge("a", "out")],
   };
   const compute = compile(prog);
 
@@ -376,7 +425,7 @@ describe("performTick", () => {
     edges: [mkEdge("t", "out")],
   };
   const definition = { compute: compile(prog), resetAtEnd: false };
-  const initialState = getProgramInitialState(definition, emptyControls);
+  const initialState = getProgramInitialState(definition, emptyControls, 0);
 
   it("starts at time 0", () => {
     expect(initialState.time).toBe(0);

@@ -1,4 +1,8 @@
-import { adsr, distortion, mathNodeOperatorHasSecondValue } from "../runner.domain";
+import {
+  adsr,
+  distortion,
+  mathNodeOperatorHasSecondValue,
+} from "../runner.domain";
 
 describe("adsr", () => {
   const fn = adsr(0.1, 0.1, 0.5, 0.1);
@@ -72,12 +76,16 @@ describe("distortion", () => {
 });
 
 describe("mathNodeOperatorHasSecondValue", () => {
-  it.each(["add", "substract", "divide", "multiply", "modulo", "power"])(
-    "returns true for binary operator %s",
-    (op) => {
-      expect(mathNodeOperatorHasSecondValue(op)).toBe(true);
-    }
-  );
+  it.each([
+    "add",
+    "substract",
+    "divide",
+    "multiply",
+    "modulo",
+    "power",
+  ])("returns true for binary operator %s", (op) => {
+    expect(mathNodeOperatorHasSecondValue(op)).toBe(true);
+  });
 
   it.each([
     "sinus",

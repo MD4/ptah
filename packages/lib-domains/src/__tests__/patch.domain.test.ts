@@ -9,17 +9,23 @@ import {
 } from "../patch.domain";
 
 describe("unNaNifyValue", () => {
-  it("returns 0 for NaN", () => expect(unNaNifyValue(NaN)).toBe(0));
-  it("passes through finite numbers", () => expect(unNaNifyValue(0.5)).toBe(0.5));
+  it("returns 0 for NaN", () => expect(unNaNifyValue(Number.NaN)).toBe(0));
+  it("passes through finite numbers", () =>
+    expect(unNaNifyValue(0.5)).toBe(0.5));
   it("passes through 0", () => expect(unNaNifyValue(0)).toBe(0));
-  it("passes through negative numbers", () => expect(unNaNifyValue(-1)).toBe(-1));
+  it("passes through negative numbers", () =>
+    expect(unNaNifyValue(-1)).toBe(-1));
 });
 
 describe("unInfinitifyValue", () => {
-  it("maps +Infinity to 255", () => expect(unInfinitifyValue(Infinity)).toBe(255));
-  it("maps -Infinity to 0", () => expect(unInfinitifyValue(-Infinity)).toBe(0));
-  it("maps NaN (non-finite) to 0", () => expect(unInfinitifyValue(NaN)).toBe(0));
-  it("passes through finite values", () => expect(unInfinitifyValue(0.7)).toBe(0.7));
+  it("maps +Infinity to 255", () =>
+    expect(unInfinitifyValue(Number.POSITIVE_INFINITY)).toBe(255));
+  it("maps -Infinity to 0", () =>
+    expect(unInfinitifyValue(Number.NEGATIVE_INFINITY)).toBe(0));
+  it("maps NaN (non-finite) to 0", () =>
+    expect(unInfinitifyValue(Number.NaN)).toBe(0));
+  it("passes through finite values", () =>
+    expect(unInfinitifyValue(0.7)).toBe(0.7));
   it("passes through 0", () => expect(unInfinitifyValue(0)).toBe(0));
 });
 
@@ -33,9 +39,11 @@ describe("capValue", () => {
 });
 
 describe("toChannelValue", () => {
-  it("converts NaN to 0", () => expect(toChannelValue(NaN)).toBe(0));
-  it("converts Infinity to 255", () => expect(toChannelValue(Infinity)).toBe(255));
-  it("converts -Infinity to 0", () => expect(toChannelValue(-Infinity)).toBe(0));
+  it("converts NaN to 0", () => expect(toChannelValue(Number.NaN)).toBe(0));
+  it("converts Infinity to 255", () =>
+    expect(toChannelValue(Number.POSITIVE_INFINITY)).toBe(255));
+  it("converts -Infinity to 0", () =>
+    expect(toChannelValue(Number.NEGATIVE_INFINITY)).toBe(0));
   it("converts 0.5 to 128", () => expect(toChannelValue(0.5)).toBe(128));
   it("converts 1.0 to 255", () => expect(toChannelValue(1)).toBe(255));
   it("converts 0.0 to 0", () => expect(toChannelValue(0)).toBe(0));
@@ -112,13 +120,16 @@ describe("applyMapping", () => {
   });
 
   it("maps NaN output to channel value 0", () => {
-    const output = { outputs: { 0: NaN }, registry: new Map() };
+    const output = { outputs: { 0: Number.NaN }, registry: new Map() };
     const mapping = { 0: [5] };
     expect(applyMapping(output, mapping)).toEqual({ 5: 0 });
   });
 
   it("maps Infinity output to channel value 255", () => {
-    const output = { outputs: { 0: Infinity }, registry: new Map() };
+    const output = {
+      outputs: { 0: Number.POSITIVE_INFINITY },
+      registry: new Map(),
+    };
     const mapping = { 0: [5] };
     expect(applyMapping(output, mapping)).toEqual({ 5: 255 });
   });
