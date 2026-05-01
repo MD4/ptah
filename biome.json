@@ -12,7 +12,8 @@
       "!**/dist",
       "!**/node_modules",
       "!**/.turbo",
-      "!**/package.json"
+      "!**/package.json",
+      "!**/coverage"
     ]
   },
   "formatter": {

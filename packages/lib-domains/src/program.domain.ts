@@ -63,7 +63,7 @@ const getNodeInputValueFromRegister = (
   const values = register.get(input.id);
 
   if (values) {
-    return values[input.sourceOutput];
+    return values[input.sourceOutput] ?? defaultValue;
   }
 
   return defaultValue;
@@ -275,7 +275,13 @@ export const compile = (program: models.Program): ProgramCompute => {
               drive,
               tone,
               level,
-            )(getNodeInputValueFromRegister(registry, inputsNodesIds[0])),
+            )(
+              getNodeInputValueFromRegister(
+                registry,
+                inputsNodesIds[0],
+                node.time,
+              ),
+            ),
           ]);
           break;
         }
