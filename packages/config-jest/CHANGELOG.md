@@ -1,5 +1,11 @@
 # @ptah-app/config-jest
 
+## 0.2.2
+
+### Patch Changes
+
+- 496ed4e: Bug fixes & tests
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @ptah-app/app
 
+## 0.2.2
+
+### Patch Changes
+
+- 496ed4e: Bug fixes & tests
+- Updated dependencies [496ed4e]
+  - @ptah-app/service-api@0.2.2
+  - @ptah-app/service-bus@0.2.2
+  - @ptah-app/service-gateway-ws@0.2.2
+  - @ptah-app/service-main@0.2.2
+  - @ptah-app/service-midi@0.2.2
+  - @ptah-app/ui-admin@0.2.2
+  - @ptah-app/lib-shared@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @ptah-app/ui-cli
 
+## 0.2.2
+
+### Patch Changes
+
+- 496ed4e: Bug fixes & tests
+- Updated dependencies [496ed4e]
+  - @ptah-app/lib-models@0.2.2
+  - @ptah-app/lib-utils@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
