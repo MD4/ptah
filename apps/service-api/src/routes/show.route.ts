@@ -47,7 +47,7 @@ export const configureRoutesShow = (server: Express): Express =>
     .get("/show/:name", (req, res) => {
       handleShowGet(req.params.name)
         .then((show) => {
-          res.statusCode = 201;
+          res.statusCode = 200;
           res.json(show);
         })
         .catch((error: unknown) => {
@@ -67,7 +67,7 @@ export const configureRoutesShow = (server: Express): Express =>
       (req, res) => {
         handleShowSave(req.params.name, req.body)
           .then((show) => {
-            res.statusCode = 201;
+            res.statusCode = 200;
             res.json(show);
           })
           .catch((error: unknown) => {

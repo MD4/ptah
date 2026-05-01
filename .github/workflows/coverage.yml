@@ -1,14 +1,11 @@
-name: Build
+name: Coverage
 
 on:
-  push:
-    branches: [master]
   pull_request:
     branches: [master]
-  workflow_call:
 
 jobs:
-  build:
+  coverage:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,21 +27,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Run format check
-        run: pnpm format
-
-      - name: Run lint check
-        run: pnpm check
-
-      - name: Run type check
-        run: pnpm typecheck
-
-      - name: Build
-        run: pnpm build
-
-      - name: Run tests
-        run: pnpm test
 
       - name: Run tests with coverage
         run: pnpm test:coverage

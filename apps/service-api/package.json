@@ -10,10 +10,19 @@
     "build": "tsup",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --detectOpenHandles --coverage"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/../../packages/lib-domains/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../../packages/lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../../packages/lib-models/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../../packages/lib-logger/src/index.ts",
+      "^@ptah-app/lib-domains$": "<rootDir>/../../packages/lib-domains/src/index.ts",
+      "^@ptah-app/lib-shared$": "<rootDir>/../../packages/lib-shared/src/index.ts"
+    }
   },
   "dependencies": {
     "@ptah-app/lib-domains": "workspace:^",
@@ -40,6 +49,8 @@
     "@types/supertest": "^7.2.0",
     "supertest": "^7.2.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
+    "@types/jest": "^30.0.0"
   }
 }

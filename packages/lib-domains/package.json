@@ -13,10 +13,17 @@
     "clean": "rm -rf dist",
     "dev": "tsup --dts --watch --onSuccess \"tsc --ignoreConfig --types node --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../lib-models/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../lib-logger/src/index.ts"
+    }
   },
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
@@ -24,7 +31,9 @@
     "@types/node": "^25.6.0",
     "@types/uuid": "^11.0.0",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
+    "@types/jest": "^30.0.0"
   },
   "dependencies": {
     "@ptah-app/lib-logger": "workspace:*",

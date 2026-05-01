@@ -13,8 +13,9 @@
     "check:fix": "biome check --write",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
-    "allcheck": "pnpm format && pnpm check && pnpm typecheck",
-    "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags"
+    "allcheck": "pnpm format && pnpm check && pnpm typecheck && pnpm test",
+    "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags",
+    "test:coverage": "turbo test:coverage"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",

@@ -11,6 +11,7 @@
       <a href="https://www.npmjs.com/package/@ptah-app/app"><img src="https://img.shields.io/npm/v/%40ptah-app%2Fapp" alt="npm version" height="120px" style="margin-top: 20px;"/></a>
       <a href="https://www.npmjs.com/package/@ptah-app/app"><img src="https://img.shields.io/npm/dy/%40ptah-app%2Fapp" alt="license" height="120px" style="margin-top: 20px;"/></a>
       <a href="https://github.com/MD4/ptah/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MD4/ptah" alt="license" height="120px" style="margin-top: 20px;"/></a>
+      <a href="https://codecov.io/gh/MD4/ptah"><img src="https://codecov.io/gh/MD4/ptah/graph/badge.svg" alt="coverage" height="120px" style="margin-top: 20px;"/></a>
   </p>
   <br/>
   <br/>
