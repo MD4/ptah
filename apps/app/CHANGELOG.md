@@ -1,5 +1,19 @@
 # @ptah-app/app
 
+## 0.2.3
+
+### Patch Changes
+
+- 4d55081: Publish fix
+- Updated dependencies [4d55081]
+  - @ptah-app/service-api@0.2.3
+  - @ptah-app/service-bus@0.2.3
+  - @ptah-app/service-gateway-ws@0.2.3
+  - @ptah-app/service-main@0.2.3
+  - @ptah-app/service-midi@0.2.3
+  - @ptah-app/ui-admin@0.2.3
+  - @ptah-app/lib-shared@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

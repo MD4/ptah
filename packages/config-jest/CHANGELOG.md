@@ -1,5 +1,11 @@
 # @ptah-app/config-jest
 
+## 0.2.3
+
+### Patch Changes
+
+- 4d55081: Publish fix
+
 ## 0.2.2
 
 ### Patch Changes

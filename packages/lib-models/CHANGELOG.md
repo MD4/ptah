@@ -1,5 +1,13 @@
 # @ptah-app/lib-models
 
+## 0.2.3
+
+### Patch Changes
+
+- 4d55081: Publish fix
+- Updated dependencies [4d55081]
+  - @ptah-app/lib-logger@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
