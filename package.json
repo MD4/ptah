@@ -14,7 +14,7 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "allcheck": "pnpm format && pnpm check && pnpm typecheck && pnpm test",
-    "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags",
+    "publish-packages": "pnpm clean && pnpm allcheck && pnpm build && changeset && changeset version && changeset publish && git push && git push --tags",
     "test:coverage": "turbo test:coverage"
   },
   "devDependencies": {
