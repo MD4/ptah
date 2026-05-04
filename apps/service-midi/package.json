@@ -41,7 +41,7 @@
     "@types/supertest": "^7.2.0",
     "supertest": "^7.2.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "jest-presets": "npm:@ptah-app/config-jest@*",
     "@types/jest": "^30.0.0"
   }
