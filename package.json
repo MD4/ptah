@@ -21,7 +21,7 @@
     "@biomejs/biome": "^2.4.9",
     "@changesets/cli": "^2.31.0",
     "@types/jest": "^30.0.0",
-    "jest": "^30.3.0",
+    "jest": "^30.4.2",
     "turbo": "^2.9.14"
   },
   "packageManager": "pnpm@9.15.4"
