@@ -12,6 +12,7 @@ server/dist
 public/dist
 .npmrc
 .worktrees/
+.claude
 
 # Coverage reports
 coverage/
