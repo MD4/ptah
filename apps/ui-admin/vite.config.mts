@@ -23,13 +23,9 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias: command === "serve" ? libSourceAliases : [],
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: "modern-compiler", // or "modern"
-      },
-    },
-  },
+  // Note: Vite 8 uses Sass's modern compiler API by default, so the previous
+  // css.preprocessorOptions.scss.api: "modern-compiler" option was removed — it
+  // is now a no-op and no longer part of SassPreprocessorOptions.
   optimizeDeps: {
     // Pin every npm dependency reachable through the React.lazy() routes so Vite
     // finalizes its dep pre-bundle at cold start and never re-optimizes
