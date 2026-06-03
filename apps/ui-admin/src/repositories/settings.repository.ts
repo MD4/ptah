@@ -16,7 +16,7 @@ const SettingsGet = (): Promise<models.Settings> =>
 
 export const useSettingsGet = (): UseQueryResult<models.Settings | undefined> =>
   useQuery({
-    queryKey: ["Settings", name],
+    queryKey: ["settings"],
     queryFn: SettingsGet,
   });
 
