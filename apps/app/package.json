@@ -3,8 +3,8 @@
   "version": "0.2.3",
   "private": false,
   "scripts": {
-    "build": "npm link --force",
-    "start": "nodemon"
+    "start": "nodemon",
+    "link:global": "npm link --force"
   },
   "type": "module",
   "main": "index.js",

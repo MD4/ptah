@@ -3,10 +3,11 @@
   "version": "0.2.3",
   "private": false,
   "scripts": {
-    "build": "tsc; chmod u+x dist/index.js; npm link --force",
+    "build": "tsc; chmod u+x dist/index.js",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "link:global": "npm link --force"
   },
   "type": "module",
   "main": "dist/index.js",

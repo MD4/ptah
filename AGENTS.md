@@ -110,3 +110,7 @@ cd packages/lib-domains && pnpm test
 - Several tasks read env vars defined in `turbo.json` (e.g. `SERVICE_BUS_PORT`,
   `SERVICE_API_PORT`, `SERVICE_GATEWAY_WS_PORT`, `VITE_UI_ADMIN_NAME`); local
   `.env.*local` files trigger rebuilds.
+- The global `ptah` / `ptah-cli` commands are **not** linked during `build`. End
+  users get them automatically from the `bin` field on `npm install -g`. For
+  local development, link them on demand (after a build) with `pnpm run
+  link:global`.

@@ -15,7 +15,8 @@
     "typecheck": "turbo typecheck",
     "allcheck": "pnpm format && pnpm check && pnpm typecheck && pnpm test",
     "publish-packages": "pnpm clean && pnpm allcheck && pnpm build && changeset && changeset version && changeset publish && git push && git push --tags",
-    "test:coverage": "turbo test:coverage"
+    "test:coverage": "turbo test:coverage",
+    "link:global": "pnpm --filter @ptah-app/app run link:global && pnpm --filter @ptah-app/ui-cli run link:global"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
