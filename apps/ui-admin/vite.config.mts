@@ -1,8 +1,28 @@
+import { fileURLToPath } from "node:url";
+
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-export default defineConfig({
+// In dev (command === "serve") resolve the @ptah-app/lib-* workspace packages to
+// their TypeScript source instead of the pre-built dist/index.mjs. This puts them
+// in Vite's HMR graph (granular HMR on lib edits) and means a `tsup --watch`
+// rebuild of dist can no longer invalidate Vite's optimized-dep cache or reload
+// open tabs — Vite never reads dist in dev. Production builds (command !==
+// "serve") fall back to the published dist via each package's main/module fields.
+const WORKSPACE_LIBS = ["lib-domains", "lib-models", "lib-utils", "lib-logger"];
+
+const libSourceAliases = WORKSPACE_LIBS.map((name) => ({
+  find: `@ptah-app/${name}`,
+  replacement: fileURLToPath(
+    new URL(`../../packages/${name}/src/index.ts`, import.meta.url),
+  ),
+}));
+
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  resolve: {
+    alias: command === "serve" ? libSourceAliases : [],
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -67,4 +87,4 @@ export default defineConfig({
       ],
     },
   },
-});
+}));
