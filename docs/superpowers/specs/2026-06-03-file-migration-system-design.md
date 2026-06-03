@@ -198,17 +198,37 @@ The settings and show chains ship **empty**; only the program chain has an entry
 
 ## Rollout / PR
 
-- All work on branch `worktree-feat+file-migrations`; ends in a PR to `master`.
 - Ships **infrastructure + one real program migration** (not empty-chains-only).
 - Add a **minor** changeset (`0.2.3` → `0.3.0`).
 - Gate before PR: `pnpm allcheck` (format → lint → typecheck → build → test).
   - Note: `pnpm i` currently aborts on the `midi` native rebuild
     (`node-gyp` missing locally); this is a pre-existing toolchain gap in
     `service-midi`, unrelated to this change.
-- PR description documents the **migration-authoring recipe**: when a model change
-  breaks an old file, add one `{ version, up }` entry to that resource's chain +
-  a fixture test, and bump the target version via changeset.
 - Add a short "File migrations" section to `AGENTS.md`.
+
+### Branch / PR conventions (must match repo)
+
+Observed from the two human-authored PRs in the repo (`feat/tests-and-bugs`,
+`feat/node-input-audio`); all other PRs are dependabot.
+
+- **Branch name:** `feat/<kebab-desc>` → **`feat/file-migrations`**.
+  - The local worktree branch is `worktree-feat+file-migrations` (the worktree
+    tool sanitizes `/`). Keep it as-is locally and push to the convention-correct
+    remote branch: `git push -u origin HEAD:feat/file-migrations`.
+- **PR title:** the repo's convention is the branch name verbatim →
+  **`feat/file-migrations`**.
+- **PR body:** fill out every section of `.github/pull_request_template.md`:
+  - *Description* — the migration system + the #218 program-loading fix.
+  - *Type of Change* — check **Bug fix** and **New feature**.
+  - *Changes Made* — the migration engine, version stamping, backup-on-write-back,
+    the `targetIntput → targetInput` program migration, the minor changeset, docs.
+  - *Testing* — check **Unit tests added/updated** and **Manual testing performed**.
+  - *Checklist* — tick the items that hold (style, self-review, docs updated,
+    no new warnings, tests pass locally).
+  - *Related Issues* — reference the #218 regression.
+  - *Additional Notes* — document the **migration-authoring recipe**: when a model
+    change breaks an old file, add one `{ version, up }` entry to that resource's
+    chain + a fixture test, and bump the target version via changeset.
 
 ## Out of scope (YAGNI)
 
