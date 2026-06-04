@@ -667,6 +667,9 @@ importers:
       '@ptah-app/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/node':
         specifier: ^25.6.2
         version: 25.6.2

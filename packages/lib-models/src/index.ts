@@ -1,3 +1,4 @@
+export * from "./app-version.model";
 export * from "./dmx.model";
 export * from "./edge.model";
 export * from "./midi.model";

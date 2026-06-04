@@ -345,6 +345,18 @@ describe("program schema", () => {
   it("programCreate rejects empty name", () => {
     expect(() => programCreate.parse({ name: "" })).toThrow(ZodError);
   });
+  it("accepts an optional version stamp", () => {
+    const parsed = program.parse({ ...validProgram, version: "0.3.0" });
+    expect(parsed.version).toBe("0.3.0");
+  });
+  it("accepts a program with no version", () => {
+    expect(program.parse(validProgram).version).toBeUndefined();
+  });
+  it("rejects an invalid version string", () => {
+    expect(() => program.parse({ ...validProgram, version: "nope" })).toThrow(
+      ZodError,
+    );
+  });
 });
 
 // ─── settings ────────────────────────────────────────────────────────────────
@@ -430,5 +442,12 @@ describe("show schema", () => {
   });
   it("showCreate only requires name", () => {
     expect(showCreate.parse({ name: "my-show" })).toEqual({ name: "my-show" });
+  });
+  it("accepts an optional version stamp", () => {
+    const parsed = show.parse({ ...validShow, version: "0.3.0" });
+    expect(parsed.version).toBe("0.3.0");
+  });
+  it("accepts a show with no version", () => {
+    expect(show.parse(validShow).version).toBeUndefined();
   });
 });

@@ -3,6 +3,7 @@ import * as z from "zod";
 import { edge } from "./edge.model";
 import { node } from "./node.model";
 import { uuid } from "./uuid.model";
+import { version } from "./version.model";
 
 export const programName = z
   .string()
@@ -16,6 +17,7 @@ export const program = z.object({
   name: programName,
   nodes: z.array(node),
   edges: z.array(edge),
+  version: z.optional(version),
 });
 export type Program = z.infer<typeof program>;
 

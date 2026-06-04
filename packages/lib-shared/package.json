@@ -17,11 +17,16 @@
     "test:coverage": "jest --passWithNoTests --coverage"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^@ptah-app/lib-logger$": "<rootDir>/../lib-logger/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../lib-models/src/index.ts"
+    }
   },
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.6.2",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

@@ -1,21 +1,26 @@
 import * as models from "@ptah-app/lib-models";
 
+import { PTAH_SHOWS_BACKUPS_PATH } from "../env/vars.env";
+import { showMigrations } from "../migrations";
 import {
   deleteFileFromPath,
   listFilesFromPath,
-  readFileFromPath,
   writeFileToPath,
 } from "./file.repository";
+import { loadAndMigrate } from "./migrate-resource";
 
-export const loadShowFromPath = async (path: string): Promise<models.Show> => {
-  return models.show.parseAsync(JSON.parse(await readFileFromPath(path)));
-};
+export const loadShowFromPath = (path: string): Promise<models.Show> =>
+  loadAndMigrate(path, showMigrations, models.show, PTAH_SHOWS_BACKUPS_PATH);
 
-export const saveShowToPath = async (
+export const saveShowToPath = (
   show: models.Show,
   path: string,
 ): Promise<void> => {
-  const json = JSON.stringify(show, undefined, 2);
+  const json = JSON.stringify(
+    { ...show, version: models.getCurrentAppVersion() },
+    undefined,
+    2,
+  );
 
   return writeFileToPath(path, json);
 };

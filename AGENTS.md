@@ -91,6 +91,27 @@ cd packages/lib-domains && pnpm test
   package's `package.json`.
 - Add or update tests for new features and bug fixes; aim to keep coverage healthy.
 
+## File migrations
+
+Resources in `~/.ptah/` (settings, shows, programs) are JSON files validated with
+Zod on load. Each file carries a `version` stamp (the app version that wrote it).
+When a model change alters a file's shape, add a migration so old files still
+load:
+
+1. Add an entry to the relevant chain in
+   `packages/lib-shared/src/migrations/<resource>.migrations.ts`:
+   `{ version: "<next-release>", up: (raw) => /* transform plain JSON */ }`.
+   The `version` is the app version the migration upgrades TO.
+2. Write `up` against plain JSON (old shapes won't satisfy the current Zod model)
+   and make it idempotent.
+3. Add a fixture test under `packages/lib-shared/src/migrations/__tests__/`.
+4. Bump the app version to that release via a changeset (the migration only runs
+   for files whose stamped version is older than the current `APP_VERSION`).
+
+Loads run lazily through `repositories/migrate-resource.ts`: the original is
+backed up under `~/.ptah/.backups/<resource>/<name>.<oldversion>.json`, the
+upgraded file is written back, then validated.
+
 ## CI / before opening a PR
 
 - `.github/workflows/build.yml` runs on push/PR to `master`: format check → lint
