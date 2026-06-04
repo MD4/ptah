@@ -19,6 +19,7 @@
   "jest": {
     "preset": "jest-presets/jest/node",
     "moduleNameMapper": {
+      "^@ptah-app/lib-logger$": "<rootDir>/../lib-logger/src/index.ts",
       "^@ptah-app/lib-models$": "<rootDir>/../lib-models/src/index.ts"
     }
   },
