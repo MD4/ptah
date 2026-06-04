@@ -35,6 +35,24 @@ before validation.
 | Legacy files | **Treat missing `version` as baseline** (`0.2.3`, the current app version). |
 | Engine approach | **Approach A** — ordered semver-keyed migration chain operating on raw JSON; the existing current Zod model is the final validation gate. |
 
+## Plan-time refinements
+
+Two details were adjusted while writing the implementation plan (both reduce
+risk; see the plan for full reasoning):
+
+1. **The version constant lives in `lib-models`** (`app-version.model.ts`), not in
+   `lib-shared/migrations`. `createSettings` (in `lib-domains`) and the migration
+   engine (in `lib-shared`) both need it, and `lib-shared` depends on
+   `lib-domains` — so placing it in `lib-shared` would create a circular import.
+   `lib-models` is depended on by both. The migration engine, chains, and
+   repository helper stay in `lib-shared`. A small semver comparator lives in
+   `lib-shared/migrations/semver.ts`.
+2. **The `version` field is OPTIONAL on the Show and Program models**, not
+   required. Requiring it would force edits to ~35 `const prog: Program = {…}`
+   literals in existing `lib-domains` tests. The on-disk version guarantee comes
+   from the repository **save path** (the only writer), so migrations behave
+   identically. Settings keeps its existing required `version`.
+
 ## Architecture
 
 ### Module layout
@@ -45,37 +63,41 @@ New module `packages/lib-shared/src/migrations/`:
 migrations/
   migration.types.ts      # Migration, MigrationChain types
   migrate.ts              # runMigrations() core engine (pure, no I/O)
-  app-version.ts          # CURRENT_APP_VERSION + BASELINE_VERSION resolution + semver compare
+  semver.ts               # parseVersion + compareVersions
   settings.migrations.ts  # ordered chain for settings (empty initially)
   show.migrations.ts      # ordered chain for shows (empty initially)
   program.migrations.ts   # ordered chain for programs (targetIntput fix)
-  index.ts                # re-exports + registry { settings, show, program }
+  index.ts                # re-exports of the chains + engine
   __tests__/              # engine + per-chain tests
 ```
 
-Plus a shared repository helper `packages/lib-shared/src/repositories/migrate-resource.ts`
-and a `PTAH_BACKUPS_PATH` addition to `packages/lib-shared/src/env/vars.env.ts`.
+Plus the version constant in `packages/lib-models/src/app-version.model.ts`, a
+shared repository helper `packages/lib-shared/src/repositories/migrate-resource.ts`,
+and `PTAH_BACKUPS_PATH` (+ per-resource subdir) constants in
+`packages/lib-shared/src/env/vars.env.ts`.
 
 ### Data-model changes (`packages/lib-models`)
 
-- **Show** and **Program** gain a required `version: version` field (reusing the
-  existing semver schema in `version.model.ts`). In-memory objects are always
-  stamped; the repository layer supplies the baseline default for unstamped files
-  *before* `parseAsync`, so the canonical model can require it.
-- **Settings** already has `version`; it is repurposed as *the* schema stamp (the
-  app version that wrote the file). `appVersion` keeps its existing runtime-display
-  role (injected from env on GET in `settings.service.ts`); a one-line comment in
-  the model documents the distinction.
-- `createSettings()`, plus the create paths for shows/programs, stamp
-  `CURRENT_APP_VERSION` instead of the hardcoded `"0.0.1"`.
+- **Show** and **Program** gain an **optional** `version: version` field (reusing
+  the existing semver schema in `version.model.ts`). The repository **save path**
+  (the only writer) stamps the current version on every write, so files on disk
+  are always versioned; the optional field avoids churning existing typed
+  literals.
+- **Settings** already has a required `version`; it is repurposed as *the* schema
+  stamp (the app version that wrote the file). `appVersion` keeps its existing
+  runtime-display role (injected from env on GET in `settings.service.ts`).
+- `createSettings()` stamps `getCurrentAppVersion()` instead of the hardcoded
+  `"0.0.1"`. Show/program creation does not need to stamp (the save path does).
 
-### Version resolution (`app-version.ts`)
+### Version resolution (`lib-models/app-version.model.ts`)
 
-- `CURRENT_APP_VERSION` — resolved from `process.env.APP_VERSION`, falling back to
-  `BASELINE_VERSION` (matches the existing pattern in `settings.service.ts`).
+- `getCurrentAppVersion()` — resolved from `process.env.APP_VERSION`, falling back
+  to `BASELINE_VERSION`. The app sets `APP_VERSION` from its `package.json` at
+  startup (`apps/app/index.js`) and propagates it to spawned services, so at real
+  load time it is the released version; the fallback only applies in tests.
 - `BASELINE_VERSION = "0.2.3"` — the version assumed for any file with no `version`.
-- A small internal semver comparator for the `major.minor.patch[-pre][+build]`
-  shape already defined in `version.model.ts` (no new dependency).
+- A small semver comparator (`semver.ts` in `lib-shared/migrations`) for the
+  `major.minor.patch[-pre][+build]` shape (no new dependency).
 
 ## The engine
 
