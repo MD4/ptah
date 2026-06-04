@@ -4,6 +4,7 @@ import { showMapping } from "./show-mapping.model";
 import { showPatch } from "./show-patch.model";
 import { showPrograms } from "./show-programs.model";
 import { uuid } from "./uuid.model";
+import { version } from "./version.model";
 
 export const showName = z
   .string()
@@ -18,6 +19,7 @@ export const show = z.object({
   mapping: showMapping,
   patch: showPatch,
   programs: showPrograms,
+  version: z.optional(version),
 });
 export type Show = z.infer<typeof show>;
 
