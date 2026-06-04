@@ -1,5 +1,20 @@
 # @ptah-app/lib-shared
 
+## 0.3.0
+
+### Minor Changes
+
+- e20ec80: Add a file migration system: resource JSON files are stamped with the app
+  version and upgraded on load (lazy, with a backup under `~/.ptah/.backups/`)
+  before Zod validation. Ships the first migration, fixing program loading broken
+  by the `targetIntput → targetInput` edge-field rename (#218).
+
+### Patch Changes
+
+- Updated dependencies [e20ec80]
+  - @ptah-app/lib-models@0.3.0
+  - @ptah-app/lib-domains@0.3.0
+
 ## 0.2.3
 
 ### Patch Changes

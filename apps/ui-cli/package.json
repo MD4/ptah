@@ -1,6 +1,6 @@
 {
   "name": "@ptah-app/ui-cli",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": false,
   "scripts": {
     "build": "tsc; chmod u+x dist/index.js",

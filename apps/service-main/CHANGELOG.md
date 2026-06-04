@@ -1,5 +1,14 @@
 # @ptah-app/service-main
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [e20ec80]
+  - @ptah-app/lib-models@0.3.0
+  - @ptah-app/lib-shared@0.3.0
+  - @ptah-app/lib-domains@0.3.0
+
 ## 0.2.3
 
 ### Patch Changes
