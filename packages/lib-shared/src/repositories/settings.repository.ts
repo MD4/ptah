@@ -1,21 +1,25 @@
 import * as models from "@ptah-app/lib-models";
-import { readFileFromPath, writeFileToPath } from "./file.repository";
 
-export const loadSettingsFromPath = async (
-  path: string,
-): Promise<models.Settings> => {
-  const buffer = await readFileFromPath(path);
+import { PTAH_SETTINGS_BACKUPS_PATH } from "../env/vars.env";
+import { settingsMigrations } from "../migrations";
+import { writeFileToPath } from "./file.repository";
+import { loadAndMigrate } from "./migrate-resource";
 
-  return models.settings.parseAsync(JSON.parse(buffer));
-};
+export const loadSettingsFromPath = (path: string): Promise<models.Settings> =>
+  loadAndMigrate(
+    path,
+    settingsMigrations,
+    models.settings,
+    PTAH_SETTINGS_BACKUPS_PATH,
+  );
 
 export const saveSettingsToPath = async (
   settings: models.Settings,
   path: string,
 ): Promise<models.Settings> => {
-  const json = JSON.stringify(settings, undefined, 2);
+  const stamped = { ...settings, version: models.getCurrentAppVersion() };
 
-  await writeFileToPath(path, json);
+  await writeFileToPath(path, JSON.stringify(stamped, undefined, 2));
 
-  return settings;
+  return stamped;
 };
