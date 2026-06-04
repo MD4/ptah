@@ -122,6 +122,27 @@ upgraded file is written back, then validated.
 - The PR template expects: style-guide compliance, self-review, comments where
   needed, tests, and no new warnings.
 
+## Releasing
+
+Releases are **manual** and Changesets-driven (no auto-publish CI). All public
+packages publish to npm under the `@ptah-app/*` scope; the npm token lives in the
+gitignored root `.npmrc`.
+
+1. During feature work, add a changeset: `pnpm exec changeset` (commit the
+   generated `.changeset/*.md`).
+2. When ready to ship, from a clean, in-sync `master`:
+   - `pnpm release:dry` — preview: pre-flight checks + build + the planned version
+     bumps, with no mutations.
+   - `pnpm release` — the real thing: bumps versions + writes CHANGELOGs
+     (`changeset version`), publishes to npm (retried to ride out transient
+     npm/TLS errors), pushes the commit + tags, and creates a GitHub Release for
+     `@ptah-app/app`. Prompts for a typed `yes` before the irreversible publish
+     (auto-skipped with `--yes` or in CI).
+
+The flow lives in `scripts/release.sh` (`pnpm release` / `pnpm release:dry`;
+`publish-packages` is kept as an alias). `pnpm release` is **idempotent** — if a
+publish is interrupted, just run it again; already-published versions are skipped.
+
 ## Gotchas
 
 - Builds depend on each other (`^build` in `turbo.json`); workspace packages are

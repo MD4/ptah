@@ -14,7 +14,9 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "allcheck": "pnpm format && pnpm check && pnpm typecheck && pnpm test",
-    "publish-packages": "pnpm clean && pnpm allcheck && pnpm build && changeset && changeset version && changeset publish && git push && git push --tags",
+    "release": "bash scripts/release.sh",
+    "release:dry": "bash scripts/release.sh --dry-run",
+    "publish-packages": "bash scripts/release.sh",
     "test:coverage": "turbo test:coverage",
     "link:global": "pnpm --filter @ptah-app/app run link:global && pnpm --filter @ptah-app/ui-cli run link:global"
   },
