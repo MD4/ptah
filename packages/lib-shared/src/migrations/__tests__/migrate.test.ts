@@ -1,5 +1,5 @@
-import type { MigrationChain } from "../migration.types";
 import { runMigrations } from "../migrate";
+import type { MigrationChain } from "../migration.types";
 
 const chain: MigrationChain = [
   { version: "0.3.0", up: (raw) => ({ ...(raw as object), a: 1 }) },
@@ -28,8 +28,20 @@ describe("runMigrations", () => {
   it("applies out-of-order chains in ascending version order", () => {
     const order: string[] = [];
     const unordered: MigrationChain = [
-      { version: "0.4.0", up: (r) => (order.push("b"), r) },
-      { version: "0.3.0", up: (r) => (order.push("a"), r) },
+      {
+        version: "0.4.0",
+        up: (r) => {
+          order.push("b");
+          return r;
+        },
+      },
+      {
+        version: "0.3.0",
+        up: (r) => {
+          order.push("a");
+          return r;
+        },
+      },
     ];
     runMigrations({}, unordered, { from: "0.2.3", to: "0.4.0" });
     expect(order).toEqual(["a", "b"]);

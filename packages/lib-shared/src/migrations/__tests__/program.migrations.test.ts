@@ -11,7 +11,13 @@ describe("program migration: targetIntput -> targetInput (#218)", () => {
     const result = up({
       id: "p1",
       edges: [
-        { id: "e1", source: "a", target: "b", sourceOutput: 0, targetIntput: 3 },
+        {
+          id: "e1",
+          source: "a",
+          target: "b",
+          sourceOutput: 0,
+          targetIntput: 3,
+        },
       ],
     }) as { edges: Array<Record<string, unknown>> };
     expect(result.edges[0].targetInput).toBe(3);

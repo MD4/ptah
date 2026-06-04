@@ -59,6 +59,8 @@ describe("program repository migration", () => {
   });
 
   it("uses the shared backups path constant for programs", () => {
-    expect(PTAH_PROGRAMS_BACKUPS_PATH.endsWith("/.backups/programs")).toBe(true);
+    expect(PTAH_PROGRAMS_BACKUPS_PATH.endsWith("/.backups/programs")).toBe(
+      true,
+    );
   });
 });
