@@ -1,4 +1,5 @@
 import path from "node:path";
+import { log } from "@ptah-app/lib-logger";
 import { BASELINE_VERSION, getCurrentAppVersion } from "@ptah-app/lib-models";
 import type { MigrationChain } from "../migrations";
 import { runMigrations } from "../migrations";
@@ -25,9 +26,12 @@ export const loadAndMigrate = async <T>(
   };
   const from = raw?.version ?? BASELINE_VERSION;
   const to = getCurrentAppVersion();
+
   const migrated = runMigrations(raw, chain, { from, to });
 
   if (from !== to) {
+    log(`Migrating resource at ${filePath} from version ${from} to ${to}.`);
+
     await createDirectory(backupDir);
     const base = path.basename(filePath).replace(/\.json$/, "");
     await writeFileToPath(
