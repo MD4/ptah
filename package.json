@@ -21,7 +21,7 @@
     "link:global": "pnpm --filter @ptah-app/app run link:global && pnpm --filter @ptah-app/ui-cli run link:global"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.9",
+    "@biomejs/biome": "^2.4.16",
     "@changesets/cli": "^2.31.0",
     "@types/jest": "^30.0.0",
     "jest": "^30.4.2",
