@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ant-design/icons": "^6.1.1",
+    "@ant-design/icons": "^6.2.5",
     "@ptah-app/lib-domains": "workspace:^",
     "@ptah-app/lib-logger": "workspace:^",
     "@ptah-app/lib-models": "workspace:*",
