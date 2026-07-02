@@ -1,4 +1,8 @@
-import { BASELINE_VERSION, getCurrentAppVersion } from "../app-version.model";
+import {
+  BASELINE_VERSION,
+  getCurrentAppVersion,
+  MAX_VERSION,
+} from "../app-version.model";
 
 describe("app version", () => {
   const original = process.env.APP_VERSION;
@@ -19,8 +23,8 @@ describe("app version", () => {
     expect(getCurrentAppVersion()).toBe("0.3.0");
   });
 
-  it("getCurrentAppVersion falls back to BASELINE_VERSION when unset", () => {
+  it("getCurrentAppVersion falls back to MAX_VERSION when unset, forcing all migrations to run", () => {
     delete process.env.APP_VERSION;
-    expect(getCurrentAppVersion()).toBe(BASELINE_VERSION);
+    expect(getCurrentAppVersion()).toBe(MAX_VERSION);
   });
 });
