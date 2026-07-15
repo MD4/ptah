@@ -43,6 +43,28 @@ describe("show repository migration", () => {
     expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.4.0");
   });
 
+  it("migrates a legacy show stamped with the unknown-version sentinel", async () => {
+    // A dev-mode load once restamped this file to 999.999.999 while it still
+    // had the raw-channel patch shape — the 0.4.0 migration must still run.
+    const file = join(dir, "poisoned.json");
+    writeFileSync(
+      file,
+      JSON.stringify({
+        id: validUuid,
+        name: "poisoned",
+        mapping: {},
+        patch: { "7": [{ programId: validUuid, programOutput: 0 }] },
+        programs: {},
+        version: "999.999.999",
+      }),
+    );
+
+    const show = await loadShowFromPath(file);
+    expect(show.fixtures).toHaveLength(1);
+    expect(show.patch).toHaveLength(1);
+    expect(show.version).toBe("0.4.0");
+  });
+
   it("stamps the current version on save", async () => {
     const file = join(dir, "saved.json");
     await saveShowToPath(
