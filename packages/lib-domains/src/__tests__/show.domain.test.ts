@@ -13,10 +13,11 @@ describe("createShow", () => {
     );
   });
 
-  it("initializes empty mapping, patch, and programs", () => {
+  it("initializes empty mapping, fixtures, patch, and programs", () => {
     const show = createShow("test");
     expect(show.mapping).toEqual({});
-    expect(show.patch).toEqual({});
+    expect(show.fixtures).toEqual([]);
+    expect(show.patch).toEqual([]);
     expect(show.programs).toEqual({});
   });
 
