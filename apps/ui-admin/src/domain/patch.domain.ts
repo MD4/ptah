@@ -5,8 +5,10 @@ import type { Node } from "@xyflow/react";
 import type { NodeAddFixtureData } from "../components/molecules/nodes/node-add-fixture";
 import type { NodeFixtureData } from "../components/molecules/nodes/node-fixture";
 
+// Measured: 24px padding + 26px header + 22px profile line + 24px per
+// capability row + 8px flex gaps between every row.
 export const getFixtureNodeHeight = (capabilitiesCount: number): number =>
-  capabilitiesCount <= 1 ? 44 : 56 + capabilitiesCount * 26;
+  capabilitiesCount <= 1 ? 44 : 84 + capabilitiesCount * 32;
 
 export type FixtureNodesOptions = {
   x?: number;
