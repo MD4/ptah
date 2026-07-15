@@ -7,7 +7,18 @@
     "build": "vite build",
     "clean": "rm -rf dist",
     "dev": "vite --host 0.0.0.0 --port 3001 --clearScreen false",
+    "test": "jest",
     "typecheck": "tsc --noEmit"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/browser",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../../packages/lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../../packages/lib-models/src/index.ts",
+      "^@ptah-app/lib-domains$": "<rootDir>/../../packages/lib-domains/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../../packages/lib-logger/src/index.ts"
+    }
   },
   "dependencies": {
     "@ant-design/icons": "^6.3.2",
@@ -37,12 +48,15 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
     "@types/events": "^3.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.6.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
     "sass": "^1.101.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.16"

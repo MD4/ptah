@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { Flex, Space, Typography, theme } from "antd";
+import { Flex, Tooltip, Typography, theme } from "antd";
 import * as React from "react";
 
 import { COLOR_WHEEL_GRADIENT } from "../../../utils/color";
@@ -7,19 +7,24 @@ import { useDefaultNodeStyle } from "../nodes/node.style";
 
 const { useToken } = theme;
 
-export default function HandleOutputWithLabel({
+/**
+ * Target handle for one fixture capability. Color capabilities get a hue-wheel
+ * dot so compatible wires are recognizable before dragging.
+ */
+export default function HandleCapability({
   id,
   label,
-  isConnectable = true,
-  kind = "scalar",
+  kind,
+  channels,
 }: {
-  id: number;
+  id: string;
   label: string;
-  isConnectable?: boolean;
-  kind?: "scalar" | "color";
+  kind: "scalar" | "color";
+  channels: number[];
 }) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
+
   const styles = React.useMemo(
     () =>
       ({
@@ -30,7 +35,7 @@ export default function HandleOutputWithLabel({
           ...defaultNodeStyle.handle,
           position: "initial",
           transform: "none",
-          marginRight: -20,
+          marginLeft: -20,
           ...(kind === "color"
             ? {
                 background: COLOR_WHEEL_GRADIENT,
@@ -41,28 +46,26 @@ export default function HandleOutputWithLabel({
         },
         label: {
           flex: 1,
-          textAlign: "right",
         },
       }) satisfies Record<string, React.CSSProperties>,
     [defaultNodeStyle.handle, kind, token.sizeLG, token.sizeXS],
   );
 
-  return (
-    <Flex align="center" gap="middle" style={styles.container}>
-      <div style={styles.label}>
-        <Space>
-          <span>{label}</span>
-          <Typography.Text code>{id}</Typography.Text>
-        </Space>
-      </div>
+  const tooltipTitle = `${label} → ch ${channels.join(", ")}`;
 
-      <Handle
-        id={String(id)}
-        isConnectable={isConnectable}
-        position={Position.Right}
-        style={styles.handle}
-        type="source"
-      />
-    </Flex>
+  return (
+    <Tooltip mouseEnterDelay={0.4} placement="left" title={tooltipTitle}>
+      <Flex align="center" gap="middle" style={styles.container}>
+        <Handle
+          id={id}
+          isConnectable
+          position={Position.Left}
+          style={styles.handle}
+          type="target"
+        />
+
+        <Typography.Text style={styles.label}>{label}</Typography.Text>
+      </Flex>
+    </Tooltip>
   );
 }
