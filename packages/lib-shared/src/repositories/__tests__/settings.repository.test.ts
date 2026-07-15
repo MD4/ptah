@@ -40,4 +40,14 @@ describe("settings repository migration", () => {
     await saveSettingsToPath(validSettings, file);
     expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.3.0");
   });
+
+  it("stamps the baseline on save when the app version is unknown (empty chain)", async () => {
+    delete process.env.APP_VERSION;
+
+    const file = join(dir, "settings-dev.json");
+    await saveSettingsToPath(validSettings, file);
+    // No settings migrations exist yet; the baseline keeps any future
+    // migration runnable — never the 999.999.999 sentinel.
+    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.2.3");
+  });
 });

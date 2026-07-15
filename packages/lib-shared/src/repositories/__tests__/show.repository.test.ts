@@ -80,4 +80,23 @@ describe("show repository migration", () => {
     );
     expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.4.0");
   });
+
+  it("stamps the newest migration version on save when the app version is unknown", async () => {
+    delete process.env.APP_VERSION;
+
+    const file = join(dir, "saved-dev.json");
+    await saveShowToPath(
+      {
+        id: validUuid,
+        name: "saved-dev",
+        mapping: {},
+        fixtures: [],
+        patch: [],
+        programs: {},
+      },
+      file,
+    );
+    // Newest show migration, never the 999.999.999 sentinel.
+    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.4.0");
+  });
 });

@@ -1,4 +1,4 @@
-import { runMigrations } from "../migrate";
+import { getStampVersion, runMigrations } from "../migrate";
 import type { MigrationChain } from "../migration.types";
 
 const chain: MigrationChain = [
@@ -67,5 +67,39 @@ describe("runMigrations", () => {
     const once = runMigrations({}, chain, { from: "0.2.3", to: "0.4.0" });
     const twice = runMigrations(once, chain, { from: "0.4.0", to: "0.4.0" });
     expect(twice).toEqual(once);
+  });
+});
+
+describe("getStampVersion", () => {
+  const original = process.env.APP_VERSION;
+
+  afterEach(() => {
+    if (original === undefined) delete process.env.APP_VERSION;
+    else process.env.APP_VERSION = original;
+  });
+
+  const stampChain: MigrationChain = [
+    { version: "0.3.0", up: (raw) => raw },
+    { version: "0.4.0", up: (raw) => raw },
+  ];
+
+  it("returns the app version when it is known", () => {
+    process.env.APP_VERSION = "1.2.3";
+    expect(getStampVersion(stampChain)).toBe("1.2.3");
+  });
+
+  it("falls back to the newest chain version when the app version is unknown", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion(stampChain)).toBe("0.4.0");
+  });
+
+  it("picks the newest version even from an unordered chain", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion([...stampChain].reverse())).toBe("0.4.0");
+  });
+
+  it("falls back to the baseline for an empty chain", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion([])).toBe("0.2.3");
   });
 });

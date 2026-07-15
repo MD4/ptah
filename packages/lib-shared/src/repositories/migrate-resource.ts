@@ -6,7 +6,7 @@ import {
   MAX_VERSION,
 } from "@ptah-app/lib-models";
 import type { MigrationChain } from "../migrations";
-import { runMigrations } from "../migrations";
+import { getStampVersion, runMigrations } from "../migrations";
 import {
   createDirectory,
   readFileFromPath,
@@ -36,13 +36,19 @@ export const loadAndMigrate = async <T>(
   };
   const storedVersion = raw?.version ?? BASELINE_VERSION;
   const from = storedVersion === MAX_VERSION ? BASELINE_VERSION : storedVersion;
+  // The migration window still targets MAX when the app version is unknown
+  // (never skip anything); the stamp written back is always a real version.
   const to = getCurrentAppVersion();
+  const stampVersion = getStampVersion(chain);
 
-  const migrated = runMigrations(raw, chain, { from, to });
+  const migrated = {
+    ...(runMigrations(raw, chain, { from, to }) as object),
+    version: stampVersion,
+  };
 
   if (JSON.stringify(migrated) !== JSON.stringify(raw)) {
     log(
-      `Migrating resource at ${filePath} from version ${storedVersion} to ${to}.`,
+      `Migrating resource at ${filePath} from version ${storedVersion} to ${stampVersion}.`,
     );
 
     await createDirectory(backupDir);
