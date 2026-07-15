@@ -2,6 +2,10 @@ import { ZodError } from "zod";
 import type { NodeFxMath } from "../index";
 import {
   edge,
+  FIXTURE_PROFILES,
+  fixtureProfile,
+  getFixtureProfile,
+  getFixtureProfileCapabilities,
   node,
   nodeFxADSR,
   nodeFxDistortion,
@@ -10,14 +14,18 @@ import {
   nodeInputControl,
   nodeInputTime,
   nodeInputVelocity,
+  nodeOutputColor,
   nodeOutputResult,
   program,
   programCreate,
   programName,
+  resolveCapabilityChannelIndexes,
   settings,
   show,
   showCreate,
+  showFixture,
   showName,
+  showPatchEntry,
 } from "../index";
 import { uuid } from "../uuid.model";
 
@@ -190,6 +198,46 @@ describe("nodeOutputResult schema", () => {
     expect(() => nodeOutputResult.parse({ ...valid, outputId: 128 })).toThrow(
       ZodError,
     );
+  });
+});
+
+describe("nodeOutputColor schema", () => {
+  const valid = {
+    id: validUuid,
+    position: pos,
+    type: "output-color" as const,
+    outputId: 0,
+    mode: "rgb" as const,
+    valueA: 1,
+    valueB: 1,
+    valueC: 1,
+  };
+
+  it("accepts a valid rgb output-color node", () => {
+    expect(nodeOutputColor.parse(valid)).toEqual(valid);
+  });
+  it("accepts hsv mode", () => {
+    expect(() =>
+      nodeOutputColor.parse({ ...valid, mode: "hsv" }),
+    ).not.toThrow();
+  });
+  it("rejects an unknown mode", () => {
+    expect(() => nodeOutputColor.parse({ ...valid, mode: "cmyk" })).toThrow(
+      ZodError,
+    );
+  });
+  it("rejects valueA above 1", () => {
+    expect(() => nodeOutputColor.parse({ ...valid, valueA: 1.1 })).toThrow(
+      ZodError,
+    );
+  });
+  it("rejects outputId > 127", () => {
+    expect(() => nodeOutputColor.parse({ ...valid, outputId: 128 })).toThrow(
+      ZodError,
+    );
+  });
+  it("is accepted by the node union", () => {
+    expect(node.parse(valid)).toEqual(valid);
   });
 });
 
@@ -422,7 +470,8 @@ describe("show schema", () => {
     id: validUuid,
     name: "test-show",
     mapping: {},
-    patch: {},
+    fixtures: [],
+    patch: [],
     programs: {},
   };
 
@@ -449,5 +498,267 @@ describe("show schema", () => {
   });
   it("accepts a show with no version", () => {
     expect(show.parse(validShow).version).toBeUndefined();
+  });
+
+  const validFixture = {
+    id: validUuid,
+    name: "Par L",
+    profileId: "rgb",
+    startChannel: 1,
+  };
+
+  it("accepts a show with a fixture and a patch entry", () => {
+    const parsed = show.parse({
+      ...validShow,
+      fixtures: [validFixture],
+      patch: [
+        {
+          programId: validUuid,
+          outputKind: "color",
+          outputId: 0,
+          fixtureId: validUuid,
+          capability: { type: "color" },
+        },
+      ],
+    });
+    expect(parsed.fixtures).toHaveLength(1);
+    expect(parsed.patch).toHaveLength(1);
+  });
+  it("rejects a fixture with an unknown profile", () => {
+    expect(() =>
+      show.parse({
+        ...validShow,
+        fixtures: [{ ...validFixture, profileId: "moving-head" }],
+      }),
+    ).toThrow(ZodError);
+  });
+  it("rejects a fixture overflowing the universe", () => {
+    expect(() =>
+      show.parse({
+        ...validShow,
+        fixtures: [
+          { ...validFixture, profileId: "rgbw-dimmer", startChannel: 512 },
+        ],
+      }),
+    ).toThrow(ZodError);
+  });
+  it("accepts a single-channel fixture on channel 512", () => {
+    expect(() =>
+      show.parse({
+        ...validShow,
+        fixtures: [
+          { ...validFixture, profileId: "dimmer", startChannel: 512 },
+        ],
+      }),
+    ).not.toThrow();
+  });
+  it("rejects duplicate fixture ids", () => {
+    expect(() =>
+      show.parse({
+        ...validShow,
+        fixtures: [
+          validFixture,
+          { ...validFixture, name: "Par R", startChannel: 10 },
+        ],
+      }),
+    ).toThrow(ZodError);
+  });
+  it("accepts overlapping fixture addresses", () => {
+    expect(() =>
+      show.parse({
+        ...validShow,
+        fixtures: [
+          validFixture,
+          {
+            ...validFixture,
+            id: "223e4567-e89b-12d3-a456-426614174000",
+            startChannel: 2,
+          },
+        ],
+      }),
+    ).not.toThrow();
+  });
+});
+
+// ─── fixture profiles ────────────────────────────────────────────────────────
+
+describe("fixtureProfile schema", () => {
+  it("accepts every built-in profile", () => {
+    for (const profile of FIXTURE_PROFILES) {
+      expect(() => fixtureProfile.parse(profile)).not.toThrow();
+    }
+  });
+  it("rejects a profile without channels", () => {
+    expect(() =>
+      fixtureProfile.parse({ id: "empty", name: "Empty", channels: [] }),
+    ).toThrow(ZodError);
+  });
+  it("rejects an unknown channel role", () => {
+    expect(() =>
+      fixtureProfile.parse({
+        id: "strobe",
+        name: "Strobe",
+        channels: [{ role: "strobe", label: "Strobe" }],
+      }),
+    ).toThrow(ZodError);
+  });
+  it("getFixtureProfile finds built-ins", () => {
+    expect(getFixtureProfile("rgb")?.channels).toHaveLength(3);
+  });
+  it("getFixtureProfile returns undefined for unknown ids", () => {
+    expect(getFixtureProfile("nope")).toBeUndefined();
+  });
+});
+
+describe("resolveCapabilityChannelIndexes", () => {
+  const rgb = getFixtureProfile("rgb");
+  const rgbwDimmer = getFixtureProfile("rgbw-dimmer");
+  if (!rgb || !rgbwDimmer) {
+    throw new Error("Built-in profiles missing");
+  }
+
+  it("resolves color to red, green, blue indexes", () => {
+    expect(resolveCapabilityChannelIndexes(rgb, { type: "color" })).toEqual([
+      0, 1, 2,
+    ]);
+    expect(
+      resolveCapabilityChannelIndexes(rgbwDimmer, { type: "color" }),
+    ).toEqual([1, 2, 3]);
+  });
+  it("resolves dimmer to the dimmer index", () => {
+    expect(
+      resolveCapabilityChannelIndexes(rgbwDimmer, { type: "dimmer" }),
+    ).toEqual([0]);
+  });
+  it("returns undefined for dimmer on a profile without one", () => {
+    expect(
+      resolveCapabilityChannelIndexes(rgb, { type: "dimmer" }),
+    ).toBeUndefined();
+  });
+  it("resolves a channel capability within bounds", () => {
+    expect(
+      resolveCapabilityChannelIndexes(rgbwDimmer, {
+        type: "channel",
+        channelIndex: 4,
+      }),
+    ).toEqual([4]);
+  });
+  it("returns undefined for an out-of-bounds channel capability", () => {
+    expect(
+      resolveCapabilityChannelIndexes(rgb, { type: "channel", channelIndex: 3 }),
+    ).toBeUndefined();
+  });
+});
+
+describe("getFixtureProfileCapabilities", () => {
+  it("derives color for rgb", () => {
+    const rgb = getFixtureProfile("rgb");
+    if (!rgb) throw new Error("rgb profile missing");
+    expect(getFixtureProfileCapabilities(rgb)).toEqual([
+      { capability: { type: "color" }, label: "Color" },
+    ]);
+  });
+  it("derives dimmer only for dimmer", () => {
+    const dimmer = getFixtureProfile("dimmer");
+    if (!dimmer) throw new Error("dimmer profile missing");
+    expect(getFixtureProfileCapabilities(dimmer)).toEqual([
+      { capability: { type: "dimmer" }, label: "Dimmer" },
+    ]);
+  });
+  it("derives color, dimmer and white channel for rgbw-dimmer", () => {
+    const rgbwDimmer = getFixtureProfile("rgbw-dimmer");
+    if (!rgbwDimmer) throw new Error("rgbw-dimmer profile missing");
+    expect(getFixtureProfileCapabilities(rgbwDimmer)).toEqual([
+      { capability: { type: "color" }, label: "Color" },
+      { capability: { type: "dimmer" }, label: "Dimmer" },
+      { capability: { type: "channel", channelIndex: 4 }, label: "White" },
+    ]);
+  });
+});
+
+// ─── show fixture ────────────────────────────────────────────────────────────
+
+describe("showFixture schema", () => {
+  const valid = {
+    id: validUuid,
+    name: "Par L",
+    profileId: "rgb",
+    startChannel: 1,
+  };
+
+  it("accepts a valid fixture", () => {
+    expect(showFixture.parse(valid)).toEqual(valid);
+  });
+  it("rejects startChannel 0", () => {
+    expect(() => showFixture.parse({ ...valid, startChannel: 0 })).toThrow(
+      ZodError,
+    );
+  });
+  it("rejects startChannel 513", () => {
+    expect(() => showFixture.parse({ ...valid, startChannel: 513 })).toThrow(
+      ZodError,
+    );
+  });
+  it("rejects a non-integer startChannel", () => {
+    expect(() => showFixture.parse({ ...valid, startChannel: 1.5 })).toThrow(
+      ZodError,
+    );
+  });
+  it("rejects an empty name", () => {
+    expect(() => showFixture.parse({ ...valid, name: "" })).toThrow(ZodError);
+  });
+});
+
+// ─── show patch entries ──────────────────────────────────────────────────────
+
+describe("showPatchEntry schema", () => {
+  const scalarEntry = {
+    programId: validUuid,
+    outputKind: "scalar" as const,
+    outputId: 0,
+    fixtureId: validUuid,
+    capability: { type: "dimmer" as const },
+  };
+  const colorEntry = {
+    programId: validUuid,
+    outputKind: "color" as const,
+    outputId: 0,
+    fixtureId: validUuid,
+    capability: { type: "color" as const },
+  };
+
+  it("accepts a scalar entry on a dimmer capability", () => {
+    expect(showPatchEntry.parse(scalarEntry)).toEqual(scalarEntry);
+  });
+  it("accepts a scalar entry on a channel capability", () => {
+    const entry = {
+      ...scalarEntry,
+      capability: { type: "channel" as const, channelIndex: 3 },
+    };
+    expect(showPatchEntry.parse(entry)).toEqual(entry);
+  });
+  it("accepts a color entry on a color capability", () => {
+    expect(showPatchEntry.parse(colorEntry)).toEqual(colorEntry);
+  });
+  it("rejects a color output on a dimmer capability", () => {
+    expect(() =>
+      showPatchEntry.parse({
+        ...colorEntry,
+        capability: { type: "dimmer" },
+      }),
+    ).toThrow(ZodError);
+  });
+  it("rejects a scalar output on a color capability", () => {
+    expect(() =>
+      showPatchEntry.parse({
+        ...scalarEntry,
+        capability: { type: "color" },
+      }),
+    ).toThrow(ZodError);
+  });
+  it("rejects outputId above 127", () => {
+    expect(() =>
+      showPatchEntry.parse({ ...scalarEntry, outputId: 128 }),
+    ).toThrow(ZodError);
   });
 });
