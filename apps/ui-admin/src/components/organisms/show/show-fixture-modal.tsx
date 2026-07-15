@@ -1,3 +1,4 @@
+import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
 import { fixture as fixtureDomain } from "@ptah-app/lib-domains";
 import * as models from "@ptah-app/lib-models";
 import { Button, Form, Input, InputNumber, Modal, Select } from "antd";
@@ -152,6 +153,8 @@ export default function ShowFixtureModal({
 
   return (
     <Modal
+      cancelButtonProps={{ icon: <CloseOutlined />, type: "text" }}
+      okButtonProps={{icon: <SaveOutlined/>}}
       okText={fixture ? "Save" : "Add"}
       onCancel={onCancel}
       onOk={onOk}
