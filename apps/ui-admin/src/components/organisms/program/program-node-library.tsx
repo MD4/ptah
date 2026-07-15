@@ -21,6 +21,11 @@ export const nodesDefinitions: Record<
   "input-velocity": { type: "input", label: "VELOCITY", parameters: [] },
 
   "output-result": { type: "output", label: "OUTPUT", parameters: [] },
+  "output-color": {
+    type: "output",
+    label: "COLOR",
+    parameters: ["R / H", "G / S", "B / V"],
+  },
 
   "fx-adsr": {
     type: "default",
