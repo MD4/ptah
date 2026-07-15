@@ -10,6 +10,7 @@ import NodeInputControl from "./node-input-control";
 import NodeInputTime from "./node-input-time";
 import NodeInputVelocity from "./node-input-velocity";
 import NodeKey from "./node-key";
+import NodeOutputColor from "./node-output-color";
 import NodeOutputResult from "./node-output-result";
 import NodeProgram from "./node-program";
 
@@ -29,4 +30,5 @@ export const programNodeTypes: NodeTypes = {
   "fx-math": NodeFxMath,
   "fx-distortion": NodeFxDistortion,
   "output-result": NodeOutputResult,
+  "output-color": NodeOutputColor,
 };
