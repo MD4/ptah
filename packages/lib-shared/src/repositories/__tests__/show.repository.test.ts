@@ -10,7 +10,7 @@ describe("show repository migration", () => {
   let dir: string;
 
   beforeEach(() => {
-    process.env.APP_VERSION = "0.3.0";
+    process.env.APP_VERSION = "0.4.0";
     dir = mkdtempSync(join(tmpdir(), "ptah-show-"));
   });
   afterEach(() => {
@@ -18,7 +18,7 @@ describe("show repository migration", () => {
     else process.env.APP_VERSION = original;
   });
 
-  it("loads and re-stamps a legacy unstamped show", async () => {
+  it("loads, migrates and re-stamps a legacy unstamped show", async () => {
     const file = join(dir, "legacy.json");
     writeFileSync(
       file,
@@ -26,22 +26,36 @@ describe("show repository migration", () => {
         id: validUuid,
         name: "legacy",
         mapping: {},
-        patch: {},
+        patch: { "7": [{ programId: validUuid, programOutput: 0 }] },
         programs: {},
       }),
     );
 
     const show = await loadShowFromPath(file);
-    expect(show.version).toBe("0.3.0");
-    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.3.0");
+    expect(show.version).toBe("0.4.0");
+    expect(show.fixtures).toHaveLength(1);
+    expect(show.fixtures[0]).toMatchObject({
+      name: "Channel 7",
+      profileId: "dimmer",
+      startChannel: 7,
+    });
+    expect(show.patch).toHaveLength(1);
+    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.4.0");
   });
 
   it("stamps the current version on save", async () => {
     const file = join(dir, "saved.json");
     await saveShowToPath(
-      { id: validUuid, name: "saved", mapping: {}, patch: {}, programs: {} },
+      {
+        id: validUuid,
+        name: "saved",
+        mapping: {},
+        fixtures: [],
+        patch: [],
+        programs: {},
+      },
       file,
     );
-    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.3.0");
+    expect(JSON.parse(readFileSync(file, "utf8")).version).toBe("0.4.0");
   });
 });
