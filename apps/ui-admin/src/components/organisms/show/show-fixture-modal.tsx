@@ -42,9 +42,15 @@ export default function ShowFixtureModal({
   );
 
   const profileId = Form.useWatch("profileId", form);
+  const startChannel = Form.useWatch("startChannel", form);
   const profile = models.getFixtureProfile(profileId ?? "");
   const channelCount = profile?.channels.length ?? 1;
   const maxStartChannel = 512 - channelCount + 1;
+
+  const nextFreeChannel = React.useMemo(
+    () => suggestNextStartChannel(otherFixtures, channelCount),
+    [otherFixtures, channelCount],
+  );
 
   React.useEffect(() => {
     if (!open) {
@@ -90,12 +96,11 @@ export default function ShowFixtureModal({
   );
 
   const onNextFreeClick = React.useCallback(() => {
-    const suggestion = suggestNextStartChannel(otherFixtures, channelCount);
-
-    if (suggestion !== undefined) {
-      form.setFieldsValue({ startChannel: suggestion });
+    if (nextFreeChannel !== undefined) {
+      form.setFieldsValue({ startChannel: nextFreeChannel });
+      void form.validateFields(["startChannel"]);
     }
-  }, [channelCount, form, otherFixtures]);
+  }, [form, nextFreeChannel]);
 
   const onOk = React.useCallback(async () => {
     const values = await form.validateFields();
@@ -114,8 +119,8 @@ export default function ShowFixtureModal({
   const overlapRule = React.useMemo(
     () => ({
       warningOnly: true,
-      validator: async (_: unknown, startChannel: number | undefined) => {
-        if (startChannel === undefined) {
+      validator: async (_: unknown, value: number | undefined) => {
+        if (value === undefined) {
           return;
         }
 
@@ -123,7 +128,7 @@ export default function ShowFixtureModal({
           id: fixture?.id ?? "candidate",
           name: "candidate",
           profileId: profileId ?? "",
-          startChannel,
+          startChannel: value,
         };
 
         if (
@@ -137,6 +142,14 @@ export default function ShowFixtureModal({
     [fixture?.id, otherFixtures, profileId],
   );
 
+  const profileChanged =
+    fixture !== undefined &&
+    profileId !== undefined &&
+    profileId !== fixture.profileId;
+
+  const showNextFree =
+    nextFreeChannel !== undefined && nextFreeChannel !== startChannel;
+
   return (
     <Modal
       okText={fixture ? "Save" : "Add"}
@@ -146,7 +159,16 @@ export default function ShowFixtureModal({
       title={fixture ? "EDIT FIXTURE" : "ADD FIXTURE"}
     >
       <Form form={form} layout="vertical" name="fixture">
-        <Form.Item label="Profile" name="profileId" rules={[rule]}>
+        <Form.Item
+          extra={
+            profileChanged
+              ? "Changing the profile removes wires to capabilities that no longer exist."
+              : undefined
+          }
+          label="Profile"
+          name="profileId"
+          rules={[rule]}
+        >
           <Select
             onChange={onProfileChange}
             options={profileOptions}
@@ -164,20 +186,22 @@ export default function ShowFixtureModal({
 
         <Form.Item
           extra={
-            fixture && profile
-              ? "Changing the profile removes wires to capabilities that no longer exist."
-              : undefined
+            showNextFree ? (
+              <Button
+                onClick={onNextFreeClick}
+                size="small"
+                style={{ paddingInline: 0 }}
+                type="link"
+              >
+                Use next free channel: {nextFreeChannel}
+              </Button>
+            ) : undefined
           }
           label="Start channel"
           name="startChannel"
           rules={[rule, overlapRule]}
         >
           <InputNumber
-            addonAfter={
-              <Button onClick={onNextFreeClick} size="small" type="link">
-                next free
-              </Button>
-            }
             max={maxStartChannel}
             min={1}
             style={{ width: "100%" }}

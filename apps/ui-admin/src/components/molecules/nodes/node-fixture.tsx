@@ -43,15 +43,6 @@ export default function NodeFixture({
             ? { paddingTop: token.sizeXXS, paddingBottom: token.sizeXXS }
             : {}),
         },
-        actions: {
-          position: "absolute",
-          right: token.sizeMS,
-          top: compact ? token.sizeXXS : token.sizeMS,
-          display: "flex",
-          flexDirection: "row",
-          gap: token.sizeXXS,
-          zIndex: 1,
-        },
         name: {
           flex: 1,
           overflow: "hidden",
@@ -62,7 +53,7 @@ export default function NodeFixture({
           color: token.colorWarning,
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [compact, defaultStyles, token.colorWarning, token.sizeMS, token.sizeXXS],
+    [compact, defaultStyles, token.colorWarning, token.sizeXXS],
   );
 
   const getCapabilityChannels = React.useCallback(
@@ -85,7 +76,27 @@ export default function NodeFixture({
     onEdit?.(fixture);
   }, [fixture, onEdit]);
 
-  const addressChip = (
+  // Rendered in-flow at the end of the header row (never overlaps the chip).
+  const actions =
+    selected && interactive ? (
+      <Flex gap={token.sizeXXS}>
+        <Button
+          icon={<EditFilled />}
+          onClick={onEditClick}
+          size="small"
+          type="text"
+        />
+        <Popconfirm
+          description="Wires to this fixture will be removed."
+          onConfirm={onDeleteConfirm}
+          title="Delete fixture?"
+        >
+          <Button icon={<DeleteFilled />} size="small" type="text" />
+        </Popconfirm>
+      </Flex>
+    ) : null;
+
+  const addressChip = actions ? null : (
     <Typography.Text code>
       @{" "}
       {channelCount > 1
@@ -101,72 +112,52 @@ export default function NodeFixture({
   ) : null;
 
   return (
-    <>
-      {selected && interactive ? (
-        <div style={styles.actions}>
-          <Button
-            icon={<EditFilled />}
-            onClick={onEditClick}
-            size="small"
-            type="text"
-          />
-          <Popconfirm
-            description="Wires to this fixture will be removed."
-            onConfirm={onDeleteConfirm}
-            title="Delete fixture?"
-          >
-            <Button icon={<DeleteFilled />} size="small" type="text" />
-          </Popconfirm>
-        </div>
-      ) : null}
-
-      <Flex gap={compact ? 0 : "small"} style={styles.container} vertical>
-        {compact && capabilities[0] ? (
+    <Flex gap={compact ? 0 : "small"} style={styles.container} vertical>
+      {compact && capabilities[0] ? (
+        <Flex align="center" gap="small">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <HandleCapability
+              channels={getCapabilityChannels(capabilities[0].capability)}
+              id={capabilityToHandleId(capabilities[0].capability)}
+              kind={
+                capabilities[0].capability.type === "color" ? "color" : "scalar"
+              }
+              label={fixture.name}
+            />
+          </div>
+          {overlapBadge}
+          {addressChip}
+          {actions}
+        </Flex>
+      ) : (
+        <>
           <Flex align="center" gap="small">
-            <div style={{ flex: 1 }}>
-              <HandleCapability
-                channels={getCapabilityChannels(capabilities[0].capability)}
-                id={capabilityToHandleId(capabilities[0].capability)}
-                kind={
-                  capabilities[0].capability.type === "color"
-                    ? "color"
-                    : "scalar"
-                }
-                label={fixture.name}
-              />
-            </div>
+            <Typography.Text style={styles.name}>
+              {fixture.name}
+            </Typography.Text>
             {overlapBadge}
             {addressChip}
+            {actions}
           </Flex>
-        ) : (
-          <>
-            <Flex align="center" gap="small">
-              <Typography.Text style={styles.name}>
-                {fixture.name}
-              </Typography.Text>
-              {overlapBadge}
-              {addressChip}
-            </Flex>
-            <Typography.Text type="secondary">
-              {profile?.name ?? (
-                <>
-                  Unknown profile <WarningOutlined style={styles.warning} />
-                </>
-              )}
-            </Typography.Text>
+          <Typography.Text type="secondary">
+            {profile?.name ?? (
+              <>
+                Unknown profile <WarningOutlined style={styles.warning} />
+              </>
+            )}
+          </Typography.Text>
 
-            {capabilities.map(({ capability, label }) => (
-              <HandleCapability
-                channels={getCapabilityChannels(capability)}
-                id={capabilityToHandleId(capability)}
-                key={capabilityToHandleId(capability)}
-                kind={capability.type === "color" ? "color" : "scalar"}
-                label={label}
-              />
-            ))}
-          </>
-        )}
-      </Flex>
-    </>
+          {capabilities.map(({ capability, label }) => (
+            <HandleCapability
+              channels={getCapabilityChannels(capability)}
+              id={capabilityToHandleId(capability)}
+              key={capabilityToHandleId(capability)}
+              kind={capability.type === "color" ? "color" : "scalar"}
+              label={label}
+            />
+          ))}
+        </>
+      )}
+    </Flex>
   );
 }

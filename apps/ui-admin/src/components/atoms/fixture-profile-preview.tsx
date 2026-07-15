@@ -4,10 +4,12 @@ import * as React from "react";
 
 const { useToken } = theme;
 
-const ROLE_TINTS: Partial<Record<models.FixtureChannelRole, string>> = {
-  red: "rgba(255, 0, 0, 0.35)",
-  green: "rgba(0, 255, 0, 0.25)",
-  blue: "rgba(0, 64, 255, 0.35)",
+// Literal swatch colors: they denote the DMX channel's color role, not theme.
+const ROLE_DOTS: Partial<Record<models.FixtureChannelRole, string>> = {
+  red: "#e84749",
+  green: "#6abe39",
+  blue: "#3c89e8",
+  white: "#ffffff",
 };
 
 /** One chip per profile channel, so the DMX footprint is visible at a glance. */
@@ -22,10 +24,22 @@ export default function FixtureProfilePreview({
     () =>
       ({
         chip: {
+          display: "inline-flex",
+          alignItems: "center",
+          gap: token.sizeXXS + 2,
           padding: `${token.sizeXXS}px ${token.sizeXS}px`,
           borderRadius: token.borderRadiusSM,
           border: `1px solid ${token.colorBorderSecondary}`,
           background: token.colorFillQuaternary,
+        },
+        dot: {
+          display: "inline-block",
+          width: token.sizeXS,
+          height: token.sizeXS,
+          borderRadius: token.sizeXS,
+          border: `1px solid ${token.colorBorderSecondary}`,
+        },
+        label: {
           fontSize: token.fontSizeSM,
         },
       }) satisfies Record<string, React.CSSProperties>,
@@ -46,16 +60,18 @@ export default function FixtureProfilePreview({
   return (
     <Flex gap="small" wrap>
       {profile.channels.map((channel) => (
-        <span
-          key={`${channel.role}-${channel.label}`}
-          style={{
-            ...styles.chip,
-            ...(ROLE_TINTS[channel.role]
-              ? { background: ROLE_TINTS[channel.role] }
-              : {}),
-          }}
-        >
-          <Typography.Text>{channel.label}</Typography.Text>
+        <span key={`${channel.role}-${channel.label}`} style={styles.chip}>
+          {ROLE_DOTS[channel.role] ? (
+            <span
+              style={{
+                ...styles.dot,
+                background: ROLE_DOTS[channel.role],
+              }}
+            />
+          ) : null}
+          <Typography.Text style={styles.label}>
+            {channel.label}
+          </Typography.Text>
         </span>
       ))}
     </Flex>
