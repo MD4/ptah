@@ -94,9 +94,12 @@ cd packages/lib-domains && pnpm test
 ## File migrations
 
 Resources in `~/.ptah/` (settings, shows, programs) are JSON files validated with
-Zod on load. Each file carries a `version` stamp (the app version that wrote it).
-When a model change alters a file's shape, add a migration so old files still
-load:
+Zod on load. Each file carries a `version` stamp (the app version that wrote it;
+when `APP_VERSION` is unknown — services run standalone, e.g. `pnpm dev` — the
+stamp falls back to the resource's newest migration version so the file is never
+exempted from future migrations, and files stamped with the legacy `999.999.999`
+sentinel are treated as unknown and re-run the whole chain on load). When a
+model change alters a file's shape, add a migration so old files still load:
 
 1. Add an entry to the relevant chain in
    `packages/lib-shared/src/migrations/<resource>.migrations.ts`:

@@ -93,7 +93,8 @@ describe("loadAndMigrate", () => {
 
       const onDisk = JSON.parse(readFileSync(file, "utf8"));
       expect(onDisk.migrated).toBe(true);
-      expect(onDisk.version).toBe("999.999.999");
+      // Restamped to the newest chain version, not the sentinel.
+      expect(onDisk.version).toBe("0.3.0");
 
       // Backed up under its stored stamp — never clobbers a real baseline
       // backup from the file's first migration.
@@ -103,19 +104,39 @@ describe("loadAndMigrate", () => {
       expect(backup).toEqual({ id: "l", version: "999.999.999" });
     });
 
-    it("does not rewrite or back up a file the chain leaves unchanged", async () => {
+    it("heals an already-migrated sentinel stamp once, then stays stable", async () => {
       delete process.env.APP_VERSION;
 
       const file = join(dir, "healthy.json");
-      const content = { id: "h", migrated: true, version: "999.999.999" };
-      writeFileSync(file, JSON.stringify(content));
+      writeFileSync(
+        file,
+        JSON.stringify({ id: "h", migrated: true, version: "999.999.999" }),
+      );
 
       await loadAndMigrate(file, bump, schema, backupDir);
 
-      expect(JSON.parse(readFileSync(file, "utf8"))).toEqual(content);
+      const healed = JSON.parse(readFileSync(file, "utf8"));
+      expect(healed).toEqual({ id: "h", migrated: true, version: "0.3.0" });
+
+      // A second load is a pure no-op: no rewrite, no backup churn.
+      await loadAndMigrate(file, bump, schema, backupDir);
+      expect(JSON.parse(readFileSync(file, "utf8"))).toEqual(healed);
       expect(() =>
-        readFileSync(join(backupDir, "healthy.999.999.999.json")),
+        readFileSync(join(backupDir, "healthy.0.3.0.json")),
       ).toThrow();
     });
+  });
+
+  it("stamps the newest chain version when the app version is unknown", async () => {
+    delete process.env.APP_VERSION;
+
+    const file = join(dir, "legacy-dev.json");
+    writeFileSync(file, JSON.stringify({ id: "d" }));
+
+    await loadAndMigrate(file, bump, schema, backupDir);
+
+    const onDisk = JSON.parse(readFileSync(file, "utf8"));
+    expect(onDisk.version).toBe("0.3.0");
+    expect(onDisk.migrated).toBe(true);
   });
 });
