@@ -5,7 +5,6 @@ import type {
   Edge,
   FitViewOptions,
   IsValidConnection,
-  Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
@@ -160,7 +159,13 @@ export default function ShowPatch({
         ],
         programs,
       ),
-    [initialShow.programs, initialShow.fixtures, programs, openProgramModal, fixtureNodesOptions],
+    [
+      initialShow.programs,
+      initialShow.fixtures,
+      programs,
+      openProgramModal,
+      fixtureNodesOptions,
+    ],
   );
 
   const initialEdges = React.useMemo(

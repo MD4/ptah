@@ -20,7 +20,8 @@ export const getProgramOutputs = (
     .filter(isOutputNode)
     .map((node) => ({
       outputId: node.outputId,
-      kind: node.type === "output-color" ? ("color" as const) : ("scalar" as const),
+      kind:
+        node.type === "output-color" ? ("color" as const) : ("scalar" as const),
     }))
     .sort((a, b) => a.outputId - b.outputId);
 

@@ -34,7 +34,9 @@ export const isOutputNode = (data: models.Node): data is models.NodeOutput =>
   isOutputNodeType(data.type);
 
 /** Renumber every output node's outputId in node-array order. */
-export const rewireOutputs = (nodes: Node<models.Node>[]): Node<models.Node>[] => {
+export const rewireOutputs = (
+  nodes: Node<models.Node>[],
+): Node<models.Node>[] => {
   let outputId = 0;
 
   return nodes.map((node) =>

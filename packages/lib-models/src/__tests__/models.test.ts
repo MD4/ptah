@@ -546,9 +546,7 @@ describe("show schema", () => {
     expect(() =>
       show.parse({
         ...validShow,
-        fixtures: [
-          { ...validFixture, profileId: "dimmer", startChannel: 512 },
-        ],
+        fixtures: [{ ...validFixture, profileId: "dimmer", startChannel: 512 }],
       }),
     ).not.toThrow();
   });
@@ -645,7 +643,10 @@ describe("resolveCapabilityChannelIndexes", () => {
   });
   it("returns undefined for an out-of-bounds channel capability", () => {
     expect(
-      resolveCapabilityChannelIndexes(rgb, { type: "channel", channelIndex: 3 }),
+      resolveCapabilityChannelIndexes(rgb, {
+        type: "channel",
+        channelIndex: 3,
+      }),
     ).toBeUndefined();
   });
 });
