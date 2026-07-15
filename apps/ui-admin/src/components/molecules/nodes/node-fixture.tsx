@@ -43,6 +43,11 @@ export default function NodeFixture({
             ? { paddingTop: token.sizeXXS, paddingBottom: token.sizeXXS }
             : {}),
         },
+        // Chip (~22px) and small buttons (24px) swap places on selection:
+        // pin the row to the control height so the node never resizes.
+        header: {
+          minHeight: token.controlHeightSM,
+        },
         name: {
           flex: 1,
           overflow: "hidden",
@@ -53,7 +58,13 @@ export default function NodeFixture({
           color: token.colorWarning,
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [compact, defaultStyles, token.colorWarning, token.sizeXXS],
+    [
+      compact,
+      defaultStyles,
+      token.colorWarning,
+      token.controlHeightSM,
+      token.sizeXXS,
+    ],
   );
 
   const getCapabilityChannels = React.useCallback(
@@ -114,7 +125,7 @@ export default function NodeFixture({
   return (
     <Flex gap={compact ? 0 : "small"} style={styles.container} vertical>
       {compact && capabilities[0] ? (
-        <Flex align="center" gap="small">
+        <Flex align="center" gap="small" style={styles.header}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <HandleCapability
               channels={getCapabilityChannels(capabilities[0].capability)}
@@ -131,7 +142,7 @@ export default function NodeFixture({
         </Flex>
       ) : (
         <>
-          <Flex align="center" gap="small">
+          <Flex align="center" gap="small" style={styles.header}>
             <Typography.Text style={styles.name}>
               {fixture.name}
             </Typography.Text>
