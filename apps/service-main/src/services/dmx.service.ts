@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import { patch as patchDomain } from "@ptah-app/lib-domains";
 import type { program as programDomain } from "@ptah-app/lib-domains";
+import { patch as patchDomain } from "@ptah-app/lib-domains";
 import { log } from "@ptah-app/lib-logger";
 import type { DmxStatus } from "@ptah-app/lib-models";
 import { services } from "@ptah-app/lib-shared";

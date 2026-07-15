@@ -72,9 +72,7 @@ export const resolveCapabilityChannelIndexes = (
 ): number[] | undefined => {
   switch (capability.type) {
     case "dimmer": {
-      const index = profile.channels.findIndex(
-        ({ role }) => role === "dimmer",
-      );
+      const index = profile.channels.findIndex(({ role }) => role === "dimmer");
 
       return index === -1 ? undefined : [index];
     }
