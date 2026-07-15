@@ -2,6 +2,7 @@ import { Handle, Position } from "@xyflow/react";
 import { Flex, Space, Typography, theme } from "antd";
 import * as React from "react";
 
+import { COLOR_WHEEL_GRADIENT } from "../../../utils/color";
 import { useDefaultNodeStyle } from "../nodes/node.style";
 
 const { useToken } = theme;
@@ -10,10 +11,12 @@ export default function HandleOutputWithLabel({
   id,
   label,
   isConnectable = true,
+  kind = "scalar",
 }: {
   id: number;
   label: string;
   isConnectable?: boolean;
+  kind?: "scalar" | "color";
 }) {
   const { token } = useToken();
   const defaultNodeStyle = useDefaultNodeStyle();
@@ -28,13 +31,20 @@ export default function HandleOutputWithLabel({
           position: "initial",
           transform: "none",
           marginRight: -20,
+          ...(kind === "color"
+            ? {
+                background: COLOR_WHEEL_GRADIENT,
+                width: token.sizeXS + 2,
+                height: token.sizeXS + 2,
+              }
+            : {}),
         },
         label: {
           flex: 1,
           textAlign: "right",
         },
       }) satisfies Record<string, React.CSSProperties>,
-    [defaultNodeStyle.handle, token.sizeLG],
+    [defaultNodeStyle.handle, kind, token.sizeLG, token.sizeXS],
   );
 
   return (

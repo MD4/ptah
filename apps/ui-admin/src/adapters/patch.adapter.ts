@@ -1,47 +1,55 @@
 import type * as models from "@ptah-app/lib-models";
 import type { Edge, Node } from "@xyflow/react";
 
-import type { NodeChannelData } from "../components/molecules/nodes/node-channel";
-
-export const adaptModelShowPatchToReactFlowNodes = (
-  patch: models.ShowPatch,
-  x = 800,
-): Node<NodeChannelData>[] =>
-  Object.keys(patch)
-    .map(Number)
-    .sort((a, b) => a - b)
-    .map((channel, index) => ({
-      id: `channel-${String(channel)}`,
-      data: { label: String(channel) },
-      position: { x, y: index * (36 + 4) },
-      type: "node-channel",
-      selectable: false,
-    }));
+import {
+  capabilityToHandleId,
+  handleIdToCapability,
+} from "../domain/fixture.domain";
+import { isValidPatchConnection } from "../utils/connection";
 
 export const adaptModelShowPatchToToReactFlowEdges = (
   patch: models.ShowPatch,
 ): Edge[] =>
-  Object.entries(patch).flatMap(([channel, programs]) =>
-    programs.map(({ programId, programOutput }) => ({
-      id: `${programId}-${channel}`,
-      source: `program-${programId}`,
-      target: `channel-${channel}`,
-      sourceHandle: String(programOutput),
-    })),
-  );
+  patch.map((entry) => {
+    const targetHandle = capabilityToHandleId(entry.capability);
+
+    return {
+      id: `${entry.programId}:${entry.outputId}:${entry.outputKind}->${entry.fixtureId}:${targetHandle}`,
+      source: `program-${entry.programId}`,
+      target: `fixture-${entry.fixtureId}`,
+      sourceHandle: String(entry.outputId),
+      targetHandle,
+    };
+  });
 
 export const adaptReactFlowEdgesAndToModelPatch = (
   edges: Edge[],
 ): models.ShowPatch =>
   edges.reduce<models.ShowPatch>((patch, edge) => {
-    const channel = edge.target.replace("channel-", "");
-    const programId = edge.source.replace("program-", "");
+    if (!edge.sourceHandle || !edge.targetHandle) {
+      return patch;
+    }
 
-    return {
-      ...patch,
-      [channel]: [
-        ...(patch[channel] ?? []),
-        { programId, programOutput: Number(edge.sourceHandle) },
-      ],
-    };
-  }, {});
+    const capability = handleIdToCapability(edge.targetHandle);
+
+    if (!capability) {
+      return patch;
+    }
+
+    const programId = edge.source.replace("program-", "");
+    const fixtureId = edge.target.replace("fixture-", "");
+    const outputId = Number(edge.sourceHandle);
+
+    // The output kind mirrors the capability kind: kind-mismatched wires are
+    // rejected at connect time and sanitized away on load.
+    const entry: models.ShowPatchEntry =
+      capability.type === "color"
+        ? { programId, outputKind: "color", outputId, fixtureId, capability }
+        : { programId, outputKind: "scalar", outputId, fixtureId, capability };
+
+    return [...patch, entry];
+  }, []);
+
+/** Drop edges whose program output or fixture capability no longer matches. */
+export const sanitizePatchEdges = (edges: Edge[], nodes: Node[]): Edge[] =>
+  edges.filter((edge) => isValidPatchConnection(edge, nodes));
