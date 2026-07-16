@@ -1,5 +1,5 @@
 import * as domains from "@ptah-app/lib-domains";
-import type * as models from "@ptah-app/lib-models";
+import * as models from "@ptah-app/lib-models";
 import { noop } from "@ptah-app/lib-utils";
 import { deepEqual } from "fast-equals";
 import * as React from "react";
@@ -32,11 +32,19 @@ type ShowEditActionUpdatePatch = {
   };
 };
 
+type ShowEditActionUpdateFixtures = {
+  type: "update-fixtures";
+  payload: {
+    fixtures: models.ShowFixtures;
+  };
+};
+
 type ShowEditAction =
   | ShowEditActionUpdateName
   | ShowEditActionUpdateMapping
   | ShowEditActionUpdatePrograms
-  | ShowEditActionUpdatePatch;
+  | ShowEditActionUpdatePatch
+  | ShowEditActionUpdateFixtures;
 
 const showEditReducer = (
   state: models.Show,
@@ -59,6 +67,11 @@ const showEditReducer = (
       return {
         ...state,
         patch: payload.patch,
+      };
+    case "update-fixtures":
+      return {
+        ...state,
+        fixtures: payload.fixtures,
       };
     default:
       return state;
@@ -121,22 +134,32 @@ export function useShowEditDispatch(): React.Dispatch<ShowEditAction> {
 }
 
 export const pruneShowPatch = (
-  showPath: models.ShowPatch,
+  showPatch: models.ShowPatch,
   showPrograms: models.ShowPrograms,
+  showFixtures: models.ShowFixtures,
 ): models.ShowPatch =>
-  Object.fromEntries(
-    Object.entries(showPath)
-      .map(
-        ([key, mapping]) =>
-          [
-            key,
-            mapping.filter(({ programId }) =>
-              Object.keys(showPrograms).includes(programId),
-            ),
-          ] as const,
-      )
-      .filter(([_, mapping]) => Boolean(mapping.length)),
-  );
+  showPatch.filter((entry) => {
+    if (!Object.keys(showPrograms).includes(entry.programId)) {
+      return false;
+    }
+
+    const fixture = showFixtures.find(({ id }) => id === entry.fixtureId);
+
+    if (!fixture) {
+      return false;
+    }
+
+    const profile = models.getFixtureProfile(fixture.profileId);
+
+    if (!profile) {
+      return false;
+    }
+
+    return (
+      models.resolveCapabilityChannelIndexes(profile, entry.capability) !==
+      undefined
+    );
+  });
 
 export function pruneShowMapping(
   showMapping: models.ShowMapping,
@@ -153,6 +176,6 @@ export function pruneShow(show: models.Show): models.Show {
   return {
     ...show,
     mapping: pruneShowMapping(show.mapping, show.programs),
-    patch: pruneShowPatch(show.patch, show.programs),
+    patch: pruneShowPatch(show.patch, show.programs, show.fixtures),
   };
 }

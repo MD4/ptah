@@ -1,8 +1,6 @@
 import fs from "node:fs";
-import type {
-  patch as patchDomain,
-  program as programDomain,
-} from "@ptah-app/lib-domains";
+import type { program as programDomain } from "@ptah-app/lib-domains";
+import { patch as patchDomain } from "@ptah-app/lib-domains";
 import { log } from "@ptah-app/lib-logger";
 import type { DmxStatus } from "@ptah-app/lib-models";
 import { services } from "@ptah-app/lib-shared";
@@ -114,8 +112,8 @@ export const reset = (): void => {
 export const resetProgram = (mapping: patchDomain.PatchMapping): void =>
   void setImmediate(() =>
     update(
-      Object.values(mapping)
-        .flat()
+      patchDomain
+        .getMappingChannels(mapping)
         .reduce<programDomain.ProgramOutputOuputs>(
           (acc, channel) => ({ ...acc, [channel]: 0 }),
           {},

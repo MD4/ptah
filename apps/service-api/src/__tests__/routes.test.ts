@@ -25,7 +25,8 @@ const validShow = {
   id: validUuid,
   name: "test-show",
   mapping: {},
-  patch: {},
+  fixtures: [],
+  patch: [],
   programs: {},
 };
 

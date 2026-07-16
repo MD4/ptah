@@ -1,4 +1,4 @@
-export { runMigrations } from "./migrate";
+export { getStampVersion, runMigrations } from "./migrate";
 export type { Migration, MigrationChain } from "./migration.types";
 export { programMigrations } from "./program.migrations";
 export { compareVersions, parseVersion } from "./semver";
