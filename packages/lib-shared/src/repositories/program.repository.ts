@@ -1,7 +1,7 @@
 import * as models from "@ptah-app/lib-models";
 
 import { PTAH_PROGRAMS_BACKUPS_PATH } from "../env/vars.env";
-import { programMigrations } from "../migrations";
+import { getStampVersion, programMigrations } from "../migrations";
 import {
   deleteFileFromPath,
   listFilesFromPath,
@@ -22,7 +22,7 @@ export const saveProgramToPath = (
   path: string,
 ): Promise<void> => {
   const json = JSON.stringify(
-    { ...program, version: models.getCurrentAppVersion() },
+    { ...program, version: getStampVersion(programMigrations) },
     undefined,
     2,
   );

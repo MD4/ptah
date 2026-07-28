@@ -1,3 +1,4 @@
+import type { RgbColor } from "@ptah-app/lib-utils";
 import type { PatchMapping } from "./patch.domain.types";
 import type { RunnerControlsState } from "./runner.domain.types";
 
@@ -24,10 +25,13 @@ export type PatchItem = {
 
 export type Patch = Map<number, PatchItem>;
 
+export type ProgramColorValue = RgbColor;
 export type ProgramOutputOuputs = Record<number, number>;
+export type ProgramOutputColors = Record<number, ProgramColorValue>;
 export type ProgramOutputRegistry = Map<string, number[]>;
 
 export type ProgramOutput = {
   outputs: ProgramOutputOuputs;
+  colors: ProgramOutputColors;
   registry: ProgramOutputRegistry;
 };

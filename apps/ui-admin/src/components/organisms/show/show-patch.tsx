@@ -1,10 +1,10 @@
 import { SaveFilled, SisternodeOutlined } from "@ant-design/icons";
-import type * as models from "@ptah-app/lib-models";
+import * as models from "@ptah-app/lib-models";
 import type {
   Connection,
   Edge,
   FitViewOptions,
-  Node,
+  IsValidConnection,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
@@ -30,13 +30,22 @@ import { repositionProgramNodes } from "../../../adapters/node.adapter";
 import {
   adaptModelShowPatchToToReactFlowEdges,
   adaptReactFlowEdgesAndToModelPatch,
+  sanitizePatchEdges,
 } from "../../../adapters/patch.adapter";
 import {
   adaptModelShowProgramsToReactFlowNodes,
   adaptReactFlowNodesToModelShowPrograms,
-  getProgramOutputCount,
+  getProgramOutputs,
 } from "../../../adapters/show.adapter";
-import { getAllChannelsNodes } from "../../../domain/patch.domain";
+import {
+  adaptReactFlowNodesToModelShowFixtures,
+  capabilityToHandleId,
+} from "../../../domain/fixture.domain";
+import {
+  type FixtureNodesOptions,
+  getFixtureNodes,
+  rebuildFixtureNodes,
+} from "../../../domain/patch.domain";
 import {
   pruneShow,
   useShowEdit,
@@ -44,10 +53,11 @@ import {
 } from "../../../domain/show.domain";
 import { useSystemApi } from "../../../domain/system.domain";
 import { useShowPut } from "../../../repositories/show.repository";
+import { isValidPatchConnection } from "../../../utils/connection";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
-import type { NodeProgramData } from "../../molecules/nodes/node-program";
 import ShowAddProgramModal from "./show-add-program-modal";
+import ShowFixtureModal from "./show-fixture-modal";
 
 const { useToken } = theme;
 
@@ -104,6 +114,35 @@ export default function ShowPatch({
     setFalse: closeProgramModal,
   } = useBoolean(false);
 
+  const [fixtureModal, setFixtureModal] = React.useState<{
+    open: boolean;
+    fixture?: models.ShowFixture;
+  }>({ open: false });
+
+  const openAddFixtureModal = React.useCallback(
+    () => setFixtureModal({ open: true }),
+    [],
+  );
+  const openEditFixtureModal = React.useCallback(
+    (fixture: models.ShowFixture) => setFixtureModal({ open: true, fixture }),
+    [],
+  );
+  const closeFixtureModal = React.useCallback(
+    () => setFixtureModal((state) => ({ ...state, open: false })),
+    [],
+  );
+
+  const fixtureNodesOptions = React.useMemo<FixtureNodesOptions>(
+    () => ({
+      x: 800,
+      interactive: true,
+      onEditFixture: openEditFixtureModal,
+      addButton: true,
+      onAddFixture: openAddFixtureModal,
+    }),
+    [openAddFixtureModal, openEditFixtureModal],
+  );
+
   const initialNodes = React.useMemo(
     () =>
       repositionProgramNodes(
@@ -116,16 +155,26 @@ export default function ShowPatch({
             openProgramModal,
             true,
           ),
-          ...getAllChannelsNodes(),
+          ...getFixtureNodes(initialShow.fixtures, fixtureNodesOptions),
         ],
         programs,
       ),
-    [initialShow.programs, programs, openProgramModal],
+    [
+      initialShow.programs,
+      initialShow.fixtures,
+      programs,
+      openProgramModal,
+      fixtureNodesOptions,
+    ],
   );
 
   const initialEdges = React.useMemo(
-    () => [...adaptModelShowPatchToToReactFlowEdges(initialShow.patch)],
-    [initialShow],
+    () =>
+      sanitizePatchEdges(
+        adaptModelShowPatchToToReactFlowEdges(initialShow.patch),
+        initialNodes,
+      ),
+    [initialShow.patch, initialNodes],
   );
 
   const [nodes, setNodes] = useNodesState(initialNodes);
@@ -147,6 +196,11 @@ export default function ShowPatch({
       zoom,
     });
   }, []);
+
+  const isValidConnection = React.useCallback<IsValidConnection<Edge>>(
+    (connection) => isValidPatchConnection(connection, nodes),
+    [nodes],
+  );
 
   const onEdgesChange = React.useCallback<OnEdgesChange>(
     (changes) => {
@@ -205,10 +259,30 @@ export default function ShowPatch({
 
   const onNodesChange = React.useCallback<OnNodesChange>(
     (changes) =>
-      setNodes(
-        repositionProgramNodes(applyNodeChanges(changes, nodes), programs),
-      ),
-    [nodes, setNodes, programs],
+      setNodes((previousNodes) => {
+        let newNodes = repositionProgramNodes(
+          applyNodeChanges(changes, previousNodes),
+          programs,
+        );
+
+        const fixtureRemoved = changes.some(
+          (change) =>
+            change.type === "remove" &&
+            previousNodes.find((node) => node.id === change.id)?.type ===
+              "node-fixture",
+        );
+
+        if (fixtureRemoved) {
+          newNodes = rebuildFixtureNodes(
+            newNodes,
+            adaptReactFlowNodesToModelShowFixtures(newNodes),
+            fixtureNodesOptions,
+          );
+        }
+
+        return newNodes;
+      }),
+    [setNodes, programs, fixtureNodesOptions],
   );
 
   const onProgramAdded = React.useCallback(
@@ -222,11 +296,11 @@ export default function ShowPatch({
           [
             ..._nodes,
             {
-              id: programId,
+              id: `program-${programId}`,
               data: {
                 programId,
                 programName: program.name,
-                outputsCount: getProgramOutputCount(program),
+                outputs: getProgramOutputs(program),
                 noInput: true,
               },
               position: {
@@ -234,13 +308,54 @@ export default function ShowPatch({
                 y: 0,
               },
               type: "node-program",
-            } satisfies Node<NodeProgramData>,
+            },
           ],
           programs,
         );
       });
     },
     [closeProgramModal, programs, setNodes],
+  );
+
+  const onFixtureSubmit = React.useCallback(
+    (fixture: models.ShowFixture) => {
+      closeFixtureModal();
+
+      setNodes((previousNodes) => {
+        const fixtures = adaptReactFlowNodesToModelShowFixtures(previousNodes);
+        const isEdit = fixtures.some(({ id }) => id === fixture.id);
+        const newFixtures = isEdit
+          ? fixtures.map((existing) =>
+              existing.id === fixture.id ? fixture : existing,
+            )
+          : [...fixtures, fixture];
+
+        return rebuildFixtureNodes(
+          previousNodes,
+          newFixtures,
+          fixtureNodesOptions,
+        );
+      });
+
+      // A profile change may remove capabilities: drop their wires.
+      const profile = models.getFixtureProfile(fixture.profileId);
+      const validHandles = new Set(
+        profile
+          ? models
+              .getFixtureProfileCapabilities(profile)
+              .map(({ capability }) => capabilityToHandleId(capability))
+          : [],
+      );
+
+      setEdges((previousEdges) =>
+        previousEdges.filter(
+          (edge) =>
+            edge.target !== `fixture-${fixture.id}` ||
+            (edge.targetHandle != null && validHandles.has(edge.targetHandle)),
+        ),
+      );
+    },
+    [closeFixtureModal, fixtureNodesOptions, setEdges, setNodes],
   );
 
   const onSaveMutationSuccess = React.useCallback(() => {
@@ -265,39 +380,69 @@ export default function ShowPatch({
   }, [show, saveMutation]);
 
   const onAutoWireClick = React.useCallback(() => {
-    const currentOutput: Record<string, number> = {};
-    const newPatch: models.ShowPatch = Object.entries(
-      show.programs,
-    ).reduce<models.ShowPatch>((newPatch, [programId, programName], _index) => {
-      const outputsCount = getProgramOutputCount(
-        programs.find((p) => p.name === programName),
-      );
+    const fixtures = adaptReactFlowNodesToModelShowFixtures(nodes);
 
-      const addPatch: models.ShowPatch = Array.from({
-        length: outputsCount,
-      }).reduce<models.ShowPatch>((addPatch, _, output) => {
-        currentOutput[programName] = (currentOutput[programName] ?? 0) + 1;
+    const outputQueue = Object.entries(show.programs).flatMap(
+      ([programId, programName]) =>
+        getProgramOutputs(
+          programs.find(({ name }) => name === programName),
+        ).map((output) => ({ programId, ...output })),
+    );
 
-        return {
-          ...addPatch,
-          [currentOutput[programName]]: [
-            ...(newPatch[currentOutput[programName]] ?? []),
-            {
-              programId,
-              programOutput: output,
-            },
-          ],
-        };
-      }, {});
+    const newPatch: models.ShowPatch = [];
 
-      return {
-        ...newPatch,
-        ...addPatch,
-      };
-    }, {});
+    const sortedFixtures = [...fixtures].sort(
+      (a, b) => a.startChannel - b.startChannel || a.name.localeCompare(b.name),
+    );
+
+    for (const fixture of sortedFixtures) {
+      const profile = models.getFixtureProfile(fixture.profileId);
+
+      if (!profile) {
+        continue;
+      }
+
+      for (const { capability } of models.getFixtureProfileCapabilities(
+        profile,
+      )) {
+        if (capability.type === "color") {
+          const index = outputQueue.findIndex(({ kind }) => kind === "color");
+
+          if (index === -1) {
+            continue;
+          }
+
+          const [output] = outputQueue.splice(index, 1);
+
+          newPatch.push({
+            programId: output.programId,
+            outputKind: "color",
+            outputId: output.outputId,
+            fixtureId: fixture.id,
+            capability,
+          });
+        } else {
+          const index = outputQueue.findIndex(({ kind }) => kind === "scalar");
+
+          if (index === -1) {
+            continue;
+          }
+
+          const [output] = outputQueue.splice(index, 1);
+
+          newPatch.push({
+            programId: output.programId,
+            outputKind: "scalar",
+            outputId: output.outputId,
+            fixtureId: fixture.id,
+            capability,
+          });
+        }
+      }
+    }
 
     setEdges(() => adaptModelShowPatchToToReactFlowEdges(newPatch));
-  }, [setEdges, show.programs, programs.find, programs]);
+  }, [nodes, programs, setEdges, show.programs]);
 
   React.useEffect(() => {
     dispatch({
@@ -312,9 +457,16 @@ export default function ShowPatch({
     dispatch({
       type: "update-programs",
       payload: {
-        programs: adaptReactFlowNodesToModelShowPrograms(
-          nodes as Node<NodeProgramData>[], // @TODO: fix this
-        ),
+        programs: adaptReactFlowNodesToModelShowPrograms(nodes),
+      },
+    });
+  }, [nodes, dispatch]);
+
+  React.useEffect(() => {
+    dispatch({
+      type: "update-fixtures",
+      payload: {
+        fixtures: adaptReactFlowNodesToModelShowFixtures(nodes),
       },
     });
   }, [nodes, dispatch]);
@@ -355,6 +507,7 @@ export default function ShowPatch({
         edges={edges}
         fitView
         fitViewOptions={fitViewOptions}
+        isValidConnection={isValidConnection}
         nodeTypes={showNodeTypes}
         nodes={nodes}
         nodesDraggable={false}
@@ -380,6 +533,13 @@ export default function ShowPatch({
         onCancel={closeProgramModal}
         onProgramSelected={onProgramAdded}
         open={addProgramModalOpened}
+      />
+      <ShowFixtureModal
+        existingFixtures={adaptReactFlowNodesToModelShowFixtures(nodes)}
+        fixture={fixtureModal.fixture}
+        onCancel={closeFixtureModal}
+        onSubmit={onFixtureSubmit}
+        open={fixtureModal.open}
       />
       <div style={styles.toolbar}>
         <Button

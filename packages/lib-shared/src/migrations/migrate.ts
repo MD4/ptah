@@ -1,5 +1,30 @@
+import {
+  BASELINE_VERSION,
+  getCurrentAppVersion,
+  MAX_VERSION,
+} from "@ptah-app/lib-models";
 import type { MigrationChain } from "./migration.types";
 import { compareVersions } from "./semver";
+
+/**
+ * The version to stamp into files on write. The real app version when known;
+ * otherwise the newest migration in the resource's chain — a truthful "this
+ * shape has every known migration applied" stamp that keeps future migrations
+ * runnable (unlike the MAX_VERSION sentinel, which would exempt the file from
+ * every migration forever). Baseline when the chain is empty.
+ */
+export const getStampVersion = (chain: MigrationChain): string => {
+  const appVersion = getCurrentAppVersion();
+
+  if (appVersion !== MAX_VERSION) {
+    return appVersion;
+  }
+
+  return (
+    [...chain].sort((a, b) => compareVersions(a.version, b.version)).at(-1)
+      ?.version ?? BASELINE_VERSION
+  );
+};
 
 /**
  * Apply every migration whose target version is in the half-open range

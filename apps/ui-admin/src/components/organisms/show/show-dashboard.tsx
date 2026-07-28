@@ -12,15 +12,15 @@ import {
   adaptModelMappingToReactFlowEdges,
   adaptModelMappingToReactFlowEdgesNodes,
 } from "../../../adapters/mapping.adapter";
-import {
-  adaptModelShowPatchToReactFlowNodes,
-  adaptModelShowPatchToToReactFlowEdges,
-} from "../../../adapters/patch.adapter";
+import { adaptModelShowPatchToToReactFlowEdges } from "../../../adapters/patch.adapter";
 import { adaptModelShowProgramsToReactFlowNodes } from "../../../adapters/show.adapter";
+import { getFixtureNodes } from "../../../domain/patch.domain";
 import EdgeGradient from "../../atoms/edge-gradient";
 import { showNodeTypes } from "../../molecules/nodes";
+import type { NodeAddFixtureData } from "../../molecules/nodes/node-add-fixture";
 import type { NodeAddProgramData } from "../../molecules/nodes/node-add-program";
-import type { NodeChannelData } from "../../molecules/nodes/node-channel";
+import type { NodeFixtureData } from "../../molecules/nodes/node-fixture";
+import type { NodeKeyData } from "../../molecules/nodes/node-key";
 import type { NodeProgramData } from "../../molecules/nodes/node-program";
 
 const proOptions = { hideAttribution: true };
@@ -47,7 +47,12 @@ const styles = {
   },
 } satisfies Record<string, React.CSSProperties>;
 
-type PossibleNode = NodeChannelData | NodeProgramData | NodeAddProgramData;
+type PossibleNode =
+  | NodeKeyData
+  | NodeFixtureData
+  | NodeAddFixtureData
+  | NodeProgramData
+  | NodeAddProgramData;
 
 export default function ShowDashboard({
   show,
@@ -60,7 +65,7 @@ export default function ShowDashboard({
     () => [
       ...adaptModelMappingToReactFlowEdgesNodes(show.mapping, 0),
       ...adaptModelShowProgramsToReactFlowNodes(show.programs, programs, 500),
-      ...adaptModelShowPatchToReactFlowNodes(show.patch, 1000),
+      ...getFixtureNodes(show.fixtures, { x: 1000 }),
     ],
     [programs, show],
   );

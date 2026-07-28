@@ -61,4 +61,82 @@ describe("loadAndMigrate", () => {
       loadAndMigrate(file, bump, schema, backupDir),
     ).rejects.toThrow();
   });
+
+  // Files saved in a context without APP_VERSION get stamped with the
+  // 999.999.999 sentinel. That stamp must not exempt them from future
+  // migrations: treat it as "unknown" and run the whole chain.
+  describe("sentinel-stamped files (version 999.999.999)", () => {
+    it("re-runs the chain when the app version is known", async () => {
+      const file = join(dir, "poisoned.json");
+      writeFileSync(file, JSON.stringify({ id: "p", version: "999.999.999" }));
+
+      const result = await loadAndMigrate(file, bump, schema, backupDir);
+      expect(result.version).toBe("0.3.0");
+
+      const onDisk = JSON.parse(readFileSync(file, "utf8"));
+      expect(onDisk.migrated).toBe(true);
+      expect(onDisk.version).toBe("0.3.0");
+
+      const backup = JSON.parse(
+        readFileSync(join(backupDir, "poisoned.999.999.999.json"), "utf8"),
+      );
+      expect(backup).toEqual({ id: "p", version: "999.999.999" });
+    });
+
+    it("re-runs the chain even when the app version is also unknown", async () => {
+      delete process.env.APP_VERSION;
+
+      const file = join(dir, "legacy-max.json");
+      writeFileSync(file, JSON.stringify({ id: "l", version: "999.999.999" }));
+
+      await loadAndMigrate(file, bump, schema, backupDir);
+
+      const onDisk = JSON.parse(readFileSync(file, "utf8"));
+      expect(onDisk.migrated).toBe(true);
+      // Restamped to the newest chain version, not the sentinel.
+      expect(onDisk.version).toBe("0.3.0");
+
+      // Backed up under its stored stamp — never clobbers a real baseline
+      // backup from the file's first migration.
+      const backup = JSON.parse(
+        readFileSync(join(backupDir, "legacy-max.999.999.999.json"), "utf8"),
+      );
+      expect(backup).toEqual({ id: "l", version: "999.999.999" });
+    });
+
+    it("heals an already-migrated sentinel stamp once, then stays stable", async () => {
+      delete process.env.APP_VERSION;
+
+      const file = join(dir, "healthy.json");
+      writeFileSync(
+        file,
+        JSON.stringify({ id: "h", migrated: true, version: "999.999.999" }),
+      );
+
+      await loadAndMigrate(file, bump, schema, backupDir);
+
+      const healed = JSON.parse(readFileSync(file, "utf8"));
+      expect(healed).toEqual({ id: "h", migrated: true, version: "0.3.0" });
+
+      // A second load is a pure no-op: no rewrite, no backup churn.
+      await loadAndMigrate(file, bump, schema, backupDir);
+      expect(JSON.parse(readFileSync(file, "utf8"))).toEqual(healed);
+      expect(() =>
+        readFileSync(join(backupDir, "healthy.0.3.0.json")),
+      ).toThrow();
+    });
+  });
+
+  it("stamps the newest chain version when the app version is unknown", async () => {
+    delete process.env.APP_VERSION;
+
+    const file = join(dir, "legacy-dev.json");
+    writeFileSync(file, JSON.stringify({ id: "d" }));
+
+    await loadAndMigrate(file, bump, schema, backupDir);
+
+    const onDisk = JSON.parse(readFileSync(file, "utf8"));
+    expect(onDisk.version).toBe("0.3.0");
+    expect(onDisk.migrated).toBe(true);
+  });
 });

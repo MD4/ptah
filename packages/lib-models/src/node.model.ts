@@ -47,6 +47,22 @@ export const nodeOutputResult = nodeGeneric.extend({
 });
 export type NodeOutputResult = z.infer<typeof nodeOutputResult>;
 
+export const nodeOutputColor = nodeGeneric.extend({
+  type: z.literal("output-color"),
+  outputId: z.number().min(0).max(127),
+  mode: z.union([z.literal("rgb"), z.literal("hsv")]),
+  // Wireable inputs 0/1/2 with these as defaults: r,g,b in rgb mode; h,s,v in
+  // hsv mode. Generic names because meaning depends on mode (precedent:
+  // fx-math valueA/valueB).
+  valueA: z.number().min(0).max(1),
+  valueB: z.number().min(0).max(1),
+  valueC: z.number().min(0).max(1),
+});
+export type NodeOutputColor = z.infer<typeof nodeOutputColor>;
+
+export const nodeOutput = z.union([nodeOutputResult, nodeOutputColor]);
+export type NodeOutput = z.infer<typeof nodeOutput>;
+
 export const nodeFxADSR = nodeGeneric.extend({
   type: z.literal("fx-adsr"),
   attackRate: z.number().min(0).max(1),
@@ -97,5 +113,5 @@ export type NodeFxDistortion = z.infer<typeof nodeFxDistortion>;
 export const nodeFx = z.union([nodeFxADSR, nodeFxMath, nodeFxDistortion]);
 export type NodeFx = z.infer<typeof nodeFx>;
 
-export const node = z.union([nodeInput, nodeOutputResult, nodeFx]);
+export const node = z.union([nodeInput, nodeOutput, nodeFx]);
 export type Node = z.infer<typeof node>;

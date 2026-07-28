@@ -4,6 +4,7 @@ import { type NodeProps, useReactFlow } from "@xyflow/react";
 import { Button, Flex, theme } from "antd";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import type { ProgramOutputDescriptor } from "../../../adapters/show.adapter";
 import HandleInputWithLabel from "../handles/handle-input-with-label";
 import HandleOutputWithLabel from "../handles/handle-output-with-label";
 import { useDefaultNodeStyle } from "./node.style";
@@ -11,14 +12,14 @@ import { useDefaultNodeStyle } from "./node.style";
 export type NodeProgramData = {
   programId: string;
   programName: string;
-  outputsCount: number;
+  outputs: ProgramOutputDescriptor[];
   noInput?: boolean;
 };
 
 const { useToken } = theme;
 
 export default function NodeProgram({
-  data: { programId, programName, outputsCount, noInput },
+  data: { programId, programName, outputs, noInput },
   selected,
 }: NodeProps<Node<NodeProgramData>>) {
   const reactFlow = useReactFlow();
@@ -51,14 +52,6 @@ export default function NodeProgram({
     [defaultStyles, token.sizeMS, token.sizeXXS],
   );
 
-  const outputHandles = React.useMemo(
-    () =>
-      Array(outputsCount)
-        .fill(0)
-        .map((_, index) => index),
-    [outputsCount],
-  );
-
   const onDeleteClick = React.useCallback(() => {
     reactFlow.deleteElements({
       nodes: [{ id: `program-${programId}` }],
@@ -89,12 +82,13 @@ export default function NodeProgram({
             {!noInput ? <HandleInputWithLabel id={0} label="run" /> : null}
           </div>
           <div style={{ flex: 1 }}>
-            {outputHandles.map((outputId) => (
+            {outputs.map((output) => (
               <HandleOutputWithLabel
-                id={outputId}
+                id={output.outputId}
                 isConnectable
-                key={outputId}
-                label="output"
+                key={output.outputId}
+                kind={output.kind}
+                label={output.kind === "color" ? "color" : "output"}
               />
             ))}
           </div>

@@ -449,3 +449,114 @@ describe("performTick", () => {
     expect(state.time).toBeCloseTo(1);
   });
 });
+
+const colorOutputNode = (
+  id: string,
+  outputId: number,
+  mode: "rgb" | "hsv" = "rgb",
+  valueA = 1,
+  valueB = 1,
+  valueC = 1,
+) => ({
+  id,
+  type: "output-color" as const,
+  position: pos,
+  outputId,
+  mode,
+  valueA,
+  valueB,
+  valueC,
+});
+
+describe("compile — output-color", () => {
+  it("passes wired constants through in rgb mode", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "rgb",
+      nodes: [
+        constantNode("r", 0.1),
+        constantNode("g", 0.2),
+        constantNode("b", 0.3),
+        colorOutputNode("out", 0),
+      ],
+      edges: [
+        mkEdge("r", "out", 0, 0),
+        mkEdge("g", "out", 0, 1),
+        mkEdge("b", "out", 0, 2),
+      ],
+    };
+    expect(compile(prog)(0, emptyControls).colors[0]).toEqual({
+      r: 0.1,
+      g: 0.2,
+      b: 0.3,
+    });
+  });
+
+  it("converts wired hsv inputs to rgb", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "hsv",
+      nodes: [constantNode("h", 0), colorOutputNode("out", 0, "hsv")],
+      edges: [mkEdge("h", "out", 0, 0)],
+    };
+    expect(compile(prog)(0, emptyControls).colors[0]).toEqual({
+      r: 1,
+      g: 0,
+      b: 0,
+    });
+  });
+
+  it("uses valueA/valueB/valueC defaults when inputs are unwired", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "defaults",
+      nodes: [colorOutputNode("out", 0, "rgb", 0.4, 0.5, 0.6)],
+      edges: [],
+    };
+    expect(compile(prog)(0, emptyControls).colors[0]).toEqual({
+      r: 0.4,
+      g: 0.5,
+      b: 0.6,
+    });
+  });
+
+  it("converts default hsv params to rgb", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "hsv-defaults",
+      nodes: [colorOutputNode("out", 0, "hsv", 0, 1, 1)],
+      edges: [],
+    };
+    expect(compile(prog)(0, emptyControls).colors[0]).toEqual({
+      r: 1,
+      g: 0,
+      b: 0,
+    });
+  });
+
+  it("returns empty colors for a program without color nodes", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "scalar-only",
+      nodes: [constantNode("c", 1), outputNode("out", 0)],
+      edges: [mkEdge("c", "out")],
+    };
+    expect(compile(prog)(0, emptyControls).colors).toEqual({});
+  });
+
+  it("keeps scalar and color outputs with the same id independent", () => {
+    const prog: Program = {
+      id: uuidv4(),
+      name: "both",
+      nodes: [
+        constantNode("c", 0.5),
+        outputNode("scalar-out", 0),
+        colorOutputNode("color-out", 0, "rgb", 1, 0, 0),
+      ],
+      edges: [mkEdge("c", "scalar-out")],
+    };
+    const result = compile(prog)(0, emptyControls);
+    expect(result.outputs[0]).toBe(0.5);
+    expect(result.colors[0]).toEqual({ r: 1, g: 0, b: 0 });
+  });
+});

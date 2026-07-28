@@ -1,5 +1,6 @@
 import { program as programDomain } from "@ptah-app/lib-domains";
 import type { Program } from "@ptah-app/lib-models";
+import type { RgbColor } from "@ptah-app/lib-utils";
 import { clamp, range } from "@ptah-app/lib-utils";
 
 import * as React from "react";
@@ -87,5 +88,29 @@ export function useProgramPreviewStateRegistryValues(nodeId: string): number[] {
   return React.useMemo(
     () => programPreview.map(({ registry }) => registry.get(nodeId)?.[0] ?? 0),
     [programPreview, nodeId],
+  );
+}
+
+const BLACK: RgbColor = { r: 0, g: 0, b: 0 };
+
+export function useProgramPreviewStateColorValues(
+  outputId: number,
+): RgbColor[] {
+  const programPreview = useProgramPreviewState();
+
+  return React.useMemo(
+    () =>
+      programPreview.map(({ colors }) => {
+        const color = colors[outputId];
+
+        return color
+          ? {
+              r: clamp(color.r, 0, 1),
+              g: clamp(color.g, 0, 1),
+              b: clamp(color.b, 0, 1),
+            }
+          : BLACK;
+      }),
+    [programPreview, outputId],
   );
 }
