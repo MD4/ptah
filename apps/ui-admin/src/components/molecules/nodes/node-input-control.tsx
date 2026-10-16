@@ -55,14 +55,6 @@ export default function NodeInputControl({
         size="small"
       />
 
-      <Handle
-        id={String(0)}
-        isConnectable
-        position={Position.Right}
-        style={styles.handle}
-        type="source"
-      />
-
       <Typography.Text>Default value</Typography.Text>
       <Slider
         style={styles.slider}
@@ -72,6 +64,14 @@ export default function NodeInputControl({
         min={1}
         max={127}
         step={1}
+      />
+
+      <Handle
+        id={String(0)}
+        isConnectable
+        position={Position.Right}
+        style={styles.handle}
+        type="source"
       />
     </Flex>
   );

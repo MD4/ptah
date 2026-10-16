@@ -16,6 +16,8 @@ export const createNode = (nodeType: models.Node["type"]): models.Node => {
       return createNodeInputControl();
     case "input-velocity":
       return createNodeInputVelocity();
+    case "input-audio":
+      return createNodeInputAudio();
     case "input-time":
       return createNodeInputTime();
     case "output-result":
@@ -99,6 +101,14 @@ export const createNodeInputVelocity = (): models.NodeInputVelocity => ({
   position: { x: 0, y: 0 },
   type: "input-velocity",
   defaultValue: 127,
+});
+
+export const createNodeInputAudio = (): models.NodeInputAudio => ({
+  id: uuidv4(),
+  position: { x: 0, y: 0 },
+  type: "input-audio",
+  defaultValue: 127,
+  deviceId: "none",
 });
 
 export const createNodeInputTime = (): models.NodeInputTime => ({
