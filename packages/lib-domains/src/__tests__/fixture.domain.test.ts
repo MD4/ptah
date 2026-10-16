@@ -1,6 +1,7 @@
 import {
   createShowFixture,
   findFixtureOverlaps,
+  getCapabilityChannels,
   getFixtureChannels,
 } from "../fixture.domain";
 
@@ -81,5 +82,47 @@ describe("findFixtureOverlaps", () => {
     const b = createShowFixture("b", "rgb", 2);
     const c = createShowFixture("c", "dimmer", 3);
     expect(findFixtureOverlaps([a, b, c])).toHaveLength(3);
+  });
+});
+
+describe("getCapabilityChannels", () => {
+  const fixture = (profileId: string, startChannel: number) => ({
+    id: "f",
+    name: "f",
+    profileId,
+    startChannel,
+  });
+
+  it("resolves a dimmer capability to its single channel", () => {
+    expect(
+      getCapabilityChannels(fixture("rgb-dimmer", 10), { type: "dimmer" }),
+    ).toEqual([10]);
+  });
+
+  it("resolves a color capability to r, g, b channels (offset by dimmer)", () => {
+    expect(
+      getCapabilityChannels(fixture("rgb-dimmer", 5), { type: "color" }),
+    ).toEqual([6, 7, 8]);
+  });
+
+  it("resolves a channel capability by profile index", () => {
+    expect(
+      getCapabilityChannels(fixture("rgbw", 20), {
+        type: "channel",
+        channelIndex: 3,
+      }),
+    ).toEqual([23]);
+  });
+
+  it("returns undefined for a capability the profile does not offer", () => {
+    expect(
+      getCapabilityChannels(fixture("rgb", 1), { type: "dimmer" }),
+    ).toBeUndefined();
+  });
+
+  it("returns undefined for an unknown profile", () => {
+    expect(
+      getCapabilityChannels(fixture("nope", 1), { type: "color" }),
+    ).toBeUndefined();
   });
 });

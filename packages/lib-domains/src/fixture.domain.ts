@@ -1,5 +1,8 @@
 import type * as models from "@ptah-app/lib-models";
-import { getFixtureProfile } from "@ptah-app/lib-models";
+import {
+  getFixtureProfile,
+  resolveCapabilityChannelIndexes,
+} from "@ptah-app/lib-models";
 import { v4 as uuidv4 } from "uuid";
 
 export const createShowFixture = (
@@ -24,6 +27,26 @@ export const getFixtureChannels = (fixture: models.ShowFixture): number[] => {
   return profile.channels.map((_, index) => fixture.startChannel + index);
 };
 
+/**
+ * Physical DMX channels one of a fixture's capabilities drives (1 for
+ * dimmer/channel, [r, g, b] for color); undefined when the profile is unknown
+ * or does not offer that capability.
+ */
+export const getCapabilityChannels = (
+  fixture: models.ShowFixture,
+  capability: models.ShowPatchCapability,
+): number[] | undefined => {
+  const profile = getFixtureProfile(fixture.profileId);
+
+  if (!profile) {
+    return undefined;
+  }
+
+  return resolveCapabilityChannelIndexes(profile, capability)?.map(
+    (index) => fixture.startChannel + index,
+  );
+};
+
 export type FixtureOverlap = {
   fixtureAId: string;
   fixtureBId: string;
@@ -32,8 +55,8 @@ export type FixtureOverlap = {
 
 /**
  * Pairs of fixtures sharing DMX channels. Overlaps are allowed (the UI only
- * warns); overlapping channels are last-write-wins at runtime, identical to
- * the cross-program merge semantics.
+ * warns); overlapping channels are last-write-wins at runtime, in patch order
+ * within a program and in program order across programs.
  */
 export const findFixtureOverlaps = (
   fixtures: models.ShowFixtures,

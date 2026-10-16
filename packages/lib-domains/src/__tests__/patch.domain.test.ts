@@ -1,4 +1,4 @@
-import type { ShowFixtures, ShowPatch } from "@ptah-app/lib-models";
+import type { Program, ShowFixtures, ShowPatch } from "@ptah-app/lib-models";
 import {
   applyMapping,
   capValue,
@@ -100,6 +100,80 @@ describe("compileShowPatch", () => {
     startChannel,
   });
 
+  const scalar = (outputId: number, channel: number) => ({
+    kind: "scalar" as const,
+    outputId,
+    channel,
+  });
+
+  const color = (outputId: number, r: number, g: number, b: number) => ({
+    kind: "color" as const,
+    outputId,
+    channels: { r, g, b },
+  });
+
+  const program = (
+    nodes: Array<{ type: "output-result" | "output-color"; outputId: number }>,
+  ): Program =>
+    ({
+      id: programId,
+      name: "p",
+      edges: [],
+      version: "0.4.0",
+      nodes: nodes.map((node, index) => ({
+        id: `n${index}`,
+        position: { x: 0, y: 0 },
+        ...(node.type === "output-color"
+          ? { mode: "rgb", valueA: 0, valueB: 0, valueC: 0 }
+          : {}),
+        ...node,
+      })),
+    }) as Program;
+
+  it("preserves patch order across kinds", () => {
+    const mapping = compileShowPatch(
+      [fixture("f1", "rgb", 1), fixture("f2", "dimmer", 1)],
+      [colorEntry(1, "f1"), scalarEntry(0, "f2")],
+      programId,
+    );
+    expect(mapping).toEqual([color(1, 1, 2, 3), scalar(0, 1)]);
+  });
+
+  it("skips entries whose kind no longer matches the program's output node", () => {
+    // A COLOR node was deleted and an OUTPUT node got renumbered to id 0:
+    // the stale color entry must not drive the fixture anymore.
+    const mapping = compileShowPatch(
+      [fixture("f1", "rgb", 1), fixture("f2", "dimmer", 10)],
+      [colorEntry(0, "f1"), scalarEntry(0, "f2")],
+      programId,
+      program([{ type: "output-result", outputId: 0 }]),
+    );
+    expect(mapping).toEqual([scalar(0, 10)]);
+  });
+
+  it("skips entries whose outputId no longer exists in the program", () => {
+    const mapping = compileShowPatch(
+      [fixture("f1", "dimmer", 1)],
+      [scalarEntry(3, "f1")],
+      programId,
+      program([{ type: "output-result", outputId: 0 }]),
+    );
+    expect(mapping).toEqual(emptyPatchMapping());
+  });
+
+  it("keeps entries matching the program's output kinds", () => {
+    const mapping = compileShowPatch(
+      [fixture("f1", "rgb", 1), fixture("f2", "dimmer", 10)],
+      [colorEntry(0, "f1"), scalarEntry(1, "f2")],
+      programId,
+      program([
+        { type: "output-color", outputId: 0 },
+        { type: "output-result", outputId: 1 },
+      ]),
+    );
+    expect(mapping).toEqual([color(0, 1, 2, 3), scalar(1, 10)]);
+  });
+
   it("returns an empty mapping for an empty patch", () => {
     expect(compileShowPatch([], [], programId)).toEqual(emptyPatchMapping());
   });
@@ -110,7 +184,7 @@ describe("compileShowPatch", () => {
       [scalarEntry(0, "f1")],
       programId,
     );
-    expect(mapping).toEqual({ scalar: { 0: [10] }, color: {} });
+    expect(mapping).toEqual([scalar(0, 10)]);
   });
 
   it("resolves a white channel capability on a rgbw fixture", () => {
@@ -119,7 +193,7 @@ describe("compileShowPatch", () => {
       [scalarEntry(0, "f1", { type: "channel", channelIndex: 3 })],
       programId,
     );
-    expect(mapping).toEqual({ scalar: { 0: [23] }, color: {} });
+    expect(mapping).toEqual([scalar(0, 23)]);
   });
 
   it("resolves a color capability on a rgb fixture", () => {
@@ -128,10 +202,7 @@ describe("compileShowPatch", () => {
       [colorEntry(0, "f1")],
       programId,
     );
-    expect(mapping).toEqual({
-      scalar: {},
-      color: { 0: [{ r: 5, g: 6, b: 7 }] },
-    });
+    expect(mapping).toEqual([color(0, 5, 6, 7)]);
   });
 
   it("resolves a color capability on a rgb-dimmer fixture (offset by dimmer)", () => {
@@ -140,10 +211,7 @@ describe("compileShowPatch", () => {
       [colorEntry(0, "f1")],
       programId,
     );
-    expect(mapping).toEqual({
-      scalar: {},
-      color: { 0: [{ r: 6, g: 7, b: 8 }] },
-    });
+    expect(mapping).toEqual([color(0, 6, 7, 8)]);
   });
 
   it("fans one color output out to several fixtures", () => {
@@ -152,10 +220,7 @@ describe("compileShowPatch", () => {
       [colorEntry(0, "f1"), colorEntry(0, "f2")],
       programId,
     );
-    expect(mapping.color[0]).toEqual([
-      { r: 1, g: 2, b: 3 },
-      { r: 4, g: 5, b: 6 },
-    ]);
+    expect(mapping).toEqual([color(0, 1, 2, 3), color(0, 4, 5, 6)]);
   });
 
   it("fans one scalar output out to several fixtures", () => {
@@ -164,7 +229,7 @@ describe("compileShowPatch", () => {
       [scalarEntry(0, "f1"), scalarEntry(0, "f2")],
       programId,
     );
-    expect(mapping.scalar[0]).toEqual([1, 2]);
+    expect(mapping).toEqual([scalar(0, 1), scalar(0, 2)]);
   });
 
   it("ignores entries for other programIds", () => {
@@ -173,7 +238,7 @@ describe("compileShowPatch", () => {
       [scalarEntry(0, "f1", { type: "dimmer" }, "other"), scalarEntry(0, "f2")],
       programId,
     );
-    expect(mapping).toEqual({ scalar: { 0: [2] }, color: {} });
+    expect(mapping).toEqual([scalar(0, 2)]);
   });
 
   it("skips entries referencing an unknown fixture", () => {
@@ -220,7 +285,7 @@ describe("compileShowPatch", () => {
       [scalarEntry(2, "channel-7")],
       programId,
     );
-    expect(mapping).toEqual({ scalar: { 2: [7] }, color: {} });
+    expect(mapping).toEqual([scalar(2, 7)]);
   });
 });
 
@@ -230,18 +295,32 @@ describe("applyMapping", () => {
     colors: Record<number, { r: number; g: number; b: number }> = {},
   ) => ({ outputs, colors, registry: new Map() });
 
+  const scalar = (outputId: number, channel: number) => ({
+    kind: "scalar" as const,
+    outputId,
+    channel,
+  });
+
+  const color = (outputId: number, r: number, g: number, b: number) => ({
+    kind: "color" as const,
+    outputId,
+    channels: { r, g, b },
+  });
+
   it("applies a single scalar output to a single channel", () => {
-    const mapping = { scalar: { 0: [10] }, color: {} };
-    expect(applyMapping(output({ 0: 0.5 }), mapping)).toEqual({ 10: 128 });
+    expect(applyMapping(output({ 0: 0.5 }), [scalar(0, 10)])).toEqual({
+      10: 128,
+    });
   });
 
   it("fans out one scalar output to multiple channels", () => {
-    const mapping = { scalar: { 0: [1, 2, 3] }, color: {} };
-    expect(applyMapping(output({ 0: 1.0 }), mapping)).toEqual({
-      1: 255,
-      2: 255,
-      3: 255,
-    });
+    expect(
+      applyMapping(output({ 0: 1.0 }), [
+        scalar(0, 1),
+        scalar(0, 2),
+        scalar(0, 3),
+      ]),
+    ).toEqual({ 1: 255, 2: 255, 3: 255 });
   });
 
   it("returns empty for an empty mapping", () => {
@@ -249,59 +328,75 @@ describe("applyMapping", () => {
   });
 
   it("maps NaN scalar output to channel value 0", () => {
-    const mapping = { scalar: { 0: [5] }, color: {} };
-    expect(applyMapping(output({ 0: Number.NaN }), mapping)).toEqual({ 5: 0 });
+    expect(applyMapping(output({ 0: Number.NaN }), [scalar(0, 5)])).toEqual({
+      5: 0,
+    });
   });
 
   it("maps Infinity scalar output to channel value 255", () => {
-    const mapping = { scalar: { 0: [5] }, color: {} };
     expect(
-      applyMapping(output({ 0: Number.POSITIVE_INFINITY }), mapping),
+      applyMapping(output({ 0: Number.POSITIVE_INFINITY }), [scalar(0, 5)]),
     ).toEqual({ 5: 255 });
   });
 
   it("writes a color output to its component channels", () => {
-    const mapping = { scalar: {}, color: { 0: [{ r: 1, g: 2, b: 3 }] } };
     expect(
-      applyMapping(output({}, { 0: { r: 1, g: 0.5, b: 0 } }), mapping),
+      applyMapping(output({}, { 0: { r: 1, g: 0.5, b: 0 } }), [
+        color(0, 1, 2, 3),
+      ]),
     ).toEqual({ 1: 255, 2: 128, 3: 0 });
   });
 
   it("fans out one color output to several fixtures", () => {
-    const mapping = {
-      scalar: {},
-      color: {
-        0: [
-          { r: 1, g: 2, b: 3 },
-          { r: 4, g: 5, b: 6 },
-        ],
-      },
-    };
     expect(
-      applyMapping(output({}, { 0: { r: 1, g: 1, b: 1 } }), mapping),
+      applyMapping(output({}, { 0: { r: 1, g: 1, b: 1 } }), [
+        color(0, 1, 2, 3),
+        color(0, 4, 5, 6),
+      ]),
     ).toEqual({ 1: 255, 2: 255, 3: 255, 4: 255, 5: 255, 6: 255 });
   });
 
   it("writes 0 to component channels when the color output is missing", () => {
-    const mapping = { scalar: {}, color: { 0: [{ r: 1, g: 2, b: 3 }] } };
-    expect(applyMapping(output(), mapping)).toEqual({ 1: 0, 2: 0, 3: 0 });
+    expect(applyMapping(output(), [color(0, 1, 2, 3)])).toEqual({
+      1: 0,
+      2: 0,
+      3: 0,
+    });
   });
 
   it("scrubs NaN color components to 0", () => {
-    const mapping = { scalar: {}, color: { 0: [{ r: 1, g: 2, b: 3 }] } };
     expect(
-      applyMapping(output({}, { 0: { r: Number.NaN, g: 1, b: 1 } }), mapping),
+      applyMapping(output({}, { 0: { r: Number.NaN, g: 1, b: 1 } }), [
+        color(0, 1, 2, 3),
+      ]),
     ).toEqual({ 1: 0, 2: 255, 3: 255 });
   });
 
   it("applies scalar and color outputs together", () => {
-    const mapping = {
-      scalar: { 0: [10] },
-      color: { 0: [{ r: 1, g: 2, b: 3 }] },
-    };
     expect(
-      applyMapping(output({ 0: 1 }, { 0: { r: 0, g: 0.5, b: 1 } }), mapping),
+      applyMapping(output({ 0: 1 }, { 0: { r: 0, g: 0.5, b: 1 } }), [
+        scalar(0, 10),
+        color(0, 1, 2, 3),
+      ]),
     ).toEqual({ 10: 255, 1: 0, 2: 128, 3: 255 });
+  });
+
+  it("lets the last patch entry win on overlapping channels (color then scalar)", () => {
+    expect(
+      applyMapping(output({ 0: 1 }, { 1: { r: 0, g: 0, b: 0 } }), [
+        color(1, 1, 2, 3),
+        scalar(0, 1),
+      ]),
+    ).toEqual({ 1: 255, 2: 0, 3: 0 });
+  });
+
+  it("lets the last patch entry win on overlapping channels (scalar then color)", () => {
+    expect(
+      applyMapping(output({ 0: 1 }, { 1: { r: 0, g: 0, b: 0 } }), [
+        scalar(0, 1),
+        color(1, 1, 2, 3),
+      ]),
+    ).toEqual({ 1: 0, 2: 0, 3: 0 });
   });
 });
 
@@ -311,10 +406,12 @@ describe("getMappingChannels", () => {
   });
 
   it("collects scalar and color component channels", () => {
-    const mapping = {
-      scalar: { 0: [10, 11], 1: [20] },
-      color: { 0: [{ r: 1, g: 2, b: 3 }] },
-    };
+    const mapping = [
+      { kind: "scalar" as const, outputId: 0, channel: 10 },
+      { kind: "scalar" as const, outputId: 0, channel: 11 },
+      { kind: "scalar" as const, outputId: 1, channel: 20 },
+      { kind: "color" as const, outputId: 0, channels: { r: 1, g: 2, b: 3 } },
+    ];
     expect(getMappingChannels(mapping).sort((a, b) => a - b)).toEqual([
       1, 2, 3, 10, 11, 20,
     ]);

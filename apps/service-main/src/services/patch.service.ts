@@ -31,6 +31,7 @@ export const loadMapping = (show: Show, programs: Program[]): void => {
           show.fixtures,
           show.patch,
           programId,
+          program,
         ),
         program: {
           resetAtEnd: true,
