@@ -76,16 +76,12 @@ describe("distortion", () => {
 });
 
 describe("mathNodeOperatorHasSecondValue", () => {
-  it.each([
-    "add",
-    "substract",
-    "divide",
-    "multiply",
-    "modulo",
-    "power",
-  ])("returns true for binary operator %s", (op) => {
-    expect(mathNodeOperatorHasSecondValue(op)).toBe(true);
-  });
+  it.each(["add", "substract", "divide", "multiply", "modulo", "power"])(
+    "returns true for binary operator %s",
+    (op) => {
+      expect(mathNodeOperatorHasSecondValue(op)).toBe(true);
+    },
+  );
 
   it.each([
     "sinus",
