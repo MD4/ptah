@@ -106,11 +106,11 @@ importers:
         specifier: ^3.1.14
         version: 3.1.14
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
       zod-express-middleware:
         specifier: ^1.4.0
-        version: 1.4.0(@types/express@5.0.6)(express@5.2.1)(zod@4.4.3)
+        version: 1.4.0(@types/express@5.0.6)(express@5.2.1)(zod@4.6.7)
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -412,7 +412,7 @@ importers:
         version: 6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       antd-zod:
         specifier: ^8.0.0
-        version: 8.0.0(antd@6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(zod@4.4.3)
+        version: 8.0.0(antd@6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(zod@4.6.7)
       axios:
         specifier: ^1.20.0
         version: 1.20.0
@@ -450,8 +450,8 @@ importers:
         specifier: ^14.0.0
         version: 14.0.0
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -572,8 +572,8 @@ importers:
         specifier: ^14.0.0
         version: 14.0.0
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -624,8 +624,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -667,8 +667,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -698,8 +698,8 @@ importers:
         specifier: workspace:*
         version: link:../lib-logger
       zod:
-        specifier: ^4.4.3
-        version: 4.4.3
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@ptah-app/config-jest':
         specifier: workspace:*
@@ -4853,6 +4853,9 @@ packages:
   react-is@19.3.0:
     resolution: {integrity: sha512-UpMYezM4v5/18F28aC66AEsjXIgE02kyEMH6yLdgLXu/UTfa1Ntwck/nNLrbqJsEXW7gPb0coNO9FQse9WTovA==}
 
+  react-is@19.3.1:
+    resolution: {integrity: sha512-RRieF6IyxQBkcK6pP8xOHprLTPW6QjRkbGdImtqNme+/hYVwCZkLQLdlZGOhUqXwkS9IEynaGvPJtv6XB/cz0Q==}
+
   react-reconciler@0.33.0:
     resolution: {integrity: sha512-KetWRytFv1epdpJc3J4G75I4WrplZE5jOL7Yq0p34+OVOKF4Se7WrdIdVC45XsSSmUTlht2FM/fM1FZb1mfQeA==}
     engines: {node: '>=0.10.0'}
@@ -5819,8 +5822,8 @@ packages:
       express: ^4.17.1
       zod: ^3.2.0
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
   zustand@4.5.7:
     resolution: {integrity: sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==}
@@ -7892,11 +7895,11 @@ snapshots:
 
   ansis@4.0.0-node10: {}
 
-  antd-zod@8.0.0(antd@6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(zod@4.4.3):
+  antd-zod@8.0.0(antd@6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(zod@4.6.7):
     dependencies:
       antd: 6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       lodash.merge: 4.6.2
-      zod: 4.4.3
+      zod: 4.6.7
 
   antd@6.6.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
@@ -10285,7 +10288,7 @@ snapshots:
   pretty-format@30.5.1:
     dependencies:
       '@jest/react-is-18': react-is@18.3.1
-      '@jest/react-is-19': react-is@19.3.0
+      '@jest/react-is-19': react-is@19.3.1
       '@jest/schemas': 30.5.0
       ansi-styles: 5.2.0
 
@@ -10369,6 +10372,8 @@ snapshots:
   react-is@18.3.1: {}
 
   react-is@19.3.0: {}
+
+  react-is@19.3.1: {}
 
   react-reconciler@0.33.0(react@19.3.0):
     dependencies:
@@ -11395,13 +11400,13 @@ snapshots:
 
   yoga-layout@3.2.1: {}
 
-  zod-express-middleware@1.4.0(@types/express@5.0.6)(express@5.2.1)(zod@4.4.3):
+  zod-express-middleware@1.4.0(@types/express@5.0.6)(express@5.2.1)(zod@4.6.7):
     dependencies:
       '@types/express': 5.0.6
       express: 5.2.1
-      zod: 4.4.3
+      zod: 4.6.7
 
-  zod@4.4.3: {}
+  zod@4.6.7: {}
 
   zustand@4.5.7(@types/react@19.3.0)(react@19.3.0):
     dependencies:
