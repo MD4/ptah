@@ -9,7 +9,12 @@ import type {
   ProgramOutputRegistry,
   ProgramState,
 } from "./program.domain.types";
-import { adsr, distortion } from "./runner.domain";
+import {
+  adsr,
+  controlInputKey,
+  deviceInputKey,
+  distortion,
+} from "./runner.domain";
 import type { RunnerControlsState } from "./runner.domain.types";
 
 export type * from "./program.domain.types";
@@ -131,12 +136,12 @@ export const compile = (program: models.Program): ProgramCompute => {
           break;
         case "input-control":
           registry.set(node.id, [
-            inputs.get(`control-${node.controlId}`) ?? node.defaultValue,
+            inputs.get(controlInputKey(node.controlId)) ?? node.defaultValue,
           ]);
           break;
         case "input-audio":
           registry.set(node.id, [
-            inputs.get(`device-${node.deviceId}`) ?? node.defaultValue,
+            inputs.get(deviceInputKey(node.deviceId)) ?? node.defaultValue,
           ]);
           break;
         case "input-velocity":
