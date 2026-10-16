@@ -1,3 +1,4 @@
+export * as fixture from "./fixture.domain";
 export * as patch from "./patch.domain";
 export * as program from "./program.domain";
 export * as runner from "./runner.domain";

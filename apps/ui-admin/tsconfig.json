@@ -3,7 +3,8 @@
   "exclude": ["node_modules", "dist", "build", "coverage", "out"],
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["vite/client", "jest"]
   },
   "include": ["src"]
 }

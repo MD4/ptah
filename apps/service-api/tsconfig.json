@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": ".",
+    "types": ["node", "jest"]
   },
   "exclude": ["node_modules", "dist", "build", "coverage", "out"],
   "extends": "@ptah-app/config-ts/base.json",

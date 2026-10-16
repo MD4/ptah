@@ -80,7 +80,7 @@ export const configureRoutesProgram = (server: Express): Express =>
               type: "program:save:success",
               programName: program.name,
             });
-            res.statusCode = 201;
+            res.statusCode = 200;
             res.json(program);
           })
           .catch((error: unknown) => {

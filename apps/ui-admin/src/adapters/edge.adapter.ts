@@ -9,13 +9,13 @@ export const adaptModelEdgeToReactFlowEdge = ({
   source,
   target,
   sourceOutput,
-  targetIntput,
+  targetInput,
 }: models.Edge): Edge => ({
   id,
   source,
   target,
   sourceHandle: String(sourceOutput),
-  targetHandle: String(targetIntput),
+  targetHandle: String(targetInput),
 });
 
 export const adaptReactFlowEdgesToModelEdges = (edges: Edge[]): models.Edge[] =>
@@ -32,5 +32,5 @@ export const adaptReactFlowEdgeToModelEdge = ({
   source,
   target,
   sourceOutput: Number(sourceHandle),
-  targetIntput: Number(targetHandle),
+  targetInput: Number(targetHandle),
 });

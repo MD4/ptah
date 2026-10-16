@@ -27,9 +27,11 @@ export const loadMapping = (show: Show, programs: Program[]): void => {
 
     if (program) {
       patch.set(Number(key), {
-        mapping: patchDomain.extractProgramMappingFromShowPatch(
+        mapping: patchDomain.compileShowPatch(
+          show.fixtures,
           show.patch,
           programId,
+          program,
         ),
         program: {
           resetAtEnd: true,

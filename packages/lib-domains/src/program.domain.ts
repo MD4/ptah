@@ -1,9 +1,10 @@
 import type * as models from "@ptah-app/lib-models";
-import { isDefined } from "@ptah-app/lib-utils";
+import { hsvToRgb, isDefined } from "@ptah-app/lib-utils";
 import { v4 as uuidv4 } from "uuid";
 import type {
   ProgramCompute,
   ProgramDefinition,
+  ProgramOutputColors,
   ProgramOutputOuputs,
   ProgramOutputRegistry,
   ProgramState,
@@ -63,14 +64,16 @@ const getNodeInputValueFromRegister = (
   const values = register.get(input.id);
 
   if (values) {
-    return values[input.sourceOutput];
+    return values[input.sourceOutput] ?? defaultValue;
   }
 
   return defaultValue;
 };
 
 export const compile = (program: models.Program): ProgramCompute => {
-  const outputs = program.nodes.filter(({ type }) => type === "output-result");
+  const outputs = program.nodes.filter(
+    ({ type }) => type === "output-result" || type === "output-color",
+  );
 
   const getNode = (nodeId: string): models.Node | undefined =>
     program.nodes.find(({ id }) => id === nodeId);
@@ -104,8 +107,8 @@ export const compile = (program: models.Program): ProgramCompute => {
       inputsNodesIds: program.edges
         .filter((edge) => edge.target === node.id)
         .reduce<{ id: string; sourceOutput: number }[]>(
-          (acc, { source, sourceOutput, targetIntput }) => {
-            acc[targetIntput] = {
+          (acc, { source, sourceOutput, targetInput }) => {
+            acc[targetInput] = {
               id: source,
               sourceOutput,
             };
@@ -119,6 +122,7 @@ export const compile = (program: models.Program): ProgramCompute => {
   return (time, inputs, parameter) => {
     const registry: ProgramOutputRegistry = new Map();
     const outputs: ProgramOutputOuputs = {};
+    const colors: ProgramOutputColors = {};
 
     for (const { node, inputsNodesIds } of evalOrder) {
       switch (node.type) {
@@ -280,7 +284,13 @@ export const compile = (program: models.Program): ProgramCompute => {
               drive,
               tone,
               level,
-            )(getNodeInputValueFromRegister(registry, inputsNodesIds[0])),
+            )(
+              getNodeInputValueFromRegister(
+                registry,
+                inputsNodesIds[0],
+                node.time,
+              ),
+            ),
           ]);
           break;
         }
@@ -292,11 +302,35 @@ export const compile = (program: models.Program): ProgramCompute => {
           );
           break;
 
+        case "output-color": {
+          const valueA = getNodeInputValueFromRegister(
+            registry,
+            inputsNodesIds[0],
+            node.valueA,
+          );
+          const valueB = getNodeInputValueFromRegister(
+            registry,
+            inputsNodesIds[1],
+            node.valueB,
+          );
+          const valueC = getNodeInputValueFromRegister(
+            registry,
+            inputsNodesIds[2],
+            node.valueC,
+          );
+
+          colors[node.outputId] =
+            node.mode === "hsv"
+              ? hsvToRgb(valueA, valueB, valueC)
+              : { r: valueA, g: valueB, b: valueC };
+          break;
+        }
+
         default:
           throw new Error("Node not implemented");
       }
     }
 
-    return { outputs, registry };
+    return { outputs, colors, registry };
   };
 };

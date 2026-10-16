@@ -1,25 +1,31 @@
 import * as models from "@ptah-app/lib-models";
 
+import { PTAH_PROGRAMS_BACKUPS_PATH } from "../env/vars.env";
+import { getStampVersion, programMigrations } from "../migrations";
 import {
   deleteFileFromPath,
   listFilesFromPath,
-  readFileFromPath,
   writeFileToPath,
 } from "./file.repository";
+import { loadAndMigrate } from "./migrate-resource";
 
-export const loadProgramFromPath = async (
-  path: string,
-): Promise<models.Program> => {
-  const buffer = await readFileFromPath(path);
+export const loadProgramFromPath = (path: string): Promise<models.Program> =>
+  loadAndMigrate(
+    path,
+    programMigrations,
+    models.program,
+    PTAH_PROGRAMS_BACKUPS_PATH,
+  );
 
-  return models.program.parseAsync(JSON.parse(buffer));
-};
-
-export const saveProgramToPath = async (
+export const saveProgramToPath = (
   program: models.Program,
   path: string,
 ): Promise<void> => {
-  const json = JSON.stringify(program, undefined, 2);
+  const json = JSON.stringify(
+    { ...program, version: getStampVersion(programMigrations) },
+    undefined,
+    2,
+  );
 
   return writeFileToPath(path, json);
 };

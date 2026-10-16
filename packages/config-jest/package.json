@@ -1,12 +1,12 @@
 {
   "name": "@ptah-app/config-jest",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "ts-jest": "^29.4.6"
+    "ts-jest": "^29.4.14"
   },
   "devDependencies": {
-    "jest-environment-jsdom": "^30.3.0"
+    "jest-environment-jsdom": "^30.5.2"
   }
 }

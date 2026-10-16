@@ -1,6 +1,6 @@
 {
   "name": "@ptah-app/service-api",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "private": false,
   "type": "module",
   "main": "dist/index.js",
@@ -10,23 +10,32 @@
     "build": "tsup",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --detectOpenHandles --coverage"
   },
   "jest": {
-    "preset": "jest-presets/jest/node"
+    "preset": "jest-presets/jest/node",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/../../packages/lib-domains/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../../packages/lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../../packages/lib-models/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../../packages/lib-logger/src/index.ts",
+      "^@ptah-app/lib-domains$": "<rootDir>/../../packages/lib-domains/src/index.ts",
+      "^@ptah-app/lib-shared$": "<rootDir>/../../packages/lib-shared/src/index.ts"
+    }
   },
   "dependencies": {
     "@ptah-app/lib-domains": "workspace:^",
     "@ptah-app/lib-logger": "workspace:*",
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-shared": "workspace:*",
-    "body-parser": "^2.2.2",
+    "body-parser": "^2.3.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "morgan": "^1.10.1",
+    "morgan": "^1.12.1",
     "nodemon": "^3.1.14",
-    "zod": "^4.3.6",
+    "zod": "^4.6.7",
     "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
@@ -36,10 +45,12 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^25.6.0",
-    "@types/supertest": "^7.2.0",
+    "@types/node": "^26.1.2",
+    "@types/supertest": "^7.2.1",
     "supertest": "^7.2.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
+    "@types/jest": "^30.0.0"
   }
 }

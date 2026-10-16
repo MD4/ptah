@@ -1,50 +1,64 @@
 {
   "name": "@ptah-app/ui-admin",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "private": false,
   "scripts": {
     "start": "serve --single dist",
     "build": "vite build",
     "clean": "rm -rf dist",
     "dev": "vite --host 0.0.0.0 --port 3001 --clearScreen false",
+    "test": "jest",
     "typecheck": "tsc --noEmit"
   },
+  "jest": {
+    "preset": "jest-presets/jest/browser",
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/__mocks__/uuid.js",
+      "^@ptah-app/lib-utils$": "<rootDir>/../../packages/lib-utils/src/index.ts",
+      "^@ptah-app/lib-models$": "<rootDir>/../../packages/lib-models/src/index.ts",
+      "^@ptah-app/lib-domains$": "<rootDir>/../../packages/lib-domains/src/index.ts",
+      "^@ptah-app/lib-logger$": "<rootDir>/../../packages/lib-logger/src/index.ts"
+    }
+  },
   "dependencies": {
-    "@ant-design/icons": "^6.1.1",
+    "@ant-design/icons": "^6.3.2",
     "@ptah-app/lib-domains": "workspace:^",
     "@ptah-app/lib-logger": "workspace:^",
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-utils": "workspace:*",
     "@simbathesailor/use-what-changed": "^2.0.0",
-    "@tanstack/react-query": "^5.99.0",
+    "@tanstack/react-query": "^5.101.4",
     "@types/react-transition-group": "^4.4.12",
     "@types/uuid": "^11.0.0",
     "@xyflow/react": "^12.10.2",
-    "antd": "^6.3.4",
+    "antd": "^6.6.3",
     "antd-zod": "^8.0.0",
-    "axios": "^1.15.0",
-    "fast-equals": "^6.0.0",
+    "axios": "^1.20.0",
+    "fast-equals": "^6.0.2",
     "masonic": "^4.1.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.3",
     "react-transition-group": "^4.4.5",
     "serve": "^14.2.6",
     "socket.io-react-hook": "^2.4.5",
-    "type-fest": "^5.5.0",
+    "type-fest": "^5.8.0",
     "usehooks-ts": "^3.1.1",
-    "uuid": "^13.0.0",
-    "zod": "^4.3.6"
+    "uuid": "^14.0.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
     "@types/events": "^3.0.3",
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
-    "sass": "^1.98.0",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.8"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.0.5",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
+    "sass": "^1.105.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.1"
   }
 }

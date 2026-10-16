@@ -1,12 +1,13 @@
 {
   "name": "@ptah-app/ui-cli",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "private": false,
   "scripts": {
-    "build": "tsc; chmod u+x dist/index.js; npm link --force",
+    "build": "tsc; chmod u+x dist/index.js",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "link:global": "npm link --force"
   },
   "type": "module",
   "main": "dist/index.js",
@@ -22,22 +23,22 @@
   "dependencies": {
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-utils": "workspace:*",
-    "ink": "^7.0.0",
+    "ink": "^7.1.1",
     "ink-confirm-input": "^2.0.0",
     "ink-image": "^2.0.0",
     "ink-select-input": "^6.2.0",
     "ink-spinner": "^5.0.0",
     "meow": "^14.1.0",
     "node-fetch": "^3.3.2",
-    "react": "^19.2.4",
+    "react": "^19.3.0",
     "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "^8.1.0",
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.3.0",
     "chalk": "^5.6.0",
     "ts-node": "^10.9.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

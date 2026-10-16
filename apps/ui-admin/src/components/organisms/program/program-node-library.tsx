@@ -22,6 +22,11 @@ export const nodesDefinitions: Record<
   "input-audio": { type: "input", label: "AUDIO", parameters: [] },
 
   "output-result": { type: "output", label: "OUTPUT", parameters: [] },
+  "output-color": {
+    type: "output",
+    label: "COLOR",
+    parameters: ["R / H", "G / S", "B / V"],
+  },
 
   "fx-adsr": {
     type: "default",

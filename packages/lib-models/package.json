@@ -1,6 +1,6 @@
 {
   "name": "@ptah-app/lib-models",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": false,
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -13,7 +13,8 @@
     "clean": "rm -rf dist",
     "dev": "tsup --dts --watch --onSuccess \"tsc --ignoreConfig --types node --allowSyntheticDefaultImports --emitDeclarationOnly --declaration --declarationMap src/index.ts --outDir dist\"",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "jest": {
     "preset": "jest-presets/jest/node"
@@ -21,12 +22,14 @@
   "devDependencies": {
     "@ptah-app/config-jest": "workspace:*",
     "@ptah-app/config-ts": "workspace:*",
-    "@types/node": "^25.6.0",
+    "@types/node": "^26.1.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3",
+    "jest-presets": "npm:@ptah-app/config-jest@*",
+    "@types/jest": "^30.0.0"
   },
   "dependencies": {
     "@ptah-app/lib-logger": "workspace:*",
-    "zod": "^4.3.6"
+    "zod": "^4.6.7"
   }
 }

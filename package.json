@@ -13,15 +13,19 @@
     "check:fix": "biome check --write",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
-    "allcheck": "pnpm format && pnpm check && pnpm typecheck",
-    "publish-packages": "pnpm clean && pnpm allcheck && changeset && changeset version && changeset publish && git push && git push --tags"
+    "allcheck": "pnpm format && pnpm check && pnpm typecheck && pnpm test",
+    "release": "bash scripts/release.sh",
+    "release:dry": "bash scripts/release.sh --dry-run",
+    "publish-packages": "bash scripts/release.sh",
+    "test:coverage": "turbo test:coverage",
+    "link:global": "pnpm --filter @ptah-app/app run link:global && pnpm --filter @ptah-app/ui-cli run link:global"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.9",
-    "@changesets/cli": "^2.30.0",
+    "@biomejs/biome": "^2.4.16",
+    "@changesets/cli": "^3.0.3",
     "@types/jest": "^30.0.0",
-    "jest": "^30.3.0",
-    "turbo": "^2.8.20"
+    "jest": "^30.5.2",
+    "turbo": "^2.11.6"
   },
   "packageManager": "pnpm@9.15.4"
 }

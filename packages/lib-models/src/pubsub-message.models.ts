@@ -62,7 +62,7 @@ export const pubsubMessageShowLoad = z.object({
   showName,
 });
 
-export const pubsubMessageShowLoadSucess = z.object({
+export const pubsubMessageShowLoadSuccess = z.object({
   type: z.literal("show:load:success"),
   showName,
 });
@@ -95,7 +95,7 @@ export const pubsubMessageProgramStopped = z.object({
   id: z.number(),
 });
 
-export const pubsubMessageProgramSaveSucess = z.object({
+export const pubsubMessageProgramSaveSuccess = z.object({
   type: z.literal("program:save:success"),
   programName,
 });
@@ -153,14 +153,14 @@ export const pubsubMessageMidiStatusIdle = z.object({
 
 export const pubsubMessageSystem = z.union([
   pubsubMessageShowLoad,
-  pubsubMessageShowLoadSucess,
+  pubsubMessageShowLoadSuccess,
   pubsubMessageShowLoadError,
   pubsubMessageShowUnload,
   pubsubMessageShowGet,
   pubsubMessageShowGetData,
   pubsubMessageProgramStarted,
   pubsubMessageProgramStopped,
-  pubsubMessageProgramSaveSucess,
+  pubsubMessageProgramSaveSuccess,
   pubsubMessageProgramSaveError,
   pubsubMessageDmxBlackOut,
   pubsubMessageDmxDebug,
@@ -210,8 +210,8 @@ export type PubsubMessageLoadShow = z.infer<typeof pubsubMessageShowLoad>;
 export type PubsubMessageDmxBlackOut = z.infer<typeof pubsubMessageDmxBlackOut>;
 
 export type PubsubMessageShowLoad = z.infer<typeof pubsubMessageShowLoad>;
-export type PubsubMessageShowLoadSucess = z.infer<
-  typeof pubsubMessageShowLoadSucess
+export type PubsubMessageShowLoadSuccess = z.infer<
+  typeof pubsubMessageShowLoadSuccess
 >;
 export type PubsubMessageShowLoadError = z.infer<
   typeof pubsubMessageShowLoadError
@@ -227,8 +227,8 @@ export type PubsubMessageProgramStopped = z.infer<
   typeof pubsubMessageProgramStopped
 >;
 
-export type PubsubMessageProgramSaveSucess = z.infer<
-  typeof pubsubMessageProgramSaveSucess
+export type PubsubMessageProgramSaveSuccess = z.infer<
+  typeof pubsubMessageProgramSaveSuccess
 >;
 export type PubsubMessageProgramSaveError = z.infer<
   typeof pubsubMessageProgramSaveError

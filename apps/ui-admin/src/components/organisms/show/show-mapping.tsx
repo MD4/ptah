@@ -225,7 +225,7 @@ export default function ShowMapping() {
             data: {
               programId,
               programName: program.name,
-              outputsCount: 0,
+              outputs: [],
             },
             position: {
               x: 700,
