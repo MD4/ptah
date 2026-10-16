@@ -23,11 +23,29 @@ const channelsToFixtures = (raw: unknown): unknown => {
       ? (show.patch as Record<string, unknown>)
       : {};
 
-  const channels = Object.keys(oldPatch)
-    .filter((key) => /^\d+$/.test(key))
-    .map(Number)
-    .filter((channel) => channel >= 1 && channel <= 512)
-    .sort((a, b) => a - b);
+  // Group legacy entries by numeric channel: keys are normalized through
+  // Number() so "01" and "1" land on the same fixture instead of silently
+  // losing entries or producing duplicate fixtures.
+  const entriesByChannel = new Map<number, unknown[]>();
+
+  for (const [key, entries] of Object.entries(oldPatch)) {
+    if (!/^\d+$/.test(key)) {
+      continue;
+    }
+
+    const channel = Number(key);
+
+    if (channel < 1 || channel > 512) {
+      continue;
+    }
+
+    entriesByChannel.set(channel, [
+      ...(entriesByChannel.get(channel) ?? []),
+      ...(Array.isArray(entries) ? entries : []),
+    ]);
+  }
+
+  const channels = [...entriesByChannel.keys()].sort((a, b) => a - b);
 
   const fixtureIdByChannel = new Map(
     channels.map((channel) => [channel, randomUUID()]),
@@ -40,14 +58,8 @@ const channelsToFixtures = (raw: unknown): unknown => {
     startChannel: channel,
   }));
 
-  const patch = channels.flatMap((channel) => {
-    const entries = oldPatch[String(channel)];
-
-    if (!Array.isArray(entries)) {
-      return [];
-    }
-
-    return entries.map((entry) => {
+  const patch = channels.flatMap((channel) =>
+    (entriesByChannel.get(channel) ?? []).map((entry) => {
       const { programId, programOutput } = entry as Record<string, unknown>;
 
       return {
@@ -57,8 +69,8 @@ const channelsToFixtures = (raw: unknown): unknown => {
         fixtureId: fixtureIdByChannel.get(channel),
         capability: { type: "dimmer" },
       };
-    });
-  });
+    }),
+  );
 
   return { ...(raw as object), fixtures, patch };
 };

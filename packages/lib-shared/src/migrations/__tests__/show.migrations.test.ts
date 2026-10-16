@@ -96,6 +96,23 @@ describe("show migration: raw channels -> dimmer fixtures (0.4.0)", () => {
     expect(result.patch).toHaveLength(1);
   });
 
+  it('merges non-canonical channel keys ("01") with their canonical channel', () => {
+    const result = up({
+      patch: {
+        "01": [{ programId, programOutput: 0 }],
+        "1": [{ programId: otherProgramId, programOutput: 1 }],
+      },
+    }) as MigratedShow;
+
+    expect(result.fixtures).toHaveLength(1);
+    expect(result.fixtures[0]).toMatchObject({ startChannel: 1 });
+    expect(result.patch).toHaveLength(2);
+    expect(result.patch.map(({ outputId }) => outputId).sort()).toEqual([0, 1]);
+    expect(new Set(result.patch.map(({ fixtureId }) => fixtureId)).size).toBe(
+      1,
+    );
+  });
+
   it("passes an already-migrated show through unchanged (idempotent)", () => {
     const migrated = up({
       patch: { "1": [{ programId, programOutput: 0 }] },

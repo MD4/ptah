@@ -102,4 +102,26 @@ describe("getStampVersion", () => {
     delete process.env.APP_VERSION;
     expect(getStampVersion([])).toBe("0.2.3");
   });
+
+  it("never stamps a file below its stored version when the app version is unknown", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion(stampChain, "0.5.0")).toBe("0.5.0");
+    expect(getStampVersion([], "0.4.0")).toBe("0.4.0");
+  });
+
+  it("still lifts an older stored version to the newest chain version", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion(stampChain, "0.2.3")).toBe("0.4.0");
+    expect(getStampVersion(stampChain, "0.4.0")).toBe("0.4.0");
+  });
+
+  it("treats a stored sentinel stamp as unknown", () => {
+    delete process.env.APP_VERSION;
+    expect(getStampVersion(stampChain, "999.999.999")).toBe("0.4.0");
+  });
+
+  it("ignores the stored version when the app version is known", () => {
+    process.env.APP_VERSION = "1.2.3";
+    expect(getStampVersion(stampChain, "9.9.9")).toBe("1.2.3");
+  });
 });

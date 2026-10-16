@@ -139,4 +139,19 @@ describe("loadAndMigrate", () => {
     expect(onDisk.version).toBe("0.3.0");
     expect(onDisk.migrated).toBe(true);
   });
+
+  it("leaves a file written by a newer release untouched when the app version is unknown", async () => {
+    delete process.env.APP_VERSION;
+
+    const file = join(dir, "from-release.json");
+    const content = { id: "r", version: "0.9.0" };
+    writeFileSync(file, JSON.stringify(content));
+
+    await loadAndMigrate(file, bump, schema, backupDir);
+
+    expect(JSON.parse(readFileSync(file, "utf8"))).toEqual(content);
+    expect(() =>
+      readFileSync(join(backupDir, "from-release.0.9.0.json")),
+    ).toThrow();
+  });
 });

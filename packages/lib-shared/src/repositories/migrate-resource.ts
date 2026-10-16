@@ -39,7 +39,7 @@ export const loadAndMigrate = async <T>(
   // The migration window still targets MAX when the app version is unknown
   // (never skip anything); the stamp written back is always a real version.
   const to = getCurrentAppVersion();
-  const stampVersion = getStampVersion(chain);
+  const stampVersion = getStampVersion(chain, storedVersion);
 
   const migrated = {
     ...(runMigrations(raw, chain, { from, to }) as object),
