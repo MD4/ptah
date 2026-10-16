@@ -94,9 +94,12 @@ cd packages/lib-domains && pnpm test
 ## File migrations
 
 Resources in `~/.ptah/` (settings, shows, programs) are JSON files validated with
-Zod on load. Each file carries a `version` stamp (the app version that wrote it).
-When a model change alters a file's shape, add a migration so old files still
-load:
+Zod on load. Each file carries a `version` stamp (the app version that wrote it;
+when `APP_VERSION` is unknown — services run standalone, e.g. `pnpm dev` — the
+stamp falls back to the resource's newest migration version so the file is never
+exempted from future migrations, and files stamped with the legacy `999.999.999`
+sentinel are treated as unknown and re-run the whole chain on load). When a
+model change alters a file's shape, add a migration so old files still load:
 
 1. Add an entry to the relevant chain in
    `packages/lib-shared/src/migrations/<resource>.migrations.ts`:
@@ -156,3 +159,14 @@ publish is interrupted, just run it again; already-published versions are skippe
   users get them automatically from the `bin` field on `npm install -g`. For
   local development, link them on demand (after a build) with `pnpm run
   link:global`.
+
+<!-- BEGIN:turborepo-agent-rules -->
+
+# This is NOT the Turborepo you know
+
+Turborepo configuration, task behavior, and CLI commands can vary between installed versions and may differ from your training data. Resolve the `turbo` package from this file's directory or relevant workspace; in monorepos, it may not be visible from the repository root. For example, run `node -p "require.resolve('turbo/package.json')"` from a workspace that depends on `turbo`.
+
+Read `docs/README.md` inside that installed package first, then read the relevant pages from its `docs/` directory before changing Turborepo configuration or commands. Heed deprecation notices. These bundled docs match the installed package version and are available without network access.
+
+This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
+<!-- END:turborepo-agent-rules -->

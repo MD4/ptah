@@ -1,4 +1,5 @@
 import type * as models from "@ptah-app/lib-models";
+import type { Node } from "@xyflow/react";
 import { v4 as uuidv4 } from "uuid";
 
 export const createNode = (nodeType: models.Node["type"]): models.Node => {
@@ -19,7 +20,33 @@ export const createNode = (nodeType: models.Node["type"]): models.Node => {
       return createNodeInputTime();
     case "output-result":
       return createNodeOutputResult();
+    case "output-color":
+      return createNodeOutputColor();
   }
+};
+
+export const isOutputNodeType = (
+  type: models.Node["type"],
+): type is models.NodeOutput["type"] =>
+  type === "output-result" || type === "output-color";
+
+export const isOutputNode = (data: models.Node): data is models.NodeOutput =>
+  isOutputNodeType(data.type);
+
+/** Renumber every output node's outputId in node-array order. */
+export const rewireOutputs = (
+  nodes: Node<models.Node>[],
+): Node<models.Node>[] => {
+  let outputId = 0;
+
+  return nodes.map((node) =>
+    isOutputNode(node.data)
+      ? {
+          ...node,
+          data: { ...node.data, outputId: outputId++ },
+        }
+      : node,
+  );
 };
 
 export const createNodeFxADSR = (): models.NodeFxADSR => ({
@@ -85,4 +112,15 @@ export const createNodeOutputResult = (): models.NodeOutputResult => ({
   position: { x: 0, y: 0 },
   type: "output-result",
   outputId: 0,
+});
+
+export const createNodeOutputColor = (): models.NodeOutputColor => ({
+  id: uuidv4(),
+  position: { x: 0, y: 0 },
+  type: "output-color",
+  outputId: 0,
+  mode: "rgb",
+  valueA: 1,
+  valueB: 1,
+  valueC: 1,
 });

@@ -35,7 +35,12 @@ import {
   adaptModelNodesToReactFlowNodes,
   adaptReactFlowNodesToModelNodes,
 } from "../../../adapters/node.adapter";
-import { createNode } from "../../../domain/node.domain";
+import {
+  createNode,
+  isOutputNode,
+  isOutputNodeType,
+  rewireOutputs,
+} from "../../../domain/node.domain";
 import {
   useProgramEdit,
   useProgramEditDispatch,
@@ -54,19 +59,6 @@ const fitViewOptions: FitViewOptions<Node<models.Node>> = {
   padding: 1,
   minZoom: 1,
   maxZoom: 1,
-};
-
-const rewireOutputs = (_nodes: Node<models.Node>[]): Node<models.Node>[] => {
-  let outputId = 0;
-
-  return _nodes.map((node) =>
-    node.data.type === "output-result"
-      ? {
-          ...node,
-          data: { ...node.data, outputId: outputId++ },
-        }
-      : node,
-  );
 };
 
 export default function ProgramEdit() {
@@ -132,12 +124,15 @@ export default function ProgramEdit() {
 
   const onNodesChange: OnNodesChange<Node<models.Node>> = React.useCallback(
     (changes) => {
-      const shouldRewireOutputs = changes.some(
-        (change) =>
-          change.type === "remove" &&
-          nodes.find((node) => node.id === change.id)?.data.type ===
-            "output-result",
-      );
+      const shouldRewireOutputs = changes.some((change) => {
+        if (change.type !== "remove") {
+          return false;
+        }
+
+        const removed = nodes.find((node) => node.id === change.id);
+
+        return removed ? isOutputNode(removed.data) : false;
+      });
 
       setNodes((value) => {
         const newNodes = applyNodeChanges(changes, value);
@@ -263,9 +258,7 @@ export default function ProgramEdit() {
       setNodes((_nodes) => {
         const newNodes = [..._nodes, { ...newNode, position, data: newNode }];
 
-        return nodeType === "output-result"
-          ? rewireOutputs(newNodes)
-          : newNodes;
+        return isOutputNodeType(nodeType) ? rewireOutputs(newNodes) : newNodes;
       });
     },
     [reactFlowInstance, setNodes],

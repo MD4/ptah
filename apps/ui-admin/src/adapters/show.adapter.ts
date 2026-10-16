@@ -4,9 +4,29 @@ import type { Node } from "@xyflow/react";
 
 import type { NodeAddProgramData } from "../components/molecules/nodes/node-add-program";
 import type { NodeProgramData } from "../components/molecules/nodes/node-program";
+import { isOutputNode } from "../domain/node.domain";
+
+export type ProgramOutputKind = "scalar" | "color";
+
+export type ProgramOutputDescriptor = {
+  outputId: number;
+  kind: ProgramOutputKind;
+};
+
+export const getProgramOutputs = (
+  program?: models.Program,
+): ProgramOutputDescriptor[] =>
+  (program?.nodes ?? [])
+    .filter(isOutputNode)
+    .map((node) => ({
+      outputId: node.outputId,
+      kind:
+        node.type === "output-color" ? ("color" as const) : ("scalar" as const),
+    }))
+    .sort((a, b) => a.outputId - b.outputId);
 
 export const getProgramOutputCount = (program?: models.Program): number =>
-  program?.nodes.filter(({ type }) => type === "output-result").length ?? 0;
+  getProgramOutputs(program).length;
 
 export const getProgramHeight = (outputCount: number): number =>
   90 + Math.max(outputCount, 0) * 24;
@@ -22,7 +42,7 @@ export const adaptModelShowProgramsToReactFlowNodes = (
   let y = 0;
 
   const nodes = Object.entries(programs).map(([programId, programName]) => {
-    const outputsCount = getProgramOutputCount(
+    const outputs = getProgramOutputs(
       programsDefinitions.find((program) => program.name === programName),
     );
 
@@ -31,14 +51,14 @@ export const adaptModelShowProgramsToReactFlowNodes = (
       data: {
         programId,
         programName,
-        outputsCount,
+        outputs,
         noInput,
       },
       position: { x, y },
       type: "node-program",
     };
 
-    y += getProgramHeight(outputsCount - 1) + 8;
+    y += getProgramHeight(outputs.length - 1) + 8;
 
     return newNode;
   });

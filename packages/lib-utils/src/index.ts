@@ -1,5 +1,6 @@
 export * from "./array";
 export * from "./clamp";
+export * from "./color";
 export * from "./debounce";
 export * from "./easing";
 export * from "./function";
