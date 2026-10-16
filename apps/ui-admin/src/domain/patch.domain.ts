@@ -10,6 +10,16 @@ import type { NodeFixtureData } from "../components/molecules/nodes/node-fixture
 export const getFixtureNodeHeight = (capabilitiesCount: number): number =>
   capabilitiesCount <= 1 ? 44 : 84 + capabilitiesCount * 32;
 
+/** Rack order: by start address, then name. */
+export const compareFixtures = (
+  a: models.ShowFixture,
+  b: models.ShowFixture,
+): number => a.startChannel - b.startChannel || a.name.localeCompare(b.name);
+
+export const sortFixtures = (
+  fixtures: models.ShowFixtures,
+): models.ShowFixtures => [...fixtures].sort(compareFixtures);
+
 export type FixtureNodesOptions = {
   x?: number;
   interactive?: boolean;
@@ -35,9 +45,7 @@ export const getFixtureNodes = (
       .flatMap(({ fixtureAId, fixtureBId }) => [fixtureAId, fixtureBId]),
   );
 
-  const sorted = [...fixtures].sort(
-    (a, b) => a.startChannel - b.startChannel || a.name.localeCompare(b.name),
-  );
+  const sorted = sortFixtures(fixtures);
 
   let y = 0;
 

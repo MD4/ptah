@@ -45,6 +45,7 @@ import {
   type FixtureNodesOptions,
   getFixtureNodes,
   rebuildFixtureNodes,
+  sortFixtures,
 } from "../../../domain/patch.domain";
 import {
   pruneShow,
@@ -179,6 +180,13 @@ export default function ShowPatch({
 
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
+
+  // Stable across renders that don't touch the rack: the fixture modal keys
+  // its reset on this and must not lose user input on unrelated re-renders.
+  const existingFixtures = React.useMemo(
+    () => adaptReactFlowNodesToModelShowFixtures(nodes),
+    [nodes],
+  );
 
   const edgeUpdateSuccessful = React.useRef(true);
 
@@ -380,8 +388,6 @@ export default function ShowPatch({
   }, [show, saveMutation]);
 
   const onAutoWireClick = React.useCallback(() => {
-    const fixtures = adaptReactFlowNodesToModelShowFixtures(nodes);
-
     const outputQueue = Object.entries(show.programs).flatMap(
       ([programId, programName]) =>
         getProgramOutputs(
@@ -391,11 +397,7 @@ export default function ShowPatch({
 
     const newPatch: models.ShowPatch = [];
 
-    const sortedFixtures = [...fixtures].sort(
-      (a, b) => a.startChannel - b.startChannel || a.name.localeCompare(b.name),
-    );
-
-    for (const fixture of sortedFixtures) {
+    for (const fixture of sortFixtures(existingFixtures)) {
       const profile = models.getFixtureProfile(fixture.profileId);
 
       if (!profile) {
@@ -405,44 +407,30 @@ export default function ShowPatch({
       for (const { capability } of models.getFixtureProfileCapabilities(
         profile,
       )) {
-        if (capability.type === "color") {
-          const index = outputQueue.findIndex(({ kind }) => kind === "color");
+        const kind = capability.type === "color" ? "color" : "scalar";
+        const index = outputQueue.findIndex((output) => output.kind === kind);
 
-          if (index === -1) {
-            continue;
-          }
-
-          const [output] = outputQueue.splice(index, 1);
-
-          newPatch.push({
-            programId: output.programId,
-            outputKind: "color",
-            outputId: output.outputId,
-            fixtureId: fixture.id,
-            capability,
-          });
-        } else {
-          const index = outputQueue.findIndex(({ kind }) => kind === "scalar");
-
-          if (index === -1) {
-            continue;
-          }
-
-          const [output] = outputQueue.splice(index, 1);
-
-          newPatch.push({
-            programId: output.programId,
-            outputKind: "scalar",
-            outputId: output.outputId,
-            fixtureId: fixture.id,
-            capability,
-          });
+        if (index === -1) {
+          continue;
         }
+
+        const [output] = outputQueue.splice(index, 1);
+        const base = {
+          programId: output.programId,
+          outputId: output.outputId,
+          fixtureId: fixture.id,
+        };
+
+        newPatch.push(
+          capability.type === "color"
+            ? { ...base, outputKind: "color", capability }
+            : { ...base, outputKind: "scalar", capability },
+        );
       }
     }
 
     setEdges(() => adaptModelShowPatchToToReactFlowEdges(newPatch));
-  }, [nodes, programs, setEdges, show.programs]);
+  }, [existingFixtures, programs, setEdges, show.programs]);
 
   React.useEffect(() => {
     dispatch({
@@ -465,11 +453,9 @@ export default function ShowPatch({
   React.useEffect(() => {
     dispatch({
       type: "update-fixtures",
-      payload: {
-        fixtures: adaptReactFlowNodesToModelShowFixtures(nodes),
-      },
+      payload: { fixtures: existingFixtures },
     });
-  }, [nodes, dispatch]);
+  }, [existingFixtures, dispatch]);
 
   const ref = React.useRef<HTMLDivElement>(null);
   const fitView = React.useCallback(async () => {
@@ -535,7 +521,7 @@ export default function ShowPatch({
         open={addProgramModalOpened}
       />
       <ShowFixtureModal
-        existingFixtures={adaptReactFlowNodesToModelShowFixtures(nodes)}
+        existingFixtures={existingFixtures}
         fixture={fixtureModal.fixture}
         onCancel={closeFixtureModal}
         onSubmit={onFixtureSubmit}

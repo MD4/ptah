@@ -1,5 +1,6 @@
 import { DeleteFilled, EditFilled, WarningOutlined } from "@ant-design/icons";
-import * as models from "@ptah-app/lib-models";
+import { fixture as fixtureDomain } from "@ptah-app/lib-domains";
+import type * as models from "@ptah-app/lib-models";
 import type { Node, NodeProps } from "@xyflow/react";
 import { useReactFlow } from "@xyflow/react";
 import { Button, Flex, Popconfirm, Tooltip, Typography, theme } from "antd";
@@ -69,12 +70,8 @@ export default function NodeFixture({
 
   const getCapabilityChannels = React.useCallback(
     (capability: models.ShowPatchCapability): number[] =>
-      profile
-        ? (models
-            .resolveCapabilityChannelIndexes(profile, capability)
-            ?.map((index) => fixture.startChannel + index) ?? [])
-        : [],
-    [fixture.startChannel, profile],
+      fixtureDomain.getCapabilityChannels(fixture, capability) ?? [],
+    [fixture],
   );
 
   const onDeleteConfirm = React.useCallback(() => {

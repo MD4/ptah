@@ -41,6 +41,10 @@ export default function ShowFixtureModal({
     () => existingFixtures.filter(({ id }) => id !== fixture?.id),
     [existingFixtures, fixture?.id],
   );
+  // Read by the reset effect without being one of its dependencies: the rack
+  // can change while the modal is open and must not wipe the user's input.
+  const otherFixturesRef = React.useRef(otherFixtures);
+  otherFixturesRef.current = otherFixtures;
 
   const profileId = Form.useWatch("profileId", form);
   const startChannel = Form.useWatch("startChannel", form);
@@ -69,16 +73,18 @@ export default function ShowFixtureModal({
         profileId: defaultProfile.id,
         startChannel:
           suggestNextStartChannel(
-            otherFixtures,
+            otherFixturesRef.current,
             defaultProfile.channels.length,
           ) ?? 1,
       });
     }
-  }, [open, fixture, form, otherFixtures]);
+  }, [open, fixture, form]);
 
   const onProfileChange = React.useCallback(
     (newProfileId: string) => {
       if (fixture || form.isFieldTouched("startChannel")) {
+        // Channel count may have changed: surface a fit/overlap error now.
+        void form.validateFields(["startChannel"]).catch(() => undefined);
         return;
       }
 
@@ -116,6 +122,21 @@ export default function ShowFixtureModal({
           ),
     );
   }, [fixture, form, onSubmit]);
+
+  // The InputNumber `max` is only a UI cap: re-validate on submit and after a
+  // profile change so the whole fixture stays inside the 512-channel universe.
+  const fitsRule = React.useMemo(
+    () => ({
+      validator: async (_: unknown, value: number | undefined) => {
+        if (value !== undefined && value + channelCount - 1 > 512) {
+          throw new Error(
+            `A ${channelCount}-channel fixture must start at ${maxStartChannel} or below`,
+          );
+        }
+      },
+    }),
+    [channelCount, maxStartChannel],
+  );
 
   const overlapRule = React.useMemo(
     () => ({
@@ -202,7 +223,7 @@ export default function ShowFixtureModal({
           }
           label="Start channel"
           name="startChannel"
-          rules={[rule, overlapRule]}
+          rules={[rule, fitsRule, overlapRule]}
         >
           <InputNumber
             max={maxStartChannel}
