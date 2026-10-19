@@ -51,8 +51,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       nodemon:
         specifier: ^3.1.14
         version: 3.1.14
@@ -94,8 +94,8 @@ importers:
         specifier: ^2.8.6
         version: 2.8.6
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -164,8 +164,8 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -216,8 +216,8 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -280,8 +280,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -335,8 +335,8 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       kalm:
         specifier: ^7.0.0
         version: 7.0.0
@@ -3391,9 +3391,10 @@ packages:
   dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
 
-  dotenv@17.4.2:
-    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
+  dotenv@18.0.8:
+    resolution: {integrity: sha512-2KDeoFoK/zRtcnbunCDlLG5VWVMcyqeQc6iK65o231nfNAcuGrKoqUQfJFUtBI+QlShk5HKIHxwebBtUl3rEfA==}
     engines: {node: '>=12'}
+    hasBin: true
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -8522,7 +8523,7 @@ snapshots:
       '@babel/runtime': 7.29.7
       csstype: 3.2.3
 
-  dotenv@17.4.2: {}
+  dotenv@18.0.8: {}
 
   dunder-proto@1.0.1:
     dependencies:

@@ -29,7 +29,7 @@
     "@ptah-app/lib-shared": "workspace:*",
     "@ptah-app/lib-utils": "workspace:*",
     "@types/midi": "^2.0.4",
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.8",
     "kalm": "^7.0.0",
     "midi": "^2.0.0",
     "nodemon": "^3.1.14"
