@@ -1,3 +1,4 @@
+export * as device from "./device.repository";
 export * as file from "./file.repository";
 export * as program from "./program.repository";
 export * as settings from "./settings.repository";

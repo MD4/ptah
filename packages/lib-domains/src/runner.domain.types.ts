@@ -10,4 +10,4 @@ export type RunnerProgramsState = Map<
   }
 >;
 
-export type RunnerControlsState = Map<number, number>;
+export type RunnerControlsState = Map<string, number>;
