@@ -145,6 +145,17 @@ call)* were delegated to the author and can be overturned by the owner.
 - **Programs can also run without a DAW** (rehearsal mode, builder
   transport, pad page) on the engine's own clock at a set tempo. Later sync
   sources (Ableton Link, MTC) plug into the same beat counter.
+- **Position chase** (owner decision, Step 1). When the LIGHTS track's MIDI
+  export is loaded next to the show, any position change rebuilds the
+  state as if the song had played from the start: notes held at that
+  beat restart their voices at the right offset, CC lanes take the value
+  they have at that beat. Position comes from Song Position Pointer plus
+  clock during playback and from Reaper's OSC cursor messages while
+  stopped, so clicking around the timeline lights the stage accordingly.
+  Without a loaded file the engine falls back to V1 behaviour (only
+  events received after the jump). The health check warns when the loaded
+  file looks older than the project (notes received live that the file
+  does not contain).
 - **Program time stays musical.** *(my call)* A program's `time` input is
   in beats, exactly as in V1 (one beat = 1.0), read from a fractional beat
   counter that the phase-locked clock advances continuously. V1 programs
@@ -198,8 +209,12 @@ The detailed model is Step 0's design document. The nouns are fixed:
 - **Parameter source** — abstract, continuous: what feeds an instance
   parameter. Day-one sources: MIDI CC (7-bit, with engine-side slew),
   14-bit CC pairs, NRPN, pitch bend, channel aftertouch, poly aftertouch
-  (a per-note value, used as a per-fixture fader inside a group), and OSC
-  addresses (32-bit floats, e.g. Reaper sending plugin slider automation).
+  (a per-note value, used as a per-fixture fader inside a group), OSC
+  addresses (32-bit floats, e.g. Reaper sending plugin slider automation),
+  and **audio** (a host input channel reduced to a value: level, peak, a
+  frequency band, or onsets, with attack and release), so a microphone can
+  drive a dimmer live. Live sources are instantaneous, so chase ignores
+  them; they are excluded from the parity oracle.
   The engine listens on all 16 MIDI channels, so a source is identified by
   device, channel and number. A program exposes named parameters; the
   **binding** of a parameter to a source lives on the instance, never in
@@ -338,8 +353,9 @@ how parameters are exposed from a program; whether scenes can be partial
 
 ### Step 1 — Engine, headless, feature parity
 
-Rust workspace: core (model, compiler, VM, merge, clock), io (MIDI in on all
-channels with every parameter source of 4.2, OSC in over UDP, USB Pro,
+Rust workspace: core (model, compiler, VM, merge, clock, MIDI file model
+and position chase), io (MIDI in on all channels with every parameter
+source of 4.2, OSC in over UDP, audio input capture and reduction, USB Pro,
 Art-Net), server (HTTP + WebSocket API, static UI serving), CLI. V1 importer.
 Overrides. Debug frame stream. Proven by **replaying the band's actual
 Reaper LIGHTS export through V1 and V2 and diffing the DMX frames**, with
@@ -445,8 +461,9 @@ grows with each step.
 - Remote at front of house: same UI on a phone over venue Wi-Fi or the box's
   hotspot, with overrides and the Perform screen.
 - Multi-controller MIDI: several inputs with per-device channel.
-- Audio-reactive input node (level, beat) reviving the V1
-  `feat/node-input-audio` idea.
+- Audio-reactive input as a parameter source (level, band, onset) is in
+  Step 1 via the binding model; a richer analysis node (tempo, spectrum)
+  can come later.
 - Output recording, replay, and diff.
 - Plugin surface later for node types and output protocols.
 
