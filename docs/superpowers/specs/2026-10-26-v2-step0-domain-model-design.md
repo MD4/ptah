@@ -342,7 +342,7 @@ Distribution semantics:
 | distribution | evaluations per tick | `member` node | typical trigger |
 | --- | --- | --- | --- |
 | all | 1, written to every selected member | constant (0, 0, n) | one note |
-| per-member | 1 per *active* member | that member | a note **range**: note k starts member k |
+| per-member | 1 per *active* member | that member | a note **range** (note `from`+k starts member `memberOffset`+k) or several single notes each with its own `memberOffset` (a `midi.note` on a per-member instance starts member `memberOffset ?? 0`) |
 | spread | 1 per selected member, all started together | that member | one note; programs use `member` to offset phase, delay, color |
 
 A program instance may be mapped by several triggers (see 3.8); each
@@ -384,7 +384,9 @@ Source =
 Binding { parameterId, source, curve?: "linear"|"log"|"exp", invert?: bool }
 ```
 
-Rules: `midi.noteRange` is only valid for `distribution: per-member`.
+Rules: `midi.noteRange` is only valid for `distribution: per-member`. On a
+per-member instance a `midi.note` mapping starts member `memberOffset ?? 0`;
+`memberOffset >= size` is a lint error.
 `device: "any"` and `channel: "any"` are explicit. An unbound parameter
 reads its default. Several bindings on one parameter: the last changed
 source wins (so a knob and an automation lane can share a parameter).
@@ -482,9 +484,13 @@ Deterministic, one shot, repeatable:
 **Collapse pass** (makes the result usable, not just correct): after the
 literal import, instances whose programs have identical graphs (ignoring
 ids and positions) **and identical routing shape** (same slots to the
-same relative positions) and whose notes are consecutive are collapsed
-into one group whose positions are the per-note fixture tuples, one
-`per-member` instance, and a `midi.noteRange` mapping. Instances that
+same relative positions), identical bindings and identical merge/stop
+settings on the same device and channel are collapsed, across all notes
+of the show, into one group whose positions are the per-note fixture
+tuples (ordered by note) and one `per-member` instance, mapped by a
+`midi.noteRange` when the notes are contiguous, else by one `midi.note`
+per member with `memberOffset`. (Contiguity was dropped on 2026-10-26:
+HILLDALE's shapes alternate across notes.) Instances that
 differ in routing shape form separate groups. HILLDALE collapses to seven
 rows as in section 1. The pass is a proposal: the importer reports what it
 would collapse, and the literal result is kept if the user declines. The
