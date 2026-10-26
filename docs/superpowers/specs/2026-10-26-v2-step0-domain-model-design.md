@@ -145,7 +145,7 @@ Role = intensity | red | green | blue | white | amber | uv | cyan | magenta
 | intensity | a channel with role intensity, **or** any color channel (virtual intensity, see 6.4) | `level` |
 | color | red+green+blue, or cyan+magenta+yellow, or white-only | `r g b` (plus `w a uv` written when channels exist) |
 | strobe | strobe or shutter | `rate` (0 = open) |
-| position | pan and tilt | `pan tilt` in degrees, with the type's ranges |
+| position | pan and tilt | `pan tilt` 0..1 of the fixture's travel (degrees only for display, derived from the type's physical range) |
 | beam | zoom / focus / iris | `zoom focus iris` |
 | channel(i) | always, one per channel | `value` (raw) |
 
@@ -546,8 +546,8 @@ note off, in beats. `onStop: release` keeps the voice alive until all
 ### 6.3 Compiled form
 
 A program compiles once per (program, parameter layout) into a flat list of
-ops over a `f32` buffer: `op(kind, in0, in1, in2, in3, out)` with slot
-indexes; constants and parameter slots preallocated; one buffer per voice
+ops over a value buffer: `op(kind, in[], out)` with slot indexes (variable
+input count per op, up to five today); constants and parameter slots preallocated; one buffer per voice
 per member, reused. Target: no allocation after start; evaluation of a
 voice of 20 nodes well under 2 µs on a Pi 4 (budget in the master plan).
 Debug probes read any slot by id.
@@ -557,8 +557,8 @@ Debug probes read any slot by id.
 Programs write color as rgb 0..1 (hsv converted in the node). Fixtures
 with white/amber/uv channels get those from a color model chosen per venue
 fixture (`colorModel`, default `subtractive-white`: `w = min(r,g,b)` and
-`r,g,b` are each reduced by `w`; `a = 0`, `uv = 0`; `rgb-only`: `w` stays
-at its default, which is what V1 did — the importer sets `rgb-only` on
+`r,g,b` are each reduced by `w`; `a = 0`, `uv = 0`; `rgb-only`: `w` keeps its park or
+mode default, which is what V1 did — the importer sets `rgb-only` on
 imported fixtures that have a white channel), overridable per entry in a
 scene. Fixtures with color channels but no intensity channel
 have a **virtual intensity**: rendered rgb = rgb × level. This is what lets
