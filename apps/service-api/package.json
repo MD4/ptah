@@ -29,7 +29,7 @@
     "@ptah-app/lib-logger": "workspace:*",
     "@ptah-app/lib-models": "workspace:*",
     "@ptah-app/lib-shared": "workspace:*",
-    "body-parser": "^2.3.0",
+    "body-parser": "^2.4.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.2.1",
