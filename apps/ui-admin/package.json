@@ -57,7 +57,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.0.5",
     "jest-presets": "npm:@ptah-app/config-jest@*",
-    "sass": "^1.105.1",
+    "sass": "^1.106.1",
     "typescript": "^6.0.3",
     "vite": "^8.2.4"
   }

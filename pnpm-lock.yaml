@@ -476,19 +476,19 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: ^6.0.5
-        version: 6.0.5(vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.105.1)(terser@5.36.0)(yaml@2.9.1))
+        version: 6.0.5(vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.106.1)(terser@5.36.0)(yaml@2.9.1))
       jest-presets:
         specifier: npm:@ptah-app/config-jest@*
         version: '@ptah-app/config-jest@0.2.1(@babel/core@7.29.7)(@jest/transform@30.5.2)(@jest/types@30.5.1)(babel-jest@30.5.2(@babel/core@7.29.7))(esbuild@0.27.2)(jest-util@30.5.1)(jest@30.5.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@6.0.3)))(typescript@6.0.3)'
       sass:
-        specifier: ^1.105.1
-        version: 1.105.1
+        specifier: ^1.106.1
+        version: 1.106.1
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
       vite:
         specifier: ^8.2.4
-        version: 8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.105.1)(terser@5.36.0)(yaml@2.9.1)
+        version: 8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.106.1)(terser@5.36.0)(yaml@2.9.1)
 
   apps/ui-cli:
     dependencies:
@@ -4949,8 +4949,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass@1.105.1:
-    resolution: {integrity: sha512-1CnAWPyrrnVQzXGB/DUep1vYCKCm1CIBr+YxjjiW6wk9qtzemnGP4qicH56T2F9S4Hjtv/Ne3jDz8JqfdDU4oA==}
+  sass@1.106.1:
+    resolution: {integrity: sha512-kD+Gi66vycZcbJt+42NC4z4PXNMcCajVrJPhqoKKXy5cOBMmJQt052CxIBcRjwYXeImHYOpu/ydWWGZQIenl7A==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -7750,10 +7750,10 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@vitejs/plugin-react@6.0.5(vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.105.1)(terser@5.36.0)(yaml@2.9.1))':
+  '@vitejs/plugin-react@6.0.5(vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.106.1)(terser@5.36.0)(yaml@2.9.1))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.105.1)(terser@5.36.0)(yaml@2.9.1)
+      vite: 8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.106.1)(terser@5.36.0)(yaml@2.9.1)
 
   '@xmldom/xmldom@0.8.13': {}
 
@@ -10440,7 +10440,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass@1.105.1:
+  sass@1.106.1:
     dependencies:
       chokidar: 5.0.0
       immutable: 5.1.9
@@ -11160,7 +11160,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.105.1)(terser@5.36.0)(yaml@2.9.1):
+  vite@8.2.4(@types/node@26.2.0)(esbuild@0.27.2)(sass@1.106.1)(terser@5.36.0)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -11171,7 +11171,7 @@ snapshots:
       '@types/node': 26.2.0
       esbuild: 0.27.2
       fsevents: 2.3.3
-      sass: 1.105.1
+      sass: 1.106.1
       terser: 5.36.0
       yaml: 2.9.1
 
