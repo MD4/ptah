@@ -71,11 +71,33 @@ assistance for the chores that happen before a gig, and a visualizer.
 
 - A cue list, fades between cues, a go button, or any timeline inside PTAH.
   Reaper owns time. A pad page for firing things by hand is not a timeline.
-- Being a general lighting console (effect engines with phase/fan across
-  fixtures, pixel mapping, media servers). If one of those ever matters it
-  gets its own design.
+- Media servers, video, or anything that is not DMX lighting.
 - Keeping any V1 code or process topology. V1 is a reference and a test
   oracle, not a base.
+
+**Scope: a general DMX lighting tool** (owner decision, 2026-10-26)
+
+V2 is a full-feature DMX lighting application, not a runner for the kind of
+show HILLDALE is (white pars plus one red scene). HILLDALE is the parity
+oracle, never the ceiling. The Step 0 model already carries the generic
+parts: fixture roles for intensity, RGB, CMY, white, amber, UV, lime, indigo,
+colour temperature, strobe, shutter, pan, tilt, zoom, focus, iris, gobo,
+prism, speed, macro and effect; 16-bit fine channels; inverted ranges;
+modes; capabilities intensity, colour, strobe, position, beam and raw
+channel; HTP/LTP merge; multiple universes. Three items were deliberately
+deferred out of Step 0 and are roadmap, not non-goals:
+
+- **Colour parameters**: a show parameter of kind `color` (a colour picker
+  on an instance) alongside `number` and `bool`. Planned for Step 1 or
+  Step 2, before the UI, because a late parameter kind is the one deferral
+  that would ripple.
+- **Wheel capabilities**: driving colour wheels, gobo wheels and other
+  indexed ranges from programs (nearest-slot selection, wheel spin), so
+  wheel-based movers get more than intensity and position. Additive; the
+  fixture-type ranges already exist.
+- **Fan and pixel effects**: phase/fan across a group beyond the `spread`
+  distribution, and pixel-mapped bars and matrices. Additive; gets its own
+  design when a rig needs it.
 
 **Anti-goals** (would make V2 a failure even if it "works")
 
