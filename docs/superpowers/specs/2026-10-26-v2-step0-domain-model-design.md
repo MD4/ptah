@@ -267,9 +267,10 @@ Parameter {
   `slot` number (V1's outputId) so several of the same kind can exist.
 
 **Port types**: `number`, `color`, `bool`. Edges are only valid between
-equal types; `number → bool` uses an implicit `> 0.5`. V1 cycles are
-rejected on save in V2; the importer breaks a cycle by inserting a one-tick
-delay node (`z1`) and flags it.
+equal types; `number → bool` uses an implicit `> 0.5`. Cycles are rejected
+on save in V2 unless they pass through a `z1` (one-tick delay) node; the
+importer drops a V1 back edge and flags it (V1 semantics were "read the
+default every tick", which dropping reproduces exactly).
 
 **Lifetime**: an instance evaluation starts at `time = 0` on trigger start
 and runs until its trigger stops and every `adsr` has released, or
@@ -474,7 +475,7 @@ Deterministic, one shot, repeatable:
 | fixture profile | built-in custom FixtureType with one mode |
 | show fixtures | a Venue named after the show, one universe `usbpro`, fixtures at their addresses |
 | each V1 fixture | one Group of size 1 **and** one venue fixture; then a merge pass (below) |
-| program | Program with `input-control` → `parameter` named `cc<N>` (0..127 range preserved) plus a Binding `midi.cc` on the instance; `input-velocity` → `velocity` followed by `×127`; `fx-adsr` → `envelope`; math nodes split per operation; cycles broken with `z1`; node types V2 does not know (the unreleased `input-audio`) are kept as `unknown` nodes with their JSON, flagged, and evaluate to their default |
+| program | Program with `input-control` → `parameter` named `cc<N>` (0..127 range preserved) plus a Binding `midi.cc` on the instance; `input-velocity` → `velocity` followed by `×127`; `fx-adsr` → `envelope`; math nodes split per operation; cycles: the back edge is **dropped** and reported (V1 cut it and read the port's node default every tick; `z1` is for new V2 programs only); node types V2 does not know (the unreleased `input-audio`) are kept as `unknown` nodes with their JSON, flagged, and evaluate to their default |
 | mapping note → program | an Instance (`all`, `legacy` merge, `onStop: reset`) on a group made of the fixtures that program's patch entries touch, and a Mapping `midi.note` |
 | patch entry | a Route on that instance: output slot → the group position holding that fixture; capability dimmer/channel/color → intensity/channel(i)/color |
 
