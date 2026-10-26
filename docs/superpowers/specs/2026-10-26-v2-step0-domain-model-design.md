@@ -1,7 +1,7 @@
 # PTAH V2 — Step 0: Domain Model and File Formats
 
 - **Date:** 2026-10-26
-- **Status:** Draft for approval
+- **Status:** Approved; executed as Step 0 (see tag `step0-complete` in the V2 repo)
 - **Parent:** `2026-10-25-v2-master-plan.md` (approved). This document
   details section 4.2 of the plan. Where the two disagree, this one wins.
 - **Output of this step:** this document, JSON Schema files for every
@@ -238,8 +238,8 @@ Program {
 }
 Parameter {
   id, name
-  kind: "number" | "color" | "bool"
-  min, max, default               // numbers; colors default {r,g,b}
+  kind: "number" | "bool"
+  min, max, default               // numbers (color parameters return with a color-split node in a later step)
   unit?: "level" | "beats" | "seconds" | "degrees" | "hz" | "ratio"
   smoothingMs?: number             // slew applied to whatever feeds it, default 20
 }
@@ -439,7 +439,8 @@ settings, applied above merge. Freeze holds the last frame.
 
 ### 3.11 Settings
 
-`~/.ptah/settings.json`: device list with roles (clock master, enabled),
+`~/.ptah/settings.json`: device list with roles (clock master, enabled,
+optional `virtualPortName` for a port the engine creates),
 default render rate, UI port, current show and venue, house-lights scene,
 library refresh policy, AI key reference (OS keychain name, never the key).
 
@@ -499,7 +500,10 @@ rows as in section 1. The pass is a proposal: the importer reports what it
 would collapse, and the literal result is kept if the user declines. The
 oracle always runs on the literal result.
 
-Imported instances run in `legacy` merge: last write in patch order wins,
+Imported instances run in `legacy` merge: last write in voice start order
+(6.1) wins, per attribute (V1 merged per DMX channel; shows mixing
+`channel(i)` with `color`/`dimmer` on one fixture are an accepted oracle
+difference),
 `onStop: reset` writes 0 to the channels the voice wrote. This reproduces
 V1 output under the Step 1 oracle.
 
@@ -561,8 +565,7 @@ with white/amber/uv channels get those from a color model chosen per venue
 fixture (`colorModel`, default `subtractive-white`: `w = min(r,g,b)` and
 `r,g,b` are each reduced by `w`; `a = 0`, `uv = 0`; `rgb-only`: `w` keeps its park or
 mode default, which is what V1 did — the importer sets `rgb-only` on
-imported fixtures that have a white channel), overridable per entry in a
-scene. Fixtures with color channels but no intensity channel
+imported fixtures that have a white channel). Fixtures with color channels but no intensity channel
 have a **virtual intensity**: rendered rgb = rgb × level. This is what lets
 a dimmer-only program (`flash`) drive an RGB par as white.
 
