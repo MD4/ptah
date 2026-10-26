@@ -181,6 +181,7 @@ VenueFixture {
   tags?: string[]                  // "L", "back", "truss1"...
   responseMs?: number              // overrides the type's typical response
   park?: { [attribute]: value }    // values held by attributes nothing writes (e.g. pan/tilt aimed for this room); falls back to the mode's channel defaults
+  colorModel?: "subtractive-white" | "rgb-only"   // how w/a/uv derive from rgb (6.4); default subtractive-white
 }
 ```
 
@@ -554,9 +555,12 @@ Debug probes read any slot by id.
 ### 6.4 Color and intensity
 
 Programs write color as rgb 0..1 (hsv converted in the node). Fixtures
-with white/amber/uv channels get those from a configurable color model
-(default: `w = min(r,g,b)` subtractive, `a = 0`, `uv = 0`), overridable per
-entry in a scene. Fixtures with color channels but no intensity channel
+with white/amber/uv channels get those from a color model chosen per venue
+fixture (`colorModel`, default `subtractive-white`: `w = min(r,g,b)` and
+`r,g,b` are each reduced by `w`; `a = 0`, `uv = 0`; `rgb-only`: `w` stays
+at its default, which is what V1 did — the importer sets `rgb-only` on
+imported fixtures that have a white channel), overridable per entry in a
+scene. Fixtures with color channels but no intensity channel
 have a **virtual intensity**: rendered rgb = rgb × level. This is what lets
 a dimmer-only program (`flash`) drive an RGB par as white.
 
