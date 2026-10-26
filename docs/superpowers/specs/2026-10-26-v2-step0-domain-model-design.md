@@ -477,7 +477,7 @@ Deterministic, one shot, repeatable:
 | V1 | V2 |
 | --- | --- |
 | settings `midiChannel` | `defaultMidiChannel` and the channel of every imported trigger and binding |
-| settings `midiVirtualPortName` | the virtual port device in settings |
+| settings `midiVirtualPortName` | the one device in settings (`enabled`, `clockMaster`, `virtualPortName` = the V1 port name); render rate 44 Hz, UI port 8420, library refresh `manual` |
 | fixture profile | built-in custom FixtureType with one mode |
 | show fixtures | a Venue named after the show, one universe `usbpro`, fixtures at their addresses |
 | each V1 fixture | one Group of size 1 **and** one venue fixture; then a merge pass (below) |
@@ -527,7 +527,9 @@ V1 output under the Step 1 oracle.
 5. **Merge** per (fixture, attribute): `legacy` writers first, resolved
    in **voice start order** (a voice that starts later wins; a retrigger
    of a held note keeps its place; within one voice, route order), which
-   is V1's running-program map order; then default writers: highest
+   is V1's running-program map order, resolved per attribute (V1 resolved
+   per DMX channel; a show mixing `channel(i)` with `color`/`dimmer` on one
+   fixture is an accepted oracle difference); then default writers: highest
    priority wins; among equal priority, intensity and strobe HTP,
    color/position/beam LTP by timestamp; a released writer's value is
    removed. V1's one-frame dip to zero when a stopping program resets
@@ -573,9 +575,13 @@ a dimmer-only program (`flash`) drive an RGB par as white.
 
 Per show+venue: unfilled group positions, missing capabilities and the
 fallback used, address overlaps, instances with missing programs,
-parameters bound to sources that never arrived in the last session,
-mapped notes never seen in the last MIDI file loaded, MIDI events on
-unmapped channels, venue changed since the DAW offset was set.
+parameters bound to sources that never arrived in the last session
+(engine-only: it needs a live session, so the Step 0 reference `health()`
+does not compute it), mapped notes never seen in the last MIDI file
+loaded, MIDI events on unmapped channels, venue changed since the DAW
+offset was set. The reference also reports patch references the show or
+venue lacks (`dangling-fixture`, `dangling-group`) and show groups with no
+assignment (`unassigned-group`).
 
 ## 8. Decisions made in this document (owner can overturn)
 
