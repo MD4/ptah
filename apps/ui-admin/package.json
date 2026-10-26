@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@ant-design/icons": "^6.3.2",
+    "@ant-design/icons": "^6.3.4",
     "@ptah-app/lib-domains": "workspace:^",
     "@ptah-app/lib-logger": "workspace:^",
     "@ptah-app/lib-models": "workspace:*",
