@@ -57,7 +57,8 @@ different things:
    `channel(1) = 1, channel(2) = 0` while triggered, on notes 0,2,4 /
    7,9,11 / 14,16,18; `red` as a program on pars writing `color` red with
    flicker (or a scene if the flicker is dropped), on note 21. Same MIDI
-   file, same look, nine rows, and the show now repatches onto any venue
+   file, same look, eight rows (three per-member instances per group, the
+   strobe-arm scene, `red`), and the show now repatches onto any venue
    with four color fixtures and three strobes.
 
 ### 1.1 HILLDALE is a parity case, not the design target
@@ -69,7 +70,8 @@ everything the master plan asks for, so no construct is designed around
 one show's habits:
 
 - a venue with two universes (USB Pro and Art-Net), eight RGBW pars, four
-  moving heads (16-bit pan/tilt, color wheel, zoom, strobe), two
+  moving heads (16-bit pan/tilt, RGB mixing, zoom, strobe; a color-wheel
+  role is deferred with `ranges`-based capabilities), two
   single-channel dimmers, one fixture whose mode has an inverted channel;
 - color programs (hsv sweeps, palettes from parameters, a `spread` chase
   across the pars with per-member phase), position programs on the movers,
