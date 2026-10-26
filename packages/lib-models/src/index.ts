@@ -1,4 +1,5 @@
 export * from "./app-version.model";
+export * from "./device-audio.model";
 export * from "./dmx.model";
 export * from "./edge.model";
 export * from "./fixture-profile.model";

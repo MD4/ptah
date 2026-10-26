@@ -34,6 +34,7 @@ export const useDefaultNodeStyle = (
           background: token.colorBgElevated,
           width: "auto",
           minWidth: 160,
+          maxWidth: 200,
         },
         handle: {
           borderRadius: token.sizeXS,
