@@ -315,8 +315,16 @@ Instance {
 ```
 
 ```
-Route { slot: number, members: "all" | number[] }
+Route { slot: number, members: "all" | (number | { position, tupleIndex })[], capability?: Capability }
 ```
+
+`capability` overrides the target capability for that route; absent, it is
+the output kind's natural capability (`out.intensity → intensity`,
+`out.color → color`, …). An intensity-kind slot may target `intensity` or
+`channel(i)` (a raw white or generic channel, as V1's `channel` patch
+capability did); a color slot only `color`; other kinds only their own.
+Mismatches are lint errors. *(Added 2026-10-26 during Step 0 execution:
+without it V1 `channel(i)` patch entries could not import losslessly.)*
 
 Routing is what lets one program drive several members **differently**
 without `member` logic: V1's "output 1 → channel 2" fan-out imports as a
