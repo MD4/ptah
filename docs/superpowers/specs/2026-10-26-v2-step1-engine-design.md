@@ -207,9 +207,13 @@ frame boundary. The old show is dropped by the loader.
   the last tempo. The engine therefore distinguishes "stopped" (Stop
   received) from "clock lost" (pulses missing while playing).
 
-Time inside the VM: `beat` from the counter, `time` = beat − voice start
-beat, `dtSeconds` from the monotonic clock. Nothing is derived from a tick
-count.
+Time inside the VM: `beat` from the counter feeds `Env.beat` and position
+chase; voice `time` = run beat − the voice's start run beat, where the run
+beat is a second clock output that equals `beat` plus a fixed offset while
+the clock runs and keeps advancing at the last tempo while the position is
+held (Stop), so release tails, fades and voices triggered while stopped keep
+moving (Step 1B amendment); `dtSeconds` from the monotonic clock. Nothing is
+derived from a tick count.
 
 ### 4.4 Voices, evaluation, merge, render
 
