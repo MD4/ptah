@@ -9,6 +9,7 @@ import { sleep } from "@ptah-app/lib-utils";
 import type { IUniverseDriver } from "dmx-ts";
 import { DMX, EnttecUSBDMXProDriver } from "dmx-ts";
 
+import { CaptureDriver } from "../drivers/capture.driver";
 import { DebugDriver } from "../drivers/debug.driver";
 
 const LOG_CONTEXT = `${process.env.SERVICE_MAIN_NAME ?? ""}:dmx`;
@@ -60,6 +61,19 @@ export const initialize = async (): Promise<void> => {
       UNIVERSE_DEBUG,
       new DebugDriver({ dmxSpeed: UNIVERSE_DMX_SPEED }),
     )) as DebugDriver;
+  }
+
+  // PTAH V2 replay oracle: capture the main universe to a file instead of
+  // a USB device. Inert unless PTAH_DMX_CAPTURE is set.
+  if (process.env.PTAH_DMX_CAPTURE) {
+    mainUniverse = await dmx.addUniverse(
+      UNIVERSE_MAIN,
+      new CaptureDriver(process.env.PTAH_DMX_CAPTURE),
+    );
+    reset();
+    changeStatus("connected");
+    log(LOG_CONTEXT, `DMX captured to ${process.env.PTAH_DMX_CAPTURE}`);
+    return;
   }
 
   let serialPorts = getSerialsPorts();
