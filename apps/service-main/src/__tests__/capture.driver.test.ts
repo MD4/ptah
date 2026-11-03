@@ -46,7 +46,7 @@ describe("CaptureDriver", () => {
     driver.update({ 1: 255, 3: 128 }, {});
     driver.update({ 3: 64, 512: 9 }, {});
     driver.updateAll(7);
-    await driver.close();
+    driver.close();
 
     const { header, frames } = readCapture(file);
 
@@ -94,7 +94,7 @@ describe("CaptureDriver", () => {
     driver.on("update", (u, extra) => seen.push([u, extra]));
     await driver.init();
     driver.update({ 2: 1 }, { from: "test" });
-    await driver.close();
+    driver.close();
     driver.update({ 2: 2 }, {});
 
     expect(seen).toEqual([
@@ -103,6 +103,24 @@ describe("CaptureDriver", () => {
     ]);
     expect(readCapture(file).frames).toHaveLength(1);
     expect(driver.get(2)).toBe(2);
+  });
+
+  it("has every line on disk as soon as it is recorded", async () => {
+    const file = path.join(dir, "sync.jsonl");
+    const driver = new CaptureDriver(file);
+
+    await driver.init();
+    driver.update({ 1: 1 }, {});
+    driver.updateAll(2);
+
+    // No close: what a process.exit() would leave behind.
+    const { header, frames } = readCapture(file);
+    expect(header.source).toBe("v1");
+    expect(frames.map((f) => [f.i, bytes(f)[0]])).toEqual([
+      [0, 1],
+      [1, 2],
+    ]);
+    driver.close();
   });
 
   it("rejects init when the file cannot be created", async () => {

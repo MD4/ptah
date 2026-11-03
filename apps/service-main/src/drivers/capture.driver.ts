@@ -21,11 +21,17 @@ export const CAPTURE_CHANNELS = 512;
  * The universe buffer behaves like dmx-ts's serial drivers (513 bytes,
  * 1-based channels, values assigned as given), so the bytes are the ones
  * the Enttec driver would send.
+ *
+ * Each line is written synchronously (`fs.writeSync` on the file
+ * descriptor opened at `init`), so every frame recorded is in the file
+ * even when the process ends with `process.exit()`. A write error stops
+ * the capture (never the show) and is reported as a `capture:error`
+ * event.
  */
 export class CaptureDriver extends EventEmitter implements IUniverseDriver {
   private readonly _universe: Buffer;
   private readonly _path: string;
-  private _stream: fs.WriteStream | undefined;
+  private _fd: number | undefined;
   private _start: number;
   private _index: number;
 
@@ -34,36 +40,21 @@ export class CaptureDriver extends EventEmitter implements IUniverseDriver {
 
     this._path = path;
     this._universe = Buffer.alloc(CAPTURE_CHANNELS + 1, 0);
-    this._stream = undefined;
+    this._fd = undefined;
     this._start = 0;
     this._index = 0;
   }
 
   async init(): Promise<void> {
-    const stream = fs.createWriteStream(this._path, { flags: "w" });
+    // A new capture: the file is created (or emptied), then only
+    // appended to, one line at a time.
+    const fd = fs.openSync(this._path, "w");
 
-    await new Promise<void>((resolve, reject) => {
-      stream.once("open", () => {
-        stream.off("error", reject);
-        resolve();
-      });
-      stream.once("error", reject);
-    });
-
-    // A write error stops the capture (never the show): reported as a
-    // `capture:error` event.
-    stream.on("error", (error) => {
-      if (this._stream === stream) {
-        this._stream = undefined;
-      }
-      this.emit("capture:error", error);
-    });
-
-    this._stream = stream;
+    this._fd = fd;
     this._start = performance.now();
     this._index = 0;
 
-    stream.write(
+    this.write(
       `${JSON.stringify({
         schema: CAPTURE_SCHEMA,
         source: "v1",
@@ -74,17 +65,13 @@ export class CaptureDriver extends EventEmitter implements IUniverseDriver {
     );
   }
 
-  close(): Promise<void> {
-    const stream = this._stream;
-    this._stream = undefined;
+  close(): void {
+    const fd = this._fd;
+    this._fd = undefined;
 
-    if (!stream) {
-      return Promise.resolve();
+    if (fd !== undefined) {
+      fs.closeSync(fd);
     }
-
-    return new Promise<void>((resolve) => {
-      stream.end(() => resolve());
-    });
   }
 
   update(u: UniverseData, extraData?: unknown): void {
@@ -109,14 +96,33 @@ export class CaptureDriver extends EventEmitter implements IUniverseDriver {
   }
 
   private record(): void {
-    if (!this._stream) {
+    if (this._fd === undefined) {
       return;
     }
 
     const t = Math.round((performance.now() - this._start) * 1000) / 1000;
     const d = this._universe.subarray(1).toString("base64");
 
-    this._stream.write(`${JSON.stringify({ t, i: this._index, d })}\n`);
+    this.write(`${JSON.stringify({ t, i: this._index, d })}\n`);
     this._index += 1;
+  }
+
+  private write(line: string): void {
+    if (this._fd === undefined) {
+      return;
+    }
+
+    try {
+      fs.writeSync(this._fd, line);
+    } catch (error) {
+      const fd = this._fd;
+      this._fd = undefined;
+      try {
+        fs.closeSync(fd);
+      } catch {
+        // Already unusable: the capture stops either way.
+      }
+      this.emit("capture:error", error);
+    }
   }
 }
