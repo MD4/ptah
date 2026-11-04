@@ -2,9 +2,11 @@
 
 - **Date:** 2026-10-25
 - **Status:** Draft for approval (brainstorming output)
-  - Step 0 done; Step 1 plans 1A–1D merged (`step1d-complete`,
-    2026-11-04). Step 1 closes on the owner's word after the V1 replay
-    run (`scripts/v1-replay.sh`) and the rehearsal (`docs/rehearsal.md`)
+  - Step 0 done; Step 1 plans 1A–1D merged (`step1d-complete`) and the
+    V1 replay oracle recorded and audited (2026-11-04, V2
+    `docs/ledgers/step1-oracle-audit.md`: values match; three V2 timing
+    defects found and fixed). Step 1 closes on the owner's word after the
+    rehearsal (`docs/rehearsal.md`)
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
