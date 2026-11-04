@@ -2,9 +2,9 @@
 
 - **Date:** 2026-10-25
 - **Status:** Draft for approval (brainstorming output)
-  - Step 0 done; Step 1 plans 1A–1C merged (`step1c-complete`), 1D on
-    branch `step1d-surface` awaiting the owner's V1 replay run and
-    rehearsal (2026-11-04)
+  - Step 0 done; Step 1 plans 1A–1D merged (`step1d-complete`,
+    2026-11-04). Step 1 closes on the owner's word after the V1 replay
+    run (`scripts/v1-replay.sh`) and the rehearsal (`docs/rehearsal.md`)
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
