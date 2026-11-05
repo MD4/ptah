@@ -87,7 +87,7 @@ const mkEdge = (
   targetInput,
 });
 
-const emptyControls = new Map<number, number>();
+const emptyControls = new Map<string, number>();
 
 describe("createProgram", () => {
   it("creates a program with the given name", () => {
@@ -168,7 +168,7 @@ describe("compile — control → output", () => {
   const compute = compile(prog);
 
   it("uses control value from inputs map", () => {
-    const inputs = new Map([[7, 0.8]]);
+    const inputs = new Map([["control-7", 0.8]]);
     expect(compute(0, inputs).outputs[0]).toBe(0.8);
   });
 
@@ -177,7 +177,7 @@ describe("compile — control → output", () => {
   });
 
   it("ignores controls for other controlIds", () => {
-    const inputs = new Map([[99, 1.0]]);
+    const inputs = new Map([["control-99", 1.0]]);
     expect(compute(0, inputs).outputs[0]).toBe(0);
   });
 });

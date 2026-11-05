@@ -41,7 +41,7 @@ export const handleClockTick = (): void => {
   dmx.update(runner.tick());
 };
 
-export const handleControlChange = (controlId: number, value: number): void => {
+export const handleControlChange = (controlId: string, value: number): void => {
   runner.setControlValue(controlId, value);
 };
 

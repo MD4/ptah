@@ -42,7 +42,7 @@ export const pubsubMessageClockTick = z.object({
 
 export const pubsubMessageControlChange = z.object({
   type: z.literal("control:change"),
-  controlId: z.number(),
+  controlId: z.string(),
   value: z.number(),
 });
 

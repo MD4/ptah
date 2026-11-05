@@ -9,7 +9,7 @@ import {
 import type { ProgramDefinition } from "../program.domain.types";
 
 const pos = { x: 0, y: 0 };
-const emptyControls = new Map<number, number>();
+const emptyControls = new Map<string, number>();
 
 describe("integration — hue sweep program driving a rgb fixture", () => {
   const programId = uuidv4();

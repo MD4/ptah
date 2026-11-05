@@ -2,6 +2,14 @@ import { clamp, easeOutQuint, easeOutQuintInvert } from "@ptah-app/lib-utils";
 
 export type * from "./runner.domain.types";
 
+/** Key under which a MIDI control value is stored in the runner controls state. */
+export const controlInputKey = (controlId: number | string): string =>
+  `control-${controlId}`;
+
+/** Key under which an audio device level is stored in the runner controls state. */
+export const deviceInputKey = (deviceId: string): string =>
+  `device-${deviceId}`;
+
 export const adsr =
   (
     attackRate: number,

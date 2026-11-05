@@ -33,11 +33,19 @@ export const nodeInputVelocity = nodeGeneric.extend({
 });
 export type NodeInputVelocity = z.infer<typeof nodeInputVelocity>;
 
+export const nodeInputAudio = nodeGeneric.extend({
+  type: z.literal("input-audio"),
+  deviceId: z.union([z.literal("none"), z.string()]),
+  defaultValue: z.number().min(0).max(255),
+});
+export type NodeInputAudio = z.infer<typeof nodeInputAudio>;
+
 export const nodeInput = z.union([
   nodeInputTime,
   nodeInputConstant,
   nodeInputControl,
   nodeInputVelocity,
+  nodeInputAudio,
 ]);
 export type NodeInput = z.infer<typeof nodeInput>;
 
