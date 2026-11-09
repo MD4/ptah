@@ -430,7 +430,10 @@ ease-in-out; }`.
   counts up on an interaction so the width can be checked), **Grid** (a
   1280×800 region with `.grid-overlay`, hairline regions on it, the
   addon-measure hint), **StageMode** (a paragraph in each voice with a
-  button calling `toggleMode`, plus the F2 hint).
+  button calling `toggleMode`, plus the F2 hint). Every story file
+  exports two stories, `Normal` and `Stage`, the second with story-level
+  `globals: { mode: "stage" }`, so the catalog and the axe gate cover
+  both modes in one run.
 
 - [ ] **Step 1: Write the failing test** (render smoke through
   Testing Library, not Storybook):
@@ -488,24 +491,25 @@ it("the Tokens story lists every colour token with a passing ratio", () => {
   config, the script, the root script and the CI steps**; **Step 4:
   Verify**: `pnpm -F @ptah-app/ds exec playwright install chromium` then
   `pnpm -F @ptah-app/ds test:storybook` passes with 0 violations on the
-  four stories in both modes (the runner iterates `globals.mode` by
-  running the suite twice with `--globals mode:normal` and `mode:stage`);
-  `pnpm allcheck` from the root passes.
+  eight stories (four files × `Normal`/`Stage`); `pnpm allcheck` from
+  the root passes.
 
 - [ ] **Step 5: Commit** — `ci(ds): Storybook axe gate in allcheck and CI`
 
 ### Task 10: Documentation
 
 **Files:**
-- Create: `docs/design-system.md` (V2 repo)
+- Create: `docs/design-system.md` (V2 repo),
+  `packages/ds/src/__tests__/docs.test.ts`
 - Modify: `README.md` (a "Design system" section: how to run Storybook,
   the gates, the one-time Playwright install), `docs/rust-workspace.md`
   (the repo map gains `packages/ds`)
 
 - [ ] **Step 1: Write `docs/design-system.md`**: the rules of spec §3 in
   the repo's own words, the token names with their values in both modes
-  (generated table from `tokens.ts` would drift: write it and add a test
-  in Task 4's file that the doc lists every token name), the mode switch
+  (written by hand; `docs.test.ts` asserts the doc names every CSS
+  custom property that `renderTokensCss` emits, so it cannot drift
+  silently), the mode switch
   (F2, `data-mode`, storage key), the gates and how to read a failure,
   the stories, what 2B and 2C add. Link `docs/design/c1-reference.html`.
 - [ ] **Step 2: Verify**: `pnpm -F @ptah-app/ds test` (the doc test)
