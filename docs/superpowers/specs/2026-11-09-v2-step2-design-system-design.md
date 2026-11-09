@@ -16,7 +16,9 @@ on (venue, show, builder) must be fast and exact. Both are built from one
 set of parts, so the whole app feels like one instrument.
 
 The owner chose the look in a brainstorm on 2026-11-09 from nine
-directions: **C1 "Strict"**, with V1's violet kept as the single accent.
+directions: **C1 "Strict"**, with V1's violet kept as the single accent,
+lifted to `#5e40f2` (same hue as V1's `#4c2bf0`) so one shade passes
+both contrast gates (3.5:1 on black, 6.0:1 under white text).
 The owner's standing requirement: a beautiful, smooth and elegant UI/UX.
 This document turns that into rules a builder can test against.
 
@@ -62,14 +64,11 @@ This document turns that into rules a builder can test against.
    for the interface's own state. Nothing else is coloured.
 3. **The accent** marks focus, selection, the primary action and progress.
    It never carries data. On a live screen it appears in two places at
-   most: the progress ruler and the focused control. *(Author's call,
-   from the builder check.)* `#4c2bf0` on black is 2.9:1, under the 3:1
-   the gates ask of thin marks, so the accent has two forms: `--accent`
-   (`#4c2bf0`, the owner's colour) for **fills that carry white text**
-   (primary button, selected row, 7.2:1), and `--accent-line`, a lighter
-   derived shade (about `#7c63ff`, ≥ 3:1 on black) for **thin marks**:
-   the focus ring, the progress fill, the selection outline. Hover and
-   active shades derive from `--accent`; V1's hover was `#6d4fe5`.
+   most: the progress ruler and the focused control. The accent is
+   **`#5e40f2`** (the owner's pick on 2026-11-09: V1's hue, lifted): one
+   shade for fills under white text and for thin marks alike (3.5:1 on
+   black, 6.0:1 under white). Hover and active shades derive from it
+   (lighter and darker by one step of the same hue).
 4. **The active state of a toggle** (Blackout, House, Freeze) inverts:
    white ground, black text. So an "on" toggle and a focused control never
    look alike.
@@ -88,8 +87,8 @@ This document turns that into rules a builder can test against.
    rule is "lower brightness, same screen". *(Author's call on the
    numbers.)* The tokens are generated per mode, not multiplied at run
    time: in stage mode `--fg` is about `#999` (5.9:1 on black), `--fg-dim`
-   about `#777` (4:1), `--line` about `#161616`, `--accent-line` is held
-   at its 3:1 floor, `--accent` fills dim to the same ratio as `--fg`;
+   about `#777` (4:1), `--line` about `#161616`, `--accent` is held at
+   its 3:1 floor on black (it dims little);
    lights and `--fault`/`--warn` keep full value so they stay the
    brightest things on the screen. An inverted toggle in stage mode is
    black on `#999`. The contrast gates of §9 have a stage-mode column
@@ -104,13 +103,13 @@ semantic, not literal.
 
 | Group | Tokens (exact names the builder uses) |
 | --- | --- |
-| colour | `--bg`, `--fg`, `--fg-dim`, `--line`, `--accent` (fills), `--accent-line` (thin marks, §3.3), `--accent-hover`, `--accent-active`, `--fault`, `--warn` (amber, faults of severity warning only), `--on-bg` (text on an inverted/active surface) |
-| stage mode | a `data-mode="stage"` attribute on `:root` switches a second generated set of `--fg`, `--fg-dim`, `--line`, `--accent`, `--accent-hover`, `--accent-active`, `--accent-line`, `--on-bg` (values in §3.9); `--fault`, `--warn` and light colours do not change |
+| colour | `--bg`, `--fg`, `--fg-dim`, `--line`, `--accent` (`#5e40f2`), `--accent-hover`, `--accent-active`, `--fault`, `--warn` (amber, faults of severity warning only), `--on-bg` (text on an inverted/active surface) |
+| stage mode | a `data-mode="stage"` attribute on `:root` switches a second generated set of `--fg`, `--fg-dim`, `--line`, `--accent`, `--accent-hover`, `--accent-active`, `--on-bg` (values in §3.9); `--fault`, `--warn` and light colours do not change |
 | grid | `--unit: 40px`; spacing `--s1 … --s6` = 4, 8, 12, 16, 24, 40 px |
 | type | `--font-sans` (Inter, system fallback), `--font-mono`; sizes `--t-label` 11, `--t-body` 13, `--t-value` 16, `--t-big` 22, `--t-display` 34; weights 400/500 only; `--track-label: .18em` |
 | line | `--hair: 1px` |
 | motion | `--m-fast 80ms`, `--m-mid 120ms`, `--m-slow 200ms`, `--ease: cubic-bezier(.2,.8,.2,1)` |
-| focus | `--focus: 0 0 0 2px var(--accent-line)` (an outline, drawn inside the hairline grid) |
+| focus | `--focus: 0 0 0 2px var(--accent)` (an outline, drawn inside the hairline grid) |
 | targets | `--tap: 44px` (minimum touch target on pointer: coarse) |
 
 There is no radius token and no shadow token on purpose.
@@ -227,10 +226,10 @@ Icons: Lucide, stroke 1.5 px, 16/20 px, `currentColor`. No filled icons.
 ## 9. Accessibility for dark rooms (CI gates)
 
 - Contrast, normal mode: `--fg` on `--bg` ≥ 7:1; `--fg-dim` ≥ 4.5:1;
-  labels on an inverted surface ≥ 7:1; `--accent-line` on black ≥ 3:1;
+  labels on an inverted surface ≥ 7:1; `--accent` on black ≥ 3:1;
   text on `--accent` ≥ 4.5:1.
 - Contrast, stage mode: `--fg` ≥ 4.5:1; `--fg-dim` ≥ 3:1; labels on an
-  inverted surface ≥ 4.5:1; `--accent-line` ≥ 3:1; `--fault` and `--warn`
+  inverted surface ≥ 4.5:1; `--accent` ≥ 3:1; `--fault` and `--warn`
   unchanged (≥ 4.5:1). Both columns are a 2A CI gate over the generated
   token files.
 - Targets: every interactive element ≥ 44×44 px at `pointer: coarse`.
