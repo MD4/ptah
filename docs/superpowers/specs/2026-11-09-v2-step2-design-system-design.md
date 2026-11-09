@@ -1,7 +1,7 @@
 # PTAH V2 — Step 2: the design system
 
 - **Date:** 2026-11-09
-- **Status:** Draft for the owner's approval (brainstorming output)
+- **Status:** Approved by the owner on 2026-11-09
 - **Parent:** `2026-10-25-v2-master-plan.md` §4.4 (UI direction) and Step 2.
 - **Repository:** `~/projects/ptah-v2`, a new pnpm package `packages/ds`.
 - **Consumers:** Step 3 (the app), Step 4 (debug mode), Step 5
