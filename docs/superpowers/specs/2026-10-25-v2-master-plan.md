@@ -6,7 +6,9 @@
     V1 replay oracle recorded and audited (2026-11-04, V2
     `docs/ledgers/step1-oracle-audit.md`: values match; three V2 timing
     defects found and fixed). Step 1 closes on the owner's word after the
-    rehearsal (`docs/rehearsal.md`)
+    rehearsal (`docs/rehearsal.md`). Step 2 design approved 2026-11-09;
+    plan 2A (foundations) merged 2026-11-10 (`step2a-complete`); 2B and
+    2C next
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
