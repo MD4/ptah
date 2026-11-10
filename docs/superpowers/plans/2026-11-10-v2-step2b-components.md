@@ -135,8 +135,9 @@ via Vite 6, Storybook 8.6.19, Vitest 3 + Testing Library 16, Playwright
   (a CSS text test over `src/components/**/*.module.css` — put it in
   `_shared/__tests__/rules.test.ts` and let every later task extend
   nothing: it scans all modules: no `border-radius` other than 0, no
-  `box-shadow` other than `var(--focus)`, no hex colours, no `filter`,
-  no `gradient`).
+  `box-shadow` other than `var(--focus)`, no hex or `rgb()` colours
+  except `rgb(0 0 0 / 0.6)` inside a class named `backdrop` (Task 6's
+  modal backdrop), no `filter`, no `gradient`).
 - [ ] **Steps 2–5** as Task 1; commit — `feat(ds): Button, IconButton,
   Toggle`
 
@@ -210,9 +211,8 @@ via Vite 6, Storybook 8.6.19, Vitest 3 + Testing Library 16, Playwright
   closes on Esc and returns focus to the trigger, `aria-modal`; Popover
   closes on outside click; Tooltip appears on focus (keyboard) and on
   hover, has `role="tooltip"`; Menu opens with ArrowDown, items navigable,
-  Enter activates, Esc closes; the rules test (Task 2) still passes with
-  the backdrop (an `rgb()` with alpha is allowed by the rule for the
-  backdrop class only — encode this one exception explicitly).
+  Enter activates, Esc closes; the rules test (Task 2) still passes (the backdrop uses the one allowed
+  `rgb(0 0 0 / 0.6)` in a class named `backdrop`).
 - [ ] **Steps 2–5**; the Stage stories prove legibility; commit —
   `feat(ds): Dialog, Popover, Tooltip, Menu`
 
@@ -321,10 +321,10 @@ CommandPalette.test.tsx, match.test.ts, index.ts}`.
   build` (run by the test with `execFileSync`, node environment),
   `dist/index.js` exists and exports every public name of `src/index.ts`
   (compare the sorted lists), `dist/ds.css` exists and contains `--bg:`,
-  `dist/fonts/Inter-Regular.woff2` exists, no `dist/**/*.js` contains the
-  string `"react/jsx-runtime"` bundled (externals respected: it must be an
-  import, check `import` of it is present and no `createElement`
-  duplication — assert the file imports from `react/jsx-runtime`).
+  `dist/fonts/Inter-Regular.woff2` exists, and externals are respected:
+  `dist/index.js` contains `from "react/jsx-runtime"` and `from "react"`
+  as imports and does not contain the string `__SECRET_INTERNALS` (which
+  a bundled React copy would).
 - [ ] **Steps 2–5**; commit — `build(ds): Vite library build with per-
   component entries`
 
