@@ -8,7 +8,10 @@
     defects found and fixed). Step 1 closes on the owner's word after the
     rehearsal (`docs/rehearsal.md`). Step 2 design approved 2026-11-09;
     plan 2A (foundations) merged 2026-11-10 (`step2a-complete`); plan 2B
-    (components) merged 2026-11-10 (`step2b-complete`); 2C next
+    (components) merged 2026-11-10 (`step2b-complete`); plan 2C
+    (primitives, live layer, Perform page) merged 2026-11-11
+    (`step2c-complete`): Step 2 code complete, exit criterion 4 (the
+    owner's dark-room check) open; Step 3 next
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
