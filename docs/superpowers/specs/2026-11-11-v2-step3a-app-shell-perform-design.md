@@ -110,13 +110,19 @@ can start shows.
   start and are not passed to the child**: the picker reads them back
   from `GET /settings` as the remembered show *(my call)*. Every
   existing subcommand stays.
-- **`--wait`** (new flag of `ptah run`): the engine reads the tree, comes
-  up at **level 0 with no show and no venue**, API up, no output workers
-  yet, raises no degradation fault, and waits for a `loadShow`. That first
-  `loadShow` fixes the venue: the output workers start from it at the
-  venue's rate, then the show is swapped in as today. It is a new level-0
-  path, not level 2 (level 2 skips the tree, forces 40 Hz and reports
-  `degradation: 2`; the checklist's Engine line could never read ready).
+- **`--wait`** (new flag of `ptah run`): the engine reads the tree, takes
+  its venue as today (`--venue`, else the remembered `currentVenueId`;
+  none on a fresh tree), builds that venue's outputs at start, and comes
+  up at **level 0 with no show loaded**, API up, no degradation fault,
+  waiting for a `loadShow`. It is a new level-0 path, not level 2 (level 2
+  skips the tree, forces 40 Hz and reports `degradation: 2`; the
+  checklist's Engine line could never read ready). A show on the engine's
+  venue loads directly; any other venue, and a fresh tree with no venue at
+  all, go through **restart with a venue** (§4.2), so outputs are always
+  the ones built at start and the engine's "a venue change needs a
+  restart" rule stays whole. *(Planning refinement of the approved text,
+  which had the first load fix the venue: same behaviour for the owner,
+  no change to the engine's output lifecycle.)*
 - **Cold start never resumes.** `ptah supervise` passes `--wait` to its
   **first child only**; a child it restarts after a crash or after exit
   75 gets the usual arguments and resumes from the journal (level 0), so
@@ -228,7 +234,8 @@ three parts: the thing, its state word, one short reason when not ready.
   "something is sending to it" is the honest word. *(My call.)*
 - **The server block.** `GET /api/v1/server` → `{ "version", "listen",
   "urls": ["http://192.168.1.12:8420", …], "supervised": true|false,
-  "staticDir": "embedded" | "<path>" }`. The page builds the QR code from
+  "venueId": "<the engine's venue>" | null, "staticDir": "embedded" |
+  "<path>" }`. The page builds the QR code from
   the first non-loopback URL; with none, the Phone line says `local
   only`.
 - **The QR code** is rendered as inline SVG from a small pinned encoder,
@@ -250,14 +257,12 @@ three parts: the thing, its state word, one short reason when not ready.
   when that venue has a patch for the show, else the only venue that has
   one; when **several** venues have a patch for the show, a second
   `Combobox` appears for the venue (patch = the remembered index for that
-  pair, else the venue's first patch of the show). On a cold start under
-  `--wait` the engine has no venue yet and accepts whichever the picker
-  sends. Once the engine has a venue (a show was loaded in this run, or
-  the run resumed), a load on another venue is refused by the engine
-  (`venue change needs a restart`): the picker shows the current venue as
-  fixed and offers `Restart with <venue>` (the restart endpoint with
-  `venueId`, §4.2, after which the page is back on the checklist with
-  that show preselected) *(my call)*.
+  pair, else the venue's first patch of the show). When the chosen venue
+  is the engine's (`GET /server` `venueId`) the picker loads directly;
+  when it is another venue, or the engine has none (a fresh tree), the
+  picker's action reads `Restart with <venue>` (the restart endpoint with
+  `venueId`, §4.2, after which the page is back on the checklist with that
+  show preselected, one key from playing) *(my call)*.
 - The load sends `loadShow` and waits for the ack (30 s deadline): the
   band shows `loading <name>` (amber), then the board takes over on the
   first `state` with `showInfo` of the new epoch. A refusal is a toast
