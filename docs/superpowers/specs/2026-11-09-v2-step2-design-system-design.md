@@ -72,13 +72,23 @@ This document turns that into rules a builder can test against.
 4. **The active state of a toggle** (Blackout, House, Freeze) inverts:
    white ground, black text. So an "on" toggle and a focused control never
    look alike.
-5. **Structure**: a visible **40 px module grid**; regions are separated
-   by 1 px hairlines in `line`, never by filled boxes, shadows or borders
-   with radius. Corners are square (radius 0) everywhere.
+5. **Structure**: a **40 px module grid** as an invisible rhythm (rows of
+   40 px, label rows of 36 px, everything on the 4 px scale); the grid is
+   never drawn on a product screen (the overlay is a development aid).
+   Sections are separated by space and a label row; a hairline in `line`
+   is used once per screen at most, where a division must be read in
+   the dark. No filled boxes, no shadows. Corners are square on bands,
+   ticks and surfaces; controls (buttons, chips, Kbd, fixture tiles)
+   take the one small radius token `--radius` (2 px). *(Revised
+   2026-11-11 after the Perform design round: the owner found the drawn
+   grid and the hairline-everywhere structure cluttered.)*
 6. **Type**: one sans, **Inter**, in two voices: labels in small uppercase
-   with wide tracking (11 px, 2 px tracking) and values in plain case;
-   numbers are tabular (`font-variant-numeric: tabular-nums`) so they
-   never shift. Raw data (hex, DMX bytes, ids) in the system monospace.
+   with tracking (12 px, 0.08 em) and values in plain case (14 secondary,
+   18 primary, 24 status word, 96 the one display size for the live bar
+   number, weight 400 with −0.03 em tracking); numbers are tabular
+   (`font-variant-numeric: tabular-nums`) so they never shift. Raw data
+   (hex, DMX bytes, ids) in the system monospace. *(Scale revised
+   2026-11-11; the 11/13/16/22/34 scale of 2A is retired.)*
 7. **Motion**: only to show a change of data or state, 80–200 ms, one
    easing curve, never looping; respects `prefers-reduced-motion`.
 8. **Elevation**: none. No shadows, no blur, no glow (C1 is flat; the
@@ -87,7 +97,8 @@ This document turns that into rules a builder can test against.
    rule is "lower brightness, same screen". *(Author's call on the
    numbers.)* The tokens are generated per mode, not multiplied at run
    time: in stage mode `--fg` is about `#999` (5.9:1 on black), `--fg-dim`
-   about `#777` (4:1), `--line` about `#161616`, `--accent` is held at
+   about `#777` (4:1), `--line` about `#141616`, `--line-control` about
+   `#2c2c2c`, `--fill-off` about `#1c1c1c`, `--accent` is held at
    its 3:1 floor on black (it dims little);
    lights and `--fault`/`--warn` keep full value so they stay the
    brightest things on the screen. An inverted toggle in stage mode is
@@ -103,16 +114,17 @@ semantic, not literal.
 
 | Group | Tokens (exact names the builder uses) |
 | --- | --- |
-| colour | `--bg`, `--fg`, `--fg-dim`, `--line`, `--accent` (`#5e40f2`), `--accent-hover`, `--accent-active`, `--fault`, `--warn` (amber, faults of severity warning only), `--on-bg` (text on an inverted/active surface) |
-| stage mode | a `data-mode="stage"` attribute on `:root` switches a second generated set of `--fg`, `--fg-dim`, `--line`, `--accent`, `--accent-hover`, `--accent-active`, `--on-bg` (values in §3.9); `--fault`, `--warn` and light colours do not change |
+| colour | `--bg`, `--fg`, `--fg-dim` (`#9a9a9a`), `--line` (`#1c1c1c`, the one divider), `--line-control` (`#3d3d3d`, outlines of buttons, chips, Kbd), `--fill-off` (`#2a2a2a`, unlit tiles, ticks and tracks), `--accent` (`#5e40f2`), `--accent-hover`, `--accent-active`, `--fault`, `--warn` (amber, faults of severity warning only), `--on-bg` (text on an inverted/active surface), `--on-accent` |
+| stage mode | a `data-mode="stage"` attribute on `:root` switches a second generated set of `--fg`, `--fg-dim`, `--line`, `--line-control`, `--fill-off`, `--accent`, `--accent-hover`, `--accent-active`, `--on-bg` (values in §3.9); `--fault`, `--warn` and light colours do not change |
 | grid | `--unit: 40px`; spacing `--s1 … --s6` = 4, 8, 12, 16, 24, 40 px |
-| type | `--font-sans` (Inter, system fallback), `--font-mono`; sizes `--t-label` 11, `--t-body` 13, `--t-value` 16, `--t-big` 22, `--t-display` 34; weights 400/500 only; `--track-label: .18em` |
-| line | `--hair: 1px` |
+| type | `--font-sans` (Inter, system fallback), `--font-mono`; sizes `--t-label` 12, `--t-body` 14, `--t-value` 18, `--t-big` 24, `--t-display` 96; weights 400/500 only; `--track-label: .08em`, `--track-display: -.03em` |
+| line | `--hair: 1px`; `--radius: 2px` (controls only: buttons, chips, Kbd, fixture tiles; bands, ticks and surfaces stay square) |
 | motion | `--m-fast 80ms`, `--m-mid 120ms`, `--m-slow 200ms`, `--ease: cubic-bezier(.2,.8,.2,1)` |
 | focus | `--focus: 0 0 0 2px var(--accent)` (an outline, drawn inside the hairline grid) |
 | targets | `--tap: 44px` (minimum touch target on pointer: coarse) |
 
-There is no radius token and no shadow token on purpose.
+There is no shadow token on purpose; `--radius` is the only radius and
+only controls use it.
 
 ## 5. Primitives (domain components, `packages/ds/primitives`)
 
@@ -155,9 +167,59 @@ none opens a socket itself.
 | `NoteChip` | a MIDI note or CC as a label (`C3`, `CC 2`, `PC 4`) | kind, number, channel, device | monospace, hairline outline; "unmapped" variant in `--warn` |
 | `GroupBadge` | a group name with its member count | name, count, colour-less | label voice; selected = accent |
 | `TimelineRuler` | bars and beats across a width, with the play head | tempo map segment, position, markers | hairline ticks on the grid; the play head is the accent; markers are labels |
-| `BarProgress` | the live bar ruler of the Perform header | bar, beat, bars in section | accent fill; tabular `041.2` |
+| `BarProgress` | the live bar of the Perform page | bar, beat, beats per bar | the bar number `041.2` in `--t-display`, then one 4 px tick per beat, the current beat in `--fg` (or the state colour), the rest `--fill-off`; no song length is known, so no progress bar |
 | `FaultLine` | one fault | code, subject, severity, count, since | red or amber dot + text; cleared = `--fg-dim` |
 | `StatusWord` | a single state word | `locked` / `free-run` / `stopped` / `internal`, `rt yes/yes`, `deg 0` | fixed width per word so the line never reflows |
+
+### 5.1 The Perform page (direction B, decided 2026-11-11)
+
+Designed with the owner in Claude Design (canvas
+<https://claude.ai/artifact/TxYk83dAcEyZLrEaNTgNWD>; the token note on it
+is the source of the §3 and §4 revisions). Who it serves: the drummer,
+laptop beside the kit, read in glances, touched only in an emergency.
+It is a vertical monitor column first; the full screen adds a detail
+column and never becomes a different page.
+
+Column, 430 px wide (390 on a phone, 440 on the full screen), top to
+bottom, heights fixed whatever the state:
+
+1. Status band, 88 px, full bleed: `Status` / `All well` with a violet
+   square, and `Active faults 0`. Amber band = wait it out (`clock.lost`
+   free-run; engine restarting with outputs holding). Red band = go and
+   fix (`output.lost`; engine back but clock `internal` or `stopped`).
+   On a band the text turns black and the fault code replaces the word,
+   with `For 4.2 s` on the right.
+2. Status words, 48 px: `Clock locked` · `Outputs 2 / 2` · `BPM 120.0`
+   (`BPM held` in free-run, `BPM internal` after a bad resume).
+3. Song, 164 px or the spare height: `Song 04 / 11` and the song name,
+   the bar number at 96 px, four beat ticks. During a restart the ticks
+   give way to the inference line `Link lost · Reconnecting · Clock
+   locked` (the page's own socket, not an engine report).
+4. Active programs, 36 + 3 × 40: trigger chip (from the show file),
+   program name, group label; a fourth becomes `+ N more`. No position,
+   no level (not published).
+5. MIDI, 52 px: devices `2 / 2` (polled each second), last input `C3 ·
+   0.4 s`, unmapped count.
+6. DMX, 36 + one 40 px row per universe: 24 px fixture tiles, 4 px gap,
+   and one word: `sending`, `not sending` (red outline, colours kept:
+   the engine still renders), `holding` (amber, during a restart).
+7. Latency, 52 px: render, output lag, end to end.
+8. Emergency, 124 px, under the one hairline: `Restart engine` (hold),
+   `Reload show`, `Blackout` (hold), `Freeze`; keys R, L, B, F scoped to
+   the page; `⌘K` for everything else. The page shows state and these
+   four commands only.
+
+Full screen (1280): the column pinned left at 440 px; a right column of
+840 px with what the engine publishes: the fault list (active first,
+cleared ones stay greyed; times relative or approximate wall clock), last
+inputs with velocity, device and the mapped program (from the show
+file), device names, fixture names with a 2 px level bar, and three
+latency sparklines over the 10 s window. The universe grid stays on the
+build pages (Step 3).
+
+Not on this page because the engine does not know it (Step 3 inputs):
+song length and bars left, section names, per-program position, live
+controller levels, a restart's progress.
 
 ## 6. Components (generic, `packages/ds/components`)
 
@@ -269,8 +331,8 @@ Icons: Lucide, stroke 1.5 px, 16/20 px, `currentColor`. No filled icons.
    components of §6, each with stories in both modes and both viewports.
 2. The CI gates of §7 and §9 run green on ubuntu and macOS.
 3. A Storybook page "Perform, assembled" composes the primitives into the
-   C1 live screen of the brainstorm, fed by the recorded synthetic
-   stream, and matches the reference by eye in the final review.
+   §5.1 column and full screen, fed by the recorded synthetic stream,
+   and matches the Claude Design canvas by eye in the final review.
 4. The owner opens the Storybook on the stage laptop in the dark, flips
    stage mode, and says it reads.
 
