@@ -678,10 +678,13 @@ assembled": what it shows and the `VITE_PTAH_WS` live variant; the gates
 list gains no-shift and frame-cost), `README.md` (one line: `pnpm -F
 @ptah-app/ds storybook` then open Perform; `record-ws.sh`), `src/__tests__/
 docs-components.test.ts` (also checks every primitive and every `Live*`
-export is named), `docs/rehearsal.md`? No: a short `docs/ledgers/
-step2c-dark-room-check.md` template the owner fills (exit criterion 4:
-date, laptop, stage mode flipped, "it reads" yes/no, notes) and the 2 ms
-manual figure from Task 10.
+export is named), a short `docs/ledgers/step2c-dark-room-check.md` template the owner
+fills (exit criterion 4: date, laptop, stage mode flipped, "it reads"
+yes/no, notes) and the 2 ms manual figure from Task 10; the V1 repo's
+master plan (`docs/superpowers/specs/2026-10-25-v2-master-plan.md`, Step 3
+inputs) gains two lines: "a supervisor restart endpoint for the Perform
+page's Restart button" and "song length, sections and live parameter
+values if the Perform page is to show them".
 
 - [ ] **Step 1: Write the failing test** (docs test extension); **Step 2:
   Write the docs**; **Step 3: Verify** `pnpm -F @ptah-app/ds test`,
