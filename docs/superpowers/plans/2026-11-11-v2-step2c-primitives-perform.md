@@ -30,25 +30,30 @@ No new runtime dependency. The recording is made with the Rust engine
 (`cargo build --release -p ptah`) once, by the implementer, and committed.
 
 **Spec:** `docs/superpowers/specs/2026-11-09-v2-step2-design-system-design.md`
-(§5 primitives and the two-layer call, §7 smooth/elegant tests, §8
-Storybook incl. the recorded session, §9 gates, §12 exit criteria 1, 3, 4,
-§13, §14: this is plan 2C). Engine facts come from the V2 repo's
+(§5 primitives and the two-layer call, §5.1 the Perform page, direction B,
+decided with the owner in Claude Design on 2026-11-11, §7 smooth/elegant
+tests, §8 Storybook incl. the recorded session, §9 gates, §12 exit
+criteria 1, 3, 4, §13, §14: this is plan 2C). Engine facts come from the V2 repo's
 `docs/api.md` (topics, the `frames` layout) and `docs/engine.md`
 (`VoiceView`, `Fault`, timers, `Overrides`, CLI flags). The look is
-`docs/design/c1-reference.html` (the C1 card: 56 px top bar, stage area on
-the grid with 80 px tiles, a 240 px side column of key/value lines, a 56 px
-bottom bar with active voices and the override strip).
+the Claude Design canvas <https://claude.ai/artifact/TxYk83dAcEyZLrEaNTgNWD>
+(direction B; its artboards and token note are the reference for Task 0
+and Task 11; `docs/design/c1-reference.html` is history).
 
 ## Global Constraints
 
 - Repo `~/projects/ptah-v2`, branch `step2c-primitives-perform` off
   `master` (≥ `step2b-complete`, 81db6a1). Package `packages/ds`; Biome only
   (2 spaces, 80 columns, double quotes); strict TS; prose ≤ 80 columns.
-- Styling only through tokens: colours `--bg --fg --fg-dim --line --accent
-  --accent-hover --accent-active --fault --warn --on-bg --on-accent`;
-  radius 0; no `box-shadow` except `var(--focus)`; no `filter`, no
-  gradients (the grid overlay in `base.css` is the one exception and is
-  2A's); hairlines `var(--hair) solid var(--line)`; motion only
+- Styling only through tokens: colours `--bg --fg --fg-dim --line
+  --line-control --fill-off --accent --accent-hover --accent-active
+  --fault --warn --on-bg --on-accent` (the two line/fill tokens new in
+  Task 0); radius 0 except `var(--radius)` on controls (Task 0 teaches
+  the rules test); no `box-shadow` except `var(--focus)`; no `filter`, no
+  gradients (the grid overlay in `base.css` is a development aid, never
+  on a product screen); hairlines `var(--hair) solid var(--line)`, at
+  most one per screen; sections separate by space and a label row;
+  rows 40 px, label rows 36 px, everything on the 4 px scale; motion only
   `var(--m-fast|--m-mid|--m-slow)` with `var(--ease)` and only on state
   changes; `.t-*` voices or `--t-*` sizes; tabular numbers; interactive
   targets ≥ `var(--tap)` under `pointer: coarse` (`.tap`). The rules test
@@ -93,15 +98,59 @@ bottom bar with active voices and the override strip).
    without an `intensity` channel is lit by its colour channels alone;
    `fineOf` channels are ignored. Pinned in Task 3.
 4. A long show on a phone: 64 fixtures and three universes must not push
-   the header or side column off the grid; the stage area scrolls, the
-   chrome does not. Pinned in Task 11 (phone viewport story + the visual
-   baseline) and by the tap gate on the override strip.
-5. A fault storm in the side column: `FaultLine` entries have a fixed
-   height and the column reserves three lines, so new faults never move
-   the status words. Pinned in Tasks 1 and 9 (no-layout-shift test flips
+   the status band or the emergency row off the column; the DMX strip
+   wraps its tiles and the programs list caps at three plus `+ N more`.
+   Pinned in Task 11 (a `Large` story at 390 px + the visual baseline)
+   and by the tap gate on the emergency buttons.
+5. A fault storm: the status band keeps its 88 px and shows the worst
+   active fault; the full-screen fault list has fixed 40 px rows; nothing
+   above them moves. Pinned in Tasks 1 and 9 (no-layout-shift test flips
    zero → three → zero faults).
 
 ---
+
+### Task 0: Token retune and the rules that follow (the design round's note)
+
+**Files:**
+- Modify: `src/tokens/tokens.ts`, `src/tokens/build.ts` (+ tests),
+  generated `src/tokens/tokens.css`, `src/styles/base.css` (`.t-*`
+  voices and tracking; the grid is drawn only under `.grid-overlay`),
+  `src/components/_shared/__tests__/rules.test.ts` (radius rule:
+  `border-radius` must be `0` or `var(--radius)`, and `var(--radius)` is
+  accepted only in the modules of Button, IconButton, Toggle, Kbd, Toast,
+  the Select/Combobox/Menu items, NoteChip, GroupBadge, FixtureTile),
+  the modules the retune touches (Button/IconButton/Toggle/Kbd outlines →
+  `--line-control`, radius → `var(--radius)`; Slider track and
+  NumberField/TextField underline → `--fill-off` where a track is meant;
+  the Gallery story: no `.grid-overlay` by default, sections by space),
+  `src/stories/Tokens.stories.tsx`, `docs/design-system.md` (token table
+  and the §3 rules), `visual/baselines/darwin/*.png` (re-taken once)
+
+**Interfaces:**
+- Produces the retuned tokens exactly: `--fg-dim #9a9a9a` (stage
+  `#777777`), `--line #1c1c1c` (stage `#141414`), `--line-control
+  #3d3d3d` (stage `#2c2c2c`), `--fill-off #2a2a2a` (stage `#1c1c1c`),
+  `--radius 2px`, `--t-label 12`, `--t-body 14`, `--t-value 18`,
+  `--t-big 24`, `--t-display 96`, `--track-label .08em`,
+  `--track-display -.03em`; `tokens.ts` keys `fgDim, line, lineControl,
+  fillOff` per mode, `radius: 2`, `type.size { label: 12, body: 14,
+  value: 18, big: 24, display: 96 }`; contrast gate rows for `--fg-dim`
+  (normal ≥ 7:1, passes at 7.3; stage ≥ 3:1, passes at 4.6);
+  `--line-control` and `--fill-off` are non-text (no row).
+
+- [ ] **Step 1: Write the failing tests** — `build.test.ts` expects the
+  new names and values in both `:root` blocks; `rules.test.ts` fixtures:
+  `border-radius: var(--radius)` passes in `Button.module.css` and fails
+  in `Panel.module.css`; a `2px` literal fails everywhere;
+  `stories.test.tsx` token list gains the two colours; a Gallery test
+  asserts no element carries `grid-overlay` by default.
+- [ ] **Step 2: Run to verify they fail**; **Step 3: Retune** (tokens,
+  base voices, the touched modules; every 2B behaviour test stays green;
+  `pnpm -F @ptah-app/ds test:storybook` axe-clean; `update:visual` once
+  and commit the new darwin baselines; `test:visual` twice at 0.000 %);
+  **Step 4: Verify** root `typecheck`, `check`, `format`, `pnpm -F
+  @ptah-app/ds build`; **Step 5: Commit** — `feat(ds): token retune from
+  the Perform design round (type scale, line tones, radius on controls)`
 
 ### Task 1: Primitives scaffolding, subpaths, StatusWord, NoteChip, GroupBadge, FaultLine
 
@@ -177,17 +226,20 @@ bottom bar with active voices and the override strip).
   shifts the ring and rewrites the `points` attribute and the text
   without React (ring kept in a ref).
 - `BarProgress` props `{ bar: number; beat: number; beatsPerBar: number;
-  barsInSection: number; barInSection: number }`: the `041.2` text
-  (`barBeat`) in `.t-value` tabular and a hairline ruler whose accent fill
-  is `(barInSection − 1 + (beat − 1) / beatsPerBar) / barsInSection`;
-  handle `BarProgressHandle { set(bar, beat, barInSection): void }`.
+  tone?: "fg" | "warn" | "fault" | "dim"; size?: "display" | "value" }`:
+  the `041.2` text (`barBeat`) in `--t-display` (96 px, weight 400,
+  `--track-display`; `size "value"` uses `--t-value` for detail columns)
+  and one 4 px tick per beat (6 px gaps), the current beat in the tone's
+  colour, the rest `--fill-off`; `tone "dim"` shows `———.—` (the restart
+  state); handle `BarProgressHandle { set(bar, beat): void }`.
 
 - [ ] **Step 1: Write the failing tests** — `DmxValueBar` renders `007`
   for 7 and `aria-valuenow`; `set(255)` updates the text and the `--v`
   property to `1`; `Sparkline` draws `window` points at most, `push`
   drops the oldest, the last value text matches `format`; `BarProgress`
-  text `041.2` and fill `0.3125` for bar 41 beat 2 of a 4/4 section of 8
-  bars starting at bar 40 (`barInSection 2`).
+  text `041.2`, four ticks with the second in the tone colour for bar 41
+  beat 2 of 4; `set(41, 3)` moves the tick without replacing the number
+  node (same DOM node).
 - [ ] **Steps 2–5**; stories include a `Moving` story whose play function
   calls the handle (interaction test visible in the catalog); commit —
   `feat(ds): DmxValueBar, Sparkline, BarProgress`
@@ -225,8 +277,9 @@ venue shapes the layer needs), `src/live/fixtureColor.ts` (+
   `luminance` = relative luminance of the result (the 2A `contrast.ts`
   helper).
 - `FixtureTile` props `{ name: string; color: FixtureColor; selected?:
-  boolean; faulted?: boolean; size?: 1 | 2 }` (1 = 80 px = 2 units, the
-  C1 card; 2 = 160 px) plus handle `FixtureTileHandle { set(color:
+  boolean; faulted?: boolean; size?: "s" | 1 | 2 }` (`"s"` = 24 px, no
+  name, `var(--radius)`, unlit = `--fill-off` fill, used by the Perform
+  DMX strip; 1 = 80 px = 2 units; 2 = 160 px) plus handle `FixtureTileHandle { set(color:
   FixtureColor): void }`: unlit = `--bg` with a hairline, name in
   `--fg-dim`; lit = flat fill via `style --tile`, name in `--on-bg` when
   `luminance > 0.4` else `--fg`; selected = accent outline (inset,
@@ -503,64 +556,84 @@ replay source, exposing `window.__ptahPerf = { pushFrames(n), baseline(n)
   ratio is within 10 % of 1.5 the implementer says so and the controller
   decides); commit — `test(ds): relative frame-cost gate`
 
-### Task 11: "Perform, assembled"
+### Task 11: "Perform, assembled" (direction B)
 
 **Files:** `src/stories/Perform.stories.tsx`, `src/stories/Perform.module.css`,
-`src/stories/perform/{rig.ts,PerformHeader.tsx,PerformStage.tsx,PerformSide.tsx,PerformFoot.tsx}`,
+`src/stories/perform/{rig.ts,model.ts,model.test.ts,StatusBand.tsx,
+StatusWords.tsx,SongBlock.tsx,Programs.tsx,MidiBlock.tsx,DmxStrip.tsx,
+LatencyRow.tsx,Emergency.tsx,DetailColumn.tsx}`,
 `src/stories/__tests__/perform.test.tsx`, `visual/baselines/darwin/*.png`
-(the Gallery set rebaselined only if the Gallery changed; the Perform
-set added), `scripts/test-visual.mjs` (screenshot list gains
-`perform--normal` and `perform--stage` at both viewports; tap gate
-already covers `*--open`, add `perform--normal`).
+(the Perform set added), `scripts/test-visual.mjs` (screenshots
+`perform--normal`/`--stage` at 430×800, `perform--phone`/`--phone-stage`
+at 390×844, `perform--full`/`--full-stage` at 1280×800; the tap gate
+adds `perform--phone`).
 
 **Interfaces:**
-- `rig.ts`: loads the synthetic venue and types from `fixtures/` (JSON
-  imports) and exposes `rig: { venue; types; fixturesByUniverse }`;
-  tile positions come from `fixture.position.x/y` snapped to the 40 px
-  grid (`round(x × unit)`; when absent, a row-major fallback at 2-unit
-  pitch).
-- The page (laptop): `StatusRegion` top bar (56 px) with the show name in
-  `.t-label` letter-spaced, `Song 03` (`state.currentSong` as two digits,
-  as the card shows), `BarProgress` from `LiveClock`, `Tempo
-  122.0` (one decimal), the `TimelineRuler` of the current 8 bars at the
-  right; the middle `grid-template-columns: 1fr calc(var(--unit) * 6)`
-  (240 px side column) with the stage area (`.grid-overlay`, tiles
-  absolutely positioned, `Universe 1 · 8 fixtures` caption) and the side
-  column of five fixed lines (`Output U<n>` from `faults` `output.lost`
-  per universe → `Lost 12 s` in `--fault` else `OK`; `Clock` →
-  `StatusWord`; `Render` → `metrics.timers.frameWork.window.p99` in µs +
-  `RT` from `engine.rtPriority`; `Voices` → count; `Unmapped` → the
-  `mapping.unmapped` fault count) and a three-line `FaultLine` list;
-  the bottom bar (56 px): `Active` + a `NoteChip` per voice (program id
-  from `showInfo.instancePrograms[voice.instance]`, the chip from the
-  voice's trigger when `events` carries it, else the instance name) and
-  the override strip (`Blackout`, `House`, `Freeze`, `Master 100` as
-  `Toggle`s with `pressed` controlled from `state.overrides` and
-  `onPressedChange` ignored: the Perform page shows state and sends no
-  command in Step 2; a `title` on the strip says so).
-- Phone (390 px): the top bar keeps title, bar and tempo; the side column
-  moves under the stage as two rows; the stage area scrolls horizontally
-  inside its panel; the bottom bar wraps the override strip to a second
-  row of four equal `Toggle`s (each ≥ 44 px; the tap gate checks it).
-- Stories: `Normal`, `Stage` (replay source, loop), `Live` (reads
-  `import.meta.env.VITE_PTAH_WS`, default `ws://127.0.0.1:1910/api/v1/ws`,
-  rendered only when `VITE_PTAH_WS` is set — otherwise it shows an
-  `EmptyState` "Set VITE_PTAH_WS to connect"; excluded from the visual
-  and tap lists), `Faulted` (replay with an injected `output.lost` and
-  three faults, for the side column).
+- `model.ts`: `derivePerform(inputs: { state; clock; faults; voices;
+  events; metrics; devices; link: LinkStatus; show; venue; now }):
+  PerformModel`, a pure, unit-tested function producing exactly what
+  the column shows. Band precedence: `output.lost` (fault) > engine back
+  but clock `internal`/`stopped` within 10 s of a reconnect (fault,
+  `clock.internal`) > link down (warn, `engine restarting`, outputs
+  `holding`) > `clock.lost` (warn, free-run) > all well. Fields:
+  `band { tone: "ok" | "warn" | "fault"; label; word; rightLabel;
+  right }`, `clockWord`, `outputs { sending, total }`, `bpm` and
+  `bpmLabel` (`BPM`, `BPM held`, `BPM internal`, `—` while down),
+  `song { index, count, name }` (name and count from the show file,
+  index from `state.currentSong`), `bar`, `beat`, `programs[]` (chip
+  from the show file's mappings for the voice's instance, name, group;
+  capped at 3 + `+ N more`), `midi { present, total, lastIn, unmapped }`,
+  `universes[] { number, word: "sending" | "not sending" | "holding",
+  outlined }`, `latency { render, outputLag, endToEnd }` (p99 of the
+  10 s window, `—` when missing), `restartLine { step1: "Link lost";
+  step2: "Reconnecting" | "Link back"; step3: "Clock locked" | "Clock
+  internal" }`, `activeFaults`.
+- `rig.ts`: the synthetic venue, types and show from `fixtures/` (JSON
+  imports): fixtures by universe, songs, mappings (trigger → instance).
+- The column (430 wide; `w` 390–440) is built from design-system parts:
+  `StatusRegion` as the 88 px band (`data-tone`), `StatusWord` (clock),
+  `BarProgress` (96 px number + beat ticks, `tone` from the band),
+  `NoteChip` and `GroupBadge` (program rows), `FixtureTile size "s"`
+  (DMX strip), `Button` ×4 with `Kbd` (R, L, B, F, page-scoped; `Hold`
+  on Restart and Blackout = a 600 ms press with a 2 px progress line
+  along the button's bottom edge at `--m-slow`), `Sparkline` and
+  `FaultLine` in the detail column. Commands go through `POST
+  /commands`: `loadShow` of the current show for Reload, `setOverride`
+  for Blackout and Freeze. **Ruling:** the API has no restart command
+  (`shutdown` is engine-internal, 403) and no supervisor endpoint, so
+  in Step 2 "Restart engine" is wired to nothing: it is rendered, holds,
+  and shows a `title` "Restart is wired in Step 3"; the master plan's
+  Step 3 inputs gain "a supervisor restart endpoint" (Task 13 writes
+  that line).
+- Full screen (1280): the column pinned left at 440; `DetailColumn.tsx`
+  per spec §5.1: the fault list (active first, cleared greyed, relative
+  times), last inputs with velocity, device and mapped program (from
+  the show file, two names max then `+1`), device names, fixture names
+  with a 2 px level from the intensity byte (or max RGB), three
+  `Sparkline`s of the 10 s p99.
+- Stories: `Normal` (430), `Stage`, `Phone` (390), `PhoneStage`, `Full`
+  (1280), `FullStage`, `OutputLost`, `ClockLost`, `EngineRestart`,
+  `NotInSync` (replay source plus injected messages or a closed/reopened
+  fake source), `Large` (64 fixtures, 3 universes, 6 voices at 390),
+  `Live` (`VITE_PTAH_WS`, excluded from gates).
 
-- [ ] **Step 1: Write the failing tests** — `perform.test.tsx`
-  (`composeStories`, replay source on fake timers): the header shows the
-  show name and a `041.2`-shaped bar text after 2 s of replay; every
-  fixture of the synthetic venue has a tile with `aria-label`; the side
-  column has exactly five key/value lines and a list of three fault
-  slots; the override strip has four toggles; no console errors.
-- [ ] **Step 2: Run to verify they fail**; **Step 3: Build the page**
-  (layout on whole units like the Gallery: verify with the overlay at
-  1280 and 390); **Step 4: Verify** tests, `test:storybook` (axe + the
-  no-shift play on `Normal`), `test:visual` with the new baselines
-  (two runs, 0.000 %), tap gate, root `check`/`format`/`typecheck`;
-  screenshot both modes at both viewports into the task report;
+- [ ] **Step 1: Write the failing tests** — `model.test.ts`: the band
+  precedence table (one case per rule plus "output.lost beats
+  clock.lost"), `1 / 2` with U2 `not sending` while frames still arrive,
+  `holding` while the link is down, programs capped with `+ 2 more`,
+  `BPM held` in free-run, `BPM internal` within 10 s of a reconnect,
+  song name from the show file; `perform.test.tsx` (`composeStories`,
+  fake timers): `Normal` shows `All well`, `Active faults 0`, a
+  `ddd.d`-shaped bar after 2 s, three program rows, two universe rows,
+  four emergency buttons with their Kbd; `EngineRestart` shows the amber
+  band and `holding`; `NotInSync` the red band and `clock.internal`;
+  `Large` shows `+ 3 more` and wrapped tiles; no console errors.
+- [ ] **Step 2: Run to verify they fail**; **Step 3: Build** (heights
+  fixed per state: a play function with the no-shift helper flips
+  `Normal → OutputLost → EngineRestart → NotInSync → Normal`); **Step 4:
+  Verify** tests, `test:storybook`, `test:visual` with the new baselines
+  (two runs at 0.000 %), tap gate, root `check`/`format`/`typecheck`;
+  screenshot all six boards into the task report next to the canvas's;
   **Step 5: Commit** — `feat(ds): the assembled Perform page`
 
 ### Task 12: Inherited from 2B — stacking rule, overlay API gaps, `allcheck` builds once
@@ -583,7 +656,8 @@ inert).
 
 - [ ] **Step 1: Write the failing tests** — token test: the three `--z-*`
   exist in `tokens.css` and `toast > modal > popup`; rules test gains:
-  `z-index` values in modules must be `var(--z-*)` (no literals); Toast
+  `z-index` values in modules must be `var(--z-*)` (no literals) (the
+  radius rule was already retuned in Task 0); Toast
   story `OverModal` (a Dialog open and a fault toast) asserts the toast's
   viewport is above the backdrop (`elementFromPoint` on the toast hits
   it) — in the test-runner play function; Menu controlled-open test;
@@ -626,7 +700,8 @@ manual figure from Task 10.
   rate via refs/rAF + relative perf gate + manual 2 ms → Tasks 8, 10, 13;
   §7 motion/density → the 2A/2B gates, unchanged, plus the overlay check
   in Task 11; §7 elegance review → the final whole-branch review (the
-  controller's dispatch names `c1-reference.html`); §8 recorded session,
+  controller's dispatch names the Claude Design canvas); §3/§4 revisions
+  and §5.1 → Tasks 0 and 11; §8 recorded session,
   `record-ws.sh`, HILLDALE out of the build → Tasks 7 and 11; §9 → the
   existing gates plus Task 11's tap coverage; §12 criteria 1 and 3 →
   Tasks 1–11, criterion 4 → Task 13's template; 2B's inherited items →
