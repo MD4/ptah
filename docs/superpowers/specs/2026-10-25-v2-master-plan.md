@@ -446,6 +446,12 @@ Screens in this order: Perform (smallest, proves the live stream), Venue,
 Show, Builder, Settings. Each screen ships behind the previous one being
 usable. V1 is retired at the end of this step.
 
+Inputs from Step 2C (the design system's Perform page):
+
+- a supervisor restart endpoint for the Perform page's Restart button;
+- song length, sections and live parameter values if the Perform page is
+  to show them.
+
 Exit: the band runs shows from V2 with no V1 installed.
 
 ### Step 4 — Debug mode
