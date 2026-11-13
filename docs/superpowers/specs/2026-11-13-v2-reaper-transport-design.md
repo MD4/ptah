@@ -1,7 +1,7 @@
 # PTAH V2 — Reaper transport from the page (design)
 
 - **Date:** 2026-11-13
-- **Status:** approved in conversation (approach A), builder-checked
+- **Status:** approved in conversation (approach A, layout B from the mockups), builder-checked
 - **Repo:** `~/projects/ptah-v2` (V1 is never modified)
 - **Origin:** finding F of the 3A owner check,
   `docs/ledgers/step3a-owner-findings-2026-11-12.md`
@@ -140,15 +140,21 @@ port name.
 
 ### 5.4 The page
 
-- The Emergency section becomes **Emergency and transport**: one header
-  as today (label and the ⌘K keys), then two button rows of the same
-  height and style as today's Emergency buttons (72 px): the existing
-  Emergency row, and under it a Transport row. One hairline, as today. The
-  section grows by one button row plus its gap, so Emergency's buttons move
-  up by that much and the scrolling middle gives it up, on the laptop
-  column and the phone alike; a one-time layout change accepted by design
-  (the Perform boards are re-baselined once with that diff named), not a
-  shift at run time: nothing moves when a value changes. Three buttons:
+- A **Transport** section of its own, directly under Emergency, chosen by
+  the owner from two mockups (2026-11-13; the merged two-row section was
+  the other). Its label row (`TRANSPORT`, 28 px, no keys on the right) and
+  then three buttons in one 40 px row, label on the left and the key
+  caption on the right (`Start  P`, `Stop  S hold`, `Go to start  H`), with
+  the 8 px gap and 20 px side padding of Emergency. No second hairline:
+  the column keeps its one hairline above Emergency; the label row's
+  spacing separates the two sections. Hold buttons keep the 2 px hold line
+  along the bottom edge. On a coarse pointer the ds tap rule lifts the hit
+  area to 44 px as it does in the Shell strip. The section costs 76 px
+  (28 + 40 + 8): Emergency moves up by that much and the scrolling middle
+  gives it up, on the laptop column and the phone alike; a one-time layout
+  change accepted by design (the Perform boards are re-baselined once with
+  that diff named), not a shift at run time: nothing moves when a value
+  changes. Three buttons:
   - **Start** — a press. Caption key `P`.
   - **Stop** — a **hold** of 600 ms, exactly like Blackout: press-and-hold
     with the ring, key `S` held. A tap does nothing but show the ring
@@ -225,11 +231,14 @@ port name.
 A fresh builder read the document and asked four questions; all four are
 settled in the text above. The calls made, for the owner to glance at:
 
-1. **Layout** (§5.4): the Transport row joins the Emergency section as a
-   second 72 px button row under one header; Emergency moves up by one row
-   plus gap and the middle gives up that space, on the phone too. Accepted
-   as a one-time change; the boards are re-baselined once. Not taken: a
-   compact 44 px row (no room for captions or a clear hold ring).
+1. **Layout** (§5.4): shown to the owner as two mockups (laptop and
+   phone, normal and stage): A, a merged "Emergency · Transport" section
+   with two 72 px rows; B, a separate Transport section with a label row
+   and one 40 px row of inline-key buttons. The owner chose **B**. The
+   controller's one adjustment: no second hairline (the column's
+   one-hairline rule), the label row's spacing does the separation.
+   Emergency moves up by 76 px; accepted as a one-time change; the boards
+   are re-baselined once.
 2. **Reaper flags** (§5.2, §5.6): the `ptah transport` input is enabled for
    control messages only, never as a track input, so the fallback notes can
    reach no track; they stay always sent.
