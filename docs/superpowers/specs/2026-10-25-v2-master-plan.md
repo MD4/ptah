@@ -13,10 +13,14 @@
     (`step2c-complete`): Step 2 code complete, exit criterion 4 (the
     owner's dark-room check) open. Step 3 plan 3A (app shell, bare
     `ptah`, the Perform page on the engine, e2e against the binary)
-    merged 2026-11-12 (`step3a-complete`); the owner's five exit
-    criteria are in V2 `docs/ledgers/step3a-owner-check.md`; next the
-    other Step 3 screens (Venue, Show, Builder, Settings), each with its
-    own brainstorm and design round
+    merged 2026-11-12 (`step3a-complete`); the owner's live check on
+    2026-11-12/13 produced four engine fixes (`step3a-owner-fixes-1` and
+    the end-to-end timer) and one feature, Reaper transport from the
+    page, merged 2026-11-14 (`reaper-transport-complete`, criterion 6
+    passed live: MMC acts directly); the owner's exit criteria are in V2
+    `docs/ledgers/step3a-owner-check.md`; next the other Step 3 screens
+    (Venue, Show, Builder, Settings), each with its own brainstorm and
+    design round
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
