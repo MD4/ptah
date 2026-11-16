@@ -319,8 +319,12 @@ Builder's business.
   for the playing show and for `settings.currentShowId`. A venue's
   patches are a numbered list, so removing one renumbers those after
   it: the server corrects `settings.currentPatchIndex` in the same
-  write, and Delete is refused (`stop the show first`) while the
-  engine plays a patch whose number would change.
+  write. When the number of the playing patch would change, Delete is
+  refused while the clock runs (`Reaper is running`); with the clock
+  stopped it goes through, the answer names the playing patch's new
+  number, and the page reloads the playing show at it (the Reload
+  path). (Amended 2026-11-17 while planning: a refusal whenever a show
+  is loaded would have had no way out.)
 - Duplicate and Delete write venue files. For the venue in use the
   Venue page then reports the file as changed since it was loaded
   until the next reload (the known rig-revision item); accepted here.
@@ -413,7 +417,10 @@ API (under `/api/v1`):
   programs and the copied patches under the write lock; answers the
   new id.
 - `DELETE /shows/{id}`: removes the show directory and its patches in
-  every venue; 409 for the playing show or `settings.currentShowId`.
+  every venue, corrects `settings.currentPatchIndex`, and answers the
+  playing patch's new number when it changed; 409 for the playing show
+  or `settings.currentShowId`, and while the clock runs when the
+  playing patch would be renumbered.
 - `GET /shows` gains, per show, `groups` and `instances` counts (for
   §4.8's telling apart) and the page gets every program's name per
   show from a new `GET /programs` (`[{ showId, id, name }]`).
@@ -534,7 +541,9 @@ Exit, checked by the owner on the rig:
   break there, as warnings.
 - Holding always plays as a gate and cuts on release; its voice is
   kept out of the journal.
-- Delete is refused while it would renumber the playing patch.
+- Delete is refused while the clock runs if it would renumber the
+  playing patch; otherwise the page reloads the playing show at its
+  new number.
 - A note strip of 128 cells under the grid.
 - Hold-to-play uses a new `audition` command with a 2 s expiry rather
   than the existing `trigger` command, which has no expiry and no
