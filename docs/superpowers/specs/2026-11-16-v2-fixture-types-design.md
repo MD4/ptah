@@ -168,11 +168,27 @@ in order.
 ### 4.3 Grades
 
 Each catalogue entry carries `conversion`: `clean`, or `simplified` with
-a list of reasons in plain words (the phrases above, plus `a 24-bit
-channel keeps 16 bits` and `a channel mixing several functions is
-generic`). A type is clean only when every channel got a specific role
-or is honestly generic in OFL, nothing was dropped, and no rule above
-marked it.
+a list of reasons. Amended during execution (controller rulings on
+Tasks 2 and the final review, 2026-11-16): "simplified" marks only what
+will surprise the owner on the rig. The reasons, exactly:
+
+- `<N> pixels act as one light`
+- `a switching channel uses its default meaning`
+- `a 24-bit channel keeps 16 bits`
+- `a channel mixing several functions keeps its main one` — only for a
+  channel whose role the engine drives (it sweeps 0–255 and reaches the
+  other function); a macro, effect, gobo or generic channel is set to
+  explicit values, so mixing there does not mark the type
+- `the shutter may start closed` — the at-rest value of a shutter,
+  strobe or wheel channel is `Closed`
+- `the light may strobe at rest` — the at-rest value really strobes
+- `several channels of one function move together` — a mode holds more
+  than one channel of a role the engine drives, so they move as one
+
+A channel with no PTAH role (frost, fog, rotation…) becomes generic with
+its named ranges and does not mark the type: it sits at its default until
+a program sets it. An OFL capability type the converter does not know
+skips the fixture, and the build report names it.
 
 ### 4.4 Tests
 
@@ -417,6 +433,6 @@ at the checkpoints; failing test first.
 - The phone is read-only.
 - From the builder check: a save that would make a venue unloadable is
   refused rather than warned; mode ids are frozen at creation; a shutter
-  with no default opens; six new lint errors on both sides; an open
+  with no default opens; seven new lint errors on both sides (mode-empty, duplicate-mode-id, fine-of-self, fine-of-fine, fine-of-duplicate, range-reversed, range-overlap); an open
   Venue page re-reads types on focus and before Save; a changed bundled
   entry is not flagged.
