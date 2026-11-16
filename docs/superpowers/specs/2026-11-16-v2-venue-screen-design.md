@@ -296,10 +296,12 @@ Engine:
   no allocation. "Full" is set per attribute, so the work reaches
   `ptah-vm`'s fixture rendering as well as `ptah-engine`. A compiled
   show already holds every fixture of the venue, grouped or not.
-- "The clock is running" means the beat is advancing, whatever the mode
-  (locked with pulses arriving, internal and running, free-run). Held at
-  0, stopped, or locked and still waiting for the first pulse is not
-  running. The wire has no such flag today (`internal` covers held and
+- "The clock is running" is the engine's own flag: locked (from Start,
+  even before the first pulse arrives), free-run, or internal and
+  running. Held at 0 or stopped is not running. (Amended 2026-11-16 by
+  the execution ruling on Task 3: after a Start the song is beginning,
+  so Flash is refused on the safe side, and page and engine read one
+  flag.) The wire has no such flag today (`internal` covers held and
   running): the `clock` topic gains `running`, used by Flash and by the
   Save confirmation.
 - Refused when no show is loaded, the fixture is unknown, or the clock
