@@ -437,7 +437,10 @@ Engine:
   previous. Off, the hold running out, the clock starting to run, and
   a show swap each end it with a trigger stop.
 - Refused, in order: `stale epoch`, `no show`, `unknown instance`,
-  `member out of range`, `clock running` (the flag Flash uses).
+  `instance disabled`, `member out of range`, `clock running` (the flag
+  Flash uses). (`instance disabled` added 2026-11-17 by an execution
+  ruling: a disabled or faulted row would otherwise be acked and play
+  nothing.)
 - Its voice always runs as a gate and ends by a reset, whatever the
   instance's trigger mode and `onStop` are (§4.7).
 - Its voice merges and renders as a note's would, but it is kept out
