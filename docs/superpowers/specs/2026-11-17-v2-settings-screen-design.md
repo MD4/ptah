@@ -1,6 +1,6 @@
 # PTAH V2 — Settings screen (design)
 
-Status: draft for the owner's approval, 2026-11-17.
+Status: approved by the owner, 2026-11-17.
 Code: `~/projects/ptah-v2`, branch `settings-screen`.
 Follows: Perform, Venue, Library, Show, Builder (all merged). This is the
 last Step 3 screen; when it ships, V1 can be uninstalled.
@@ -13,17 +13,17 @@ by its parent (`ptah supervise`, which bare `ptah` starts).
 
 Today every setting is changed by editing `settings.json` by hand and
 restarting PTAH; the owner has done so at least twice (the MIDI port name,
-the transport port). The V1 import is command-line only. The Settings
+the transport port). The Settings
 screen removes the last reasons to open a terminal or a JSON file: MIDI
 devices, the Reaper transport port, the number to type into Reaper, the
-network address, the few engine numbers, and bringing V1's shows in.
+network address and the few engine numbers.
 
 Two moments of use shape the page:
 
 - **at a venue, or when the rig changes**: a controller is plugged in, the
   clock master changes, the phone needs the address, Reaper needs its
   offset;
-- **once, at home**: start-up behaviour, engine numbers, the V1 import.
+- **once, at home**: start-up behaviour, engine numbers.
 
 ## 2. Goals, non-goals, anti-goals
 
@@ -35,12 +35,13 @@ Goals
    owner's choice, §3). The page always says what is waiting for a restart.
 3. Each MIDI device shows whether it is there and whether it speaks, now.
 4. The page gives one number to type into Reaper, with its breakdown.
-5. The V1 import runs from the page: look first, then add.
-6. Two pages saving at once cannot lose each other's change, and a save
+5. Two pages saving at once cannot lose each other's change, and a save
    cannot lose the engine's own writes to the file.
 
 Non-goals (later steps; their keys are kept untouched on save)
 
+- The V1 import on the page: the owner does not need it (decided
+  2026-11-17); it stays a command (`ptah import-v1`).
 - AI key (`ai`), house lights (`houseLightsSceneId`), fixture library
   refresh (`library.oflRefresh`), OSC (`osc`), audio input (`audio`),
   `debugRateHz`.
@@ -97,8 +98,7 @@ PTAH  Perform  Venue  Library  Show  Builder  Settings
 │ −53 ms   (breakdown)              │ Recorder keeps the last [10] min │
 │ ON THE NETWORK                    │ Call the stage quiet    [120] s  │
 │ Other devices can open PTAH (on)  │ Back to defaults                 │
-│ Port [8420]   Address … [QR]      │ BRING IN V1   [Look…]            │
-│                                   │ ABOUT  2.0.0 · files in …        │
+│ Port [8420]   Address … [QR]      │ ABOUT  2.0.0 · files in …        │
 └───────────────────────────────────┴──────────────────────────────────┘
 ```
 
@@ -243,35 +243,9 @@ changed. `Back to defaults` sets frames per second to 44 (the schema
 requires that key) and removes the other five keys from the draft (the
 band then lists what changed).
 
-### 4.7 Bring in V1, and About
+### 4.7 About
 
-**Bring in V1.** A path field (default `~/.ptah`, which the server
-expands) and `Look…`. `Look…` asks `POST /import-v1` with `dryRun: true`
-and opens a dialog:
-
-- what it found, one line per show: its name, its rows and programs
-  counts, and under it one line per non-empty list of the import report,
-  in plain words with its count (the builder words each list; a list is
-  expandable to its entries);
-- what it would replace: files already here whose content would change
-  (they are backed up first) and stale programs that would be removed;
-  files that are new or identical are only counted;
-- a checkbox `One row per note range instead of one row per note`
-  (`collapse`), on by default; changing it asks the dry run again;
-- `Cancel` and `Bring in N shows`.
-
-`Bring in…` asks the same without `dryRun`, then says in the dialog what
-was written and backed up, with `Done`. Refusals in plain words: nothing
-found there (404), `That folder is V1's own; PTAH will not write into it`
-(409), a write failed (500, with the server's notes). The import never
-changes an existing `settings.json` (it keeps it, and imported shows
-listen to any device), so nothing waits for a restart after it; the
-dialog's last line says `Open Show to see them.` with a link.
-
-V1's files are only ever read; the server's existing guard refuses any
-write into them.
-
-**About.** `PTAH <version>` (`GET /server`) and `files in <root>`
+`PTAH <version>` (`GET /server`) and `files in <root>`
 (`GET /server` gains `root`, §6.4).
 
 ### 4.8 Errors on the page
@@ -285,7 +259,7 @@ field its path names, else in the band.
 ### 4.9 Phone, and rules that apply everywhere
 
 Under 600 px: one column, every value as text, the live `Now` column, the
-offset and the address kept; no field, no save, no import, no restart.
+offset and the address kept; no field, no save, no restart.
 
 Tokens only; nothing shifts (the band and every status word have a fixed
 box); calm when well, loud only when wrong (the only attention colour on a
@@ -409,20 +383,10 @@ drop and come back (the shell's existing stale handling), reads `GET
 Look at its terminal.` A child that was waiting for a show waits again
 (exit 76); the page treats both the same.
 
-### 6.6 Import
-
-`POST /import-v1` as it is, plus: `from` may start with `~` (expanded to
-the server user's home) and defaults to `~/.ptah` when absent. Each
-summary gains what the dialog needs: `name` (the show's name), `rows` and
-`programs` (counts), and, in a dry run, each planned file's state (`new`,
-`changed` or `same`; a kept file such as an existing `settings.json` is
-left out). Additive: the CLI's output keeps its fields.
-
 ## 7. Where the code goes
 
 - `crates/ptah-model`: `offset_advice` (pure), the device-in-use lookup
-  over shows, the settings lock in the store, the import summary's new
-  fields.
+  over shows, the settings lock in the store.
 - `crates/ptah-server`: `http/settings.rs` (the settings routes moved out
   of `files.rs`, revision, lock, device guard), `http/midi_ports.rs`,
   `http/offset.rs`, the `/server` additions; the lock used by the loader's
@@ -433,7 +397,7 @@ left out). Additive: the CLI's output keeps its fields.
   lock; nothing else changes.
 - `packages/ds/src/settings/`: `SettingsScreen` and its parts
   (`DeviceTable`, `OffsetAdvice`, `NetworkPanel`, `EngineFields`,
-  `ImportDialog`, `RestartDialog`, `SettingsBand`, `SettingsPhone`), a pure
+  `RestartDialog`, `SettingsBand`, `SettingsPhone`), a pure
   `model/` (draft, changes by label, validation, which keys need what),
   stories and tests; entry `@ptah-app/ds/settings`.
 - `apps/web/src/settings/`: `SettingsPage`, `useSettings` (read, draft,
@@ -451,13 +415,11 @@ left out). Additive: the CLI's output keeps its fields.
   device-in-use refusal (by id, in a trigger and in a source; `any` never
   counts); `offset_advice` cases (each output kind, mixed technologies, no
   output, no fixtures, the rate parameter, a universe's own output
-  rate); storing the offset clears `offset-stale`; `/midi/ports` under fake I/O;
-  `~` expansion and the default of the import.
+  rate); storing the offset clears `offset-stale`; `/midi/ports` under fake I/O.
 - ds: the model (changes by label, which need a restart, validation), every
   band state as a story with a no-shift check across states, the device
   table's `Now` words, the dialogs; visual boards at 1280×800 and 390×844
-  (well, draft, error, waiting for restart, restarting, conflict, import
-  dialog, no venue, phone).
+  (well, draft, error, waiting for restart, restarting, conflict, no venue, phone).
 - web: the page state table of §4.1 as tests (save, save only, restart,
   no supervisor, conflict and `Keep mine`, a refused removal, the 20 s
   timeout).
@@ -465,13 +427,11 @@ left out). Additive: the CLI's output keeps its fields.
   frames per second, save and restart, the page comes back and `GET
   /status` reports the new rate; add a PTAH port, restart, `GET /devices`
   lists it; remove a device a fixture show uses, refused with the show's
-  name; the phone width is read-only. The import e2e runs against a copy
-  of the V1 fixtures in a temp directory, never `~/.ptah`.
+  name; the phone width is read-only.
 
 Exit: the owner changes the clock master and the frames per second from
-the page, restarts from the page, sees the offset for their venue, and
-imports their V1 tree with `Look…` then `Bring in`, with no terminal and
-no file edit. Owner check on the rig, listed in
+the page, restarts from the page and sees the offset for their venue, with no
+terminal and no file edit. Owner check on the rig, listed in
 `docs/ledgers/settings-owner-check.md`.
 
 ## 9. Left to the builder
@@ -505,12 +465,6 @@ no file edit. Owner check on the rig, listed in
 7. The engine-owned keys are kept by the server on every `PUT`, and the
    revision ignores them.
 8. `Save only` exists in the restart question while the clock runs.
-9. The import's `collapse` is on by default (the owner's own import used
-   it) and the import is refused while a draft is unsaved.
-10. A hardware device's name is its port name (no schema change); only
+9. A hardware device's name is its port name (no schema change); only
     PTAH's own ports have a free name.
-11. Keys of later steps are neither shown nor touched.
-12. The import does not add V1's MIDI port to an existing `settings.json`
-    (as the command line behaves today).
-13. The offset counts a wait for the output's next send, at the
-    universe's own output rate.
+10. Keys of later steps are neither shown nor touched.
