@@ -271,13 +271,15 @@ Snapshot: the last 64; deltas: batches, as `events`.
 
 - `heard`: what the show maps the event to, by the same rules and lookups
   that decide the live health's `mapped` (`ShowInfo`), so the two can never
-  disagree: an event is `mapped` exactly when `heard` is not empty or it is
-  housekeeping. The rows a note or OSC trigger fires; the rows and
+  disagree: an event is `mapped` exactly when `heard` is not empty, it is
+  housekeeping, or it is a `part`. The rows a note or OSC trigger fires; the rows and
   settings a control source is bound to; the override it drives; the song
   a program change selects; the song whose section a CC selects.
 - `judged`: false for the kinds the engine does not judge (start, stop,
   continue, song position, panic, an OSC trigger off, internal constants)
-  and for transport housekeeping; their `heard` is empty and the page
+  and for transport housekeeping (Reaper's reset values on a control the
+  show does not map; on a control the show maps they are judged and list
+  their rows, as the live health already rules); their `heard` is empty and the page
   shows no "listens" word. A note off is judged: it lists the rows of its
   note.
 - `part`: true for a raw CC that the parser also folds into a 14-bit CC
@@ -338,8 +340,9 @@ replay.
   14-bit CC and an NRPN with their parts; an override trigger; a program
   change that selects a song; a section CC; OSC with its address; start
   and panic not judged; the housekeeping burst; no show); for every event
-  of a recorded run, `mapped` of the live health equals "`heard` not empty
-  or housekeeping"; `beat` null when stopped; the `heard` topic's snapshot
+  of a generated run, `mapped` of the live health equals "`heard` not
+  empty, housekeeping, or a part"; a reset value on a bound control lists
+  its row; `beat` null when stopped; the `heard` topic's snapshot
   and deltas; the `events` topic unchanged; the allocation guard of the render thread is unchanged.
 - ds: the model (filters, the 500 and 2000 limits, words for every message
   kind, heard words and the `+2` rule, rows from voices with the 2 s
