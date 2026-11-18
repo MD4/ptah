@@ -1,6 +1,6 @@
 # PTAH V2 — Debug mode, piece 2: Look back (design)
 
-Status: draft for the owner's approval, 2026-11-18.
+Status: approved by the owner, 2026-11-18.
 Code: `~/projects/ptah-v2`, branch `debug-look-back`.
 Step 4 of the master plan, second of the four pieces agreed on 2026-11-18
 (1 Monitor, merged; **2 Look back**; 3 Why is this light doing that; 4 live
