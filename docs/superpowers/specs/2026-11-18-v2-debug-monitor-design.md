@@ -1,6 +1,6 @@
 # PTAH V2 — Debug mode, piece 1: the Monitor (design)
 
-Status: draft for the owner's approval, 2026-11-18.
+Status: approved by the owner, 2026-11-18.
 Code: `~/projects/ptah-v2`, branch `debug-monitor`.
 Step 4 of the master plan (Debug mode), first of four pieces agreed with the
 owner on 2026-11-18, in this order:
