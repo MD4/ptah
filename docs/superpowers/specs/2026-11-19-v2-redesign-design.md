@@ -1,6 +1,6 @@
 # PTAH V2 redesign: design (in progress)
 
-Date started: 2026-11-19. Status: **brainstorm in progress**, written as decisions land. Not yet approved as a whole.
+Date started: 2026-11-19. Status: **all six places designed and reviewed with the owner; awaiting approval of this document as a whole.**
 
 - Inventory of today's features: `2026-11-19-v2-redesign-inventory.md` (the checklist this design is held to).
 - Design canvas (private): https://claude.ai/artifact/SShuCa7fFt43MLWB5tU8s7
@@ -56,7 +56,7 @@ The owner finds today's app harsh, too complicated and unclear. Non-technical pe
 
 ## Feature mapping
 
-Every line of the inventory must appear here with its home on the new screen. "—" in the right column is a gap to close before this design is approved.
+Every line of the inventory must appear here with its home on the new screen. "—" in the last column means the item has a home but is not drawn yet; see "Still to draw".
 
 ### Live (inventory section 2)
 
@@ -111,9 +111,112 @@ Every line of the inventory must appear here with its home on the new screen. "�
 | Palette, ⌘Z / ⇧⌘Z | Hint line and command palette | keys only |
 | Under 900 px read-only view | — | — |
 
-### Lights, Effects, Inspect, Settings
+### Effects (inventory section 5)
 
-Not designed yet. The H boards for Effects, Inspect and Lights are look references with placeholder content.
+| Today | New home | Drawn |
+|---|---|---|
+| Program list: one section per show, the playing one first and marked | Programs screen, one panel per show | yes |
+| Each line: curve picture, name, "used by N rows", node count and settings | A row (list view) or a tile (tiles view) | yes |
+| Duplicate, Copy to…, Delete | On each row; behind `···` on a tile | yes (menu not opened) |
+| Refusal slot per line (used by, played inside, id clash, server errors) | A line under the row or tile, in `fault` | — |
+| Delete confirm | Dialog (cannot be undone) | shared piece |
+| New program | In each show's title line (list); a dashed tile (tiles) | yes |
+| Loading, "could not be read … Retry" | Notice line | shared piece |
+| Editor header: ← Programs, name, "on the rig" mark, show, "used by", fault count, Undo, Redo, Tidy, Save | Bar under the header | yes (issue list not opened) |
+| Name refusals ("a program needs a name"…) | Under the name, in `fault` | — |
+| Line under the header: canvas refusals and notices | Notice line | shared piece |
+| Canvas: pan, zoom, dot grid, Fit | Canvas | yes |
+| Node box: title, values, ports, live curve, colour swatch, "—" | Node (three kinds) | yes (colour swatch not drawn) |
+| Errors and warnings marked on nodes and wires | Node and wire in `fault` or sand | — |
+| Wires by dragging; valid inputs light up; refused wire says why; drop on empty canvas opens the add box | Canvas, square wires | wires only |
+| Sticky notes | Canvas | yes |
+| Add box (type a letter; name and family; "no node matches") | Add box, with curve and one sentence per node | yes ("no node matches" not drawn) |
+| Canvas keys (multi-select, move, delete, W to wire, copy, cut, paste, duplicate, Tab) | Unchanged; the common ones in the hint line | partly |
+| Inspector: a control per field; read-only kinds; refusals; "none yet"; several nodes picked | Sand panel on the right | one node only |
+| All node kinds (inputs, shape, math, outputs, other) | Node; each needs its tooltip sentence | six kinds drawn |
+| Test: Hold, Loop, Beats, Tempo, Velocity, Plays like, On stop | Test panel | yes |
+| Settings: slider each, `…` editor, Add a setting | Test panel; value bars in the minimised bar | yes (editor not opened) |
+| "the show drives" dimming | Test panel | yes |
+| Preview: mode, lights, swatches, readout, pick a light by swatch, "preview unavailable" | Preview panel, readout spelled out | yes ("unavailable" not drawn) |
+| On the rig: toggle, row picker, reasons it cannot turn on, reasons it ended, "previewing without", live DMX list | On the rig panel | on state drawn; ended reasons not drawn |
+| From the show: toggle, off reasons, status line, messages, row and light pickers, footnote | Its switch in the On the rig panel; details in Preview | on state drawn; messages not drawn |
+| Impact dialog, "breaks other programs", apply to the running show, conflict, leave | Dialogs | shared pieces |
+| Palette (Builder) | Command box, plus Minimise / Open the panels | shared piece |
+| Phone view (read-only graph, settings list) | Phone board | yes |
+
+### Lights (inventory sections 3 and 4)
+
+| Today | New home | Drawn |
+|---|---|---|
+| Venue name, "in use", Venues menu (open, new, duplicate, delete) | Bar under the header | yes (menu not opened) |
+| Fault count, Undo, Redo, Save and its tooltip | Bar under the header | yes, with the overlap state |
+| "saved, not applied", the save note | Notice line | shared piece |
+| Tabs Rig and Patch, with the patch warning count | Tabs Rig, Patch; Library set apart | yes (count not drawn) |
+| Universes table: name, number, output, target, rate, used, state, remove, add | Universe strip; the full table behind "Edit" | strip only; the editor not drawn |
+| Channel map per universe: blocks, overlaps, drag, arrows, select, readout | Channel map, one universe at a time, switched from the strip | yes |
+| Fixtures table: name, type, mode, universe, address, ch, groups, Flash, duplicate, delete | List (name, type, address, Flash) plus the picked fixture's sand panel | yes |
+| Add fixtures dialog | Dialog | — |
+| Type picker (own types, bundled, import, simplified warning, New type, Open the Library) | In the fixture's panel, on Type | — |
+| Flash: hold; off reasons; toasts | On each row and in the panel; hint line | yes (reasons not drawn) |
+| Patch bar: Patch for, Patch another show, Propose, Save patch, Revert | Patch panel; Save patch is the top-right button | yes |
+| Patch rows: group, filled/wanted, slots, changed marks, slot menu, tuple slots, status, fallback | Patch rows | yes (changed marks, tuples, fallback not drawn) |
+| "Not used by this show" | Under the rows | yes |
+| "Save the rig to patch it" (patch locked) | Notice line; the top-right button reads Save | — |
+| Shortcuts and Venue palette | Hint line and command box | keys only |
+| States: no venue, could not be read, read faults, apply to the running show, conflict, leave, patch saving | Empty state, notice line, dialogs | shared pieces |
+| Validation: shared channels, past 512, unknown type, mode, universe | Red on the map and the row; Save tooltip | overlap only |
+| Phone view (read-only lists, large Flash) | Phone board | yes |
+| Library list: search, filters with counts, New type, table, actions per row, "no type matches", footer, read faults | Library tab | yes ("no type matches" not drawn) |
+| Type header: back, name, maker, mine/bundled, used in, fault count, Undo, Redo, Duplicate, Save or Import | Bar under the header; "used in" in the panel title | yes |
+| Conversion line (clean / simplified with reasons) | By the mode tabs, with a tooltip | "clean" only |
+| Modes: tabs, add, name, duplicate, remove, fault line | Above the channel table | yes |
+| Channel table: handle, name, role, fine of, default, inverted, value ranges, row menu, add | Channel table | yes |
+| Value ranges dialog | Dialog | — |
+| Paste a channel list, replace question | Under the table; dialog | box only |
+| Lint messages | In the row, in `fault`; fault count | — |
+| Bundled entry (read-only, Import) | Same screen without controls | — |
+| Save flow: "saving changes venues", blocked cases, conflict, duplicate with changes, leave, missing type | Dialogs | shared pieces |
+| Library phone views | Phone board | Lights only |
+
+### Inspect (inventory section 7, Debug)
+
+| Today | New home | Drawn |
+|---|---|---|
+| Live / Look back switch | Left of the bar | yes |
+| Chips: notes, CC, other, only what nothing listens to | Bar | yes |
+| "Paused at bar…", show and venue, Pause | Right of the bar | yes (paused state not drawn) |
+| Coming in: device lines, clock line | Top of the Coming in panel | yes |
+| Messages table with the rows that listen; "nothing listens"; gap line on resume | Coming in panel | yes (gap line not drawn) |
+| Playing now: rows with age, ended rows dim, footnote, "no show is playing", "not available on a replay" | Playing now panel | yes (two states not drawn) |
+| Overrides: Master, Blackout, Freeze, House lights | Overrides panel, two by two | yes |
+| Problems: code, subject, age; "engine restarting"; "no data" | Problems panel, first in its column | empty state only |
+| Going out: per universe name, output, state, frames/s | Line above the grid | one universe |
+| 512-cell grid with hover readout; "no venue yet" | Channel grid, lights grouped; readout under it | yes ("no venue" not drawn) |
+| Timing table (usual, worst, dropped with breakdown) | Timing panel | yes (breakdown not drawn) |
+| Why panel: hint, select and clear, head, rows with writers and reasons, override lines, channel lines, footers, other states, dimming, toast | Sand panel under the grid | main state only |
+| Pause holds every column | Unchanged | — |
+| Look back bar: previous, next, Play, Mark now | Right of the bar | yes |
+| Header line and legend | Title line of the timeline panel | yes |
+| Session strip and zoom strip, cursor, keys | Timeline panel | yes |
+| Came in, Was playing, Overrides, Problems then, Went out | Three columns under the timeline | yes |
+| "nothing recorded here", "the recorder is off", read toasts | Empty state, notice line, toast | — |
+| One column below 1080 px | Phone board | yes |
+
+### Settings (inventory section 7)
+
+| Today | New home | Drawn |
+|---|---|---|
+| Band: changes, labels, Discard, Save / Save and restart, saved states, restarting, changed elsewhere, did not come back, validation error | Bar under the header | one state |
+| Restart question (clock running) | Dialog | shared piece |
+| MIDI inputs table, row menu, Add a device, Reaper transport port and its status | MIDI inputs panel | yes (menus not opened) |
+| Reaper offset: the advice, measure line, venue, where to type it, breakdown, set / not set, "I typed it into Reaper", no-venue and no-output cases | Reaper offset panel, first, as three steps | yes (two cases not drawn) |
+| On the network: toggle, port, "applies next time", address, QR | On the network panel | yes |
+| When PTAH starts: open the browser, resume after a crash | When PTAH starts panel | yes |
+| Engine: six fields, Back to defaults | Engine panel, folded by default | folded only |
+| About | About panel | yes |
+| Errors, read failures, leave guard | In the field in `fault`; notice line; dialog | — |
+| Settings palette | Command box | shared piece |
+| Two columns, one when narrower; read-only phone view | Phone board | yes |
 
 ## Constraints for the build
 
@@ -140,12 +243,16 @@ Not designed yet. The H boards for Effects, Inspect and Lights are look referenc
 
 ## Still to draw
 
-- Fault (red) states on every place; the restart sequence on Live.
-- Menus and dialogs (save, conflict, leave, add fixtures, add program, merge groups, value ranges, show picker).
-- "On the rig" and "From the show" switched on in Effects.
-- Phone and narrow views; navigation and the look switch on a phone.
-- The light and stage themes on a real screen.
-- Mapping tables for Effects, Lights, Inspect and Settings.
+Nothing here blocks the plan; each item reuses a piece that exists. They are drawn as the screens are built, checked against Storybook.
+
+- Refusal and validation lines under a field or a row (one pattern: a line in `fault`).
+- Opened menus and the remaining dialogs (add fixtures, value ranges, the settings editor, add program, merge groups, show picker): the shared Menu and Dialog.
+- The universe editor behind "Edit" on Rig, with the Art-Net target fields.
+- Empty and missing states ("no venue yet", "no show is playing", "nothing recorded here", "preview unavailable"): the shared empty state.
+- Several nodes picked; error marks on nodes and wires; the colour swatch on a colour output.
+- The paused state and several universes on Inspect; the why panel's other states.
+- The Engine panel opened; the other states of the Settings band.
+- The light and stage themes on the screens other than Live.
 
 ## Filed for later review
 
