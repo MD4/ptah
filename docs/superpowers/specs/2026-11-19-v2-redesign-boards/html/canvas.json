@@ -1,0 +1,367 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-19T13:30:00Z"
+  },
+  "title": "PTAH redesign",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "I-Live-Checklist.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 before the show (checklist)"
+    },
+    "I-Live-Board.dc.html": {
+      "x": 1360,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 while the show plays"
+    },
+    "I-Live-Phone.dc.html": {
+      "x": 2720,
+      "y": 0,
+      "w": 390,
+      "h": 800,
+      "title": "Live \u00b7 on a phone"
+    },
+    "J-Show.dc.html": {
+      "x": 3190,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Show \u00b7 the grid, with a row picked"
+    },
+    "H-Themes.dc.html": {
+      "x": 2720,
+      "y": 2360,
+      "w": 640,
+      "h": 800,
+      "title": "Look \u00b7 Light, dark, stage"
+    },
+    "T-01-perform-checklist.dc.html": {
+      "x": 0,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Perform, checklist"
+    },
+    "T-02-perform-board.dc.html": {
+      "x": 1360,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Perform, board"
+    },
+    "T-03-venue-rig.dc.html": {
+      "x": 2720,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Venue, rig"
+    },
+    "T-04-venue-patch.dc.html": {
+      "x": 4080,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Venue, patch"
+    },
+    "T-05-library-list.dc.html": {
+      "x": 5440,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Library, list"
+    },
+    "T-06-library-type.dc.html": {
+      "x": 6800,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Library, type"
+    },
+    "T-07-show.dc.html": {
+      "x": 8160,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Show"
+    },
+    "T-08-builder-list.dc.html": {
+      "x": 9520,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Builder, list"
+    },
+    "T-09-builder.dc.html": {
+      "x": 10880,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Builder, editor"
+    },
+    "T-10-debug-live.dc.html": {
+      "x": 12240,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Debug, live"
+    },
+    "T-11-debug-look-back.dc.html": {
+      "x": 13600,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Debug, look back"
+    },
+    "T-12-settings.dc.html": {
+      "x": 14960,
+      "y": 3540,
+      "w": 1280,
+      "h": 800,
+      "title": "Today \u00b7 Settings"
+    },
+    "L-Effects-Editor.dc.html": {
+      "x": 4550,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 a program open, a node picked"
+    },
+    "L-Effects-List.dc.html": {
+      "x": 11350,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 the list of programs"
+    },
+    "M-Effects-Big.dc.html": {
+      "x": 8630,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 a big program, panels folded"
+    },
+    "M-Effects-Big-Picked.dc.html": {
+      "x": 9990,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 a big program, a node picked, panels folded"
+    },
+    "L-Effects-Tiles.dc.html": {
+      "x": 12710,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 the programs as tiles (to compare with the list)"
+    },
+    "L-Effects-Add.dc.html": {
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 adding a node",
+      "x": 5910,
+      "y": 0
+    },
+    "L-Effects-Empty.dc.html": {
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 a new, empty program",
+      "x": 7270,
+      "y": 0
+    },
+    "O-Lights-Rig.dc.html": {
+      "x": 14070,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Lights \u00b7 rig"
+    },
+    "O-Lights-Patch.dc.html": {
+      "x": 15430,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Lights \u00b7 patch"
+    },
+    "O-Lights-Library.dc.html": {
+      "x": 16790,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Lights \u00b7 library"
+    },
+    "O-Lights-Type.dc.html": {
+      "x": 18150,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Lights \u00b7 a fixture type"
+    },
+    "Q-Inspect-Live.dc.html": {
+      "x": 19510,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Inspect \u00b7 live, a light picked"
+    },
+    "Q-Inspect-Back.dc.html": {
+      "x": 20870,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Inspect \u00b7 look back"
+    },
+    "S-Settings.dc.html": {
+      "x": 22230,
+      "y": 0,
+      "w": 1280,
+      "h": 800,
+      "title": "Settings"
+    },
+    "U-Pieces.dc.html": {
+      "x": 0,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Shared pieces \u00b7 dialogs, menu, commands, toasts, notices"
+    },
+    "V-Live-Fault.dc.html": {
+      "x": 1360,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 a fault"
+    },
+    "V-Live-Restart.dc.html": {
+      "x": 2720,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 the engine restarting"
+    },
+    "V-Lights-Overlap.dc.html": {
+      "x": 4080,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Lights \u00b7 two fixtures overlap"
+    },
+    "V-Effects-OnTheRig.dc.html": {
+      "x": 5440,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 On the rig switched on"
+    },
+    "V-Effects-FromTheShow.dc.html": {
+      "x": 6800,
+      "y": 1180,
+      "w": 1280,
+      "h": 800,
+      "title": "Effects \u00b7 From the show switched on"
+    },
+    "X-Phones.dc.html": {
+      "x": 8160,
+      "y": 1180,
+      "w": 2150,
+      "h": 820,
+      "title": "Phone views \u00b7 Lights, Show, Effects, Inspect, Settings"
+    },
+    "W-Live-Light.dc.html": {
+      "x": 0,
+      "y": 2360,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 light theme"
+    },
+    "W-Live-Stage.dc.html": {
+      "x": 1360,
+      "y": 2360,
+      "w": 1280,
+      "h": 800,
+      "title": "Live \u00b7 stage theme"
+    }
+  },
+  "order": [
+    "I-Live-Checklist.dc.html",
+    "I-Live-Board.dc.html",
+    "I-Live-Phone.dc.html",
+    "J-Show.dc.html",
+    "L-Effects-Editor.dc.html",
+    "L-Effects-Add.dc.html",
+    "L-Effects-Empty.dc.html",
+    "M-Effects-Big.dc.html",
+    "M-Effects-Big-Picked.dc.html",
+    "L-Effects-List.dc.html",
+    "L-Effects-Tiles.dc.html",
+    "O-Lights-Rig.dc.html",
+    "O-Lights-Patch.dc.html",
+    "O-Lights-Library.dc.html",
+    "O-Lights-Type.dc.html",
+    "Q-Inspect-Live.dc.html",
+    "Q-Inspect-Back.dc.html",
+    "S-Settings.dc.html",
+    "H-Themes.dc.html",
+    "T-01-perform-checklist.dc.html",
+    "T-02-perform-board.dc.html",
+    "T-03-venue-rig.dc.html",
+    "T-04-venue-patch.dc.html",
+    "T-05-library-list.dc.html",
+    "T-06-library-type.dc.html",
+    "T-07-show.dc.html",
+    "T-08-builder-list.dc.html",
+    "T-09-builder.dc.html",
+    "T-10-debug-live.dc.html",
+    "T-11-debug-look-back.dc.html",
+    "T-12-settings.dc.html",
+    "U-Pieces.dc.html",
+    "V-Live-Fault.dc.html",
+    "V-Live-Restart.dc.html",
+    "V-Lights-Overlap.dc.html",
+    "V-Effects-OnTheRig.dc.html",
+    "V-Effects-FromTheShow.dc.html",
+    "X-Phones.dc.html",
+    "W-Live-Light.dc.html",
+    "W-Live-Stage.dc.html"
+  ],
+  "notes": {
+    "title0": {
+      "x": 0,
+      "y": -260,
+      "text": "Real screens (from the inventory): Live, Show, Effects, Lights, Inspect, Settings",
+      "kind": "title1",
+      "maxW": 8000
+    },
+    "title1": {
+      "x": 0,
+      "y": 2100,
+      "text": "Themes: light and stage on a real screen, and the reference strip",
+      "kind": "title1",
+      "maxW": 8000
+    },
+    "title2": {
+      "x": 0,
+      "y": 3280,
+      "text": "Today's app (screenshots, for comparison)",
+      "kind": "title1",
+      "maxW": 8000
+    },
+    "states": {
+      "x": 0,
+      "y": 920,
+      "text": "States and shared pieces",
+      "kind": "title1",
+      "maxW": 9000
+    }
+  },
+  "designSystems": []
+}
