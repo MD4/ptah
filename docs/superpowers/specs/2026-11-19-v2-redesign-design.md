@@ -54,6 +54,62 @@ The owner finds today's app harsh, too complicated and unclear. Non-technical pe
 ### Settings
 - Reaper offset first, as three steps. Engine folded by default, showing a `!` when a field inside has changed. Fields that need a restart carry a small label.
 
+## The look in numbers (ZENITHALL)
+
+So this document stands without the canvas. The same values are in the ZENITHALL design system; if the two differ, ZENITHALL wins.
+
+### Colours
+
+| Token | Dark | Light | Stage | Used for |
+|---|---|---|---|---|
+| `ground` | `#0b1117` | `#dfe6e3` | `#000000` | Page background |
+| `panel` | `#a9d6d0` at 8 % | `#3d5257` at 9 % | `#5f8f8a` at 10 % | Fill of a panel, row, tile |
+| `band` | `#a9d6d0` at 16 % | `#3d5257` at 15 % | `#5f8f8a` at 14 % | Header band |
+| `line` | `#a9d6d0` at 30 % | `#3d5257` at 31 % | `#5f8f8a` at 30 % | Separators, quiet outlines |
+| `tint` | `#a9d6d0` | `#3d5257` | `#5f8f8a` | The one ink of a screen |
+| `tint-dim` | `#7fa39f` | `#4f6468` | `#588580` | Small labels |
+| `bright` | `#e9f4f2` | `#1c2a2d` | `#8fb5b0` | Logo, the big number, sentence text |
+| `on-tint` | `#0b1117` | `#eef3f1` | `#000000` | Text on a tint fill |
+| `sand` | `#e6c88f` | `#7d500c` | `#a88f4e` | Picked, or needs you |
+| `sand-panel` | `#e6c88f` at 10 % | `#7d500c` at 10 % | `#a88f4e` at 12 % | The picked thing's panel |
+| `sand-line` | `#e6c88f` at 40 % | `#7d500c` at 40 % | `#a88f4e` at 40 % | Separators in a sand panel |
+| `on-sand` | `#0b1117` | `#f6efe2` | `#000000` | Text on a sand fill |
+| `fault` | `#ff6b5e` | `#b3261e` | `#d9483c` | Wrong, fix it now |
+| `on-fault` | `#0b1117` | `#ffffff` | `#000000` | Text on a fault fill |
+| `stripe-1..4` | `#5fa8a3` `#d9c58a` `#d08a5a` `#8f84d6` | same, 2 is `#b8973a` | dimmed | The four-bar logo stripe only |
+
+The tint is the same teal on every screen; "one tint per screen" means a screen never adds a second hue.
+
+### Type
+
+Chakra Petch (300 to 700), shipped as local font files like Inter is today. Capitals with wide spacing for names, labels and buttons; sentence case for anything read as a sentence.
+
+| Style | Size / line | Weight | Spacing | Used for |
+|---|---|---|---|---|
+| `logo` | 26 / 32 | 300 | 0.30em | PTAH in the header |
+| `screen-title` | 22 / 28 | 500 | 0.08em | The show, venue or program name under the header |
+| `panel-title` | 17 / 24 | 400 | 0.14em | Title of a panel |
+| `row` | 14 / 20 | 500 | 0.08em | Names in rows, tiles, navigation |
+| `chip` | 12 / 16 | 600 | 0.12em | Buttons, chips, badges |
+| `label` | 11 / 14 | 500 | 0.14em | Small labels, column heads, hint line. The floor. |
+| `value` | 20 / 24 | 500 | 0.04em | The value under a label |
+| `body` | 13 to 14 / 19 to 22 | 400 | none | Sentences: dialogs, tooltips |
+| `number-xl` | 124 / 124 | 600 | -0.01em | The bar and beat on Live |
+| `number-md` | 26 / 30 | 300 (Jost) | none | Readouts beside a control |
+
+Every number that changes while you watch uses tabular figures, so nothing shifts.
+
+### Space, size, shape
+
+- Spacing steps: 4, 8, 12, 16, 24 px. Page margin 24 px (16 px on a phone). Gap between panels 14 px.
+- Header band 52 px. Rows 36 to 38 px. Toolbar buttons 30 px. Chips 24 px. Anything pressed with a thumb at least 44 px.
+- Everything is square. A panel has no outline: a `panel` fill, 12 px top and 16 px side padding, one cut corner of 16 px at the top right, and a 2 px `tint` rule under its title.
+- Picked: `sand` fill, four corner brackets 7 to 8 px long and 2 px thick, 4 px outside the thing. Rows and tiles sit 6 px apart so the brackets never touch a neighbour.
+- A row has a 4 px stripe on its left edge: `tint`, or `sand` when it needs you, or `fault`.
+- Hatching: diagonal stripes in `line`, 10 px wide at about 115 degrees for large areas; 5 px at 45 degrees for a small block such as an empty slot. Its label sits on a `ground` plate.
+- Tooltip and dialog: a `ground` box, 1 px `tint` outline, title in `chip`, text in `body`.
+- Stage theme: every filled control becomes an outline in the same colour.
+
 ## Feature mapping
 
 Every line of the inventory must appear here with its home on the new screen. "—" in the last column means the item has a home but is not drawn yet; see "Still to draw".
@@ -218,6 +274,43 @@ Every line of the inventory must appear here with its home on the new screen. "�
 | Settings palette | Command box | shared piece |
 | Two columns, one when narrower; read-only phone view | Phone board | yes |
 
+## The app shell (inventory section 1)
+
+| Today | New home |
+|---|---|
+| Strip: PTAH mark, seven tabs, Stage toggle, ⌘K hint | Header band: logo, four places, Inspect and Settings, the look switch, the status. The ⌘K hint moves to the bottom-right key hints of each screen. |
+| Stage toggle, F2, remembered | The three-way look switch; F2 as decided below; remembered. A saved "normal" reads as dark. |
+| Under 600 px: only the mark and a "Commands ⌘K" button | Unchanged: the phone header is the logo and "Commands". |
+| Unknown path: "Not yet." with "Back to Perform" | An empty state on the page, with the same words and a button to Live. |
+| Back / Forward go through each page's leave guard | Unchanged. |
+| No global status; each page shows its own | The header status is drawn on the boards. It is on the filed list; the plan treats it as optional and last. |
+
+## Homes for the items the first tables missed
+
+Found by the builder check. Each keeps today's behaviour unless said.
+
+- **Live.** The checklist still opens over the board with C, as a dialog. The full / column layout choice stays, in the command box, with the same 1024 px rule. "Device N names, checked every second" goes in the title line of the MIDI panel. Command failures are toasts.
+- **Show.** The notice line sits under the bar, as on every screen. "Not on any group" is a last entry in the Groups panel, in sand. The fault count keeps "not checked" and opens the issue list, whose venue warnings link to that venue's Patch. Arrow keys still move around the grid. The latching-row audition message shows in the "also starts" line. Below 900 px: the read-only view on the phone board, and the note strip in two rows.
+- **Effects.** "No programs yet" is the empty state of a show's panel. The program list goes narrow below 900 px as today. "This program could not be read" is a notice line with "← Programs". "Preview unavailable: nodes cannot be added" shows in the add box. Save toasts as on every screen.
+- **Lights.** The picked fixture's panel holds Name, Type, Mode, Universe, Address, Ch (read-only), Groups (read-only), Flash, Duplicate and Delete with its patch confirm. `?q=` and `?f=` on the Library, `/library/new`, "This type no longer exists" and "Used in" hiding below 1100 px are unchanged. The Library phone list is as today.
+- **Inspect.** The URL state (`?show`, `?unheard`, `?light`, `?at`) and the light pick shared with other screens are unchanged. `[` and `]` are in the key hints. Below 1080 px of its own width it is one column, as today; that is the layout shown on the phone board.
+
+## Calls I made (the owner can overrule any of them)
+
+- **"Notes as"** changes every place a note number is shown (chips, the chain, the note strip's readout, Inspect's messages). Typing accepts both forms, as today. The choice is kept per browser, like the layout choice on Live, and is shared by Show and Inspect.
+- **Layer 1 of ZENITHALL is not a new package yet.** It stays inside `packages/ds`, with the general pieces and the PTAH pieces in separate folders so they can be split out when IHY adopts it. IHY is the owner's other app (musicians set their in-ear mix from a phone); it is not touched here.
+- **Chakra Petch replaces the monospace face too**, with tabular figures. If the font's tabular figures prove unsteady, numbers keep a fixed-width box.
+- **The states listed under "Still to draw"** are drawn during the build, and each screen's task ends with the owner looking at it before it is called done.
+- **Rig shows one universe at a time.** If the picked fixture is on another universe, picking it switches the strip to that universe.
+
+## Checked against the code
+
+- The canvas uses React Flow (`@xyflow/react` 12.12.0). Today's wire calls its curved-path helper in `packages/ds/src/builder/Wire.tsx`; the same library provides the right-angle one. The credit mark is already shown and stays.
+- The stage setting is a browser preference (`ptah.ds.mode`), applied as an attribute on the page; colours exist per mode with contrast checks per mode. The light theme is a third set with its own checks.
+- Which settings need a restart is already in the code (`packages/ds/src/settings/model/changes.ts`): the MIDI devices, the transport port and all six Engine fields need a restart; the two network fields apply at the next start; the two "When PTAH starts" fields apply at once.
+- Fonts already ship as local files (`packages/ds/src/fonts`); Chakra Petch follows the same pattern and adds no dependency.
+- There are 369 visual-test reference images and about 280 label or role lookups across 11 end-to-end test files, plus routes used in tests. They change with the look, the header names and the addresses.
+
 ## Constraints for the build
 
 - Fonts ship inside the app (no network on stage).
@@ -235,11 +328,10 @@ Every line of the inventory must appear here with its home on the new screen. "�
 - "Find a light" on Inspect.
 - The universe strip on Rig doubling as a universe switch (today: one map per universe, stacked).
 
-## To verify before the build
+## Open questions for the owner
 
-- Which Settings fields need a restart.
-- That today's canvas library (React Flow) draws right-angle wires as expected; its credit mark must stay on the canvas.
-- Where the "Notes as" and view choices are stored.
+1. **F2 with three looks.** Proposed: F2 switches Stage on and off, returning to whichever of Dark or Light was in use.
+2. **Addresses.** Proposed: they follow the new names (`/lights`, `/effects`, `/show`, `/live`, `/inspect`, `/settings`), and the old ones keep working by redirecting.
 
 ## Still to draw
 
