@@ -230,14 +230,16 @@ message says which it is.
   "instanceId": "<instance id>", "programId": "<program id>",
   "programRevision": "<revision of the program as the engine loaded it>",
   "member": 2, "members": 8, "pinned": false, "together": false,
-  "note": 60, "held": false, "voices": 2, "more": false,
+  "note": 60, "held": false, "voices": 2, "sounding": true, "more": false,
   "nodes": { "<node id>": 0.62, "<node id>": null } }
 ```
 
   `member`: the light the probed voice plays on (0-based; the page shows
   `light 3`); `pinned`: whether the watch asked for a light; `note`: null
   for a voice with no note (a trigger of the rig) and when nothing plays;
-  `together`: the row plays all its lights together (`member` is then
+  `sounding`: a voice sounds on the probed light (false for a pinned light
+  with no voice while the row plays on others: the page says `not playing
+  on light <m>`; added at the final review); `together`: the row plays all its lights together (`member` is then
   0); `voices` 0 when nothing plays, and `nodes` then holds only the
   setting nodes' values; a node the engine has no value for is null or
   absent; a colour output is always null; `more`: the program has more
