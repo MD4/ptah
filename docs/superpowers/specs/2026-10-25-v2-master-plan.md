@@ -21,6 +21,17 @@
     `docs/ledgers/step3a-owner-check.md`; next the other Step 3 screens
     (Venue, Show, Builder, Settings), each with its own brainstorm and
     design round
+  - 2026-11-19: Step 3 screens all merged (Venue, Library and fixture
+    types, Show, Builder, Settings); Step 3 exits on a gig run from V2
+    with V1 uninstalled. Step 4 (Debug mode) done in code: Monitor, Look
+    back, Why is this light doing that, the measured Reaper offset, live
+    probes in the Builder (the output replay-and-diff screen dropped: the
+    `ptah replay --compare` command does it). Owner checks in V2
+    `docs/ledgers/*-owner-check.md`.
+  - **Order changed by the owner (2026-11-19): 7 → 6 → 5.** Packaging and
+    the box first (what makes V2 a first version to install), then AI,
+    then the Visualizer (with rehearsal mode and the stage position
+    editor), which nothing depends on.
 - **Scope:** the whole V2 rewrite. Each numbered step below gets its own
   design document and plan before it is built; this document fixes the
   intent, the decisions already made, the order, and the boundaries.
@@ -492,6 +503,7 @@ onboarding.
 
 ### Parallelism
 
+The owner set the order after Step 4 to 7 → 6 → 5 (2026-11-19).
 Steps 0 → 1 are strictly sequential. Step 2 overlaps the second half of
 Step 1. Step 3 follows 2. Steps 4 and 5 are independent of each other and of
 6. Step 7 can start packaging the headless engine right after Step 1 and
