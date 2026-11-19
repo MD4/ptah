@@ -494,6 +494,18 @@ rehearsal mode.
 
 In the order of 4.6. Each feature is its own design document.
 
+### Redesign — the ZENITHALL look (before Step 7)
+
+Added by the owner on 2026-11-19. A full UI/UX redesign of every screen,
+with exactly today's features and today's wording inside screens. It
+brings light, dark and stage looks, six places (Lights, Effects, Show,
+Live, Inspect, Settings), and the ZENITHALL design system. Spec:
+`docs/superpowers/specs/2026-11-19-v2-redesign-design.md`.
+
+It is built as seven plans, each written just before it is built:
+1 Foundation and shell (merged 2026-11-19), 2 Live, 3 Show, 4 Effects,
+5 Lights, 6 Inspect and Settings, 7 Close.
+
 ### Step 7 — Packaging and the box
 
 Single-binary releases for macOS and Linux (x86-64, ARM64), a Pi image with

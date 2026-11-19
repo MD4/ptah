@@ -67,18 +67,20 @@ So this document stands without the canvas. The same values are in the ZENITHALL
 | `band` | `#a9d6d0` at 16 % | `#3d5257` at 15 % | `#5f8f8a` at 14 % | Header band |
 | `line` | `#a9d6d0` at 30 % | `#3d5257` at 31 % | `#5f8f8a` at 30 % | Separators, quiet outlines |
 | `tint` | `#a9d6d0` | `#3d5257` | `#5f8f8a` | The one ink of a screen |
-| `tint-dim` | `#7fa39f` | `#4f6468` | `#588580` | Small labels |
+| `tint-dim` | `#7fa39f` | `#485b5f` | `#588580` | Small labels |
 | `bright` | `#e9f4f2` | `#1c2a2d` | `#8fb5b0` | Logo, the big number, sentence text |
 | `on-tint` | `#0b1117` | `#eef3f1` | `#000000` | Text on a tint fill |
-| `sand` | `#e6c88f` | `#7d500c` | `#a88f4e` | Picked, or needs you |
+| `sand` | `#e6c88f` | `#7b4f0c` | `#a88f4e` | Picked, or needs you |
 | `sand-panel` | `#e6c88f` at 10 % | `#7d500c` at 10 % | `#a88f4e` at 12 % | The picked thing's panel |
 | `sand-line` | `#e6c88f` at 40 % | `#7d500c` at 40 % | `#a88f4e` at 40 % | Separators in a sand panel |
 | `on-sand` | `#0b1117` | `#f6efe2` | `#000000` | Text on a sand fill |
-| `fault` | `#ff6b5e` | `#b3261e` | `#d9483c` | Wrong, fix it now |
+| `fault` | `#ff6b5e` | `#a9241c` | `#da4c40` | Wrong, fix it now |
 | `on-fault` | `#0b1117` | `#ffffff` | `#000000` | Text on a fault fill |
 | `stripe-1..4` | `#5fa8a3` `#d9c58a` `#d08a5a` `#8f84d6` | same, 2 is `#b8973a` | dimmed | The four-bar logo stripe only |
 
 The tint is the same teal on every screen; "one tint per screen" means a screen never adds a second hue.
+
+Plan 1 changed four light and stage colours by one small step so text stays readable at 4.5:1 on panels and bands: light `tint-dim`, `sand` and `fault`, and stage `fault`. The checks in `packages/ds/src/tokens/gates.ts` enforce this. The translucent fills keep their values.
 
 ### Type
 
