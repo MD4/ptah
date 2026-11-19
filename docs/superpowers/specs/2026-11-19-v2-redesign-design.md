@@ -4,7 +4,7 @@ Date started: 2026-11-19. Status: **brainstorm in progress**, written as decisio
 
 - Inventory of today's features: `2026-11-19-v2-redesign-inventory.md` (the checklist this design is held to).
 - Design canvas (private): https://claude.ai/artifact/SShuCa7fFt43MLWB5tU8s7
-- Design system (private): https://claude.ai/artifact/VKt1djBsbmPwqkvuPCs8GF
+- Design system, named **ZENITHALL** (private): https://claude.ai/artifact/VKt1djBsbmPwqkvuPCs8GF
 
 ## Intent
 
