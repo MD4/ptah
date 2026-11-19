@@ -279,7 +279,7 @@ Every line of the inventory must appear here with its home on the new screen. "�
 | Today | New home |
 |---|---|
 | Strip: PTAH mark, seven tabs, Stage toggle, ⌘K hint | Header band: logo, four places, Inspect and Settings, the look switch, the status. The ⌘K hint moves to the bottom-right key hints of each screen. |
-| Stage toggle, F2, remembered | The three-way look switch; F2 as decided below; remembered. A saved "normal" reads as dark. |
+| Stage toggle, F2, remembered | The three-way look switch; F2 switches Stage on and off, returning to Dark or Light; remembered. A saved "normal" reads as dark. |
 | Under 600 px: only the mark and a "Commands ⌘K" button | Unchanged: the phone header is the logo and "Commands". |
 | Unknown path: "Not yet." with "Back to Perform" | An empty state on the page, with the same words and a button to Live. |
 | Back / Forward go through each page's leave guard | Unchanged. |
@@ -328,10 +328,11 @@ Found by the builder check. Each keeps today's behaviour unless said.
 - "Find a light" on Inspect.
 - The universe strip on Rig doubling as a universe switch (today: one map per universe, stacked).
 
-## Open questions for the owner
+## Settled with the owner on 2026-11-19
 
-1. **F2 with three looks.** Proposed: F2 switches Stage on and off, returning to whichever of Dark or Light was in use.
-2. **Addresses.** Proposed: they follow the new names (`/lights`, `/effects`, `/show`, `/live`, `/inspect`, `/settings`), and the old ones keep working by redirecting.
+1. **F2** switches Stage on and off, returning to whichever of Dark or Light was in use.
+2. **Addresses follow the new names**: `/lights` (with Rig, Patch and Library under it), `/effects`, `/show`, `/live`, `/inspect`, `/settings`. The old addresses keep working by redirecting.
+3. **Restart labels** follow the code: every Engine field, the MIDI devices and the transport port say "Needs a restart"; the two network fields say "Applies the next time you start PTAH", as today.
 
 ## Still to draw
 
