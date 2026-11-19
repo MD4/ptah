@@ -1,6 +1,6 @@
 # PTAH V2 redesign: design (in progress)
 
-Date started: 2026-11-19. Status: **all six places designed and reviewed with the owner; awaiting approval of this document as a whole.**
+Date started: 2026-11-19. Status: **approved by the owner on 2026-11-19.**
 
 - Inventory of today's features: `2026-11-19-v2-redesign-inventory.md` (the checklist this design is held to).
 - Design canvas (private): https://claude.ai/artifact/SShuCa7fFt43MLWB5tU8s7
@@ -283,7 +283,7 @@ Every line of the inventory must appear here with its home on the new screen. "â
 | Under 600 px: only the mark and a "Commands âŒ˜K" button | Unchanged: the phone header is the logo and "Commands". |
 | Unknown path: "Not yet." with "Back to Perform" | An empty state on the page, with the same words and a button to Live. |
 | Back / Forward go through each page's leave guard | Unchanged. |
-| No global status; each page shows its own | The header status is drawn on the boards. It is on the filed list; the plan treats it as optional and last. |
+| No global status; each page shows its own | The header status is built as part of the redesign (owner, 2026-11-19). |
 
 ## Homes for the items the first tables missed
 
@@ -322,6 +322,7 @@ Found by the builder check. Each keeps today's behaviour unless said.
 ## New things (not re-skins)
 
 - Light theme, and the three-way look switch in the header.
+- A status in the header on every screen ("All well", a count of what waits, or a fault), approved by the owner on 2026-11-19. Each page keeps showing its own faults as well.
 - "Notes as numbers | letters" (Show, Inspect).
 - Minimising the bottom panels in Effects, with the settings in the minimised bar.
 - Programs as tiles, with the list / tiles switch.
@@ -349,7 +350,6 @@ Nothing here blocks the plan; each item reuses a piece that exists. They are dra
 
 ## Filed for later review
 
-- A global status mark in the header on every screen (drawn on the boards; today each page shows its own faults).
 - Navigation on a phone.
 - Hand control of master level and house lights.
 - Starter programs to copy from.
