@@ -356,3 +356,7 @@ Nothing here blocks the plan; each item reuses a piece that exists. They are dra
 - Hand control of master level and house lights.
 - Starter programs to copy from.
 - A link from a problem to its moment in Look back.
+- Found in plan 2's final review; today's behaviour, outside the redesign:
+  - With the checklist open over the board (C), the Emergency keys still act: L reloads the show, B and R hold, F toggles.
+  - The checklist's show row gives the venue's id, not its name, as its reason.
+  - The Faults panel lists the newest active row first, so a repeating warning can sit above an active error.
