@@ -1,13 +1,13 @@
+import type * as models from "@ptah-app/lib-models";
 import type { Node, NodeProps } from "@xyflow/react";
 import { Handle, Position } from "@xyflow/react";
 import { Flex } from "antd";
 import * as React from "react";
 import { useDefaultNodeStyle } from "./node.style";
-import type { NodeKeyData } from "./node-key";
 
 export default function NodeInputTime({
   selected,
-}: NodeProps<Node<NodeKeyData>>) {
+}: NodeProps<Node<models.NodeInputTime>>) {
   const styles = useDefaultNodeStyle("input", selected);
 
   return (

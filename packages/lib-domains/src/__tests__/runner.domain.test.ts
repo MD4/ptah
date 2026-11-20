@@ -1,5 +1,7 @@
 import {
   adsr,
+  controlInputKey,
+  deviceInputKey,
   distortion,
   mathNodeOperatorHasSecondValue,
 } from "../runner.domain";
@@ -103,5 +105,16 @@ describe("mathNodeOperatorHasSecondValue", () => {
 
   it("returns false for unknown operator", () => {
     expect(mathNodeOperatorHasSecondValue("unknown")).toBe(false);
+  });
+});
+
+describe("controls state keys", () => {
+  it("prefixes numeric and string control ids the same way", () => {
+    expect(controlInputKey(7)).toBe("control-7");
+    expect(controlInputKey("7")).toBe("control-7");
+  });
+
+  it("prefixes device ids", () => {
+    expect(deviceInputKey("abc")).toBe("device-abc");
   });
 });

@@ -1,6 +1,7 @@
 import {
   patch as patchDomain,
   program as programDomain,
+  runner as runnerDomain,
 } from "@ptah-app/lib-domains";
 import { log } from "@ptah-app/lib-logger";
 import { services } from "@ptah-app/lib-shared";
@@ -25,8 +26,8 @@ export const reset = (resetControlsState: boolean): void => {
   }
 };
 
-export const setControlValue = (controlId: number, value: number): void => {
-  controlsState.set(controlId, value);
+export const setControlValue = (controlId: string, value: number): void => {
+  controlsState.set(runnerDomain.controlInputKey(controlId), value);
 };
 
 export const startProgram = (id: number, parameter: number): void => {

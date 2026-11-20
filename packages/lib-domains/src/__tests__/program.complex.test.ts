@@ -125,7 +125,7 @@ const mkEdge = (
   targetInput,
 });
 
-const emptyControls = new Map<number, number>();
+const emptyControls = new Map<string, number>();
 
 // ─── Simulation helpers ────────────────────────────────────────────────────────
 
@@ -137,7 +137,7 @@ const makeDef = (prog: Program): ProgramDefinition => ({
 /** Run N ticks and return the final state. */
 const simulateTicks = (
   definition: ProgramDefinition,
-  controls: Map<number, number>,
+  controls: Map<string, number>,
   parameter: number,
   count: number,
 ): ProgramState => {
@@ -154,7 +154,7 @@ const simulateTicks = (
  */
 const collectTicks = (
   definition: ProgramDefinition,
-  controls: Map<number, number>,
+  controls: Map<string, number>,
   parameter: number,
   count: number,
 ): ProgramState[] => {
@@ -428,16 +428,22 @@ describe("compile — ADSR with control-driven sustainLevel", () => {
   const compute = compile(prog);
 
   it("sustain output equals control value 0.2", () => {
-    expect(compute(0, new Map([[3, 0.2]])).outputs[0]).toBeCloseTo(0.2, 2);
+    expect(compute(0, new Map([["control-3", 0.2]])).outputs[0]).toBeCloseTo(
+      0.2,
+      2,
+    );
   });
 
   it("sustain output equals control value 0.8", () => {
-    expect(compute(0, new Map([[3, 0.8]])).outputs[0]).toBeCloseTo(0.8, 2);
+    expect(compute(0, new Map([["control-3", 0.8]])).outputs[0]).toBeCloseTo(
+      0.8,
+      2,
+    );
   });
 
   it("sustain output changes dynamically with control value", () => {
-    const lo = compute(0, new Map([[3, 0.1]])).outputs[0];
-    const hi = compute(0, new Map([[3, 0.9]])).outputs[0];
+    const lo = compute(0, new Map([["control-3", 0.1]])).outputs[0];
+    const hi = compute(0, new Map([["control-3", 0.9]])).outputs[0];
     expect(hi).toBeGreaterThan(lo);
   });
 });
@@ -645,18 +651,18 @@ describe("performTick — control changes are reflected immediately per tick", (
   const def = makeDef(prog);
 
   it("initial state reflects initial controls", () => {
-    const state = getProgramInitialState(def, new Map([[5, 0.3]]), 0);
+    const state = getProgramInitialState(def, new Map([["control-5", 0.3]]), 0);
     expect(state.output.outputs[0]).toBeCloseTo(0.3);
   });
 
   it("each tick reflects the controls passed to that tick", () => {
-    const init = getProgramInitialState(def, new Map([[5, 0.2]]), 0);
+    const init = getProgramInitialState(def, new Map([["control-5", 0.2]]), 0);
     expect(init.output.outputs[0]).toBeCloseTo(0.2);
 
-    const tick1 = performTick(def, new Map([[5, 0.8]]), init, 0);
+    const tick1 = performTick(def, new Map([["control-5", 0.8]]), init, 0);
     expect(tick1.output.outputs[0]).toBeCloseTo(0.8);
 
-    const tick2 = performTick(def, new Map([[5, 0.1]]), tick1, 0);
+    const tick2 = performTick(def, new Map([["control-5", 0.1]]), tick1, 0);
     expect(tick2.output.outputs[0]).toBeCloseTo(0.1);
   });
 

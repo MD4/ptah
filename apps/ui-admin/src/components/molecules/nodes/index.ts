@@ -6,6 +6,7 @@ import NodeFixture from "./node-fixture";
 import NodeFxADSR from "./node-fx-adsr";
 import NodeFxDistortion from "./node-fx-distortion";
 import NodeFxMath from "./node-fx-math";
+import NodeInputAudio from "./node-input-audio";
 import NodeInputConstant from "./node-input-constant";
 import NodeInputControl from "./node-input-control";
 import NodeInputTime from "./node-input-time";
@@ -29,6 +30,7 @@ export const programNodeTypes: NodeTypes = {
   "input-constant": NodeInputConstant,
   "input-control": NodeInputControl,
   "input-velocity": NodeInputVelocity,
+  "input-audio": NodeInputAudio,
   "fx-math": NodeFxMath,
   "fx-distortion": NodeFxDistortion,
   "output-result": NodeOutputResult,

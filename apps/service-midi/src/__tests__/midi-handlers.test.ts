@@ -167,7 +167,7 @@ describe("control:change", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 0, 64);
     expect(send).toHaveBeenCalledWith("midi", {
       type: "control:change",
-      controlId: 0,
+      controlId: "0",
       value: 64,
     });
   });
@@ -176,7 +176,7 @@ describe("control:change", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 13, 100);
     expect(send).toHaveBeenCalledWith("midi", {
       type: "control:change",
-      controlId: 13,
+      controlId: "13",
       value: 100,
     });
   });
@@ -185,7 +185,7 @@ describe("control:change", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 14, 50);
     expect(send).toHaveBeenCalledWith("midi", {
       type: "control:change",
-      controlId: 14,
+      controlId: "14",
       value: 50,
     });
   });
@@ -194,7 +194,7 @@ describe("control:change", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 64, 127);
     expect(send).toHaveBeenCalledWith("midi", {
       type: "control:change",
-      controlId: 64,
+      controlId: "64",
       value: 127,
     });
   });
@@ -203,7 +203,7 @@ describe("control:change", () => {
     sendMsg(MIDI_STATUS_CHANNEL_CONTROL_CHANGE, 127, 0);
     expect(send).toHaveBeenCalledWith("midi", {
       type: "control:change",
-      controlId: 127,
+      controlId: "127",
       value: 0,
     });
   });
