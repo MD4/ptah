@@ -58,7 +58,7 @@
     "@vitejs/plugin-react": "^6.3.0",
     "jest-presets": "npm:@ptah-app/config-jest@*",
     "sass": "^1.108.2",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vite": "^8.3.8"
   }
 }
