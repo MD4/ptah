@@ -360,3 +360,4 @@ Nothing here blocks the plan; each item reuses a piece that exists. They are dra
   - With the checklist open over the board (C), the Emergency keys still act: L reloads the show, B and R hold, F toggles.
   - The checklist's show row gives the venue's id, not its name, as its reason.
   - The Faults panel lists the newest active row first, so a repeating warning can sit above an active error.
+  - With a show playing and the engine down for good, the board's band keeps saying "engine restarting" while the header turns to Fault after 10 s.
