@@ -18,9 +18,16 @@ Plan 1's final review (2026-11-19) assigned these small items to later plans. Ea
 
 ## Plan 3 (Show)
 
-- A picked row with a fault: the fault stripe on sand is about 1.7:1 in dark. Consider an `--on-sand` gap beside the stripe.
-- A picked row loses its "need" stripe.
-- `ConfirmToneContext` reaches every primary button under a danger Dialog, not only the confirm.
+- ~~A picked row with a fault: the fault stripe on sand is about 1.7:1 in dark. Consider an `--on-sand` gap beside the stripe.~~ (done in plan 3)
+- ~~A picked row loses its "need" stripe.~~ (done in plan 3)
+- ~~`ConfirmToneContext` reaches every primary button under a danger Dialog, not only the confirm.~~ (done in plan 3)
+
+Colours changed (plan 3, Task 4: a contrast gate for text on a tile inside a panel; the failing inks nudged by the smallest passing step, one ink everywhere):
+
+- light `--tint-dim` #485b5f → #46595d
+- light `--sand` #7b4f0c → #784d0c
+- light `--fault` #a9241c → #a5231b
+- stage `--fault` #da4c40 → #dc554a
 
 ## Plan 5 (Lights)
 
