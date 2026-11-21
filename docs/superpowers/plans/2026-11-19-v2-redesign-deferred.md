@@ -57,3 +57,8 @@ Colours changed (plan 3, Task 4: a contrast gate for text on a tile inside a pan
 ## Dropped
 
 Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `key` for object values; `applyRedirect` in a `useState` initializer; `/venue?q=…#x` losing its query; the header overflow at 1280 (fixed by the addresses task).
+
+## Found in plan 3
+
+- Rust `ptah-server::ws heard_goes_on_after_the_engine_drops_the_owner_s_subscription` fails under allcheck load (12 s) twice, passes alone in about 1 s: steady it with the plan 7 under-load tests.
+- From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus. Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.
