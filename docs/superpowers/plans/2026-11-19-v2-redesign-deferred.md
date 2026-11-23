@@ -31,8 +31,8 @@ Colours changed (plan 3, Task 4: a contrast gate for text on a tile inside a pan
 
 ## Plan 5 (Lights)
 
-- Venue "Add universe" overflows its cell.
-- `/lights/venue` with no id shows "Not yet.".
+- ~~Venue "Add universe" overflows its cell.~~ (done in plan 5)
+- ~~`/lights/venue` with no id shows "Not yet.".~~ (done in plan 5)
 
 ## Plan 6 (Inspect and Settings)
 
