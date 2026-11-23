@@ -95,3 +95,4 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 - Settings, On the network: the Port row shows the "Applies the next time you start PTAH" chip and, under it, the same words as a lowercase line (the running port differs from the file's).
 - Settings at 1024 px: the Reaper offset's step 1 wraps to one or two words a line (7 lines).
 - Look back: the picked message's bracket corners touch the bar number's first digit.
+- From the plan 6 walk (today's behaviour, for the owner or plan 7): after a Settings restart the header reads "FAULT" for a while before "All well" (likely the engine's own restart lines); "nothing listens ×N" lines carry their last message's bar, so on Look back they sit out of order around the cursor.
