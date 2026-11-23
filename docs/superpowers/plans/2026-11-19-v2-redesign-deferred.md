@@ -96,3 +96,20 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 - Settings at 1024 px: the Reaper offset's step 1 wraps to one or two words a line (7 lines).
 - Look back: the picked message's bracket corners touch the bar number's first digit.
 - From the plan 6 walk (today's behaviour, for the owner or plan 7): after a Settings restart the header reads "FAULT" for a while before "All well" (likely the engine's own restart lines); "nothing listens ×N" lines carry their last message's bar, so on Look back they sit out of order around the cursor.
+
+### From plan 6's final review
+
+- The burst gate (`test-visual.mjs`, `debug-screen--burst`) is a 30 frames/s floor: it would not catch a relative fall (89 → 40). Compare with a recorded baseline (for example, fail under 80 % of the last accepted rate).
+- Built and unused: the bars' `notesAs` prop; the `title?` props of `Problems`, `PlayingRows`, `Overrides`; `NumberLine` / `ToggleLine` (exported from `settings/index.ts`, still with a `title` attribute); `MessageList`'s non-`bare` branch (only `ComingIn` draws the list).
+- About 43 legacy alias uses (`--fg`, `--fg-dim`, `--warn`, `--accent`) in `Debug.module.css`, `Back.module.css`, `Settings.module.css`, `Sections.module.css` and the three screen stylesheets: sweep to `--tint`, `--tint-dim`, `--sand`, `--fault` before the aliases go.
+- Look back's outlines can sit on the wrong universe on a "not recorded" moment after the universes changed (`useLookBack` orders `lights` by the hook's moment, `LookBackScreen` may draw the held list): key the lights by universe number, or no outlines when `frameAt` is null.
+- The folded Engine's error count counts number fields only (agrees with `issueProps`): a comment, so no one "fixes" one side.
+- The network rows lost master's conditional "applies the next time you start PTAH" (chip always there now); after a Save without restart nothing says the running PTAH still uses the old value: one look by the owner.
+- `WhyPanel`'s body is a focusable scroll box with no name (`Problems` names its own).
+- `.lights` and `.tag` (`Debug.module.css`) size from `round()` / `cqi` outside any `@supports` (the grid has a fallback): misaligned outlines on a webview without them (WebKitGTK, Packaging).
+- `UniverseBlock` renders three `Cut`s and a `Digits` every frame: memo the universe line.
+- `Problems` sets the engine lines' sand tone by matching their words: pass `severity: "warning"` from `useMonitor` and drop the set (and the optional `severity` question with it).
+- `bandWords().tone` and `bandTone()` disagree for a draft (`bandWords` is exported).
+- Screen stylesheets style other parts through `aria-label` selectors and inner DOM.
+- Live's column 2 fits with 0 px to spare at 1280 × 732.
+- The rest of the task reviews' Minors (naming, comments, duplicate blocks, missing light and stage variants): left as the final review triaged them.
