@@ -1,6 +1,6 @@
 # PTAH V2 — Step 7: Packaging (design)
 
-Status: draft for the owner's approval. Brainstormed on 2026-11-23. Code: `~/projects/ptah-v2`. Master plan: `2026-10-25-v2-master-plan.md`, Step 7.
+Status: approved by the owner on 2026-11-23. Code: `~/projects/ptah-v2`. Master plan: `2026-10-25-v2-master-plan.md`, Step 7.
 
 ## Intent
 
