@@ -64,6 +64,7 @@ The owner left the choice of approach to the builder and agreed to approach 1.
 - **The `ptah-v2` repository becomes public**; downloads live on its Releases page.
 - **Order of systems**: Mac, then Linux, then Windows.
 - **First run**: a demo show; no wizard.
+- **A fresh install serves this machine only.** The settings a new root starts with have "On the network" off; a phone needs that switch turned on in Settings, and the guide says where. An existing root keeps what it says (the owner's is unchanged).
 
 ## The design
 
@@ -92,7 +93,7 @@ To verify on a real Mac before relying on it: that the one-line install opens wi
 - **An engine already running.** `ptah` already refuses to start twice on one port (exit code 2 after probing `GET /api/v1/server`). The app treats that as "join it": it shows the running one. That answer gains the root folder it serves; if it is not the folder the app was to use, the app says "PTAH is already running with another folder" and offers Quit, and joins nothing.
 - **No orphans.** `ptah` started by the app ends when the app ends, however the app ends (it watches the pipe the app holds open), so a force-quit leaves no engine behind for the next launch to join by mistake.
 - Closing the window with a show loaded asks first: "A show is loaded. Quit PTAH and stop the lights?" with Quit and Cancel. With no show loaded it quits. Quitting stops the engine cleanly.
-- Phones and other computers keep opening the screens in a browser at the address the checklist shows.
+- Phones and other computers open the screens in a browser at the address the checklist shows, once "On the network" is on (off in a fresh install; the checklist's Phone row reads "local only" until then, as today).
 - The window remembers its size and place. It has the standard menus only (About, Quit, Copy and Paste, Window, a Help item that opens the guide).
 
 ### Keeping the machine awake
