@@ -67,3 +67,9 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 
 - e2e `builder.spec.ts` "the preview curves move and the lights follow the fader" fails now and then under allcheck load: a `GET /api/v1/devices` poll lands in the test's "no request for the preview" window (seen in T9 and again at the T10 checkpoint; passes alone). Steady it with the plan 7 under-load tests (ignore the app's own polls, or record only preview requests).
 - Storybook Builder "Add box filtered › Open" (the unsteady story listed for plan 4): never reproduced in plan 4 (33 runs under load in T1, none failing in the checkpoint's allcheck runs); left unchanged, kept for plan 7 to chase only if it fails again.
+
+## Found in plan 4 (final review), riding to plan 7
+
+- Effects bar at 900 px with a long program name: "used by N rows" shrinks to 0 px (focus only); give it a floor of about 3ch, or reclaim the empty fault slot.
+- A refused switch's reason is only its tooltip in the minimised bar; dimmed Hold looks strong in the from-the-show bar; Slider selectors depend on its DOM order; most add-box pictures are flat lines (maths nodes need a sample input); Loading shows no words.
+- Under load: Rust `ptah-engine::perf` light_watched and the ws heard test; e2e builder.spec "the preview curves move…" (a GET /devices poll).
