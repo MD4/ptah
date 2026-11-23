@@ -492,7 +492,13 @@ rehearsal mode.
 
 ### Step 6 — AI
 
-In the order of 4.6. Each feature is its own design document.
+Designed with the owner on 2026-11-23:
+`docs/superpowers/specs/2026-11-23-v2-ai-design.md`, which replaces 4.6's
+order. Four pieces, each with its own design: 1 the tool belt for programs
+(an MCP server, `ptah mcp`, used from Claude Code; designed in that
+document), 2 the panel in PTAH, 3 the show from the audio (the Reaper
+folder, the lyrics, the draft player), 4 the repatch assistant. Built
+after the redesign and Packaging.
 
 ### Redesign — the ZENITHALL look (before Step 7)
 
