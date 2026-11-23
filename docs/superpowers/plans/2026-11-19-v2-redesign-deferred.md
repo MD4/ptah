@@ -36,9 +36,9 @@ Colours changed (plan 3, Task 4: a contrast gate for text on a tile inside a pan
 
 ## Plan 6 (Inspect and Settings)
 
-- Changing numbers on Inspect (frames/s, ages) need `Digits`.
-- The Debug current line reads dim words as full ink.
-- Why panel values lose the ellipsis.
+- ~~Changing numbers on Inspect (frames/s, ages) need `Digits`.~~ (done in plan 6)
+- ~~The Debug current line reads dim words as full ink.~~ (done in plan 6)
+- ~~Why panel values lose the ellipsis.~~ (done in plan 6)
 
 ## Plan 7 (Close)
 
@@ -61,7 +61,7 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 ## Found in plan 3
 
 - Rust `ptah-server::ws heard_goes_on_after_the_engine_drops_the_owner_s_subscription` fails under allcheck load (12 s) twice, passes alone in about 1 s: steady it with the plan 7 under-load tests.
-- From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus. Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.
+- From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus. ~~Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.~~ (done in plan 6)
 
 ## Found in plan 4
 
@@ -81,3 +81,17 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 - A double-click on a fixture row picks then unpicks it.
 - Patch rows are ~48 px taller below ~1245 px (the status under the chips).
 - The universes dialog's width wins only by a doubled class (stylesheet order).
+
+## Found in plan 6, riding to plan 7
+
+- jsdom counts each Panel header as a `banner` landmark: `routes.test` takes the first banner (works, but reads the wrong landmark if the order changes).
+- Visual `library-type-pasted` fails in full visual runs (0.557 %: the paste never lands under load), passes alone; steady it with the plan 7 under-load tests.
+- The shared Tooltip does not appear for a pointer already resting on text that becomes cut after paint (it opens only on the next pointer move).
+- Storybook `Settings/Sections › BandSixAt900` fails in the test runner, in the full run and alone (`Unable to find role="tooltip"` after `words.focus()`), while the same story's play passes in a plain browser: the focus-only tooltip in the runner's page (seen at the plan 6 checkpoint).
+- Look back's Problems then draws warnings (`mapping.unmapped`) with a `fault` stripe; Live draws the same warnings in `sand` (Ruling 5 gave Live the severity only).
+- Messages "nothing listens ×N" fold lines carry the bar of their last message, so on Look back a line at bar 89 sits among bar 82 lines around the cursor (and out of order on Live).
+- At 390 px the messages table cuts "rows that listen" to two letters ("WA…") while "From" keeps its width.
+- A click on a cell with no light leaves the grid's active (focus) cell on channel 1, not on the clicked cell.
+- Settings, On the network: the Port row shows the "Applies the next time you start PTAH" chip and, under it, the same words as a lowercase line (the running port differs from the file's).
+- Settings at 1024 px: the Reaper offset's step 1 wraps to one or two words a line (7 lines).
+- Look back: the picked message's bracket corners touch the bar number's first digit.
