@@ -506,12 +506,22 @@ It is built as seven plans, each written just before it is built:
 1 Foundation and shell (merged 2026-11-19), 2 Live (merged 2026-11-20), 3 Show (merged 2026-11-21), 4 Effects (merged 2026-11-23),
 5 Lights, 6 Inspect and Settings, 7 Close.
 
-### Step 7 — Packaging and the box
+### Step 7 — Packaging
 
-Single-binary releases for macOS and Linux (x86-64, ARM64), a Pi image with
-the engine as a service and an optional Wi-Fi hotspot for the UI, Tauri
-desktop wrapper, auto-update, documentation and the public "other bands"
-onboarding.
+Designed with the owner on 2026-11-23:
+`docs/superpowers/specs/2026-11-23-v2-packaging-design.md`. An installed,
+updatable `ptah` command and a packaged app with its own window (Tauri),
+always installed together, unsigned, installed by one pasted line; updates
+that tell and wait; a demo show; a fresh install local only. Mac first,
+Linux gets the command, Windows later as its own piece. Two plans:
+1 the installable `ptah` (`docs/superpowers/plans/2026-11-23-v2-packaging-1-command.md`),
+2 the app. Built after the redesign.
+
+### Later — the box
+
+A Pi image with the engine as a service and an optional Wi-Fi hotspot for
+the UI. Out of Step 7 by the owner's decision (2026-11-23): no use for it
+yet. Section 9's notes on connecting Reaper to a remote box stay valid.
 
 ### Parallelism
 
