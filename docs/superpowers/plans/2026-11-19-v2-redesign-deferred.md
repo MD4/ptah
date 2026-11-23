@@ -73,3 +73,11 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 - Effects bar at 900 px with a long program name: "used by N rows" shrinks to 0 px (focus only); give it a floor of about 3ch, or reclaim the empty fault slot.
 - A refused switch's reason is only its tooltip in the minimised bar; dimmed Hold looks strong in the from-the-show bar; Slider selectors depend on its DOM order; most add-box pictures are flat lines (maths nodes need a sample input); Loading shows no words.
 - Under load: Rust `ptah-engine::perf` light_watched and the ws heard test; e2e builder.spec "the preview curves move…" (a GET /devices poll).
+
+## Found in plan 5, riding to plan 7
+
+- The Library search placeholder is clipped at 900 px; at 900 the header's look switch and status leave the right edge (already listed).
+- The Library and type tabs read the venue in use once at load (stale after an engine venue switch).
+- A double-click on a fixture row picks then unpicks it.
+- Patch rows are ~48 px taller below ~1245 px (the status under the chips).
+- The universes dialog's width wins only by a doubled class (stylesheet order).
