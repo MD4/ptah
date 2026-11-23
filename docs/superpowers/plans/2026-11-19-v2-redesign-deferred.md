@@ -62,3 +62,8 @@ Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `
 
 - Rust `ptah-server::ws heard_goes_on_after_the_engine_drops_the_owner_s_subscription` fails under allcheck load (12 s) twice, passes alone in about 1 s: steady it with the plan 7 under-load tests.
 - From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus. Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.
+
+## Found in plan 4
+
+- e2e `builder.spec.ts` "the preview curves move and the lights follow the fader" fails now and then under allcheck load: a `GET /api/v1/devices` poll lands in the test's "no request for the preview" window (seen in T9 and again at the T10 checkpoint; passes alone). Steady it with the plan 7 under-load tests (ignore the app's own polls, or record only preview requests).
+- Storybook Builder "Add box filtered › Open" (the unsteady story listed for plan 4): never reproduced in plan 4 (33 runs under load in T1, none failing in the checkpoint's allcheck runs); left unchanged, kept for plan 7 to chase only if it fails again.
