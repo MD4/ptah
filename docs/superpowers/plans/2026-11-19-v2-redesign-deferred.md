@@ -14,7 +14,7 @@ Plan 1's final review (2026-11-19) assigned these small items to later plans. Ea
 - ~~`mode.ts`: `readBase` trusts storage over memory; with a stored `light` and no stored base, Stage then F2 returns to dark.~~ (done in plan 2)
 - ~~`setDigits` rebuilds every cell on each write.~~ (done in plan 2)
 - ~~A sand Panel in stage has no boundary: the fill is dropped and nothing outlines it. (Moved here from plan 3: Emergency is the first sand panel.)~~ (done in plan 2)
-- ~~Five tests fail under load and pass alone: e2e `perform.spec.ts:116`, unit `useLookBack` L6, unit `show/page.test.tsx` I3~~ (done in plan 2: steadied in T1). Left: e2e `scroll.spec.ts:175` and Storybook Show/Dialogs merge (axe) were not reproduced in plan 2 T1 (no failure in 10 runs under load, nor with the page throttled); kept for plan 7, to chase only if they fail again.
+- ~~Five tests fail under load and pass alone: e2e `perform.spec.ts:116`, unit `useLookBack` L6, unit `show/page.test.tsx` I3~~ (done in plan 2: steadied in T1). The two left (e2e `scroll.spec.ts:175`, Storybook Show/Dialogs merge (axe)) moved to Dropped by plan 7.
 
 ## Plan 3 (Show)
 
@@ -42,74 +42,88 @@ Colours changed (plan 3, Task 4: a contrast gate for text on a tile inside a pan
 
 ## Plan 7 (Close)
 
-- The header between 600 and about 1000 px scrolls sideways with the scrollbar hidden (iPad portrait).
-- `Explain` cannot be opened by touch, and its tooltip says the word twice.
-- Duplicate CSS assertions in the tokens and build tests; the `gates.ts` `startsWith("#")` cast; `HATCH_VALUE` anchors only the prefix.
-- Digits' hidden text uses 1px literals.
-- Tabs' disabled rule uses `--fg-dim`.
-- No test for "the caller's aria-keyshortcuts wins"; the `+` hotkey; an orphan docs line.
-- The badge loses 1 px on touch.
-- No test for Back onto an old address while a page has unsaved changes.
-- The routes test uses `toContain` for Settings.
-- Story ids still say "Normal".
-- Old accent controls have no hover feedback until the aliases are retired.
+- ~~The header between 600 and about 1000 px scrolls sideways with the scrollbar hidden (iPad portrait).~~ (done in plan 7, T4)
+- ~~`Explain` cannot be opened by touch, and its tooltip says the word twice.~~ (done in plan 7, T4)
+- ~~Duplicate CSS assertions in the tokens and build tests; the `gates.ts` `startsWith("#")` cast; `HATCH_VALUE` anchors only the prefix.~~ (done in plan 7, T9)
+- ~~Digits' hidden text uses 1px literals.~~ (done in plan 7, T4)
+- ~~Tabs' disabled rule uses `--fg-dim`.~~ (done in plan 7, T4)
+- ~~No test for "the caller's aria-keyshortcuts wins"; the `+` hotkey; an orphan docs line.~~ (done in plan 7: the tests in T4, the orphan doc lines in T9)
+- ~~The badge loses 1 px on touch.~~ (done in plan 7, T4: not reproduced; `flex: none`, `border-box` and the tap gate's badge check guard it)
+- ~~No test for Back onto an old address while a page has unsaved changes.~~ (done in plan 7, T4)
+- ~~The routes test uses `toContain` for Settings.~~ (done in plan 7, T4)
+- ~~Old accent controls have no hover feedback until the aliases are retired.~~ (done in plan 7, T2)
 
 ## Dropped
 
 Aliases emitted as literals; `setMode("stage")` recording the base; the Choice `key` for object values; `applyRedirect` in a `useState` initializer; `/venue?q=…#x` losing its query; the header overflow at 1280 (fixed by the addresses task).
 
+Dropped by plan 7 (its "Decisions this plan makes"):
+
+- Renaming the story ids that say "Normal": ids keep their names; 42 baselines would be renamed for nothing.
+- Cut-text tooltips on text a keyboard cannot reach: the pattern of plans 2 to 6, filed for later review.
+- The network rows' note that the running PTAH still uses the old value: the Address row shows the running port.
+- e2e `scroll.spec.ts:175`, Storybook Show/Dialogs merge (axe) and Builder "Add box filtered › Open": never reproduced (none failed in plan 7's Task 1 runs under load), so not chased.
+
 ## Found in plan 3
 
-- Rust `ptah-server::ws heard_goes_on_after_the_engine_drops_the_owner_s_subscription` fails under allcheck load (12 s) twice, passes alone in about 1 s: steady it with the plan 7 under-load tests.
-- From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus. ~~Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.~~ (done in plan 6)
+- ~~Rust `ptah-server::ws heard_goes_on_after_the_engine_drops_the_owner_s_subscription` fails under allcheck load (12 s) twice, passes alone in about 1 s: steady it with the plan 7 under-load tests.~~ (done in plan 7, T1)
+- ~~From plan 3's final review, riding to plan 7: a crowded cell's add surface is 0 px (focus ring invisible); the "+N" list not end-aligned at the right edge; `onMergeNow` should go through `pickGroup`; NoticeLine link preventDefaults on ⌘-click; Table `position: relative` on the picked first cell; row name squeezed by dim chips; Esc closing details should return focus.~~ (done in plan 7: NoticeLine and Table in T4, the rest in T5) ~~Riding to plan 6: the natural / every part tooltips sit on a wrapper div (not announced); the Show phone view ignores Notes as.~~ (done in plan 6)
 
 ## Found in plan 4
 
-- e2e `builder.spec.ts` "the preview curves move and the lights follow the fader" fails now and then under allcheck load: a `GET /api/v1/devices` poll lands in the test's "no request for the preview" window (seen in T9 and again at the T10 checkpoint; passes alone). Steady it with the plan 7 under-load tests (ignore the app's own polls, or record only preview requests).
-- Storybook Builder "Add box filtered › Open" (the unsteady story listed for plan 4): never reproduced in plan 4 (33 runs under load in T1, none failing in the checkpoint's allcheck runs); left unchanged, kept for plan 7 to chase only if it fails again.
+- ~~e2e `builder.spec.ts` "the preview curves move and the lights follow the fader" fails now and then under allcheck load: a `GET /api/v1/devices` poll lands in the test's "no request for the preview" window (seen in T9 and again at the T10 checkpoint; passes alone). Steady it with the plan 7 under-load tests (ignore the app's own polls, or record only preview requests).~~ (done in plan 7, T1)
 
 ## Found in plan 4 (final review), riding to plan 7
 
-- Effects bar at 900 px with a long program name: "used by N rows" shrinks to 0 px (focus only); give it a floor of about 3ch, or reclaim the empty fault slot.
-- A refused switch's reason is only its tooltip in the minimised bar; dimmed Hold looks strong in the from-the-show bar; Slider selectors depend on its DOM order; most add-box pictures are flat lines (maths nodes need a sample input); Loading shows no words.
-- Under load: Rust `ptah-engine::perf` light_watched and the ws heard test; e2e builder.spec "the preview curves move…" (a GET /devices poll).
+- ~~Effects bar at 900 px with a long program name: "used by N rows" shrinks to 0 px (focus only); give it a floor of about 3ch, or reclaim the empty fault slot.~~ (done in plan 7, T6)
+- ~~A refused switch's reason is only its tooltip in the minimised bar; dimmed Hold looks strong in the from-the-show bar; Slider selectors depend on its DOM order; most add-box pictures are flat lines (maths nodes need a sample input); Loading shows no words.~~ (done in plan 7, T6)
+- ~~Under load: Rust `ptah-engine::perf` light_watched and the ws heard test; e2e builder.spec "the preview curves move…" (a GET /devices poll).~~ (done in plan 7, T1)
 
 ## Found in plan 5, riding to plan 7
 
-- The Library search placeholder is clipped at 900 px; at 900 the header's look switch and status leave the right edge (already listed).
-- The Library and type tabs read the venue in use once at load (stale after an engine venue switch).
-- A double-click on a fixture row picks then unpicks it.
-- Patch rows are ~48 px taller below ~1245 px (the status under the chips).
-- The universes dialog's width wins only by a doubled class (stylesheet order).
+- ~~The Library search placeholder is clipped at 900 px; at 900 the header's look switch and status leave the right edge (already listed).~~ (done in plan 7: the placeholder in T7, the header in T4)
+- ~~The Library and type tabs read the venue in use once at load (stale after an engine venue switch).~~ (done in plan 7, T7)
+- ~~A double-click on a fixture row picks then unpicks it.~~ (done in plan 7, T7)
+- ~~Patch rows are ~48 px taller below ~1245 px (the status under the chips).~~ (done in plan 7, T7)
+- ~~The universes dialog's width wins only by a doubled class (stylesheet order).~~ (done in plan 7, T7)
 
 ## Found in plan 6, riding to plan 7
 
-- jsdom counts each Panel header as a `banner` landmark: `routes.test` takes the first banner (works, but reads the wrong landmark if the order changes).
-- Visual `library-type-pasted` fails in full visual runs (0.557 %: the paste never lands under load), passes alone; steady it with the plan 7 under-load tests.
-- The shared Tooltip does not appear for a pointer already resting on text that becomes cut after paint (it opens only on the next pointer move).
-- Storybook `Settings/Sections › BandSixAt900` fails in the test runner, in the full run and alone (`Unable to find role="tooltip"` after `words.focus()`), while the same story's play passes in a plain browser: the focus-only tooltip in the runner's page (seen at the plan 6 checkpoint).
-- Look back's Problems then draws warnings (`mapping.unmapped`) with a `fault` stripe; Live draws the same warnings in `sand` (Ruling 5 gave Live the severity only).
-- Messages "nothing listens ×N" fold lines carry the bar of their last message, so on Look back a line at bar 89 sits among bar 82 lines around the cursor (and out of order on Live).
-- At 390 px the messages table cuts "rows that listen" to two letters ("WA…") while "From" keeps its width.
-- A click on a cell with no light leaves the grid's active (focus) cell on channel 1, not on the clicked cell.
-- Settings, On the network: the Port row shows the "Applies the next time you start PTAH" chip and, under it, the same words as a lowercase line (the running port differs from the file's).
-- Settings at 1024 px: the Reaper offset's step 1 wraps to one or two words a line (7 lines).
-- Look back: the picked message's bracket corners touch the bar number's first digit.
-- From the plan 6 walk (today's behaviour, for the owner or plan 7): after a Settings restart the header reads "FAULT" for a while before "All well" (likely the engine's own restart lines); "nothing listens ×N" lines carry their last message's bar, so on Look back they sit out of order around the cursor.
+- ~~jsdom counts each Panel header as a `banner` landmark: `routes.test` takes the first banner (works, but reads the wrong landmark if the order changes).~~ (done in plan 7, T4)
+- ~~Visual `library-type-pasted` fails in full visual runs (0.557 %: the paste never lands under load), passes alone; steady it with the plan 7 under-load tests.~~ (done in plan 7, T1)
+- ~~The shared Tooltip does not appear for a pointer already resting on text that becomes cut after paint (it opens only on the next pointer move).~~ (done in plan 7, T4)
+- ~~Storybook `Settings/Sections › BandSixAt900` fails in the test runner, in the full run and alone (`Unable to find role="tooltip"` after `words.focus()`), while the same story's play passes in a plain browser: the focus-only tooltip in the runner's page (seen at the plan 6 checkpoint).~~ (done in plan 6's walk fixes, bf72915)
+- ~~Look back's Problems then draws warnings (`mapping.unmapped`) with a `fault` stripe; Live draws the same warnings in `sand` (Ruling 5 gave Live the severity only).~~ (done in plan 6's walk fixes, bf72915; the tone by severity only in plan 7, T8)
+- ~~Messages "nothing listens ×N" fold lines carry the bar of their last message, so on Look back a line at bar 89 sits among bar 82 lines around the cursor (and out of order on Live).~~ (done in plan 7, T8: a fold keeps its first bar)
+- ~~At 390 px the messages table cuts "rows that listen" to two letters ("WA…") while "From" keeps its width.~~ (done in plan 6's walk fixes, bf72915; checked again in plan 7, T8)
+- ~~A click on a cell with no light leaves the grid's active (focus) cell on channel 1, not on the clicked cell.~~ (done in plan 6's walk fixes, bf72915)
+- ~~Settings, On the network: the Port row shows the "Applies the next time you start PTAH" chip and, under it, the same words as a lowercase line (the running port differs from the file's).~~ (done in plan 6's walk fixes, bf72915)
+- ~~Settings at 1024 px: the Reaper offset's step 1 wraps to one or two words a line (7 lines).~~ (done in plan 6's walk fixes, bf72915)
+- ~~Look back: the picked message's bracket corners touch the bar number's first digit.~~ (done in plan 6's walk fixes, bf72915)
+- ~~From the plan 6 walk (today's behaviour, for the owner or plan 7): after a Settings restart the header reads "FAULT" for a while before "All well" (likely the engine's own restart lines); "nothing listens ×N" lines carry their last message's bar, so on Look back they sit out of order around the cursor.~~ (done in plan 7, T8: the header reads Restarting through the owner's restart; a fold keeps its first bar)
 
 ### From plan 6's final review
 
-- The burst gate (`test-visual.mjs`, `debug-screen--burst`) is a 30 frames/s floor: it would not catch a relative fall (89 → 40). Compare with a recorded baseline (for example, fail under 80 % of the last accepted rate).
-- Built and unused: the bars' `notesAs` prop; the `title?` props of `Problems`, `PlayingRows`, `Overrides`; `NumberLine` / `ToggleLine` (exported from `settings/index.ts`, still with a `title` attribute); `MessageList`'s non-`bare` branch (only `ComingIn` draws the list).
-- About 43 legacy alias uses (`--fg`, `--fg-dim`, `--warn`, `--accent`) in `Debug.module.css`, `Back.module.css`, `Settings.module.css`, `Sections.module.css` and the three screen stylesheets: sweep to `--tint`, `--tint-dim`, `--sand`, `--fault` before the aliases go.
-- Look back's outlines can sit on the wrong universe on a "not recorded" moment after the universes changed (`useLookBack` orders `lights` by the hook's moment, `LookBackScreen` may draw the held list): key the lights by universe number, or no outlines when `frameAt` is null.
-- The folded Engine's error count counts number fields only (agrees with `issueProps`): a comment, so no one "fixes" one side.
-- The network rows lost master's conditional "applies the next time you start PTAH" (chip always there now); after a Save without restart nothing says the running PTAH still uses the old value: one look by the owner.
-- `WhyPanel`'s body is a focusable scroll box with no name (`Problems` names its own).
-- `.lights` and `.tag` (`Debug.module.css`) size from `round()` / `cqi` outside any `@supports` (the grid has a fallback): misaligned outlines on a webview without them (WebKitGTK, Packaging).
-- `UniverseBlock` renders three `Cut`s and a `Digits` every frame: memo the universe line.
-- `Problems` sets the engine lines' sand tone by matching their words: pass `severity: "warning"` from `useMonitor` and drop the set (and the optional `severity` question with it).
-- `bandWords().tone` and `bandTone()` disagree for a draft (`bandWords` is exported).
-- Screen stylesheets style other parts through `aria-label` selectors and inner DOM.
-- Live's column 2 fits with 0 px to spare at 1280 × 732.
+- ~~The burst gate (`test-visual.mjs`, `debug-screen--burst`) is a 30 frames/s floor: it would not catch a relative fall (89 → 40). Compare with a recorded baseline (for example, fail under 80 % of the last accepted rate).~~ (done in plan 7, T1)
+- ~~Built and unused: the bars' `notesAs` prop; the `title?` props of `Problems`, `PlayingRows`, `Overrides`; `NumberLine` / `ToggleLine` (exported from `settings/index.ts`, still with a `title` attribute); `MessageList`'s non-`bare` branch (only `ComingIn` draws the list).~~ (done in plan 7, T9: removed, but for `MessageList`'s headed branch, kept: the Look back Parts story draws it)
+- ~~About 43 legacy alias uses (`--fg`, `--fg-dim`, `--warn`, `--accent`) in `Debug.module.css`, `Back.module.css`, `Settings.module.css`, `Sections.module.css` and the three screen stylesheets: sweep to `--tint`, `--tint-dim`, `--sand`, `--fault` before the aliases go.~~ (done in plan 7, T2)
+- ~~Look back's outlines can sit on the wrong universe on a "not recorded" moment after the universes changed (`useLookBack` orders `lights` by the hook's moment, `LookBackScreen` may draw the held list): key the lights by universe number, or no outlines when `frameAt` is null.~~ (done in plan 7, T8)
+- ~~The folded Engine's error count counts number fields only (agrees with `issueProps`): a comment, so no one "fixes" one side.~~ (done in plan 7, T8)
+- ~~`WhyPanel`'s body is a focusable scroll box with no name (`Problems` names its own).~~ (done in plan 7, T8)
+- ~~`.lights` and `.tag` (`Debug.module.css`) size from `round()` / `cqi` outside any `@supports` (the grid has a fallback): misaligned outlines on a webview without them (WebKitGTK, Packaging).~~ (done in plan 7, T8)
+- ~~`UniverseBlock` renders three `Cut`s and a `Digits` every frame: memo the universe line.~~ (done in plan 7, T8)
+- ~~`Problems` sets the engine lines' sand tone by matching their words: pass `severity: "warning"` from `useMonitor` and drop the set (and the optional `severity` question with it).~~ (done in plan 7, T8)
+- ~~`bandWords().tone` and `bandTone()` disagree for a draft (`bandWords` is exported).~~ (done in plan 7, T8)
+- ~~Screen stylesheets style other parts through `aria-label` selectors and inner DOM.~~ (done in plan 7, T8)
+- ~~Live's column 2 fits with 0 px to spare at 1280 × 732.~~ (done in plan 7, T8: 9 px to spare)
 - The rest of the task reviews' Minors (naming, comments, duplicate blocks, missing light and stage variants): left as the final review triaged them.
+
+## Found in plan 7
+
+- The Perform board still shows its resync fault ("engine back, not in sync") after the owner's restart: only the header was changed (T8).
+- A flake seen once under load in web `performPage.test.tsx › a venue change that did not happen drops the preselection and says so` (passes alone).
+- A flake seen once in web `builder/page.test.tsx › Copy to… refused for a taken name` (under allcheck load).
+- The Library list renders nothing for one effect before its socket exists (`ListPageLive` returns `null`; TypeEditor keeps its `data-page` wrapper).
+- `MATHS` in the add box has no completeness test against the core's maths types.
+- The Effects bar at 900 px fits exactly (852/852 px): no room to spare, guarded by the `narrow()` play.
+- Cut-text hover is tested on two controls only.
