@@ -127,3 +127,16 @@ Dropped by plan 7 (its "Decisions this plan makes"):
 - `MATHS` in the add box has no completeness test against the core's maths types.
 - The Effects bar at 900 px fits exactly (852/852 px): no room to spare, guarded by the `narrow()` play.
 - Cut-text hover is tested on two controls only.
+
+### From plan 7's final review
+
+- Live at 768 px (one-column board): the `loading <show>` info toast (`PerformPage.tsx`, `Toast` keeps an info 5 s at the bottom right) covers most of Transport's Stop and Go to start for about 5 s after every load; on an iPad upright they are out of reach by touch. Plan 2's behaviour. Fix: keep the toast's id and close it when the load's ack returns, or say `loading` on the band.
+- `NumberField`: keep the selection when focus comes by Tab. Base UI's input moves the caret to the end on its first focus, so the browser's select-all is collapsed and typing appends (`8420` + `8421`, clamped to 65535 on every keystroke, shown on blur; a draft that needs Save). Every `NumberField` since Step 2B. Fix: an `onFocus` that prevents Base UI's handler or calls `select()` after it, with a test. (In walk scripts: select all, then type.)
+- Native `title` attributes left (not cut text): `NoteChip.tsx` (channel and device), `DmxStrip.tsx` (`N more fixtures`), `ChannelTable.tsx` (`Drag to reorder`), `CommandPalette.tsx`, and `Button`'s pass-through `title` in `Transport.tsx` (a disabled button's "no transport"), `HoldButton.tsx` (`Emergency.tsx`, why Restart is unavailable) and `BackBar.tsx`. None shows on touch or focus; decide which become `Tooltip`s.
+- Tap-to-explain inside a label also presses the control: `RestartLabel.tsx` (`Realtime priority`'s `Explain` in a `<label htmlFor>` flips the switch on touch), same in `FixturePanel.tsx`'s labels. Fix: in `Explain`, `onClick` prevents the default when the last pointer was touch or pen.
+- The Effects bar at 900 px in the worst case: a long show name (held at 70 px) leaves about 0.5 px for `used by 10`; `used by 100` would overflow by about 8 px and push Save (arithmetic, not run). Add a 900 px story with the long show name and `uses: 12` running `narrow()`.
+- The header status square's tap area on touch, 600 to 1000 px: `.status[data-square-only]` is 24 px wide and its 44 px `.squareTrigger.tap` overflows to the right, 4 px past the window edge (40 of 44 px reachable; the tap gate measures the box, so it passes). Fix: `justify-content: flex-end` on `.status[data-square-only]`.
+- `RowDetails.tsx`'s Esc focus return queries the whole document (`th[data-instance]`, then the head's first `button`): a ref or a `data-part` on the `···` trigger would hold it.
+- The burst gate on a machine that is not the owner's: CI (macOS) is now held to 80 % of the owner's 89.9 frames/s scaled by its display rate; watch the first CI run, and if it fails the answer is the scale, not the floor.
+- A dim chip cut in a row head (`RowHead.tsx`) gets a tooltip but no focus, where the Patch tuple takes the focus: the two differ (as decided for text a keyboard cannot reach; review with tooltip reach).
+- `old-names.test.ts` catches `var(--old)` uses and declarations only: a property name read as a string (`getPropertyValue("--fg")`, as the dead `perform.spec.ts` check was) or a file under `apps/web/e2e` is not scanned.
