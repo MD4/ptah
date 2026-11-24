@@ -509,8 +509,8 @@ Live, Inspect, Settings), and the ZENITHALL design system. Spec:
 `docs/superpowers/specs/2026-11-19-v2-redesign-design.md`.
 
 It is built as seven plans, each written just before it is built:
-1 Foundation and shell (merged 2026-11-19), 2 Live (merged 2026-11-20), 3 Show (merged 2026-11-21), 4 Effects (merged 2026-11-23), 5 Lights (merged 2026-11-23),
-6 Inspect and Settings, 7 Close.
+1 Foundation and shell (merged 2026-11-19), 2 Live (merged 2026-11-20), 3 Show (merged 2026-11-21), 4 Effects (merged 2026-11-23), 5 Lights (merged 2026-11-23), 6 Inspect and Settings (merged 2026-11-24),
+7 Close (written, approved 2026-11-24).
 
 ### Step 7 — Packaging
 
