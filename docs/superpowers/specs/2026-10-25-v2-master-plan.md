@@ -508,9 +508,14 @@ brings light, dark and stage looks, six places (Lights, Effects, Show,
 Live, Inspect, Settings), and the ZENITHALL design system. Spec:
 `docs/superpowers/specs/2026-11-19-v2-redesign-design.md`.
 
-It is built as seven plans, each written just before it is built:
-1 Foundation and shell (merged 2026-11-19), 2 Live (merged 2026-11-20), 3 Show (merged 2026-11-21), 4 Effects (merged 2026-11-23), 5 Lights (merged 2026-11-23), 6 Inspect and Settings (merged 2026-11-24),
-7 Close (written, approved 2026-11-24).
+**Complete** (2026-11-24). Built as seven plans, each written just before
+it was built: 1 Foundation and shell (merged 2026-11-19), 2 Live (merged
+2026-11-20), 3 Show (merged 2026-11-21), 4 Effects (merged 2026-11-23),
+5 Lights (merged 2026-11-23), 6 Inspect and Settings (merged 2026-11-24),
+7 Close (built 2026-11-24, merge pending the owner's word). ZENITHALL's
+base layer (the tokens and the three looks, the base CSS and fonts, the
+look switch; no React) is now its own package, `@ptah-app/zenithall`;
+`@ptah-app/ds` builds the React components and PTAH's screens on it.
 
 ### Step 7 — Packaging
 
