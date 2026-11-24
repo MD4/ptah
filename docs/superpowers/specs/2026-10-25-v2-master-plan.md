@@ -529,6 +529,11 @@ Linux gets the command, Windows later as its own piece. Two plans:
 1 the installable `ptah` (`docs/superpowers/plans/2026-11-23-v2-packaging-1-command.md`),
 2 the app. Built after the redesign.
 
+**Plan 1 built** (2026-11-25, V2 branch `packaging-command`), merge
+pending the owner's word; the first release waits on the owner's actions
+(the repository public, the release key and its secret, the first tag).
+Plan 2 (the app) next.
+
 ### Later — the box
 
 A Pi image with the engine as a service and an optional Wi-Fi hotspot for
