@@ -532,8 +532,7 @@ Linux gets the command, Windows later as its own piece. Two plans:
 **Plan 1 merged** (2026-11-25): the installable `ptah`. The first release waits on the owner's actions
 (the repository public, the release key and its secret, the first tag).
 
-**Plan 2 built** (2026-11-25, V2 branch `packaging-app`), merge pending
-the owner's word: PTAH.app (a Tauri window around `ptah --app`, signed
+**Plan 2 merged** (2026-11-25, V2 master 852475b): PTAH.app (a Tauri window around `ptah --app`, signed
 ad hoc, not notarised) in the release as an archive and a disk image,
 installed with the command by the one line, updated whole from its own
 Update; the guide (`docs/guide.md`, Help → PTAH Guide); the screens'
