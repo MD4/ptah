@@ -518,6 +518,26 @@ layer (the tokens and the three looks, the base CSS and fonts, the look
 switch; no React) is now its own package, `@ptah-app/zenithall`;
 `@ptah-app/ds` builds the React components and PTAH's screens on it.
 
+**ZENITHALL is its own library** (built 2026-11-25; merge waits for the
+owner's word). Spec: `docs/superpowers/specs/2026-11-25-zenithall-library-design.md`,
+plan: `docs/superpowers/plans/2026-11-25-zenithall-library.md`. ZENITHALL
+now lives in its own private repository, `MD4/zenithall`, as the library
+`@md4/zenithall`; its first release is 1.0.0 (tag `v1.0.0`). It holds the
+base layer, the 27 general components, a new general page frame (the
+header band with its slots, and the look switch), the icons, the motion
+checks, five small pieces (`Digits`, `BarProgress`, `Sparkline`,
+`StatusWord`, `FaultLine`), their stories and their screen pictures. PTAH
+installs it from that tag and keeps its screens, its own small pieces and
+its header content in `@ptah-app/ds`; `packages/zenithall` is gone, and
+no component exists in both places. Nothing changes on screen in the app:
+the only pictures redrawn are the 8 full-width Live boards, which now show
+the bar number at the size the app already showed (the owner's choice).
+Built on V2's branch `zenithall-library` (6820fb79), not merged; it is
+rebased onto V2 master `ec77d34` at the merge. With the owner: the
+read-only key that lets GitHub's checks install the private library
+(`docs/access.md` in ZENITHALL, the secret `ZENITHALL_READ_TOKEN`), and
+the word to merge.
+
 ### Step 7 — Packaging
 
 Designed with the owner on 2026-11-23:
