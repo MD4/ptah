@@ -527,11 +527,21 @@ always installed together, unsigned, installed by one pasted line; updates
 that tell and wait; a demo show; a fresh install local only. Mac first,
 Linux gets the command, Windows later as its own piece. Two plans:
 1 the installable `ptah` (`docs/superpowers/plans/2026-11-23-v2-packaging-1-command.md`),
-2 the app. Built after the redesign.
+2 the app (`docs/superpowers/plans/2026-11-25-v2-packaging-2-app.md`). Built after the redesign.
 
 **Plan 1 merged** (2026-11-25): the installable `ptah`. The first release waits on the owner's actions
 (the repository public, the release key and its secret, the first tag).
-Plan 2 (the app) next.
+
+**Plan 2 built** (2026-11-25, V2 branch `packaging-app`), merge pending
+the owner's word: PTAH.app (a Tauri window around `ptah --app`, signed
+ad hoc, not notarised) in the release as an archive and a disk image,
+installed with the command by the one line, updated whole from its own
+Update; the guide (`docs/guide.md`, Help → PTAH Guide); the screens'
+end-to-end tests also on WebKit. Rehearsed locally on this Mac with a
+throwaway key. With the owner: his hand checks of the window (⌘Q, the
+menu and the Dock with a show loaded, Launchpad), the disk image's
+"Open Anyway" pictures for the guide, and plan 1's actions before the
+first release.
 
 ### Later — the box
 
